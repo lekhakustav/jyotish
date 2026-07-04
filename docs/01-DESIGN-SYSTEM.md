@@ -18,6 +18,24 @@ The app is that moment. It must feel:
 **The test:** screenshot any screen. If it could belong to a generic horoscope app, it fails.
 If it looks like a page from a hand-illuminated panchanga, it passes.
 
+### v3 — EXTREME MINIMALISM (current law, supersedes conflicting rules below)
+Containers are banned unless the content structurally demands one (calendar grid,
+kundali chart, text input, user chat tint). Everything else is **flat typography on
+the canvas**: hierarchy comes from size, weight, serif/sans contrast, color and
+whitespace (40pt between sections). The only divider is `Hairline` (1pt gold @18%).
+No card borders, no shadows, no tika dots, no ornament dividers, no section
+descriptions. Ornaments (mandala, diya, seals) survive only as *content*, never as
+decoration-around-content. Every list is bare rows separated by hairlines.
+
+### Apple basics (non-negotiable)
+- **Dynamic Type everywhere** via `scaledFont` (never `.font(.system(size:))` for text;
+  exception: calendar grid cells, fixed ≥11pt).
+- **Contrast:** ≥4.5:1 body, ≥3:1 large text. Saffron fills carry dark-umber labels.
+- **Touch targets ≥44pt.** Haptics (`Haptics.tap/success`) on every selection and payoff.
+- **Explicit dismiss** (`SheetCloseButton`) on every sheet; `statusBarFade` on every
+  scrolling root; Reduce Motion respected in all custom animation.
+- App icon + launch-screen color from the palette (no white flash).
+
 ### The craft rules (apply to every screen, no exceptions)
 1. **One decision per screen.** Forms are never stacked — onboarding and data entry are
    paged flows: one focused question, one control, one continue button. Progress shown as

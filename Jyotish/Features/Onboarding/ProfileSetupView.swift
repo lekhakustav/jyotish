@@ -97,22 +97,25 @@ struct BirthFlowView: View {
             HStack {
                 if let idx = steps.firstIndex(of: step), idx > 0 {
                     Button {
+                        Haptics.tap()
                         goingForward = false
                         step = steps[idx - 1]
                     } label: {
                         Image(systemName: "chevron.left")
-                            .font(.system(size: 17, weight: .medium))
+                            .scaledFont(size: 17, weight: .medium)
                             .foregroundStyle(p.inkSecondary)
                             .frame(width: 48, height: 48)
                     }
                     .accessibilityLabel("Back")
                 }
                 Spacer()
+                // Presented as a sheet when adding family — needs explicit dismiss.
+                if mode == .familyMember { SheetCloseButton() }
             }
             HStack(spacing: 8) {
                 ForEach(steps, id: \.rawValue) { s in
                     Image(systemName: "diamond.fill")
-                        .font(.system(size: 6))
+                        .scaledFont(size: 6)
                         .foregroundStyle(stepIndex(s) <= stepIndex(step)
                                          ? p.saffron : p.templeGold.opacity(0.3))
                 }
@@ -128,16 +131,16 @@ struct BirthFlowView: View {
     private func question(_ devanagari: String, _ title: String, _ subtitle: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(devanagari)
-                .font(.system(size: 15, design: .serif))
+                .scaledFont(size: 15, design: .serif)
                 .foregroundStyle(p.templeGold)
                 .accessibilityHidden(true)
             Text(title)
-                .font(.system(size: 30, weight: .bold, design: .serif))
+                .scaledFont(size: 30, weight: .bold, design: .serif)
                 .foregroundStyle(p.inkPrimary)
                 .fixedSize(horizontal: false, vertical: true)
             if let subtitle {
                 Text(subtitle)
-                    .font(.system(size: 15))
+                    .scaledFont(size: 15)
                     .foregroundStyle(p.inkSecondary)
             }
         }
@@ -175,7 +178,7 @@ struct BirthFlowView: View {
                     }
                     Toggle(app.t("profile.timeUnknown"), isOn: Binding(
                         get: { !timeKnown }, set: { timeKnown = !$0 }))
-                        .font(.system(size: 15))
+                        .scaledFont(size: 15)
                         .tint(p.saffron)
                         .foregroundStyle(p.inkSecondary)
                         .padding(.horizontal, 4)
@@ -193,7 +196,7 @@ struct BirthFlowView: View {
 
     private var nameField: some View {
         TextField(app.t("profile.name"), text: $name)
-            .font(.system(size: 26, weight: .medium, design: .serif))
+            .scaledFont(size: 26, weight: .medium, design: .serif)
             .foregroundStyle(p.inkPrimary)
             .focused($nameFocused)
             .submitLabel(.continue)
@@ -215,23 +218,22 @@ struct BirthFlowView: View {
 
     private func genderCard(_ g: Gender, label: String) -> some View {
         Button {
+            Haptics.tap()
             gender = g
         } label: {
             HStack {
                 Text(label)
-                    .font(.system(size: 19, weight: gender == g ? .semibold : .regular, design: .serif))
+                    .scaledFont(size: 19, weight: gender == g ? .semibold : .regular, design: .serif)
                     .foregroundStyle(p.inkPrimary)
                 Spacer()
                 Image(systemName: gender == g ? "checkmark.circle.fill" : "circle")
-                    .font(.system(size: 20, weight: .light))
+                    .scaledFont(size: 20, weight: .light)
                     .foregroundStyle(gender == g ? p.saffron : p.templeGold.opacity(0.4))
             }
             .padding(.horizontal, 18)
             .frame(height: 58)
             .background(RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(gender == g ? p.marigold.opacity(0.14) : p.bgElevated))
-            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .strokeBorder(gender == g ? p.saffron.opacity(0.5) : p.templeGold.opacity(0.18), lineWidth: 1))
         }
     }
 
@@ -239,16 +241,14 @@ struct BirthFlowView: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible())], spacing: 10) {
                 ForEach(Relation.allCases.filter { $0 != .selfMember }) { r in
-                    Button { relation = r } label: {
+                    Button { Haptics.tap(); relation = r } label: {
                         Text(ne ? r.labelNE : r.labelEN)
-                            .font(.system(size: 16, weight: relation == r ? .semibold : .regular, design: .serif))
+                            .scaledFont(size: 16, weight: relation == r ? .semibold : .regular, design: .serif)
                             .foregroundStyle(relation == r ? p.sindoor : p.inkPrimary)
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
                             .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
                                 .fill(relation == r ? p.marigold.opacity(0.16) : p.bgElevated))
-                            .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                .strokeBorder(relation == r ? p.saffron.opacity(0.5) : p.templeGold.opacity(0.18), lineWidth: 1))
                     }
                 }
             }
@@ -260,15 +260,15 @@ struct BirthFlowView: View {
         ScrollView {
             VStack(spacing: 8) {
                 ForEach(BirthPlace.presets, id: \.self) { pl in
-                    Button { place = pl } label: {
+                    Button { Haptics.tap(); place = pl } label: {
                         HStack {
                             Text(ne ? pl.nameNE : pl.name)
-                                .font(.system(size: 17, weight: place == pl ? .semibold : .regular, design: .serif))
+                                .scaledFont(size: 17, weight: place == pl ? .semibold : .regular, design: .serif)
                                 .foregroundStyle(p.inkPrimary)
                             Spacer()
                             if place == pl {
                                 Image(systemName: "checkmark")
-                                    .font(.system(size: 14, weight: .semibold))
+                                    .scaledFont(size: 14, weight: .semibold)
                                     .foregroundStyle(p.saffron)
                             }
                         }
@@ -276,8 +276,6 @@ struct BirthFlowView: View {
                         .frame(height: 52)
                         .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
                             .fill(place == pl ? p.marigold.opacity(0.14) : p.bgElevated))
-                        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .strokeBorder(place == pl ? p.saffron.opacity(0.5) : p.templeGold.opacity(0.18), lineWidth: 1))
                     }
                 }
             }
@@ -301,20 +299,20 @@ struct BirthFlowView: View {
             if let k = revealed {
                 VStack(spacing: 8) {
                     Text(ne ? k.moonRashi.nameNE : k.moonRashi.shortEN)
-                        .font(.system(size: 34, weight: .bold, design: .serif))
+                        .scaledFont(size: 34, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
                     Text("\(ne ? k.moonNakshatra.nameNE : k.moonNakshatra.nameEN) · \(app.t("family.lagna")) \(ne ? k.lagna.nameNE : k.lagna.shortEN)")
-                        .font(.system(size: 16))
+                        .scaledFont(size: 16)
                         .foregroundStyle(p.inkSecondary)
                     Text(app.t("blessing.saved"))
-                        .font(.system(size: 18, design: .serif))
+                        .scaledFont(size: 18, design: .serif)
                         .foregroundStyle(p.templeGold)
                         .padding(.top, 6)
                 }
                 .transition(.opacity.combined(with: .offset(y: 10)))
             } else {
                 Text(app.t("flow.drawing"))
-                    .font(.system(size: 18, design: .serif))
+                    .scaledFont(size: 18, design: .serif)
                     .italic()
                     .foregroundStyle(p.inkSecondary)
             }
@@ -348,6 +346,7 @@ struct BirthFlowView: View {
             // Let the mandala breathe before the reveal — ceremony, not a spinner.
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
                 withAnimation { revealed = Kundali.compute(from: birthData) }
+                Haptics.success()
             }
         }
     }

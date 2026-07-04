@@ -12,7 +12,7 @@ struct SettingsView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     Text(app.t("settings.title"))
-                        .font(.system(size: 30, weight: .bold, design: .serif))
+                        .scaledFont(size: 30, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
                         .padding(.top, 24)
 
@@ -23,7 +23,7 @@ struct SettingsView: View {
                             ForEach(Language.allCases, id: \.self) { l in
                                 Button { app.setLanguage(l) } label: {
                                     Text(l.displayName)
-                                        .font(.system(size: 16, weight: app.language == l ? .semibold : .regular))
+                                        .scaledFont(size: 16, weight: app.language == l ? .semibold : .regular)
                                         .foregroundStyle(app.language == l ? p.sindoor : p.inkSecondary)
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 44)
@@ -54,15 +54,14 @@ struct SettingsView: View {
                                 Image(systemName: "person.text.rectangle")
                                     .foregroundStyle(p.saffron)
                                 Text(app.t("settings.editProfile"))
-                                    .font(.system(size: 16, design: .serif))
+                                    .scaledFont(size: 16, design: .serif)
                                     .foregroundStyle(p.inkPrimary)
                                 Spacer()
                                 Image(systemName: "chevron.right")
-                                    .font(.system(size: 13))
+                                    .scaledFont(size: 13)
                                     .foregroundStyle(p.templeGold)
                             }
-                            .padding(14)
-                            .sacredCard(radius: 14)
+                            .padding(.vertical, 12)
                         }
                     }
 
@@ -71,17 +70,16 @@ struct SettingsView: View {
                         app.signOut()
                     } label: {
                         Text(app.t("settings.signOut"))
-                            .font(.system(size: 16))
+                            .scaledFont(size: 16)
                             .foregroundStyle(p.sindoor)
                             .frame(maxWidth: .infinity)
                             .frame(height: 50)
-                            .sacredCard(radius: 14)
                     }
 
                     VStack(spacing: 10) {
-                        OrnamentDivider().frame(width: 160)
+                        Hairline().frame(width: 120)
                         Text(app.t("settings.about"))
-                            .font(.system(size: 13, design: .serif))
+                            .scaledFont(size: 13, design: .serif)
                             .italic()
                             .foregroundStyle(p.inkSecondary)
                             .multilineTextAlignment(.center)
@@ -92,6 +90,7 @@ struct SettingsView: View {
                 .padding(.bottom, 40)
             }
         }
+        .overlay(alignment: .topTrailing) { SheetCloseButton().padding(8) }
         .presentationDragIndicator(.visible)
         .sheet(isPresented: $editingProfile) {
             ProfileSetupView(editing: app.selfMember)
@@ -103,15 +102,14 @@ struct SettingsView: View {
             HStack {
                 Image(systemName: icon).foregroundStyle(p.marigold).frame(width: 28)
                 Text(label)
-                    .font(.system(size: 16, design: .serif))
+                    .scaledFont(size: 16, design: .serif)
                     .foregroundStyle(p.inkPrimary)
                 Spacer()
                 if app.theme == choice {
                     Image(systemName: "checkmark.circle.fill").foregroundStyle(p.saffron)
                 }
             }
-            .padding(14)
-            .sacredCard(radius: 14)
+            .padding(.vertical, 12)
         }
     }
 }

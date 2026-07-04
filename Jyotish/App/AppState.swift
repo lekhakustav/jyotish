@@ -8,6 +8,12 @@ final class AppState: ObservableObject {
     @Published var chat: [ChatMessage] = []
     @Published var language: Language = .en
     @Published var theme: ThemeChoice = .system
+    /// Transient tab selection — lets Home cards deep-link into their tabs.
+    @Published var selectedTab: Int = {
+        let args = ProcessInfo.processInfo.arguments
+        if let i = args.firstIndex(of: "-tab"), i + 1 < args.count, let n = Int(args[i + 1]) { return n }
+        return 0
+    }()
 
     // Service seam — swap for Supabase implementations later (docs/02).
     let auth: AuthService = DummyAuthService()

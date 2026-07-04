@@ -27,10 +27,10 @@ struct MemberDetailView: View {
         VStack(spacing: 16) {
             MandalaView().frame(width: 200, height: 200).opacity(0.6)
             Text(app.t("profile.gate.title"))
-                .font(.system(size: 24, weight: .bold, design: .serif))
+                .scaledFont(size: 24, weight: .bold, design: .serif)
                 .foregroundStyle(p.inkPrimary)
             Text(app.t("profile.gate.body"))
-                .font(.system(size: 16))
+                .scaledFont(size: 16)
                 .foregroundStyle(p.inkSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
@@ -47,12 +47,12 @@ struct MemberDetailView: View {
                         RashiSeal(rashi: k.moonRashi, size: 84)
                     }
                     Text(m.name)
-                        .font(.system(size: 30, weight: .bold, design: .serif))
+                        .scaledFont(size: 30, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
                     Text(m.relation == .selfMember
                          ? app.t("common.you")
                          : m.relation.possessive(app.language))
-                        .font(.system(size: 15))
+                        .scaledFont(size: 15)
                         .foregroundStyle(p.templeGold)
                 }
                 .frame(maxWidth: .infinity)
@@ -64,7 +64,7 @@ struct MemberDetailView: View {
                     triad(app.t("family.rashi"), ne ? k.moonRashi.nameNE : k.moonRashi.shortEN)
                     triad(app.t("family.nakshatra"), ne ? k.moonNakshatra.nameNE : k.moonNakshatra.nameEN)
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 24)
                 .fadeRise(delay: 0.05)
 
                 // Kundali chart
@@ -73,23 +73,19 @@ struct MemberDetailView: View {
                     KundaliChartView(chart: k)
                         .padding(8)
                 }
-                .padding(16)
-                .sacredCard(tika: true)
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 24)
                 .fadeRise(delay: 0.1)
 
                 // Reading
                 VStack(alignment: .leading, spacing: 10) {
                     SectionLabel(text: app.t("family.personality"))
                     Text(Interpreter.reading(for: k, lang: app.language))
-                        .font(.system(size: 16, design: .serif))
+                        .scaledFont(size: 16, design: .serif)
                         .foregroundStyle(p.inkPrimary.opacity(0.92))
                         .lineSpacing(5)
                 }
-                .padding(16)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .sacredCard()
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 24)
                 .fadeRise(delay: 0.15)
 
                 // Dasha timeline
@@ -102,18 +98,16 @@ struct MemberDetailView: View {
                                 .fill(now >= d.start && now < d.end ? p.saffron : p.templeGold.opacity(0.35))
                                 .frame(width: 8, height: 8)
                             Text(ne ? d.lord.nameNE : d.lord.nameEN)
-                                .font(.system(size: 16, weight: now >= d.start && now < d.end ? .semibold : .regular, design: .serif))
+                                .scaledFont(size: 16, weight: now >= d.start && now < d.end ? .semibold : .regular, design: .serif)
                                 .foregroundStyle(now >= d.start && now < d.end ? p.sindoor : p.inkPrimary)
                             Spacer()
                             Text("\(Vimshottari.date(fromJD: d.start).formatted(.dateTime.year().locale(app.locale))) – \(Vimshottari.date(fromJD: d.end).formatted(.dateTime.year().locale(app.locale)))")
-                                .font(.system(size: 13))
+                                .scaledFont(size: 13)
                                 .foregroundStyle(p.inkSecondary)
                         }
                     }
                 }
-                .padding(16)
-                .sacredCard()
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 24)
                 .fadeRise(delay: 0.2)
 
                 // Guna & lucky things
@@ -129,9 +123,7 @@ struct MemberDetailView: View {
                     InfoRow(label: app.t("family.deity"), value: ne ? g.deityNE : g.deityEN)
                     InfoRow(label: app.t("family.mantra"), value: g.mantra)
                 }
-                .padding(16)
-                .sacredCard()
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 24)
                 .fadeRise(delay: 0.25)
 
                 if m.relation != .selfMember {
@@ -140,7 +132,7 @@ struct MemberDetailView: View {
                         dismiss()
                     } label: {
                         Text(app.t("common.delete"))
-                            .font(.system(size: 15))
+                            .scaledFont(size: 15)
                             .foregroundStyle(p.sindoor.opacity(0.8))
                             .frame(maxWidth: .infinity)
                             .frame(height: 48)
@@ -154,17 +146,16 @@ struct MemberDetailView: View {
     private func triad(_ label: String, _ value: String) -> some View {
         VStack(spacing: 4) {
             Text(label.uppercased())
-                .font(.system(size: 10, weight: .semibold))
+                .scaledFont(size: 10, weight: .semibold)
                 .kerning(1)
                 .foregroundStyle(p.inkSecondary)
             Text(value)
-                .font(.system(size: 16, weight: .semibold, design: .serif))
+                .scaledFont(size: 16, weight: .semibold, design: .serif)
                 .foregroundStyle(p.sindoor)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
         }
         .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
-        .sacredCard(radius: 14)
     }
 }

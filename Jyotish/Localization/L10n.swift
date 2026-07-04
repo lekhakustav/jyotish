@@ -121,6 +121,12 @@ enum L10n {
         "chat.chip.city": ("Which city is best for me?", "मेरा लागि कुन शहर राम्रो?"),
         "chat.chip.vastu": ("Vastu for the main door", "मूल ढोकाको वास्तु"),
         "chat.chip.dasha": ("How is my dasha now?", "मेरो दशा अहिले कस्तो छ?"),
+        "chat.listening": ("Listening…", "सुन्दै…"),
+        "chat.speak": ("Speak replies", "उत्तर बोल्ने"),
+        // Aarti
+        "home.aarti": ("Popular Aarti", "लोकप्रिय आरती"),
+        "aarti.title": ("Popular Aarti", "लोकप्रिय आरती"),
+        "aarti.soon": ("Coming soon", "चाँडै आउँदैछ"),
         // Settings
         "settings.title": ("Settings", "सेटिङ"),
         "settings.language": ("Language", "भाषा"),

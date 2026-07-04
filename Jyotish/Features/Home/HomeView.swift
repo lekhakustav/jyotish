@@ -1,10 +1,13 @@
 import SwiftUI
 
+// Extreme-minimal home: no cards, no dividers between sections — typography,
+// whitespace and one hairline carry the whole hierarchy (docs/01 §v3).
 struct HomeView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @State private var showSettings = false
 
+    private var ne: Bool { app.language == .ne }
     private var greetingKey: String {
         let h = Calendar.nepali.component(.hour, from: Date())
         if h < 12 { return "greet.morning" }
@@ -13,237 +16,248 @@ struct HomeView: View {
     }
 
     var body: some View {
-        ZStack {
-            p.bgCanvas.ignoresSafeArea()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    header.fadeRise()
-                    TithiCard().fadeRise(delay: 0.05)
-                    if let me = app.selfMember, let k = me.kundali {
-                        PersonalRashifalCard(kundali: k).fadeRise(delay: 0.1)
-                        DashaStrip(kundali: k).fadeRise(delay: 0.15)
+        NavigationStack {
+            ZStack {
+                p.bgCanvas.ignoresSafeArea()
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 40) {
+                        header.fadeRise()
+                        tithiHero.fadeRise(delay: 0.05)
+                        rashifalBlock.fadeRise(delay: 0.1)
+                        familyRow.fadeRise(delay: 0.15)
+                        aartiRow.fadeRise(delay: 0.2)
+                        upcoming.fadeRise(delay: 0.25)
                     }
-                    familyRow.fadeRise(delay: 0.2)
-                    upcoming.fadeRise(delay: 0.25)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 96)
                 }
-                .padding(.bottom, 96)
             }
+            .statusBarFade()
+            .toolbar(.hidden, for: .navigationBar)
+            .sheet(isPresented: $showSettings) { SettingsView() }
         }
-        .sheet(isPresented: $showSettings) { SettingsView() }
     }
 
     private var header: some View {
         HStack(alignment: .center, spacing: 12) {
-            DiyaFlame(size: 34)
-            VStack(alignment: .leading, spacing: 2) {
+            DiyaFlame(size: 30)
+            VStack(alignment: .leading, spacing: 1) {
                 Text(app.t(greetingKey))
-                    .font(.system(size: 15, design: .serif))
+                    .scaledFont(size: 14, design: .serif)
                     .foregroundStyle(p.templeGold)
                 Text(app.selfMember?.name ?? app.t("common.you"))
-                    .font(.system(size: 30, weight: .bold, design: .serif))
+                    .scaledFont(size: 28, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
             }
             Spacer()
             Button { showSettings = true } label: {
                 Image(systemName: "gearshape")
-                    .font(.system(size: 20, weight: .light))
+                    .scaledFont(size: 19, weight: .light)
                     .foregroundStyle(p.inkSecondary)
                     .frame(width: 48, height: 48)
             }
             .accessibilityLabel(app.t("settings.title"))
         }
-        .padding(.horizontal, 20)
         .padding(.top, 8)
     }
 
+    /// The BS date as pure typography — the whole block opens the Patro.
+    private var tithiHero: some View {
+        let bs = BikramSambat.today()
+        let pan = Panchanga.forDay(Date())
+        return Button {
+            app.selectedTab = 2
+        } label: {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    Text("\(app.digits(bs.day)) \(bs.monthName(ne: ne))")
+                        .scaledFont(size: 44, weight: .bold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                    Text(app.digits(bs.year))
+                        .scaledFont(size: 22, design: .serif)
+                        .foregroundStyle(p.inkSecondary)
+                }
+                Text("\(pan.tithiName(ne: ne)) · \(pan.pakshaName(ne: ne)) · \(ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)")
+                    .scaledFont(size: 16, design: .serif)
+                    .foregroundStyle(p.sindoor)
+                Text(Date().formatted(.dateTime.weekday(.wide).day().month(.wide).locale(app.locale)))
+                    .scaledFont(size: 13)
+                    .foregroundStyle(p.inkSecondary.opacity(0.8))
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .buttonStyle(SpringPressStyle())
+    }
+
+    /// Personal rashifal, flat: seal + two lines + the dasha in one quiet line.
+    private var rashifalBlock: some View {
+        Group {
+            if let k = app.selfMember?.kundali {
+                let r = RashifalEngine.generate(rashi: k.moonRashi, period: .daily, date: Date(), lang: app.language)
+                Button { app.selectedTab = 1 } label: {
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack(spacing: 12) {
+                            RashiSeal(rashi: k.moonRashi, size: 44)
+                            Text(ne ? k.moonRashi.nameNE : k.moonRashi.shortEN)
+                                .scaledFont(size: 21, weight: .semibold, design: .serif)
+                                .foregroundStyle(p.inkPrimary)
+                            Spacer()
+                            DiyaScore(score: r.scores.values.reduce(0, +) / max(1, r.scores.count))
+                        }
+                        Text(r.text)
+                            .scaledFont(size: 16, design: .serif)
+                            .foregroundStyle(p.inkPrimary.opacity(0.88))
+                            .lineSpacing(4)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.leading)
+                        HStack(spacing: 4) {
+                            Text(app.t("common.readMore"))
+                            Image(systemName: "chevron.right")
+                        }
+                        .scaledFont(size: 14, weight: .medium)
+                        .foregroundStyle(p.sindoor)
+                        if let cur = Vimshottari.current(for: k, at: Ephemeris.julianDay(Date())) {
+                            Text("\(app.t("home.mahadasha")) \(ne ? cur.maha.lord.nameNE : cur.maha.lord.nameEN) · \(app.t("home.antardasha")) \(ne ? cur.antar.lord.nameNE : cur.antar.lord.nameEN)")
+                                .scaledFont(size: 13)
+                                .foregroundStyle(p.inkSecondary)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(SpringPressStyle())
+            }
+        }
+    }
+
     private var familyRow: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            SectionLabel(text: app.t("home.family")).padding(.horizontal, 20)
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 14) {
-                    ForEach(app.family) { m in
-                        VStack(spacing: 6) {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                ForEach(app.family) { m in
+                    Button { app.selectedTab = 3 } label: {
+                        VStack(spacing: 5) {
                             if let k = m.kundali {
-                                RashiSeal(rashi: k.moonRashi, size: 52)
+                                RashiSeal(rashi: k.moonRashi, size: 50)
                             } else {
                                 Circle().strokeBorder(p.templeGold.opacity(0.4), style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                    .frame(width: 52, height: 52)
+                                    .frame(width: 50, height: 50)
                                     .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
                             }
                             Text(m.relation == .selfMember ? app.t("common.you") : m.name)
-                                .font(.system(size: 12))
+                                .scaledFont(size: 12)
                                 .foregroundStyle(p.inkSecondary)
                                 .lineLimit(1)
                         }
-                        .frame(width: 64)
+                        .frame(width: 62)
                     }
+                    .buttonStyle(SpringPressStyle())
+                    .accessibilityLabel(m.relation == .selfMember ? app.t("common.you") : m.name)
                 }
-                .padding(.horizontal, 20)
             }
         }
+        .padding(.horizontal, -24)
+        .contentMargins(.horizontal, 24, for: .scrollContent)
+    }
+
+    /// Popular aartis — a quiet doorway; the library arrives later.
+    private var aartiRow: some View {
+        NavigationLink {
+            AartiView()
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "flame")
+                    .scaledFont(size: 18, weight: .light)
+                    .foregroundStyle(p.saffron)
+                Text(app.t("home.aarti"))
+                    .scaledFont(size: 19, weight: .semibold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .scaledFont(size: 14)
+                    .foregroundStyle(p.inkSecondary.opacity(0.6))
+            }
+        }
+        .buttonStyle(SpringPressStyle())
     }
 
     private var upcoming: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            SectionLabel(text: app.t("home.upcoming")).padding(.horizontal, 20)
+        VStack(alignment: .leading, spacing: 16) {
+            SectionLabel(text: app.t("home.upcoming"))
             let items = Array(app.upcomingEvents().prefix(3))
             if items.isEmpty {
                 Text(app.t("home.noEvents"))
-                    .font(.system(size: 15))
+                    .scaledFont(size: 15)
                     .foregroundStyle(p.inkSecondary)
-                    .padding(.horizontal, 20)
             } else {
-                VStack(spacing: 10) {
-                    ForEach(items, id: \.event.id) { item in
-                        HStack(spacing: 12) {
-                            VStack(spacing: 0) {
-                                Text(app.digits(item.bs.day))
-                                    .font(.system(size: 20, weight: .bold, design: .serif))
+                VStack(spacing: 0) {
+                    ForEach(Array(items.enumerated()), id: \.element.event.id) { i, item in
+                        Button { app.selectedTab = 2 } label: {
+                            HStack(spacing: 14) {
+                                Text("\(app.digits(item.bs.day)) \(item.bs.monthName(ne: ne))")
+                                    .scaledFont(size: 15, weight: .semibold, design: .serif)
                                     .foregroundStyle(p.sindoor)
-                                Text(item.bs.monthName(ne: app.language == .ne))
-                                    .font(.system(size: 11))
-                                    .foregroundStyle(p.inkSecondary)
-                            }
-                            .frame(width: 56)
-                            VStack(alignment: .leading, spacing: 2) {
+                                    .frame(width: 96, alignment: .leading)
                                 Text(item.event.title)
-                                    .font(.system(size: 16, weight: .medium, design: .serif))
+                                    .scaledFont(size: 16, design: .serif)
                                     .foregroundStyle(p.inkPrimary)
-                                if !item.event.note.isEmpty {
-                                    Text(item.event.note).font(.system(size: 13)).foregroundStyle(p.inkSecondary)
-                                }
+                                    .lineLimit(1)
+                                Spacer()
                             }
-                            Spacer()
-                            if item.event.repeatsYearly {
-                                Image(systemName: "arrow.trianglehead.2.clockwise")
-                                    .font(.system(size: 12)).foregroundStyle(p.templeGold)
-                            }
+                            .padding(.vertical, 12)
                         }
-                        .padding(14)
-                        .sacredCard(radius: 14)
+                        .buttonStyle(SpringPressStyle())
+                        if i < items.count - 1 { Hairline() }
                     }
                 }
-                .padding(.horizontal, 20)
             }
         }
     }
 }
 
-/// Today's tithi — the sindoor-tika card.
-struct TithiCard: View {
+/// Popular aartis — placeholder library (content arrives later).
+struct AartiView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
 
-    var body: some View {
-        let bs = BikramSambat.today()
-        let pan = Panchanga.forDay(Date())
-        let ne = app.language == .ne
-        VStack(alignment: .leading, spacing: 10) {
-            SectionLabel(text: app.t("home.todayTithi"))
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("\(app.digits(bs.day)) \(bs.monthName(ne: ne))")
-                    .font(.system(size: 34, weight: .bold, design: .serif))
-                    .foregroundStyle(p.inkPrimary)
-                Text(app.digits(bs.year))
-                    .font(.system(size: 20, design: .serif))
-                    .foregroundStyle(p.inkSecondary)
-            }
-            HStack(spacing: 8) {
-                Text(pan.tithiName(ne: ne))
-                    .font(.system(size: 16, weight: .semibold, design: .serif))
-                    .foregroundStyle(p.sindoor)
-                Text("·").foregroundStyle(p.templeGold)
-                Text(pan.pakshaName(ne: ne))
-                    .font(.system(size: 15))
-                    .foregroundStyle(p.inkSecondary)
-                Text("·").foregroundStyle(p.templeGold)
-                Text(ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)
-                    .font(.system(size: 15))
-                    .foregroundStyle(p.inkSecondary)
-            }
-            OrnamentDivider()
-            Text(Date().formatted(.dateTime.weekday(.wide).day().month(.wide).year().locale(app.locale)))
-                .font(.system(size: 13))
-                .foregroundStyle(p.inkSecondary.opacity(0.8))
-        }
-        .padding(18)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .sacredCard(tika: true)
-        .padding(.horizontal, 20)
-    }
-}
-
-/// Today's personal rashifal, condensed.
-struct PersonalRashifalCard: View {
-    @EnvironmentObject private var app: AppState
-    @Environment(\.palette) private var p
-    let kundali: Kundali
+    private let aartis: [(en: String, ne: String)] = [
+        ("Om Jai Jagdish Hare", "ॐ जय जगदीश हरे"),
+        ("Ganesh Aarti", "गणेश आरती"),
+        ("Shiva Aarti", "शिव आरती"),
+        ("Durga Aarti", "दुर्गा आरती"),
+        ("Lakshmi Aarti", "लक्ष्मी आरती"),
+        ("Krishna Aarti", "कृष्ण आरती"),
+        ("Saraswati Aarti", "सरस्वती आरती"),
+    ]
 
     var body: some View {
-        let r = RashifalEngine.generate(rashi: kundali.moonRashi, period: .daily,
-                                        date: Date(), lang: app.language)
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 12) {
-                ZStack {
-                    Sunburst().frame(width: 74, height: 74)
-                    RashiSeal(rashi: kundali.moonRashi, size: 50)
+        ZStack {
+            p.bgCanvas.ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 28) {
+                    SacredHeader(devanagari: "आरती", title: app.t("aarti.title"))
+                        .padding(.horizontal, -20) // SacredHeader carries its own gutter
+                        .padding(.top, 8)
+                    VStack(spacing: 0) {
+                        ForEach(Array(aartis.enumerated()), id: \.offset) { i, aarti in
+                            HStack(spacing: 14) {
+                                DiyaFlame(size: 18)
+                                Text(app.language == .ne ? aarti.ne : aarti.en)
+                                    .scaledFont(size: 18, design: .serif)
+                                    .foregroundStyle(p.inkPrimary)
+                                Spacer()
+                                Text(app.t("aarti.soon"))
+                                    .scaledFont(size: 12)
+                                    .foregroundStyle(p.inkSecondary.opacity(0.7))
+                            }
+                            .padding(.vertical, 16)
+                            if i < aartis.count - 1 { Hairline() }
+                        }
+                    }
                 }
-                VStack(alignment: .leading, spacing: 3) {
-                    SectionLabel(text: app.t("home.yourDay"))
-                    Text(app.language == .ne ? kundali.moonRashi.nameNE : kundali.moonRashi.shortEN)
-                        .font(.system(size: 24, weight: .bold, design: .serif))
-                        .foregroundStyle(p.inkPrimary)
-                }
-                Spacer()
-                DiyaScore(score: r.scores.values.reduce(0, +) / max(1, r.scores.count))
-            }
-            Text(r.text)
-                .font(.system(size: 16, design: .serif))
-                .foregroundStyle(p.inkPrimary.opacity(0.9))
-                .lineSpacing(4)
-                .lineLimit(3)
-        }
-        .padding(18)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .sacredCard(tika: true)
-        .padding(.horizontal, 20)
-    }
-}
-
-/// Current mahadasha / antardasha chips.
-struct DashaStrip: View {
-    @EnvironmentObject private var app: AppState
-    @Environment(\.palette) private var p
-    let kundali: Kundali
-
-    var body: some View {
-        Group {
-            if let cur = Vimshottari.current(for: kundali, at: Ephemeris.julianDay(Date())) {
-                HStack(spacing: 12) {
-                    chip(label: app.t("home.mahadasha"),
-                         planet: cur.maha.lord,
-                         until: Vimshottari.date(fromJD: cur.maha.end))
-                    chip(label: app.t("home.antardasha"),
-                         planet: cur.antar.lord,
-                         until: Vimshottari.date(fromJD: cur.antar.end))
-                }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 24)
+                .padding(.bottom, 96)
             }
         }
-    }
-
-    private func chip(label: String, planet: Planet, until: Date) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            SectionLabel(text: label)
-            Text(app.language == .ne ? planet.nameNE : planet.nameEN)
-                .font(.system(size: 20, weight: .semibold, design: .serif))
-                .foregroundStyle(p.sindoor)
-            Text(until.formatted(.dateTime.year().month(.abbreviated).locale(app.locale)))
-                .font(.system(size: 12))
-                .foregroundStyle(p.inkSecondary)
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .sacredCard(radius: 14)
+        .statusBarFade()
+        .toolbarBackground(.hidden, for: .navigationBar)
     }
 }

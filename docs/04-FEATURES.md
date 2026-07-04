@@ -1,5 +1,18 @@
 # 04 — Feature Specs
 
+## Voice agent (Pandit-ji)
+`Services/VoiceAgent.swift` — mic button in the chat input starts on-device speech
+recognition (SFSpeechRecognizer; ne-NP unavailable on iOS → hi-IN Devanagari fallback →
+en-IN); tapping stop sends the transcript as a question. Replies are spoken via
+AVSpeechSynthesizer (same voice fallback chain), toggled by the speaker button in the
+chat header. Degrades gracefully (mic dims) when recognition/permissions are unavailable.
+
+## Popular Aarti (placeholder)
+Home carries a "Popular Aarti / लोकप्रिय आरती" doorway → `AartiView`, a flat hairline
+list of the popular aartis (Om Jai Jagdish Hare, Ganesh, Shiva, Durga, Lakshmi, Krishna,
+Saraswati) each marked "coming soon". Lyrics/audio arrive in a later phase — only the
+section exists now, by design.
+
 ## Tabs (5)
 | Tab | Icon | Screen |
 |---|---|---|

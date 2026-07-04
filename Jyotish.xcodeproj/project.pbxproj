@@ -16,10 +16,12 @@
 		36856623A9AC54D0BDFFA233 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0161B72EC6663579F8AB2188 /* Components.swift */; };
 		38E15065887B9FCF062DF02F /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A13E79110A9ABA9098701B /* ChatView.swift */; };
 		3A05992A7F4E49A937079AF7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370EBE83AD255A081076BD31 /* HomeView.swift */; };
+		3F2E462468884B5DE7AE2E25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCE00720028CA05B5B8DB6D5 /* Assets.xcassets */; };
 		4387C6122422FD7B392AC4B2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A3FECFE64229B30FF8F567 /* Theme.swift */; };
 		4B7C1766D0AEB43508C605D7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFFE2FD7A849DC61A4D7460 /* SettingsView.swift */; };
 		6AAFD83EBE94CCD00773AA5C /* CityMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3A63C337A93743E1C5EA4 /* CityMatcher.swift */; };
 		7506154B0441EEE1EBE3E5A3 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B91B9AE858E60348E330F4B /* WelcomeView.swift */; };
+		78A1DAD5E136C29FCF492587 /* VoiceAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA60917EF91A0E7FC741D7A /* VoiceAgent.swift */; };
 		7953F4E8ADE00171CFD252DE /* RashifalEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36C5B8B4B2381749BF0F88E /* RashifalEngine.swift */; };
 		800E4B5C901EA1D3EB8553DD /* VastuKnowledge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D62BEE40DC68331B2BAAC /* VastuKnowledge.swift */; };
 		8115908D22258F108C6A9121 /* Panchanga.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6708A30C224E4C16DD41D5 /* Panchanga.swift */; };
@@ -40,7 +42,9 @@
 /* Begin PBXFileReference section */
 		0161B72EC6663579F8AB2188 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		04874C08BA79769F89665330 /* JyotishApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JyotishApp.swift; sourceTree = "<group>"; };
+		24F0CB684B9DA81F1A9CE9A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		27939F41726D6CABCC68EE59 /* SupabaseStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseStubs.swift; sourceTree = "<group>"; };
+		2DA60917EF91A0E7FC741D7A /* VoiceAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAgent.swift; sourceTree = "<group>"; };
 		2E2A1DEF7A570615F8F915AD /* Dasha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dasha.swift; sourceTree = "<group>"; };
 		31C3A63C337A93743E1C5EA4 /* CityMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityMatcher.swift; sourceTree = "<group>"; };
 		370EBE83AD255A081076BD31 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -67,6 +71,7 @@
 		EA32BBF29F3A24CF9FEDEA05 /* Jyotish.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Jyotish.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB564A0D2D0D03EB2CA6E865 /* BikramSambat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikramSambat.swift; sourceTree = "<group>"; };
 		F44A4C641E1416AD6B34B960 /* Ornaments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ornaments.swift; sourceTree = "<group>"; };
+		FCE00720028CA05B5B8DB6D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -147,6 +152,8 @@
 		301B826F850E9E53176F5778 /* Jyotish */ = {
 			isa = PBXGroup;
 			children = (
+				FCE00720028CA05B5B8DB6D5 /* Assets.xcassets */,
+				24F0CB684B9DA81F1A9CE9A1 /* Info.plist */,
 				C82A4932A5D9D2205D8BA03A /* App */,
 				15653E8710C86EBA5056B82A /* Core */,
 				112F43E5EA8E6BE3A254BAEA /* DesignSystem */,
@@ -253,6 +260,7 @@
 			children = (
 				CCE8FC0FA8B659775C2DB8D1 /* Services.swift */,
 				27939F41726D6CABCC68EE59 /* SupabaseStubs.swift */,
+				2DA60917EF91A0E7FC741D7A /* VoiceAgent.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -265,6 +273,7 @@
 			buildConfigurationList = 37F973EED66B61E591C04029 /* Build configuration list for PBXNativeTarget "Jyotish" */;
 			buildPhases = (
 				705BB59ECD754C49774C362D /* Sources */,
+				F6C57D5B5AD399C4ED93F17E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -307,6 +316,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		F6C57D5B5AD399C4ED93F17E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F2E462468884B5DE7AE2E25 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		705BB59ECD754C49774C362D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -339,6 +359,7 @@
 				0EE2368F9219677664DDC9C6 /* SupabaseStubs.swift in Sources */,
 				4387C6122422FD7B392AC4B2 /* Theme.swift in Sources */,
 				800E4B5C901EA1D3EB8553DD /* VastuKnowledge.swift in Sources */,
+				78A1DAD5E136C29FCF492587 /* VoiceAgent.swift in Sources */,
 				7506154B0441EEE1EBE3E5A3 /* WelcomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,10 +374,7 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Jyotish;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_FILE = Jyotish/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -495,10 +513,7 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Jyotish;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_FILE = Jyotish/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -42,24 +42,16 @@ extension EnvironmentValues {
     }
 }
 
-// Card treatment: gilded edge + warm shadow (docs/01 §5).
+// Surface treatment, extreme-minimal edition: a bare soft fill. No borders,
+// no ornament dots, no shadows — whitespace does the separating (docs/01 §v3).
 struct SacredCard: ViewModifier {
     @Environment(\.palette) private var p
     var radius: CGFloat = 20
-    var tika = false // sindoor dot on top — for the most important cards
+    var tika = false // retained for call-site compatibility; no longer drawn
     func body(content: Content) -> some View {
         content
             .background(
                 RoundedRectangle(cornerRadius: radius, style: .continuous).fill(p.bgElevated))
-            .overlay(
-                RoundedRectangle(cornerRadius: radius, style: .continuous)
-                    .strokeBorder(p.templeGold.opacity(0.16), lineWidth: 1))
-            .overlay(alignment: .top) {
-                if tika {
-                    Circle().fill(p.sindoor).frame(width: 7, height: 7).offset(y: -3.5)
-                }
-            }
-            .shadow(color: p.saffron.opacity(0.06), radius: 18, y: 8)
     }
 }
 

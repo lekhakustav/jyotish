@@ -46,15 +46,9 @@ struct RootView: View {
 struct MainTabView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
-    // QA-only: `-tab 2` launch argument opens a specific tab for screenshot passes.
-    @State private var selection: Int = {
-        let args = ProcessInfo.processInfo.arguments
-        if let i = args.firstIndex(of: "-tab"), i + 1 < args.count, let n = Int(args[i + 1]) { return n }
-        return 0
-    }()
 
     var body: some View {
-        TabView(selection: $selection) {
+        TabView(selection: $app.selectedTab) {
             HomeView()
                 .tabItem { Label(app.t("tab.home"), systemImage: "house.fill") }.tag(0)
             RashifalView()

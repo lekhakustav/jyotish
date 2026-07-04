@@ -1,8 +1,11 @@
 import SwiftUI
 
+// Extreme-minimal chat: pandit speaks as flat serif prose on the canvas,
+// the user's words sit in a single quiet tint. Voice in, voice out.
 struct ChatView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
+    @StateObject private var voice = VoiceAgent()
     @State private var draft = ""
     @FocusState private var focused: Bool
 
@@ -12,22 +15,22 @@ struct ChatView: View {
         ZStack {
             p.bgCanvas.ignoresSafeArea()
             VStack(spacing: 0) {
-                SacredHeader(devanagari: "पण्डितजी", title: app.t("chat.title"))
-                    .padding(.top, 8)
-                    .padding(.bottom, 10)
+                header
 
                 ScrollViewReader { proxy in
                     ScrollView {
-                        VStack(spacing: 12) {
+                        VStack(spacing: 20) {
                             if app.chat.isEmpty { welcome }
                             ForEach(app.chat) { msg in
                                 bubble(msg)
                                     .id(msg.id)
+                                    .transition(.opacity.combined(with: .offset(y: 8)))
                             }
                         }
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 24)
                         .padding(.bottom, 12)
                     }
+                    .animation(.spring(response: 0.4, dampingFraction: 0.9), value: app.chat.count)
                     .onChange(of: app.chat.count) {
                         if let last = app.chat.last {
                             withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
@@ -41,40 +44,74 @@ struct ChatView: View {
                 inputBar
             }
         }
+        .statusBarFade()
+        .onDisappear { voice.stopSpeaking() }
+    }
+
+    private var header: some View {
+        HStack(alignment: .firstTextBaseline) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("पण्डितजी")
+                    .scaledFont(size: 15, design: .serif)
+                    .foregroundStyle(p.templeGold)
+                    .accessibilityHidden(true)
+                Text(app.t("chat.title"))
+                    .scaledFont(size: 34, weight: .bold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+            }
+            Spacer()
+            Button {
+                Haptics.tap()
+                voice.speaksReplies.toggle()
+                if !voice.speaksReplies { voice.stopSpeaking() }
+            } label: {
+                Image(systemName: voice.speaksReplies ? "speaker.wave.2" : "speaker.slash")
+                    .scaledFont(size: 19, weight: .light)
+                    .foregroundStyle(voice.speaksReplies ? p.saffron : p.inkSecondary)
+                    .frame(width: 48, height: 48)
+            }
+            .accessibilityLabel(app.t("chat.speak"))
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 8)
+        .padding(.bottom, 6)
     }
 
     private var welcome: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
             ZStack {
-                MandalaView().frame(width: 170, height: 170).opacity(0.7)
-                DiyaFlame(size: 40)
+                MandalaView().frame(width: 160, height: 160).opacity(0.6)
+                DiyaFlame(size: 36)
             }
             Text(PanditBrain(family: app.family, lang: app.language).reply(to: "namaste"))
-                .font(.system(size: 16, design: .serif))
-                .foregroundStyle(p.inkPrimary.opacity(0.9))
+                .scaledFont(size: 16, design: .serif)
+                .foregroundStyle(p.inkPrimary.opacity(0.85))
                 .multilineTextAlignment(.center)
-                .lineSpacing(4)
-                .padding(16)
-                .sacredCard(tika: true)
+                .lineSpacing(5)
+                .padding(.horizontal, 12)
         }
-        .padding(.top, 12)
+        .padding(.top, 16)
     }
 
     private func bubble(_ msg: ChatMessage) -> some View {
         HStack {
-            if msg.isUser { Spacer(minLength: 48) }
-            Text(msg.text)
-                .font(.system(size: 16, design: msg.isUser ? .default : .serif))
-                .foregroundStyle(p.inkPrimary)
-                .lineSpacing(4)
-                .padding(.horizontal, 14).padding(.vertical, 10)
-                .background(
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .fill(msg.isUser ? p.marigold.opacity(0.22) : p.bgElevated))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .strokeBorder(msg.isUser ? p.saffron.opacity(0.35) : p.templeGold.opacity(0.25), lineWidth: 1))
-            if !msg.isUser { Spacer(minLength: 48) }
+            if msg.isUser { Spacer(minLength: 56) }
+            if msg.isUser {
+                Text(msg.text)
+                    .scaledFont(size: 16)
+                    .foregroundStyle(p.inkPrimary)
+                    .lineSpacing(4)
+                    .padding(.horizontal, 16).padding(.vertical, 10)
+                    .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(p.marigold.opacity(0.2)))
+            } else {
+                // Pandit speaks directly on the canvas — no container at all.
+                Text(msg.text)
+                    .scaledFont(size: 16, design: .serif)
+                    .foregroundStyle(p.inkPrimary.opacity(0.92))
+                    .lineSpacing(6)
+            }
+            if !msg.isUser { Spacer(minLength: 56) }
         }
     }
 
@@ -83,44 +120,71 @@ struct ChatView: View {
             HStack(spacing: 8) {
                 ForEach(chips, id: \.self) { key in
                     Button {
-                        app.sendChat(app.t(key))
+                        Haptics.tap()
+                        send(app.t(key))
                     } label: {
                         Text(app.t(key))
-                            .font(.system(size: 13))
+                            .scaledFont(size: 13)
                             .foregroundStyle(p.sindoor)
-                            .padding(.horizontal, 12).padding(.vertical, 8)
+                            .padding(.horizontal, 14).padding(.vertical, 10)
                             .background(Capsule().fill(p.bgElevated))
-                            .overlay(Capsule().strokeBorder(p.templeGold.opacity(0.35), lineWidth: 1))
                     }
                 }
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 24)
         }
         .padding(.vertical, 8)
     }
 
     private var inputBar: some View {
         HStack(spacing: 10) {
-            TextField(app.t("chat.placeholder"), text: $draft, axis: .vertical)
-                .font(.system(size: 16))
+            TextField(voice.isListening ? app.t("chat.listening") : app.t("chat.placeholder"),
+                      text: voice.isListening ? $voice.transcript : $draft, axis: .vertical)
+                .scaledFont(size: 16)
                 .focused($focused)
                 .lineLimit(1...4)
-                .padding(.horizontal, 14).padding(.vertical, 10)
-                .background(RoundedRectangle(cornerRadius: 22).fill(p.bgElevated))
-                .overlay(RoundedRectangle(cornerRadius: 22).strokeBorder(p.templeGold.opacity(0.3), lineWidth: 1))
+                .padding(.horizontal, 16).padding(.vertical, 11)
+                .background(RoundedRectangle(cornerRadius: 22).fill(p.bgSunken))
+
             Button {
-                let text = draft
-                draft = ""
-                app.sendChat(text)
+                focused = false
+                voice.toggleListening(lang: app.language) { text in send(text) }
             } label: {
-                Image(systemName: "arrow.up.circle.fill")
-                    .font(.system(size: 36))
-                    .foregroundStyle(draft.trimmingCharacters(in: .whitespaces).isEmpty ? p.inkSecondary.opacity(0.4) : p.saffron)
+                Image(systemName: voice.isListening ? "stop.circle.fill" : "mic.fill")
+                    .font(.system(size: 22))
+                    .foregroundStyle(voice.isListening ? p.sindoor : p.saffron)
+                    .frame(width: 48, height: 48)
+                    .background(Circle().fill(p.bgElevated))
+                    .scaleEffect(voice.isListening ? 1.08 : 1)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: voice.isListening)
             }
-            .disabled(draft.trimmingCharacters(in: .whitespaces).isEmpty)
-            .accessibilityLabel("Send")
+            .disabled(voice.unavailable)
+            .opacity(voice.unavailable ? 0.35 : 1)
+            .accessibilityLabel(voice.isListening ? "Stop listening" : "Ask by voice")
+
+            if !draft.trimmingCharacters(in: .whitespaces).isEmpty {
+                Button {
+                    let text = draft
+                    draft = ""
+                    send(text)
+                } label: {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .font(.system(size: 36))
+                        .foregroundStyle(p.saffron)
+                }
+                .transition(.scale.combined(with: .opacity))
+                .accessibilityLabel("Send")
+            }
         }
-        .padding(.horizontal, 16)
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: draft.isEmpty)
+        .padding(.horizontal, 20)
         .padding(.bottom, 8)
+    }
+
+    private func send(_ text: String) {
+        app.sendChat(text)
+        if let reply = app.chat.last, !reply.isUser {
+            voice.speak(reply.text, lang: app.language)
+        }
     }
 }

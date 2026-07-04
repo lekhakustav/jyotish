@@ -20,6 +20,7 @@ struct FamilyView: View {
                     .padding(.bottom, 96)
                 }
             }
+            .statusBarFade()
             .sheet(isPresented: $showAdd) { AddMemberSheet() }
         }
     }
@@ -27,7 +28,7 @@ struct FamilyView: View {
     private var addButton: some View {
         Button { showAdd = true } label: {
             Image(systemName: "plus.circle.fill")
-                .font(.system(size: 28))
+                .scaledFont(size: 28)
                 .foregroundStyle(p.saffron)
                 .frame(width: 48, height: 48)
         }
@@ -89,50 +90,51 @@ struct FamilyView: View {
                     .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
             }
             Text(label)
-                .font(.system(size: 11, weight: .medium))
+                .scaledFont(size: 11, weight: .medium)
                 .foregroundStyle(p.inkSecondary)
                 .lineLimit(1)
         }
     }
 
     private var memberList: some View {
-        VStack(spacing: 10) {
-            ForEach(app.family) { m in
+        VStack(spacing: 0) {
+            ForEach(Array(app.family.enumerated()), id: \.element.id) { i, m in
                 NavigationLink(value: m.id) {
                     HStack(spacing: 14) {
                         if let k = m.kundali {
-                            RashiSeal(rashi: k.moonRashi, size: 48)
+                            RashiSeal(rashi: k.moonRashi, size: 46)
                         } else {
                             Circle().strokeBorder(p.templeGold.opacity(0.4), style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                .frame(width: 48, height: 48)
+                                .frame(width: 46, height: 46)
                                 .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
                         }
                         VStack(alignment: .leading, spacing: 2) {
                             Text(m.name)
-                                .font(.system(size: 18, weight: .semibold, design: .serif))
+                                .scaledFont(size: 18, weight: .semibold, design: .serif)
                                 .foregroundStyle(p.inkPrimary)
                             Text(m.relation == .selfMember
                                  ? app.t("common.you")
                                  : (app.language == .ne ? m.relation.labelNE : m.relation.labelEN))
-                                .font(.system(size: 13))
+                                .scaledFont(size: 13)
                                 .foregroundStyle(p.inkSecondary)
                         }
                         Spacer()
                         if let k = m.kundali {
                             Text(app.language == .ne ? k.moonRashi.nameNE : k.moonRashi.shortEN)
-                                .font(.system(size: 13, design: .serif))
+                                .scaledFont(size: 13, design: .serif)
                                 .foregroundStyle(p.sindoor)
                         }
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 13))
-                            .foregroundStyle(p.templeGold)
+                            .scaledFont(size: 13)
+                            .foregroundStyle(p.inkSecondary.opacity(0.6))
                     }
-                    .padding(14)
-                    .sacredCard(radius: 16)
+                    .padding(.vertical, 12)
                 }
+                .buttonStyle(SpringPressStyle())
+                if i < app.family.count - 1 { Hairline() }
             }
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 24)
     }
 }
 

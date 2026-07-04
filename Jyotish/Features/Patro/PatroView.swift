@@ -5,6 +5,7 @@ struct PatroView: View {
     @Environment(\.palette) private var p
     @State private var shown: NepaliDate = BikramSambat.today()
     @State private var selectedDay: NepaliDate?
+    @State private var monthDelta = 1 // last navigation direction, drives the slide
 
     private var ne: Bool { app.language == .ne }
 
@@ -17,12 +18,19 @@ struct PatroView: View {
                         .padding(.top, 8)
                     todayBox
                     monthHeader
-                    weekdayRow
-                    monthGrid
+                    VStack(spacing: 12) {
+                        weekdayRow
+                        monthGrid
+                    }
+                    .id("\(shown.year)-\(shown.month)")
+                    .transition(.asymmetric(
+                        insertion: .move(edge: monthDelta > 0 ? .trailing : .leading).combined(with: .opacity),
+                        removal: .move(edge: monthDelta > 0 ? .leading : .trailing).combined(with: .opacity)))
                 }
                 .padding(.bottom, 96)
             }
         }
+        .statusBarFade()
         .sheet(item: Binding(
             get: { selectedDay.map { DaySelection(date: $0) } },
             set: { selectedDay = $0?.date })) { sel in
@@ -38,55 +46,38 @@ struct PatroView: View {
     private var todayBox: some View {
         let today = BikramSambat.today()
         let pan = Panchanga.forDay(Date())
-        return HStack(spacing: 14) {
-            VStack(spacing: 0) {
-                Text(app.digits(today.day))
-                    .font(.system(size: 36, weight: .bold, design: .serif))
-                    .foregroundStyle(p.sindoor)
-                Text(today.monthName(ne: ne))
-                    .font(.system(size: 13))
-                    .foregroundStyle(p.inkSecondary)
-            }
-            .frame(width: 76)
-            .padding(.vertical, 10)
-            .background(RoundedRectangle(cornerRadius: 14).fill(p.marigold.opacity(0.15)))
-            VStack(alignment: .leading, spacing: 4) {
-                SectionLabel(text: app.t("common.today"))
-                Text(pan.tithiName(ne: ne))
-                    .font(.system(size: 20, weight: .semibold, design: .serif))
-                    .foregroundStyle(p.inkPrimary)
-                Text("\(pan.pakshaName(ne: ne)) · \(ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)")
-                    .font(.system(size: 14))
-                    .foregroundStyle(p.inkSecondary)
-            }
-            Spacer()
+        return VStack(alignment: .leading, spacing: 4) {
+            Text("\(app.t("common.today")) · \(app.digits(today.day)) \(today.monthName(ne: ne))")
+                .scaledFont(size: 14)
+                .foregroundStyle(p.inkSecondary)
+            Text("\(pan.tithiName(ne: ne)) · \(pan.pakshaName(ne: ne)) · \(ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)")
+                .scaledFont(size: 17, weight: .semibold, design: .serif)
+                .foregroundStyle(p.sindoor)
         }
-        .padding(14)
-        .sacredCard(tika: true)
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 24)
     }
 
     private var monthHeader: some View {
         HStack {
             Button { move(-1) } label: {
                 Image(systemName: "chevron.left")
-                    .font(.system(size: 18, weight: .medium))
+                    .scaledFont(size: 18, weight: .medium)
                     .foregroundStyle(p.saffron)
                     .frame(width: 48, height: 48)
             }
             Spacer()
             VStack(spacing: 2) {
                 Text("\(shown.monthName(ne: ne)) \(app.digits(shown.year))")
-                    .font(.system(size: 24, weight: .bold, design: .serif))
+                    .scaledFont(size: 24, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
                 Text(adRangeLabel)
-                    .font(.system(size: 12))
+                    .scaledFont(size: 12)
                     .foregroundStyle(p.inkSecondary)
             }
             Spacer()
             Button { move(1) } label: {
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 18, weight: .medium))
+                    .scaledFont(size: 18, weight: .medium)
                     .foregroundStyle(p.saffron)
                     .frame(width: 48, height: 48)
             }
@@ -109,6 +100,8 @@ struct PatroView: View {
         if m < 1 { m = 12; y -= 1 }
         if m > 12 { m = 1; y += 1 }
         guard y >= BikramSambat.firstYear, y < BikramSambat.firstYear + BikramSambat.table.count else { return }
+        Haptics.tap()
+        monthDelta = delta
         withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
             shown = NepaliDate(year: y, month: m, day: 1)
         }
@@ -118,7 +111,7 @@ struct PatroView: View {
         HStack(spacing: 0) {
             ForEach(0..<7, id: \.self) { i in
                 Text(ne ? L10n.weekdaysNE[i] : L10n.weekdaysEN[i])
-                    .font(.system(size: 12, weight: .semibold))
+                    .scaledFont(size: 12, weight: .semibold)
                     .foregroundStyle(i == 6 ? p.sindoor : p.inkSecondary)
                     .frame(maxWidth: .infinity)
             }
@@ -135,7 +128,7 @@ struct PatroView: View {
 
         return LazyVGrid(columns: cols, spacing: 4) {
             // Negative ids: must not collide with day numbers or LazyVGrid scrambles rows.
-            ForEach(-firstWeekday..<0, id: \.self) { _ in Color.clear.frame(height: 64) }
+            ForEach(-firstWeekday..<0, id: \.self) { _ in Color.clear.frame(height: 72) }
             ForEach(1...days, id: \.self) { d in
                 let bs = NepaliDate(year: shown.year, month: shown.month, day: d)
                 let ad = BikramSambat.toAD(bs)
@@ -143,31 +136,36 @@ struct PatroView: View {
                 let isToday = bs == today
                 let isSat = (firstWeekday + d - 1) % 7 == 6
                 let hasEvent = app.events.contains { $0.occurs(on: bs) }
-                Button { selectedDay = bs } label: {
+                Button {
+                    Haptics.tap()
+                    selectedDay = bs
+                } label: {
+                    // Fixed sizes inside the rigid grid (calendar cells don't scale,
+                    // matching Apple Calendar) — but never below the 11pt HIG floor.
                     VStack(spacing: 1) {
                         Text(app.digits(d))
-                            .font(.system(size: 17, weight: .semibold, design: .serif))
+                            .font(.system(size: 18, weight: .semibold, design: .serif))
                             .foregroundStyle(isSat ? p.sindoor : p.inkPrimary)
                         Text(pan.tithiName(ne: ne))
-                            .font(.system(size: 8))
+                            .font(.system(size: 11))
                             .lineLimit(1)
-                            .minimumScaleFactor(0.7)
+                            .minimumScaleFactor(0.8)
                             .foregroundStyle(p.inkSecondary)
                         Text("\(Calendar.nepali.component(.day, from: ad))")
-                            .font(.system(size: 9))
+                            .font(.system(size: 11))
                             .foregroundStyle(p.inkSecondary.opacity(0.7))
                         Circle().fill(hasEvent ? p.marigold : .clear).frame(width: 4, height: 4)
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(height: 64)
+                    .frame(height: 72)
                     .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(isToday ? p.marigold.opacity(0.18) : p.bgElevated))
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(isToday ? p.marigold.opacity(0.16) : .clear))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .strokeBorder(isToday ? p.saffron : p.templeGold.opacity(0.15),
-                                          lineWidth: isToday ? 1.6 : 1))
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(isToday ? p.saffron : .clear, lineWidth: 1.6))
                 }
+                .accessibilityLabel("\(app.digits(d)) \(bs.monthName(ne: ne)), \(pan.tithiName(ne: ne))\(hasEvent ? ", \(app.t("patro.events"))" : "")")
             }
         }
         .padding(.horizontal, 16)
@@ -198,10 +196,10 @@ struct DayDetailSheet: View {
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("\(app.digits(bs.day)) \(bs.monthName(ne: ne)) \(app.digits(bs.year))")
-                            .font(.system(size: 30, weight: .bold, design: .serif))
+                            .scaledFont(size: 30, weight: .bold, design: .serif)
                             .foregroundStyle(p.inkPrimary)
                         Text(ad.formatted(.dateTime.weekday(.wide).day().month(.wide).year().locale(app.locale)))
-                            .font(.system(size: 14))
+                            .scaledFont(size: 14)
                             .foregroundStyle(p.inkSecondary)
                     }
                     .padding(.top, 24)
@@ -225,16 +223,16 @@ struct DayDetailSheet: View {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(e.title)
-                                            .font(.system(size: 17, weight: .medium, design: .serif))
+                                            .scaledFont(size: 17, weight: .medium, design: .serif)
                                             .foregroundStyle(p.inkPrimary)
                                         if !e.note.isEmpty {
-                                            Text(e.note).font(.system(size: 13)).foregroundStyle(p.inkSecondary)
+                                            Text(e.note).scaledFont(size: 13).foregroundStyle(p.inkSecondary)
                                         }
                                     }
                                     Spacer()
                                     Button { app.removeEvent(e) } label: {
                                         Image(systemName: "trash")
-                                            .font(.system(size: 14))
+                                            .scaledFont(size: 14)
                                             .foregroundStyle(p.sindoor.opacity(0.7))
                                             .frame(width: 44, height: 44)
                                     }
@@ -249,17 +247,17 @@ struct DayDetailSheet: View {
                     VStack(alignment: .leading, spacing: 12) {
                         SectionLabel(text: app.t("patro.addEvent"))
                         TextField(app.t("patro.eventTitle"), text: $newTitle)
-                            .font(.system(size: 17, design: .serif))
+                            .scaledFont(size: 17, design: .serif)
                             .padding(12)
                             .background(RoundedRectangle(cornerRadius: 12).fill(p.bgElevated))
                             .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(p.templeGold.opacity(0.3), lineWidth: 1))
                         TextField(app.t("patro.eventNote"), text: $newNote)
-                            .font(.system(size: 15))
+                            .scaledFont(size: 15)
                             .padding(12)
                             .background(RoundedRectangle(cornerRadius: 12).fill(p.bgElevated))
                             .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(p.templeGold.opacity(0.3), lineWidth: 1))
                         Toggle(app.t("patro.repeatYearly"), isOn: $repeats)
-                            .font(.system(size: 15))
+                            .scaledFont(size: 15)
                             .tint(p.saffron)
                             .foregroundStyle(p.inkSecondary)
                         PrimaryButton(title: app.t("common.add"), icon: "plus") {
@@ -275,6 +273,7 @@ struct DayDetailSheet: View {
                 .padding(.bottom, 40)
             }
         }
+        .overlay(alignment: .topTrailing) { SheetCloseButton().padding(8) }
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
     }
