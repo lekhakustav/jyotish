@@ -62,9 +62,17 @@ struct PatroView: View {
                 Haptics.tap()
                 showDatePicker = true
             } label: {
-                Text("\(shown.monthName(ne: ne)) \(app.digits(shown.year))")
-                    .scaledFont(size: 24, weight: .bold, design: .serif)
-                    .foregroundStyle(p.inkPrimary)
+                VStack(spacing: 3) {
+                    Text("\(shown.monthName(ne: ne)) \(app.digits(shown.year))")
+                        .scaledFont(size: 24, weight: .bold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                    Text(app.t("patro.jumpToDate"))
+                        .scaledFont(size: 12, weight: .medium)
+                        .foregroundStyle(p.saffron)
+                }
+                .padding(.horizontal, 18)
+                .padding(.vertical, 8)
+                .background(Capsule().fill(p.bgSunken))
             }
             .buttonStyle(SpringPressStyle())
             Spacer()
@@ -174,30 +182,64 @@ private struct PatroDatePickerSheet: View {
     var body: some View {
         ZStack {
             p.bgCanvas.ignoresSafeArea()
-            VStack(alignment: .leading, spacing: 22) {
+            VStack(alignment: .leading, spacing: 28) {
                 Text(app.t("patro.jumpToDate"))
-                    .scaledFont(size: 28, weight: .bold, design: .serif)
+                    .scaledFont(size: 30, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
                     .padding(.top, 24)
 
-                VStack(spacing: 0) {
-                    Picker(app.t("patro.month"), selection: $month) {
-                        ForEach(1...12, id: \.self) { m in
-                            Text(NepaliDate(year: year, month: m, day: 1).monthName(ne: ne)).tag(m)
+                HStack(alignment: .top, spacing: 10) {
+                    VStack(spacing: 8) {
+                        Text(app.t("patro.month"))
+                            .scaledFont(size: 12, weight: .medium)
+                            .foregroundStyle(p.inkSecondary)
+                        Picker(app.t("patro.month"), selection: $month) {
+                            ForEach(1...12, id: \.self) { m in
+                                Text(NepaliDate(year: year, month: m, day: 1).monthName(ne: ne)).tag(m)
+                            }
                         }
+                        .pickerStyle(.wheel)
+                        .frame(height: 190)
+                        .clipped()
                     }
-                    Picker(app.t("patro.year"), selection: $year) {
-                        ForEach(years, id: \.self) { y in
-                            Text(app.digits(y)).tag(y)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                    .background(RoundedRectangle(cornerRadius: 12).fill(p.bgSunken))
+
+                    VStack(spacing: 8) {
+                        Text(app.t("patro.day"))
+                            .scaledFont(size: 12, weight: .medium)
+                            .foregroundStyle(p.inkSecondary)
+                        Picker(app.t("patro.day"), selection: $day) {
+                            ForEach(1...maxDay, id: \.self) { d in
+                                Text(app.digits(d)).tag(d)
+                            }
                         }
+                        .pickerStyle(.wheel)
+                        .frame(height: 190)
+                        .clipped()
                     }
-                    Picker(app.t("patro.day"), selection: $day) {
-                        ForEach(1...maxDay, id: \.self) { d in
-                            Text(app.digits(d)).tag(d)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                    .background(RoundedRectangle(cornerRadius: 12).fill(p.bgSunken))
+
+                    VStack(spacing: 8) {
+                        Text(app.t("patro.year"))
+                            .scaledFont(size: 12, weight: .medium)
+                            .foregroundStyle(p.inkSecondary)
+                        Picker(app.t("patro.year"), selection: $year) {
+                            ForEach(years, id: \.self) { y in
+                                Text(app.digits(y)).tag(y)
+                            }
                         }
+                        .pickerStyle(.wheel)
+                        .frame(height: 190)
+                        .clipped()
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                    .background(RoundedRectangle(cornerRadius: 12).fill(p.bgSunken))
                 }
-                .pickerStyle(.wheel)
                 .onChange(of: month) { clampDay() }
                 .onChange(of: year) { clampDay() }
 
@@ -210,7 +252,7 @@ private struct PatroDatePickerSheet: View {
             .padding(.horizontal, 20)
         }
         .overlay(alignment: .topTrailing) { SheetCloseButton().padding(8) }
-        .presentationDetents([.medium])
+        .presentationDetents([.large])
     }
 
     private func clampDay() {

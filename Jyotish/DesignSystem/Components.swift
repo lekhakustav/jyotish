@@ -159,8 +159,8 @@ struct DiyaScore: View {
         HStack(spacing: 3) {
             ForEach(0..<5, id: \.self) { i in
                 YantraStar()
-                    .fill(i < score ? p.marigold : p.inkSecondary.opacity(0.25))
-                    .frame(width: 11, height: 11)
+                    .fill(i < score ? p.templeGold : p.inkSecondary.opacity(0.36))
+                    .frame(width: 12.5, height: 12.5)
             }
         }
         .accessibilityLabel("\(score) of 5")

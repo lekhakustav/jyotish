@@ -13,7 +13,7 @@ struct HomeView: View {
         ZStack(alignment: .bottomTrailing) {
             p.bgCanvas.ignoresSafeArea()
             ScrollView {
-                VStack(alignment: .leading, spacing: 40) {
+                VStack(alignment: .leading, spacing: 36) {
                     header.fadeRise()
                     tithiHero.fadeRise(delay: 0.05)
                     rashifalBlock.fadeRise(delay: 0.1)
@@ -44,7 +44,19 @@ struct HomeView: View {
     }
 
     private var header: some View {
-        HStack {
+        HStack(alignment: .firstTextBaseline) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(app.t(greetingKey))
+                    .scaledFont(size: 16, weight: .medium, design: .serif)
+                    .foregroundStyle(p.templeGold)
+                if let name = app.selfMember?.name, !name.trimmingCharacters(in: .whitespaces).isEmpty {
+                    Text(name)
+                        .scaledFont(size: 26, weight: .bold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+                }
+            }
             Spacer()
             Button { showSettings = true } label: {
                 Image(systemName: "gearshape")
@@ -57,37 +69,49 @@ struct HomeView: View {
         .padding(.top, 8)
     }
 
+    private var greetingKey: String {
+        let hour = Calendar.nepali.component(.hour, from: Date())
+        if hour < 12 { return "greet.morning" }
+        if hour < 18 { return "greet.afternoon" }
+        if hour < 22 { return "greet.evening" }
+        return "greet.night"
+    }
+
     /// The BS date as pure typography — the whole block opens the Patro.
     private var tithiHero: some View {
         let bs = BikramSambat.today()
         let pan = Panchanga.forDay(Date())
-        return VStack(alignment: .leading, spacing: 14) {
-            VStack(alignment: .leading, spacing: 8) {
+        return Button {
+            Haptics.tap()
+            app.open(.patro)
+        } label: {
+            VStack(alignment: .leading, spacing: 14) {
                 Text("\(app.digits(bs.day)) \(bs.monthName(ne: ne))")
                     .scaledFont(size: 44, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
-                VStack(alignment: .leading, spacing: 5) {
+                HStack(spacing: 7) {
                     Text(pan.tithiName(ne: ne))
+                    Text("·")
                     Text(pan.pakshaName(ne: ne))
+                    Text("·")
                     Text(ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)
                 }
-                .scaledFont(size: 16, design: .serif)
-                .foregroundStyle(p.sindoor)
-            }
-            Button {
-                Haptics.tap()
-                app.open(.patro)
-            } label: {
+                .scaledFont(size: 13, weight: .medium, design: .serif)
+                .foregroundStyle(p.inkSecondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+
                 HStack(spacing: 8) {
                     Text(app.t("home.openPatro"))
                     Image(systemName: "chevron.right")
                 }
-                .scaledFont(size: 15, weight: .medium)
+                .scaledFont(size: 18, weight: .bold, design: .serif)
                 .foregroundStyle(p.saffron)
             }
-            .buttonStyle(SpringPressStyle())
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .buttonStyle(SpringPressStyle())
     }
 
     /// Personal rashifal, flat: rashi mark + two lines + the dasha in one quiet line.

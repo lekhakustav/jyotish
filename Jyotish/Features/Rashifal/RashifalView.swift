@@ -121,9 +121,9 @@ struct RashifalView: View {
             }
 
             HStack(spacing: 10) {
-                LuckyFact(label: app.t("rashifal.lucky.color"), value: r.luckyColor, systemImage: "paintpalette")
-                LuckyFact(label: app.t("rashifal.lucky.number"), value: app.digits(r.luckyNumber), systemImage: "number")
-                LuckyFact(label: app.t("rashifal.lucky.day"), value: r.luckyDay, systemImage: "calendar")
+                LuckyFact(label: app.t("rashifal.lucky.color"), value: r.luckyColor)
+                LuckyFact(label: app.t("rashifal.lucky.number"), value: app.digits(r.luckyNumber))
+                LuckyFact(label: app.t("rashifal.lucky.day"), value: r.luckyDay)
             }
 
             VStack(alignment: .leading, spacing: 10) {
@@ -157,20 +157,16 @@ private struct LuckyFact: View {
     @Environment(\.palette) private var p
     let label: String
     let value: String
-    let systemImage: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Image(systemName: systemImage)
-                .scaledFont(size: 15, weight: .medium)
-                .foregroundStyle(p.saffron)
             Text(label)
                 .scaledFont(size: 11)
                 .foregroundStyle(p.inkSecondary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
             Text(value)
-                .scaledFont(size: 14, weight: .semibold, design: .serif)
+                .scaledFont(size: 15, weight: .semibold, design: .serif)
                 .foregroundStyle(p.inkPrimary)
                 .lineLimit(2)
                 .minimumScaleFactor(0.75)

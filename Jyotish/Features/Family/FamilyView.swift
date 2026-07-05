@@ -21,7 +21,7 @@ struct FamilyView: View {
                         .padding(.horizontal, 20)
                         .padding(.top, 8)
                         if hasRelatives {
-                            constellation.fadeRise()
+                            familyTree.fadeRise()
                         }
                         memberList.fadeRise(delay: 0.1)
                     }
@@ -30,6 +30,11 @@ struct FamilyView: View {
             }
             .statusBarFade()
             .sheet(isPresented: $showAdd) { AddMemberSheet() }
+            .navigationDestination(for: UUID.self) { id in
+                if let m = app.family.first(where: { $0.id == id }) {
+                    MemberDetailView(memberID: m.id)
+                }
+            }
         }
     }
 
@@ -47,54 +52,76 @@ struct FamilyView: View {
         .accessibilityLabel(app.t("family.add"))
     }
 
-    /// The auto family tree: names and relations centered around the user.
-    private var constellation: some View {
-        let others = app.family.filter { $0.relation != .selfMember }
-        return GeometryReader { geo in
-            let c = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-            let radius: CGFloat = 105
-            // connector lines
-            Path { path in
-                for i in others.indices {
-                    let a = angle(i, count: others.count)
-                    path.move(to: c)
-                    path.addLine(to: CGPoint(x: c.x + cos(a) * radius, y: c.y + sin(a) * radius))
+    /// A top-to-bottom family tree so parent/child placement is obvious and
+    /// connector lines never cross the name labels.
+    private var familyTree: some View {
+        let parents = app.family.filter { [.father, .mother, .grandfather, .grandmother].contains($0.relation) }
+        let partners = app.family.filter { [.husband, .wife].contains($0.relation) }
+        let siblings = app.family.filter { [.brother, .sister].contains($0.relation) }
+        let children = app.family.filter { [.son, .daughter].contains($0.relation) }
+        let grandchildren = app.family.filter { [.grandson, .granddaughter].contains($0.relation) }
+
+        return VStack(spacing: 10) {
+            if !parents.isEmpty {
+                treeRow(parents)
+                TreeBranch(count: parents.count, lowerCount: 1)
+                    .frame(height: 34)
+                    .padding(.horizontal, 54)
+            }
+
+            VStack(spacing: 12) {
+                familyNode(for: app.selfMember, relation: app.t("common.you"), size: 72)
+                if !partners.isEmpty || !siblings.isEmpty {
+                    treeRow(partners + siblings, size: 58)
                 }
             }
-            .stroke(p.templeGold.opacity(0.28), lineWidth: 1)
 
-            // center: the user
-            familyNode(for: app.selfMember, relation: app.t("common.you"), size: 74)
-                .position(c)
+            if !children.isEmpty {
+                TreeBranch(count: 1, lowerCount: children.count)
+                    .frame(height: 38)
+                    .padding(.horizontal, 54)
+                treeRow(children)
+            }
 
-            ForEach(Array(others.enumerated()), id: \.element.id) { i, m in
-                let a = angle(i, count: others.count)
-                NavigationLink(value: m.id) {
-                    familyNode(for: m, relation: app.language == .ne ? m.relation.labelNE : m.relation.labelEN, size: 66)
-                }
-                .position(x: c.x + cos(a) * radius, y: c.y + sin(a) * radius)
+            if !grandchildren.isEmpty {
+                TreeBranch(count: max(1, children.count), lowerCount: grandchildren.count)
+                    .frame(height: 38)
+                    .padding(.horizontal, 54)
+                treeRow(grandchildren, size: 60)
             }
         }
-        .frame(height: 280)
-        .frame(maxWidth: .infinity)
-        .navigationDestination(for: UUID.self) { id in
-            if let m = app.family.first(where: { $0.id == id }) {
-                MemberDetailView(memberID: m.id)
-            }
-        }
+        .padding(.horizontal, 16)
+        .padding(.top, 4)
+        .padding(.bottom, 12)
     }
 
-    private func angle(_ i: Int, count: Int) -> CGFloat {
-        guard count > 0 else { return 0 }
-        return CGFloat(i) / CGFloat(count) * 2 * .pi - .pi / 2
+    private func treeRow(_ members: [FamilyMember], size: CGFloat = 64) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .top, spacing: 16) {
+                ForEach(members) { m in
+                    NavigationLink(value: m.id) {
+                        familyNode(for: m, relation: relationText(for: m), size: size)
+                    }
+                    .buttonStyle(SpringPressStyle())
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 8)
+        }
+        .contentMargins(.horizontal, 8, for: .scrollContent)
+    }
+
+    private func relationText(for member: FamilyMember) -> String {
+        app.language == .ne ? member.relation.labelNE : member.relation.labelEN
     }
 
     private func familyNode(for member: FamilyMember?, relation: String, size: CGFloat) -> some View {
         VStack(spacing: 5) {
             Image(systemName: relationSymbol(for: member))
-                .scaledFont(size: size * 0.32, weight: .light)
+                .scaledFont(size: size * 0.3, weight: .light)
                 .foregroundStyle(p.saffron)
-                .frame(width: size, height: size * 0.58)
+                .frame(width: size, height: size)
+                .background(Circle().fill(p.bgSunken))
             VStack(spacing: 1) {
                 Text(member?.name ?? app.t("common.you"))
                     .scaledFont(size: 12, weight: .semibold, design: .serif)
@@ -108,7 +135,8 @@ struct FamilyView: View {
                     .minimumScaleFactor(0.75)
             }
         }
-        .frame(width: size + 24)
+        .frame(width: size + 34)
+        .contentShape(Rectangle())
     }
 
     private func relationSymbol(for member: FamilyMember?) -> String {
@@ -165,6 +193,45 @@ struct FamilyView: View {
             }
         }
         .padding(.horizontal, 24)
+    }
+}
+
+private struct TreeBranch: View {
+    @Environment(\.palette) private var p
+    let count: Int
+    let lowerCount: Int
+
+    var body: some View {
+        GeometryReader { geo in
+            Path { path in
+                let w = geo.size.width
+                let h = geo.size.height
+                let upper = points(count: count, width: w)
+                let lower = points(count: lowerCount, width: w)
+                let midY = h * 0.48
+
+                for x in upper {
+                    path.move(to: CGPoint(x: x, y: 0))
+                    path.addLine(to: CGPoint(x: x, y: midY))
+                }
+                if let first = lower.first, let last = lower.last {
+                    path.move(to: CGPoint(x: first, y: midY))
+                    path.addLine(to: CGPoint(x: last, y: midY))
+                }
+                for x in lower {
+                    path.move(to: CGPoint(x: x, y: midY))
+                    path.addLine(to: CGPoint(x: x, y: h))
+                }
+            }
+            .stroke(p.templeGold.opacity(0.34), style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round))
+        }
+        .accessibilityHidden(true)
+    }
+
+    private func points(count: Int, width: CGFloat) -> [CGFloat] {
+        guard count > 1 else { return [width / 2] }
+        let step = width / CGFloat(count)
+        return (0..<count).map { step * (CGFloat($0) + 0.5) }
     }
 }
 

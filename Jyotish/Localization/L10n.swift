@@ -12,6 +12,7 @@ enum L10n {
         "greet.morning": ("Shubha Prabhat", "शुभ प्रभात"),
         "greet.afternoon": ("Namaste", "नमस्ते"),
         "greet.evening": ("Shubha Sandhya", "शुभ सन्ध्या"),
+        "greet.night": ("Shubha Ratri", "शुभ रात्री"),
         "app.name": ("Jyotish", "ज्योतिष"),
         "app.tagline": ("Your family's pandit, in your pocket", "तपाईंको परिवारको पण्डित, तपाईंकै हातमा"),
         "common.save": ("Save", "सुरक्षित गर्नुहोस्"),

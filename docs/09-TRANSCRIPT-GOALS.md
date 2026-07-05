@@ -2,19 +2,20 @@
 
 Date: 2026-07-05
 
-Source: critique transcript from Sita Sharan and Utsav about the Jyotish app.
+Source: critique transcript from Sita Sharan and Utsav about the Jyotish app, including the second audio transcript reviewed on 2026-07-05.
 
 ## Product Goals
 
 1. Make the app quieter and less duplicated.
    - Remove small Devanagari echo titles when the screen already has a title.
-   - Remove the Home greeting/name/diya cluster.
    - Remove AD date noise from Home and the Patro grid.
+   - Use a simple Hindu-style Home greeting with the user's name instead of generic "Good morning" copy.
 
 2. Make astrology marks feel like icons, not text badges.
    - Do not show rashi monograms inside double circles.
    - Use unframed, vector-style rashi marks wherever the app shows a sign.
    - Replace flame-based ratings with a quieter sacred star mark.
+   - Make the star marks darker and a little larger so they are visible.
 
 3. Keep empty states out of the Home dashboard.
    - Hide the family quick row until relatives exist.
@@ -24,6 +25,8 @@ Source: critique transcript from Sita Sharan and Utsav about the Jyotish app.
    - Bottom navigation has Home, Rashifal, and Family only.
    - Home's date block exposes an Open Patro action.
    - Patro supports jumping directly to a month/year/day instead of repeated chevrons.
+   - Make the Open Patro action feel tappable.
+   - Make the go-to-date sheet larger with clearer spacing between month, day, and year.
 
 5. Make Pandit-ji reachable contextually, but not a primary tab.
    - Home has a floating Pandit entry point.
@@ -38,6 +41,12 @@ Source: critique transcript from Sita Sharan and Utsav about the Jyotish app.
    - Use the backend-agent contract in `docs/06-BACKEND-AGENT.md`; until that backend exists,
      iOS keeps using local `PanditBrain`.
 
+7. Polish the second transcript's screen-specific details.
+   - Home: keep the date strong, but make tithi/paksha/nakshatra smaller and lighter.
+   - Rashifal: keep Read More behavior, but remove the small lucky color/number/day pictorial icons.
+   - Family: arrange people like a real family tree, with parents above and children below.
+   - Family: keep connector lines away from names so the icon/name block reads as one unit.
+
 ## Implemented In This Pass
 
 - Typed app navigation contract: `AppTab` is Home/Rashifal/Family; Patro is pushed; Pandit is modal.
@@ -48,6 +57,7 @@ Source: critique transcript from Sita Sharan and Utsav about the Jyotish app.
 - Family title cleanup and name/relation-driven tree labels.
 - Chat modal close button, history drawer, and typed-first voice behavior.
 - Vector-style hand-drawn rashi marks and star score indicators.
+- Second transcript pass: Home greeting/name, smaller panchanga text, stronger Open Patro affordance, larger spaced date picker, darker/larger star marks, simpler lucky facts, and a top-to-bottom Family tree.
 
 ## Deferred
 
