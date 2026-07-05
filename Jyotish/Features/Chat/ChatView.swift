@@ -79,10 +79,7 @@ struct ChatView: View {
 
     private var welcome: some View {
         VStack(spacing: 16) {
-            ZStack {
-                MandalaView().frame(width: 160, height: 160).opacity(0.6)
-                DiyaFlame(size: 36)
-            }
+            DiyaFlame(size: 36)
             Text(PanditBrain(family: app.family, lang: app.language).reply(to: "namaste"))
                 .scaledFont(size: 16, design: .serif)
                 .foregroundStyle(p.inkPrimary.opacity(0.85))
@@ -151,7 +148,7 @@ struct ChatView: View {
                 voice.toggleListening(lang: app.language) { text in send(text) }
             } label: {
                 Image(systemName: voice.isListening ? "stop.circle.fill" : "mic.fill")
-                    .font(.system(size: 22))
+                    .scaledFont(size: 22)
                     .foregroundStyle(voice.isListening ? p.sindoor : p.saffron)
                     .frame(width: 48, height: 48)
                     .background(Circle().fill(p.bgElevated))
@@ -169,7 +166,7 @@ struct ChatView: View {
                     send(text)
                 } label: {
                     Image(systemName: "arrow.up.circle.fill")
-                        .font(.system(size: 36))
+                        .scaledFont(size: 36)
                         .foregroundStyle(p.saffron)
                 }
                 .transition(.scale.combined(with: .opacity))

@@ -208,18 +208,19 @@ struct DayDetailSheet: View {
                         SectionLabel(text: app.t("patro.panchanga"))
                         InfoRow(label: app.t("patro.tithi"),
                                 value: "\(pan.tithiName(ne: ne)) (\(pan.pakshaName(ne: ne)))")
+                        Hairline()
                         InfoRow(label: app.t("patro.nakshatra"),
                                 value: ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)
+                        Hairline()
                         InfoRow(label: app.t("patro.yoga"), value: Panchanga.yogaNamesEN[pan.yogaIndex])
+                        Hairline()
                         InfoRow(label: app.t("patro.karana"), value: Panchanga.karanaNamesEN[pan.karanaIndex])
                     }
-                    .padding(16)
-                    .sacredCard(radius: 16)
 
                     if !dayEvents.isEmpty {
                         VStack(alignment: .leading, spacing: 10) {
                             SectionLabel(text: app.t("patro.events"))
-                            ForEach(dayEvents) { e in
+                            ForEach(Array(dayEvents.enumerated()), id: \.element.id) { i, e in
                                 HStack {
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(e.title)
@@ -238,8 +239,8 @@ struct DayDetailSheet: View {
                                     }
                                     .accessibilityLabel(app.t("common.delete"))
                                 }
-                                .padding(.horizontal, 14).padding(.vertical, 8)
-                                .sacredCard(radius: 12)
+                                .padding(.vertical, 8)
+                                if i < dayEvents.count - 1 { Hairline() }
                             }
                         }
                     }
@@ -249,13 +250,11 @@ struct DayDetailSheet: View {
                         TextField(app.t("patro.eventTitle"), text: $newTitle)
                             .scaledFont(size: 17, design: .serif)
                             .padding(12)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(p.bgElevated))
-                            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(p.templeGold.opacity(0.3), lineWidth: 1))
+                            .background(RoundedRectangle(cornerRadius: 12).fill(p.bgSunken))
                         TextField(app.t("patro.eventNote"), text: $newNote)
                             .scaledFont(size: 15)
                             .padding(12)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(p.bgElevated))
-                            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(p.templeGold.opacity(0.3), lineWidth: 1))
+                            .background(RoundedRectangle(cornerRadius: 12).fill(p.bgSunken))
                         Toggle(app.t("patro.repeatYearly"), isOn: $repeats)
                             .scaledFont(size: 15)
                             .tint(p.saffron)

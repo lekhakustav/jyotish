@@ -58,11 +58,6 @@ struct BirthFlowView: View {
     var body: some View {
         ZStack {
             p.bgCanvas.ignoresSafeArea()
-            Color.clear
-                .overlay(alignment: .top) {
-                    MandalaView().frame(width: 380, height: 380).offset(y: -200).opacity(0.55)
-                }
-                .ignoresSafeArea()
 
             if step == .ceremony {
                 ceremony
@@ -209,9 +204,11 @@ struct BirthFlowView: View {
     }
 
     private var genderCards: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 0) {
             genderCard(.female, label: app.t("profile.female"))
+            Hairline()
             genderCard(.male, label: app.t("profile.male"))
+            Hairline()
             genderCard(.other, label: app.t("profile.other"))
         }
     }
@@ -233,7 +230,7 @@ struct BirthFlowView: View {
             .padding(.horizontal, 18)
             .frame(height: 58)
             .background(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(gender == g ? p.marigold.opacity(0.14) : p.bgElevated))
+                .fill(gender == g ? p.marigold.opacity(0.14) : .clear))
         }
     }
 
@@ -248,7 +245,7 @@ struct BirthFlowView: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
                             .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                .fill(relation == r ? p.marigold.opacity(0.16) : p.bgElevated))
+                                .fill(relation == r ? p.marigold.opacity(0.16) : .clear))
                     }
                 }
             }
@@ -275,7 +272,7 @@ struct BirthFlowView: View {
                         .padding(.horizontal, 18)
                         .frame(height: 52)
                         .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(place == pl ? p.marigold.opacity(0.14) : p.bgElevated))
+                            .fill(place == pl ? p.marigold.opacity(0.14) : .clear))
                     }
                 }
             }

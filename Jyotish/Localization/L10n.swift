@@ -31,8 +31,6 @@ enum L10n {
         "tab.pandit": ("Pandit", "पण्डित"),
         // Welcome / onboarding
         "welcome.continue": ("Continue with account (demo)", "खाता सहित अगाडि बढ्नुहोस् (डेमो)"),
-        "welcome.note": ("Real sign-in arrives with cloud sync. Your data stays on this device for now.",
-                         "क्लाउड सिंकसँगै वास्तविक लगइन आउनेछ। अहिले तपाईंको डाटा यही यन्त्रमा सुरक्षित रहन्छ।"),
         "profile.title": ("Birth Details", "जन्म विवरण"),
         "profile.subtitle": ("Pandit-ji needs these to draw the kundali",
                              "कुण्डली बनाउन पण्डितजीलाई यी विवरण चाहिन्छ"),
@@ -49,7 +47,6 @@ enum L10n {
         "profile.gate.title": ("Birth details needed", "जन्म विवरण आवश्यक छ"),
         "profile.gate.body": ("Please complete the birth profile first, so Pandit-ji can compute the kundali.",
                               "कृपया पहिले जन्म विवरण भर्नुहोस्, अनि पण्डितजीले कुण्डली बनाउन सक्नुहुन्छ।"),
-        "profile.gate.button": ("Fill birth details", "जन्म विवरण भर्नुहोस्"),
         // Paged birth flow
         "flow.continue": ("Continue", "अगाडि बढ्नुहोस्"),
         "flow.relation.q": ("Who are you adding?", "कसलाई थप्दै हुनुहुन्छ?"),
@@ -63,10 +60,6 @@ enum L10n {
         "flow.place.q": ("Place of birth", "जन्म स्थान"),
         "flow.drawing": ("Drawing the kundali…", "कुण्डली बनाउँदै…"),
         // Home
-        "home.todayTithi": ("Today's Tithi", "आजको तिथि"),
-        "home.yourDay": ("Your day", "तपाईंको दिन"),
-        "home.dasha": ("Current Dasha", "हालको दशा"),
-        "home.family": ("Your Parivar", "तपाईंको परिवार"),
         "home.upcoming": ("Upcoming", "आगामी"),
         "home.noEvents": ("No events yet — add one in Patro", "अहिलेसम्म कुनै कार्यक्रम छैन — पात्रोमा थप्नुहोस्"),
         "home.mahadasha": ("Mahadasha", "महादशा"),
@@ -123,10 +116,6 @@ enum L10n {
         "chat.chip.dasha": ("How is my dasha now?", "मेरो दशा अहिले कस्तो छ?"),
         "chat.listening": ("Listening…", "सुन्दै…"),
         "chat.speak": ("Speak replies", "उत्तर बोल्ने"),
-        // Aarti
-        "home.aarti": ("Popular Aarti", "लोकप्रिय आरती"),
-        "aarti.title": ("Popular Aarti", "लोकप्रिय आरती"),
-        "aarti.soon": ("Coming soon", "चाँडै आउँदैछ"),
         // Settings
         "settings.title": ("Settings", "सेटिङ"),
         "settings.language": ("Language", "भाषा"),
@@ -136,8 +125,6 @@ enum L10n {
         "settings.theme.dark": ("Ratri (Dark)", "रात्री (अँध्यारो)"),
         "settings.editProfile": ("Edit birth profile", "जन्म विवरण सम्पादन"),
         "settings.signOut": ("Sign out", "साइन आउट"),
-        "settings.about": ("Made with devotion — the Pratah design language.",
-                           "श्रद्धापूर्वक निर्मित — प्रातः डिजाइन भाषा।"),
     ]
 
     static func t(_ key: String, _ lang: Language) -> String {

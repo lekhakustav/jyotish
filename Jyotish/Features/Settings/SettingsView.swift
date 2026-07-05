@@ -33,7 +33,6 @@ struct SettingsView: View {
                         }
                         .padding(4)
                         .background(Capsule().fill(p.bgSunken))
-                        .overlay(Capsule().strokeBorder(p.templeGold.opacity(0.25), lineWidth: 1))
                     }
 
                     // Theme
@@ -75,16 +74,6 @@ struct SettingsView: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 50)
                     }
-
-                    VStack(spacing: 10) {
-                        Hairline().frame(width: 120)
-                        Text(app.t("settings.about"))
-                            .scaledFont(size: 13, design: .serif)
-                            .italic()
-                            .foregroundStyle(p.inkSecondary)
-                            .multilineTextAlignment(.center)
-                    }
-                    .frame(maxWidth: .infinity)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 40)

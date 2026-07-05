@@ -125,24 +125,19 @@ struct PrimaryButton: View {
             .frame(minHeight: 56)
             .background(
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(LinearGradient(colors: [p.saffron, p.saffron.opacity(0.88)],
-                                         startPoint: .top, endPoint: .bottom)))
-            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .strokeBorder(p.templeGold.opacity(0.4), lineWidth: 1))
-            .shadow(color: p.saffron.opacity(0.35), radius: 12, y: 5)
+                    .fill(p.saffron))
         }
         .buttonStyle(SpringPressStyle())
     }
 }
 
-/// Section label: small caps feel, gold diamond prefix.
+/// Section label: quiet secondary text, without decorative tracking.
 struct SectionLabel: View {
     @Environment(\.palette) private var p
     let text: String
     var body: some View {
         Text(text.uppercased())
             .scaledFont(size: 12, weight: .medium)
-            .kerning(1.4)
             .foregroundStyle(p.inkSecondary.opacity(0.75))
     }
 }

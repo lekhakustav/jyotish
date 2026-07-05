@@ -25,8 +25,7 @@ struct HomeView: View {
                         tithiHero.fadeRise(delay: 0.05)
                         rashifalBlock.fadeRise(delay: 0.1)
                         familyRow.fadeRise(delay: 0.15)
-                        aartiRow.fadeRise(delay: 0.2)
-                        upcoming.fadeRise(delay: 0.25)
+                        upcoming.fadeRise(delay: 0.2)
                     }
                     .padding(.horizontal, 24)
                     .padding(.bottom, 96)
@@ -158,27 +157,6 @@ struct HomeView: View {
         .contentMargins(.horizontal, 24, for: .scrollContent)
     }
 
-    /// Popular aartis — a quiet doorway; the library arrives later.
-    private var aartiRow: some View {
-        NavigationLink {
-            AartiView()
-        } label: {
-            HStack(spacing: 12) {
-                Image(systemName: "flame")
-                    .scaledFont(size: 18, weight: .light)
-                    .foregroundStyle(p.saffron)
-                Text(app.t("home.aarti"))
-                    .scaledFont(size: 19, weight: .semibold, design: .serif)
-                    .foregroundStyle(p.inkPrimary)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .scaledFont(size: 14)
-                    .foregroundStyle(p.inkSecondary.opacity(0.6))
-            }
-        }
-        .buttonStyle(SpringPressStyle())
-    }
-
     private var upcoming: some View {
         VStack(alignment: .leading, spacing: 16) {
             SectionLabel(text: app.t("home.upcoming"))
@@ -210,54 +188,5 @@ struct HomeView: View {
                 }
             }
         }
-    }
-}
-
-/// Popular aartis — placeholder library (content arrives later).
-struct AartiView: View {
-    @EnvironmentObject private var app: AppState
-    @Environment(\.palette) private var p
-
-    private let aartis: [(en: String, ne: String)] = [
-        ("Om Jai Jagdish Hare", "ॐ जय जगदीश हरे"),
-        ("Ganesh Aarti", "गणेश आरती"),
-        ("Shiva Aarti", "शिव आरती"),
-        ("Durga Aarti", "दुर्गा आरती"),
-        ("Lakshmi Aarti", "लक्ष्मी आरती"),
-        ("Krishna Aarti", "कृष्ण आरती"),
-        ("Saraswati Aarti", "सरस्वती आरती"),
-    ]
-
-    var body: some View {
-        ZStack {
-            p.bgCanvas.ignoresSafeArea()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 28) {
-                    SacredHeader(devanagari: "आरती", title: app.t("aarti.title"))
-                        .padding(.horizontal, -20) // SacredHeader carries its own gutter
-                        .padding(.top, 8)
-                    VStack(spacing: 0) {
-                        ForEach(Array(aartis.enumerated()), id: \.offset) { i, aarti in
-                            HStack(spacing: 14) {
-                                DiyaFlame(size: 18)
-                                Text(app.language == .ne ? aarti.ne : aarti.en)
-                                    .scaledFont(size: 18, design: .serif)
-                                    .foregroundStyle(p.inkPrimary)
-                                Spacer()
-                                Text(app.t("aarti.soon"))
-                                    .scaledFont(size: 12)
-                                    .foregroundStyle(p.inkSecondary.opacity(0.7))
-                            }
-                            .padding(.vertical, 16)
-                            if i < aartis.count - 1 { Hairline() }
-                        }
-                    }
-                }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 96)
-            }
-        }
-        .statusBarFade()
-        .toolbarBackground(.hidden, for: .navigationBar)
     }
 }

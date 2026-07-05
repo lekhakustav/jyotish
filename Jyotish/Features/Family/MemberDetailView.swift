@@ -25,7 +25,6 @@ struct MemberDetailView: View {
 
     private func gate(_ m: FamilyMember) -> some View {
         VStack(spacing: 16) {
-            MandalaView().frame(width: 200, height: 200).opacity(0.6)
             Text(app.t("profile.gate.title"))
                 .scaledFont(size: 24, weight: .bold, design: .serif)
                 .foregroundStyle(p.inkPrimary)
@@ -42,10 +41,7 @@ struct MemberDetailView: View {
             VStack(alignment: .leading, spacing: 20) {
                 // Identity hero
                 VStack(alignment: .center, spacing: 8) {
-                    ZStack {
-                        MandalaView(rotates: true).frame(width: 190, height: 190).opacity(0.7)
-                        RashiSeal(rashi: k.moonRashi, size: 84)
-                    }
+                    RashiSeal(rashi: k.moonRashi, size: 84)
                     Text(m.name)
                         .scaledFont(size: 30, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
@@ -147,7 +143,6 @@ struct MemberDetailView: View {
         VStack(spacing: 4) {
             Text(label.uppercased())
                 .scaledFont(size: 10, weight: .semibold)
-                .kerning(1)
                 .foregroundStyle(p.inkSecondary)
             Text(value)
                 .scaledFont(size: 16, weight: .semibold, design: .serif)

@@ -10,15 +10,15 @@ struct Palette {
     let saffron, marigold, sindoor, templeGold: Color
     let peepalGreen, lotusPink, nightBlue: Color
 
-    static let prabhat = Palette( // light — auspicious morning
-        bgCanvas: Color(hex: 0xFAF3E3), bgElevated: Color(hex: 0xFFFBF0), bgSunken: Color(hex: 0xF1E6CE),
+    static let prabhat = Palette( // light — plain sacred paper
+        bgCanvas: Color(hex: 0xFCF7ED), bgElevated: Color(hex: 0xFFFDF7), bgSunken: Color(hex: 0xF4ECDD),
         inkPrimary: Color(hex: 0x3B1F14), inkSecondary: Color(hex: 0x7A5C48),
         saffron: Color(hex: 0xE8801A), marigold: Color(hex: 0xF2A93B), sindoor: Color(hex: 0xB9331F),
         templeGold: Color(hex: 0xB8860B), peepalGreen: Color(hex: 0x4F7942),
         lotusPink: Color(hex: 0xD96C8A), nightBlue: Color(hex: 0x27334D))
 
-    static let ratri = Palette( // dark — night lamp
-        bgCanvas: Color(hex: 0x171009), bgElevated: Color(hex: 0x231809), bgSunken: Color(hex: 0x100B06),
+    static let ratri = Palette( // dark — plain night paper
+        bgCanvas: Color(hex: 0x17120C), bgElevated: Color(hex: 0x1F1710), bgSunken: Color(hex: 0x100B06),
         inkPrimary: Color(hex: 0xF4E7CE), inkSecondary: Color(hex: 0xC4A886),
         saffron: Color(hex: 0xF49B3A), marigold: Color(hex: 0xFFC15E), sindoor: Color(hex: 0xE05A41),
         templeGold: Color(hex: 0xD9A93F), peepalGreen: Color(hex: 0x7FA86B),
@@ -42,16 +42,14 @@ extension EnvironmentValues {
     }
 }
 
-// Surface treatment, extreme-minimal edition: a bare soft fill. No borders,
-// no ornament dots, no shadows — whitespace does the separating (docs/01 §v3).
+// Surface treatment, extreme-minimal edition. Kept for call-site compatibility:
+// it intentionally draws no container. Use explicit fills only for structural
+// controls such as text fields, calendar cells, charts, and user chat bubbles.
 struct SacredCard: ViewModifier {
-    @Environment(\.palette) private var p
     var radius: CGFloat = 20
     var tika = false // retained for call-site compatibility; no longer drawn
     func body(content: Content) -> some View {
         content
-            .background(
-                RoundedRectangle(cornerRadius: radius, style: .continuous).fill(p.bgElevated))
     }
 }
 

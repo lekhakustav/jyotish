@@ -38,35 +38,32 @@ struct FamilyView: View {
     /// The auto family tree: user's seal centered, relatives orbiting with gold connectors.
     private var constellation: some View {
         let others = app.family.filter { $0.relation != .selfMember }
-        return ZStack {
-            MandalaView().frame(width: 300, height: 300).opacity(0.5)
-            GeometryReader { geo in
-                let c = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-                let radius: CGFloat = 105
-                // connector lines
-                Path { path in
-                    for i in others.indices {
-                        let a = angle(i, count: others.count)
-                        path.move(to: c)
-                        path.addLine(to: CGPoint(x: c.x + cos(a) * radius, y: c.y + sin(a) * radius))
-                    }
-                }
-                .stroke(p.templeGold.opacity(0.4), lineWidth: 1)
-
-                // center: the user
-                seal(for: app.selfMember, label: app.t("common.you"), size: 66)
-                    .position(c)
-
-                ForEach(Array(others.enumerated()), id: \.element.id) { i, m in
+        return GeometryReader { geo in
+            let c = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
+            let radius: CGFloat = 105
+            // connector lines
+            Path { path in
+                for i in others.indices {
                     let a = angle(i, count: others.count)
-                    NavigationLink(value: m.id) {
-                        seal(for: m, label: m.relation == .selfMember ? m.name : (app.language == .ne ? m.relation.labelNE : m.relation.labelEN), size: 52)
-                    }
-                    .position(x: c.x + cos(a) * radius, y: c.y + sin(a) * radius)
+                    path.move(to: c)
+                    path.addLine(to: CGPoint(x: c.x + cos(a) * radius, y: c.y + sin(a) * radius))
                 }
             }
-            .frame(height: 280)
+            .stroke(p.templeGold.opacity(0.28), lineWidth: 1)
+
+            // center: the user
+            seal(for: app.selfMember, label: app.t("common.you"), size: 66)
+                .position(c)
+
+            ForEach(Array(others.enumerated()), id: \.element.id) { i, m in
+                let a = angle(i, count: others.count)
+                NavigationLink(value: m.id) {
+                    seal(for: m, label: m.relation == .selfMember ? m.name : (app.language == .ne ? m.relation.labelNE : m.relation.labelEN), size: 52)
+                }
+                .position(x: c.x + cos(a) * radius, y: c.y + sin(a) * radius)
+            }
         }
+        .frame(height: 280)
         .frame(maxWidth: .infinity)
         .navigationDestination(for: UUID.self) { id in
             if let m = app.family.first(where: { $0.id == id }) {
