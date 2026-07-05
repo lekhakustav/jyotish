@@ -138,7 +138,7 @@ struct SectionLabel: View {
     var body: some View {
         Text(text.uppercased())
             .scaledFont(size: 12, weight: .medium)
-            .foregroundStyle(p.inkSecondary.opacity(0.75))
+            .foregroundStyle(p.inkSecondary)
     }
 }
 

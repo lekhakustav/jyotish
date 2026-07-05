@@ -14,7 +14,9 @@ struct FamilyView: View {
                         SacredHeader(devanagari: "परिवार", title: app.t("family.title"),
                                      trailing: AnyView(addButton))
                             .padding(.top, 8)
-                        constellation.fadeRise()
+                        if hasRelatives {
+                            constellation.fadeRise()
+                        }
                         memberList.fadeRise(delay: 0.1)
                     }
                     .padding(.bottom, 96)
@@ -23,6 +25,10 @@ struct FamilyView: View {
             .statusBarFade()
             .sheet(isPresented: $showAdd) { AddMemberSheet() }
         }
+    }
+
+    private var hasRelatives: Bool {
+        app.family.contains { $0.relation != .selfMember }
     }
 
     private var addButton: some View {

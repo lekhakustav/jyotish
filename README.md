@@ -22,3 +22,4 @@ xcodebuild -project Jyotish.xcodeproj -scheme Jyotish \
 - [docs/05-ROADMAP.md](docs/05-ROADMAP.md) — build order & status
 - [docs/06-BACKEND-AGENT.md](docs/06-BACKEND-AGENT.md) — OpenAI-backed backend agent contract
 - [docs/07-SUPABASE.md](docs/07-SUPABASE.md) — Supabase auth, RLS, schema, and key handling
+- [docs/08-UI-REVIEW.md](docs/08-UI-REVIEW.md) — page-by-page UI audit and container rubric

@@ -9,7 +9,7 @@ final class AppState: ObservableObject {
     @Published var language: Language = .en
     @Published var theme: ThemeChoice = .system
     @Published var syncStatus: String?
-    /// Transient tab selection — lets Home cards deep-link into their tabs.
+    /// Transient tab selection — lets Home blocks deep-link into their tabs.
     @Published var selectedTab: Int = {
         let args = ProcessInfo.processInfo.arguments
         if let i = args.firstIndex(of: "-tab"), i + 1 < args.count, let n = Int(args[i + 1]) { return n }

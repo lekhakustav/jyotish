@@ -17,7 +17,7 @@ struct WelcomeView: View {
                     .fadeRise(delay: 0.05)
                 Text("Jyotish")
                     .scaledFont(size: 15, weight: .semibold)
-                    .foregroundStyle(p.templeGold)
+                    .foregroundStyle(p.inkSecondary)
                     .padding(.top, 4)
                     .fadeRise(delay: 0.1)
                 Text(app.t("app.tagline"))

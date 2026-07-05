@@ -27,6 +27,19 @@ No card borders, no shadows, no tika dots, no ornament dividers, no section
 descriptions. Ornaments (mandala, diya, seals) survive only as *content*, never as
 decoration-around-content. Every list is bare rows separated by hairlines.
 
+### v4 — PLAIN CANVAS CLARIFICATION (current law)
+The background is a plain warm canvas, not an illustrated or atmospheric scene. Do not
+place screen-scale gradients, mandala watermarks, texture layers, or ornamental washes
+behind normal content. Keep `MandalaView` for the kundali computation ceremony only.
+Every container must pass this test before it is added:
+
+- **Keep:** text fields, segmented controls, calendar day targets, the kundali chart,
+  the user chat bubble, and primary buttons.
+- **Delete:** decorative cards, about/credit blocks, placeholder "coming soon" rows,
+  background ornaments, card wrappers around prose, and extra explanatory text.
+- **Replace:** repeated card rows become bare rows with `Hairline`; section descriptions
+  become stronger headings or disappear.
+
 ### Apple basics (non-negotiable)
 - **Dynamic Type everywhere** via `scaledFont` (never `.font(.system(size:))` for text;
   exception: calendar grid cells, fixed ≥11pt).
@@ -57,9 +70,9 @@ Never use raw hex in views.
 ### Light mode — "Shubha Prabhat" (auspicious morning)
 | Token          | Hex       | Use |
 |----------------|-----------|-----|
-| `bgCanvas`     | `#FAF3E3` | App background — aged handmade paper (Nepali lokta) |
-| `bgElevated`   | `#FFFBF0` | Cards — cream dhaka fabric |
-| `bgSunken`     | `#F1E6CE` | Inset wells, calendar grid |
+| `bgCanvas`     | `#FCF7ED` | App background — plain warm paper |
+| `bgElevated`   | `#FFFDF7` | Structural button/chip/chart fill only |
+| `bgSunken`     | `#F4ECDD` | Text fields, segmented controls, calendar grid |
 | `inkPrimary`   | `#3B1F14` | Body text — burnt umber, never pure black |
 | `inkSecondary` | `#7A5C48` | Captions, secondary |
 | `saffron`      | `#E8801A` | THE brand accent. Primary buttons, active tab, highlights |
@@ -72,7 +85,7 @@ Never use raw hex in views.
 
 ### Dark mode — "Ratri Aarti" (night lamp)
 Backgrounds shift to warm near-black **browns**, never gray/blue-black:
-`bgCanvas #171009`, `bgElevated #221709`→use `#231809`, `bgSunken #100B06`.
+`bgCanvas #17120C`, `bgElevated #1F1710`, `bgSunken #100B06`.
 Ink becomes warm cream `#F4E7CE` / `#C4A886`. Saffron brightens to `#F49B3A`,
 marigold to `#FFC15E`, sindoor to `#E05A41`, gold to `#D9A93F`, green `#7FA86B`,
 pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lamp lit.
@@ -80,8 +93,8 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 ### Rules
 - Exactly **one saturated accent zone per screen region**. Saffron leads; sindoor punctuates.
 - Favorability is **green/gold/nightBlue**, never traffic-light red-green.
-- Gradients allowed only as: (a) diya-glow radial (marigold→clear), (b) dawn linear
-  (saffron→marigold at 15% opacity) on hero headers, (c) gold shimmer on ornaments.
+- Gradients allowed only inside content tokens such as the diya flame and rashi seal.
+  Do not use gradients as screen backgrounds.
 
 ## 3. Typography
 
@@ -96,22 +109,19 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 
 | Element | Spec |
 |---|---|
-| **Mandala** | `Canvas`-drawn: concentric petal rings (8/16/32 petals), 0.75pt `templeGold` strokes at 18–30% opacity. Used as watermark behind heroes, rotating 1°/sec on the kundali screen. |
-| **Sunburst halo** | 24 tapered rays behind the rashi glyph on rashifal cards, marigold 25%. |
+| **Mandala** | `Canvas`-drawn: concentric petal rings (8/16/32 petals), 0.75pt `templeGold` strokes at 18–30% opacity. Reserved for the kundali computation ceremony. |
 | **Diya flame** | Home greeting: small teardrop flame (2 blended ellipses, marigold core + saffron rim) with a gentle 1.6s scale-flicker animation. |
-| **Paisley hairline** | Section dividers: a 1pt gold line interrupted by a small diamond ◆ at center. Component: `OrnamentDivider`. |
-| **Rashi glyphs** | The 12 zodiac Unicode glyphs (♈–♓) set in serif inside a gold-ringed circular seal with radial gradient — treated like a wax seal / temple token. |
+| **Rashi glyphs** | The 12 Devanagari monograms (मे, वृ, मि…) set in serif inside a gold-ringed circular seal — treated like a wax seal / temple token. |
 | **Planet tokens** | Circular chips with the planet's traditional color: Su gold, Mo silver-cream, Ma sindoor, Me green, Ju saffron, Ve lotus pink, Sa nightBlue, Ra smoky brown, Ke smoky gray. |
 | **North-Indian kundali chart** | The classic diamond chart drawn with `Path`: outer square + two diagonals + midpoint diamond, gold strokes on `bgElevated`, house numbers in `inkSecondary`, planet abbreviations placed per house. |
-| **Corner tika** | Cards of highest importance (today's rashifal, today's tithi) get a small sindoor dot ● at top-center — like a tika on a forehead. |
 
 ## 5. Shape, depth, layout
 
-- Corner radius: **20** cards, **14** inner elements, **28** hero panels. Continuous corners.
-- Borders: 1pt `templeGold` at 25% opacity on every card — the "gilded edge". Shadows are
-  warm (`saffron` 8%, radius 14, y 6), never gray.
+- Corner radius is reserved for structural controls: **16** primary buttons, **14** choice
+  controls, **12** text fields/calendar cells. No decorative card radius.
+- Borders and shadows are banned on ordinary content. Use `Hairline` for row separation.
 - Spacing scale: 4/8/12/16/24/32. Screen gutter 20.
-- Tap targets ≥ 48pt. Primary buttons: 56pt height, saffron fill, cream serif label.
+- Tap targets ≥ 48pt. Primary buttons: 56pt height, saffron fill, dark-umber serif label.
 
 ## 6. Motion — "reverent, never busy"
 

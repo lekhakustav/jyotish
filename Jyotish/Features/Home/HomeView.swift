@@ -43,7 +43,7 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 1) {
                 Text(app.t(greetingKey))
                     .scaledFont(size: 14, design: .serif)
-                    .foregroundStyle(p.templeGold)
+                    .foregroundStyle(p.inkSecondary)
                 Text(app.selfMember?.name ?? app.t("common.you"))
                     .scaledFont(size: 28, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
