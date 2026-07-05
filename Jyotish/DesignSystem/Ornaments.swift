@@ -75,23 +75,6 @@ struct FlameShape: Shape {
     }
 }
 
-/// Gold hairline interrupted by a small diamond — the paisley divider.
-struct OrnamentDivider: View {
-    @Environment(\.palette) private var p
-    var body: some View {
-        HStack(spacing: 10) {
-            line
-            Image(systemName: "diamond.fill")
-                .font(.system(size: 6)).foregroundStyle(p.templeGold.opacity(0.6))
-            line
-        }
-        .accessibilityHidden(true)
-    }
-    private var line: some View {
-        Rectangle().fill(p.templeGold.opacity(0.35)).frame(height: 1)
-    }
-}
-
 /// Circular "wax seal" for a rashi glyph, ringed in gold. The app's signature token.
 struct RashiSeal: View {
     @Environment(\.palette) private var p
@@ -110,29 +93,6 @@ struct RashiSeal: View {
                 .foregroundStyle(p.sindoor)
         }
         .frame(width: size, height: size)
-    }
-}
-
-/// 24 tapered sun rays — halo behind rashifal seals.
-struct Sunburst: View {
-    @Environment(\.palette) private var p
-    var body: some View {
-        Canvas { ctx, size in
-            let c = CGPoint(x: size.width / 2, y: size.height / 2)
-            let r = min(size.width, size.height) / 2
-            for i in 0..<24 {
-                let a = Double(i) / 24 * 2 * .pi
-                let inner = r * 0.55, outer = i % 2 == 0 ? r : r * 0.82
-                let w = 0.028
-                var path = Path()
-                path.move(to: CGPoint(x: c.x + cos(a - w) * inner, y: c.y + sin(a - w) * inner))
-                path.addLine(to: CGPoint(x: c.x + cos(a) * outer, y: c.y + sin(a) * outer))
-                path.addLine(to: CGPoint(x: c.x + cos(a + w) * inner, y: c.y + sin(a + w) * inner))
-                path.closeSubpath()
-                ctx.fill(path, with: .color(p.marigold.opacity(0.25)))
-            }
-        }
-        .accessibilityHidden(true)
     }
 }
 
