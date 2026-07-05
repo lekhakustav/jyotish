@@ -25,6 +25,7 @@
 		7953F4E8ADE00171CFD252DE /* RashifalEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36C5B8B4B2381749BF0F88E /* RashifalEngine.swift */; };
 		800E4B5C901EA1D3EB8553DD /* VastuKnowledge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6D62BEE40DC68331B2BAAC /* VastuKnowledge.swift */; };
 		8115908D22258F108C6A9121 /* Panchanga.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6708A30C224E4C16DD41D5 /* Panchanga.swift */; };
+		8A06574DFF26C1299A320485 /* Temple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987D33B98247512D8CCC19C2 /* Temple.swift */; };
 		9A515675446E7C017D3B9CCC /* Dasha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A1DEF7A570615F8F915AD /* Dasha.swift */; };
 		A38B8453A71ED87233B14BD6 /* RashifalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD68A4D028F36F482D9FA402 /* RashifalView.swift */; };
 		A489B76D7C351579A19984D6 /* ProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA021C568E8EF24299EF59 /* ProfileSetupView.swift */; };
@@ -69,6 +70,7 @@
 		7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
 		86D1B04B741F6E03E3BE1F9E /* MemberDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberDetailView.swift; sourceTree = "<group>"; };
 		9777A86C8ACCA10A6FEF6B69 /* PanditBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanditBrain.swift; sourceTree = "<group>"; };
+		987D33B98247512D8CCC19C2 /* Temple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temple.swift; sourceTree = "<group>"; };
 		9AFFE2FD7A849DC61A4D7460 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9B91B9AE858E60348E330F4B /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		A36C5B8B4B2381749BF0F88E /* RashifalEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RashifalEngine.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				52D4CFB496D533A622FAE8A9 /* Models.swift */,
+				987D33B98247512D8CCC19C2 /* Temple.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				B1784E2D79797EFFB7C4532F /* Services.swift in Sources */,
 				4B7C1766D0AEB43508C605D7 /* SettingsView.swift in Sources */,
 				C311C6BFE5D07B045C3C5C69 /* SupabaseService.swift in Sources */,
+				8A06574DFF26C1299A320485 /* Temple.swift in Sources */,
 				4387C6122422FD7B392AC4B2 /* Theme.swift in Sources */,
 				800E4B5C901EA1D3EB8553DD /* VastuKnowledge.swift in Sources */,
 				78A1DAD5E136C29FCF492587 /* VoiceAgent.swift in Sources */,

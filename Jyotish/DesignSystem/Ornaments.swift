@@ -92,136 +92,223 @@ struct RashiIcon: View {
         .accessibilityHidden(true)
     }
 
+    /// Every mark is drawn as the literal creature or object people associate with
+    /// the rashi (a crab for Karkat, a bull for Vrish...) rather than the abstract
+    /// astrological glyph, so the icon reads instantly without a caption.
     private static func path(for rashi: Rashi, in r: CGRect) -> Path {
         var path = Path()
         let x = r.minX, y = r.minY, w = r.width, h = r.height
         switch rashi {
-        case .mesh:
-            path.move(to: CGPoint(x: x + w * 0.5, y: y + h * 0.88))
-            path.addCurve(to: CGPoint(x: x + w * 0.1, y: y + h * 0.14),
-                          control1: CGPoint(x: x + w * 0.45, y: y + h * 0.36),
-                          control2: CGPoint(x: x + w * 0.22, y: y + h * 0.08))
-            path.move(to: CGPoint(x: x + w * 0.5, y: y + h * 0.88))
-            path.addCurve(to: CGPoint(x: x + w * 0.9, y: y + h * 0.14),
-                          control1: CGPoint(x: x + w * 0.55, y: y + h * 0.36),
-                          control2: CGPoint(x: x + w * 0.78, y: y + h * 0.08))
-        case .vrish:
-            path.addEllipse(in: CGRect(x: x + w * 0.28, y: y + h * 0.38, width: w * 0.44, height: h * 0.44))
-            path.move(to: CGPoint(x: x + w * 0.32, y: y + h * 0.44))
-            path.addCurve(to: CGPoint(x: x + w * 0.08, y: y + h * 0.18),
-                          control1: CGPoint(x: x + w * 0.18, y: y + h * 0.38),
-                          control2: CGPoint(x: x + w * 0.08, y: y + h * 0.3))
-            path.move(to: CGPoint(x: x + w * 0.68, y: y + h * 0.44))
-            path.addCurve(to: CGPoint(x: x + w * 0.92, y: y + h * 0.18),
-                          control1: CGPoint(x: x + w * 0.82, y: y + h * 0.38),
-                          control2: CGPoint(x: x + w * 0.92, y: y + h * 0.3))
-        case .mithun:
-            path.move(to: CGPoint(x: x + w * 0.22, y: y + h * 0.2))
-            path.addLine(to: CGPoint(x: x + w * 0.78, y: y + h * 0.2))
-            path.move(to: CGPoint(x: x + w * 0.32, y: y + h * 0.22))
-            path.addLine(to: CGPoint(x: x + w * 0.32, y: y + h * 0.78))
-            path.move(to: CGPoint(x: x + w * 0.68, y: y + h * 0.22))
-            path.addLine(to: CGPoint(x: x + w * 0.68, y: y + h * 0.78))
-            path.move(to: CGPoint(x: x + w * 0.22, y: y + h * 0.8))
-            path.addLine(to: CGPoint(x: x + w * 0.78, y: y + h * 0.8))
-        case .karkat:
-            path.addEllipse(in: CGRect(x: x + w * 0.12, y: y + h * 0.18, width: w * 0.34, height: h * 0.34))
-            path.addEllipse(in: CGRect(x: x + w * 0.54, y: y + h * 0.48, width: w * 0.34, height: h * 0.34))
-            path.move(to: CGPoint(x: x + w * 0.44, y: y + h * 0.35))
-            path.addLine(to: CGPoint(x: x + w * 0.86, y: y + h * 0.35))
-            path.move(to: CGPoint(x: x + w * 0.14, y: y + h * 0.65))
-            path.addLine(to: CGPoint(x: x + w * 0.56, y: y + h * 0.65))
-        case .simha:
-            path.move(to: CGPoint(x: x + w * 0.28, y: y + h * 0.68))
-            path.addCurve(to: CGPoint(x: x + w * 0.42, y: y + h * 0.2),
-                          control1: CGPoint(x: x + w * 0.1, y: y + h * 0.48),
-                          control2: CGPoint(x: x + w * 0.2, y: y + h * 0.18))
-            path.addCurve(to: CGPoint(x: x + w * 0.66, y: y + h * 0.52),
-                          control1: CGPoint(x: x + w * 0.76, y: y + h * 0.2),
-                          control2: CGPoint(x: x + w * 0.66, y: y + h * 0.44))
-            path.addCurve(to: CGPoint(x: x + w * 0.9, y: y + h * 0.74),
-                          control1: CGPoint(x: x + w * 0.66, y: y + h * 0.72),
-                          control2: CGPoint(x: x + w * 0.84, y: y + h * 0.78))
-        case .kanya:
-            path.move(to: CGPoint(x: x + w * 0.12, y: y + h * 0.72))
-            path.addCurve(to: CGPoint(x: x + w * 0.28, y: y + h * 0.28),
-                          control1: CGPoint(x: x + w * 0.16, y: y + h * 0.44),
-                          control2: CGPoint(x: x + w * 0.2, y: y + h * 0.28))
-            path.addCurve(to: CGPoint(x: x + w * 0.44, y: y + h * 0.72),
-                          control1: CGPoint(x: x + w * 0.38, y: y + h * 0.28),
-                          control2: CGPoint(x: x + w * 0.36, y: y + h * 0.6))
-            path.addCurve(to: CGPoint(x: x + w * 0.62, y: y + h * 0.28),
-                          control1: CGPoint(x: x + w * 0.5, y: y + h * 0.5),
-                          control2: CGPoint(x: x + w * 0.52, y: y + h * 0.28))
-            path.addCurve(to: CGPoint(x: x + w * 0.82, y: y + h * 0.74),
-                          control1: CGPoint(x: x + w * 0.72, y: y + h * 0.28),
-                          control2: CGPoint(x: x + w * 0.72, y: y + h * 0.72))
-            path.addCurve(to: CGPoint(x: x + w * 0.58, y: y + h * 0.78),
-                          control1: CGPoint(x: x + w * 0.76, y: y + h * 0.96),
-                          control2: CGPoint(x: x + w * 0.58, y: y + h * 0.92))
-        case .tula:
-            path.move(to: CGPoint(x: x + w * 0.14, y: y + h * 0.72))
-            path.addLine(to: CGPoint(x: x + w * 0.86, y: y + h * 0.72))
-            path.move(to: CGPoint(x: x + w * 0.2, y: y + h * 0.56))
-            path.addLine(to: CGPoint(x: x + w * 0.38, y: y + h * 0.56))
-            path.addCurve(to: CGPoint(x: x + w * 0.62, y: y + h * 0.56),
-                          control1: CGPoint(x: x + w * 0.38, y: y + h * 0.26),
-                          control2: CGPoint(x: x + w * 0.62, y: y + h * 0.26))
-            path.addLine(to: CGPoint(x: x + w * 0.8, y: y + h * 0.56))
-        case .vrischik:
-            path.move(to: CGPoint(x: x + w * 0.1, y: y + h * 0.72))
-            path.addCurve(to: CGPoint(x: x + w * 0.28, y: y + h * 0.28),
-                          control1: CGPoint(x: x + w * 0.14, y: y + h * 0.44),
-                          control2: CGPoint(x: x + w * 0.2, y: y + h * 0.28))
-            path.addCurve(to: CGPoint(x: x + w * 0.46, y: y + h * 0.72),
-                          control1: CGPoint(x: x + w * 0.38, y: y + h * 0.28),
-                          control2: CGPoint(x: x + w * 0.38, y: y + h * 0.6))
-            path.addCurve(to: CGPoint(x: x + w * 0.64, y: y + h * 0.28),
-                          control1: CGPoint(x: x + w * 0.52, y: y + h * 0.5),
-                          control2: CGPoint(x: x + w * 0.54, y: y + h * 0.28))
-            path.addLine(to: CGPoint(x: x + w * 0.64, y: y + h * 0.72))
-            path.addLine(to: CGPoint(x: x + w * 0.88, y: y + h * 0.72))
-            path.move(to: CGPoint(x: x + w * 0.78, y: y + h * 0.62))
-            path.addLine(to: CGPoint(x: x + w * 0.88, y: y + h * 0.72))
-            path.addLine(to: CGPoint(x: x + w * 0.78, y: y + h * 0.82))
-        case .dhanu:
-            path.move(to: CGPoint(x: x + w * 0.2, y: y + h * 0.8))
-            path.addLine(to: CGPoint(x: x + w * 0.82, y: y + h * 0.18))
-            path.move(to: CGPoint(x: x + w * 0.54, y: y + h * 0.18))
-            path.addLine(to: CGPoint(x: x + w * 0.82, y: y + h * 0.18))
-            path.addLine(to: CGPoint(x: x + w * 0.82, y: y + h * 0.46))
-            path.move(to: CGPoint(x: x + w * 0.36, y: y + h * 0.48))
-            path.addLine(to: CGPoint(x: x + w * 0.54, y: y + h * 0.66))
-        case .makar:
-            path.move(to: CGPoint(x: x + w * 0.14, y: y + h * 0.3))
-            path.addLine(to: CGPoint(x: x + w * 0.36, y: y + h * 0.72))
-            path.addLine(to: CGPoint(x: x + w * 0.52, y: y + h * 0.34))
-            path.addCurve(to: CGPoint(x: x + w * 0.82, y: y + h * 0.68),
-                          control1: CGPoint(x: x + w * 0.72, y: y + h * 0.14),
-                          control2: CGPoint(x: x + w * 0.96, y: y + h * 0.46))
-            path.addCurve(to: CGPoint(x: x + w * 0.56, y: y + h * 0.76),
-                          control1: CGPoint(x: x + w * 0.72, y: y + h * 0.86),
-                          control2: CGPoint(x: x + w * 0.58, y: y + h * 0.86))
-        case .kumbha:
-            path.move(to: CGPoint(x: x + w * 0.12, y: y + h * 0.38))
-            path.addCurve(to: CGPoint(x: x + w * 0.88, y: y + h * 0.38),
-                          control1: CGPoint(x: x + w * 0.32, y: y + h * 0.18),
-                          control2: CGPoint(x: x + w * 0.68, y: y + h * 0.58))
-            path.move(to: CGPoint(x: x + w * 0.12, y: y + h * 0.66))
-            path.addCurve(to: CGPoint(x: x + w * 0.88, y: y + h * 0.66),
-                          control1: CGPoint(x: x + w * 0.32, y: y + h * 0.46),
-                          control2: CGPoint(x: x + w * 0.68, y: y + h * 0.86))
-        case .meen:
+        case .mesh: // Ram: curled horns over a rounded muzzle
+            path.move(to: CGPoint(x: x + w * 0.5, y: y + h * 0.32))
+            path.addCurve(to: CGPoint(x: x + w * 0.13, y: y + h * 0.12),
+                          control1: CGPoint(x: x + w * 0.3, y: y + h * 0.06),
+                          control2: CGPoint(x: x + w * 0.04, y: y + h * 0.02))
+            path.addCurve(to: CGPoint(x: x + w * 0.3, y: y + h * 0.36),
+                          control1: CGPoint(x: x + w * 0.2, y: y + h * 0.26),
+                          control2: CGPoint(x: x + w * 0.14, y: y + h * 0.36))
+            path.move(to: CGPoint(x: x + w * 0.5, y: y + h * 0.32))
+            path.addCurve(to: CGPoint(x: x + w * 0.87, y: y + h * 0.12),
+                          control1: CGPoint(x: x + w * 0.7, y: y + h * 0.06),
+                          control2: CGPoint(x: x + w * 0.96, y: y + h * 0.02))
+            path.addCurve(to: CGPoint(x: x + w * 0.7, y: y + h * 0.36),
+                          control1: CGPoint(x: x + w * 0.8, y: y + h * 0.26),
+                          control2: CGPoint(x: x + w * 0.86, y: y + h * 0.36))
+            path.move(to: CGPoint(x: x + w * 0.3, y: y + h * 0.38))
+            path.addCurve(to: CGPoint(x: x + w * 0.5, y: y + h * 0.88),
+                          control1: CGPoint(x: x + w * 0.3, y: y + h * 0.64),
+                          control2: CGPoint(x: x + w * 0.36, y: y + h * 0.88))
+            path.addCurve(to: CGPoint(x: x + w * 0.7, y: y + h * 0.38),
+                          control1: CGPoint(x: x + w * 0.64, y: y + h * 0.88),
+                          control2: CGPoint(x: x + w * 0.7, y: y + h * 0.64))
+        case .vrish: // Bull: curved horns over a head with a nose ring
+            path.move(to: CGPoint(x: x + w * 0.5, y: y + h * 0.42))
+            path.addCurve(to: CGPoint(x: x + w * 0.05, y: y + h * 0.16),
+                          control1: CGPoint(x: x + w * 0.28, y: y + h * 0.3),
+                          control2: CGPoint(x: x + w * 0.1, y: y + h * 0.32))
+            path.move(to: CGPoint(x: x + w * 0.5, y: y + h * 0.42))
+            path.addCurve(to: CGPoint(x: x + w * 0.95, y: y + h * 0.16),
+                          control1: CGPoint(x: x + w * 0.72, y: y + h * 0.3),
+                          control2: CGPoint(x: x + w * 0.9, y: y + h * 0.32))
+            path.addRoundedRect(in: CGRect(x: x + w * 0.28, y: y + h * 0.4, width: w * 0.44, height: h * 0.42),
+                                cornerSize: CGSize(width: w * 0.12, height: w * 0.12))
+            path.addEllipse(in: CGRect(x: x + w * 0.41, y: y + h * 0.72, width: w * 0.18, height: h * 0.14))
+        case .mithun: // Twins: two figures standing side by side
+            for dx: CGFloat in [0, 0.46] {
+                path.addEllipse(in: CGRect(x: x + w * (0.19 + dx), y: y + h * 0.12, width: w * 0.17, height: w * 0.17))
+                path.move(to: CGPoint(x: x + w * (0.275 + dx), y: y + h * 0.31))
+                path.addLine(to: CGPoint(x: x + w * (0.275 + dx), y: y + h * 0.8))
+                path.move(to: CGPoint(x: x + w * (0.13 + dx), y: y + h * 0.48))
+                path.addLine(to: CGPoint(x: x + w * (0.42 + dx), y: y + h * 0.48))
+                path.move(to: CGPoint(x: x + w * (0.275 + dx), y: y + h * 0.8))
+                path.addLine(to: CGPoint(x: x + w * (0.15 + dx), y: y + h * 0.94))
+                path.move(to: CGPoint(x: x + w * (0.275 + dx), y: y + h * 0.8))
+                path.addLine(to: CGPoint(x: x + w * (0.4 + dx), y: y + h * 0.94))
+            }
+        case .karkat: // Crab: oval body, two pincers, three legs a side
+            path.addEllipse(in: CGRect(x: x + w * 0.27, y: y + h * 0.4, width: w * 0.46, height: h * 0.32))
+            path.move(to: CGPoint(x: x + w * 0.32, y: y + h * 0.46))
+            path.addCurve(to: CGPoint(x: x + w * 0.07, y: y + h * 0.2),
+                          control1: CGPoint(x: x + w * 0.2, y: y + h * 0.42),
+                          control2: CGPoint(x: x + w * 0.11, y: y + h * 0.32))
+            path.addCurve(to: CGPoint(x: x + w * 0.2, y: y + h * 0.3),
+                          control1: CGPoint(x: x + w * 0.02, y: y + h * 0.12),
+                          control2: CGPoint(x: x + w * 0.11, y: y + h * 0.22))
+            path.move(to: CGPoint(x: x + w * 0.68, y: y + h * 0.46))
+            path.addCurve(to: CGPoint(x: x + w * 0.93, y: y + h * 0.2),
+                          control1: CGPoint(x: x + w * 0.8, y: y + h * 0.42),
+                          control2: CGPoint(x: x + w * 0.89, y: y + h * 0.32))
+            path.addCurve(to: CGPoint(x: x + w * 0.8, y: y + h * 0.3),
+                          control1: CGPoint(x: x + w * 0.98, y: y + h * 0.12),
+                          control2: CGPoint(x: x + w * 0.89, y: y + h * 0.22))
+            for i in 0..<3 {
+                let t = CGFloat(i)
+                path.move(to: CGPoint(x: x + w * (0.34 + 0.04 * t), y: y + h * 0.64))
+                path.addLine(to: CGPoint(x: x + w * (0.2 - 0.06 * t), y: y + h * (0.78 + 0.04 * t)))
+                path.move(to: CGPoint(x: x + w * (0.66 - 0.04 * t), y: y + h * 0.64))
+                path.addLine(to: CGPoint(x: x + w * (0.8 + 0.06 * t), y: y + h * (0.78 + 0.04 * t)))
+            }
+        case .simha: // Lion: face ringed by a spiky mane
+            path.addEllipse(in: CGRect(x: x + w * 0.33, y: y + h * 0.33, width: w * 0.34, height: h * 0.34))
+            let maneCount = 12
+            for i in 0..<maneCount {
+                let angle = Double(i) / Double(maneCount) * 2 * .pi
+                let ix = x + w * (0.5 + 0.2 * CGFloat(cos(angle)))
+                let iy = y + h * (0.5 + 0.2 * CGFloat(sin(angle)))
+                let ox = x + w * (0.5 + 0.34 * CGFloat(cos(angle)))
+                let oy = y + h * (0.5 + 0.34 * CGFloat(sin(angle)))
+                path.move(to: CGPoint(x: ix, y: iy))
+                path.addLine(to: CGPoint(x: ox, y: oy))
+            }
+        case .kanya: // Maiden in a skirt, arm reaching out with a stalk of wheat
+            path.addEllipse(in: CGRect(x: x + w * 0.42, y: y + h * 0.1, width: w * 0.16, height: w * 0.16))
+            path.move(to: CGPoint(x: x + w * 0.5, y: y + h * 0.26))
+            path.addLine(to: CGPoint(x: x + w * 0.5, y: y + h * 0.35))
+            path.move(to: CGPoint(x: x + w * 0.38, y: y + h * 0.37))
+            path.addCurve(to: CGPoint(x: x + w * 0.24, y: y + h * 0.86),
+                          control1: CGPoint(x: x + w * 0.3, y: y + h * 0.5),
+                          control2: CGPoint(x: x + w * 0.22, y: y + h * 0.68))
+            path.addLine(to: CGPoint(x: x + w * 0.76, y: y + h * 0.86))
+            path.addCurve(to: CGPoint(x: x + w * 0.62, y: y + h * 0.37),
+                          control1: CGPoint(x: x + w * 0.78, y: y + h * 0.68),
+                          control2: CGPoint(x: x + w * 0.7, y: y + h * 0.5))
+            path.closeSubpath()
+            path.move(to: CGPoint(x: x + w * 0.6, y: y + h * 0.44))
+            path.addLine(to: CGPoint(x: x + w * 0.86, y: y + h * 0.28))
+            for i in 0..<3 {
+                let t = CGFloat(i) * 0.1
+                path.move(to: CGPoint(x: x + w * (0.7 + t), y: y + h * (0.4 - t * 1.3)))
+                path.addLine(to: CGPoint(x: x + w * (0.78 + t), y: y + h * (0.34 - t * 1.3)))
+            }
+        case .tula: // Balance scale
+            path.move(to: CGPoint(x: x + w * 0.5, y: y + h * 0.18))
+            path.addLine(to: CGPoint(x: x + w * 0.5, y: y + h * 0.82))
+            path.move(to: CGPoint(x: x + w * 0.3, y: y + h * 0.82))
+            path.addLine(to: CGPoint(x: x + w * 0.7, y: y + h * 0.82))
+            path.move(to: CGPoint(x: x + w * 0.14, y: y + h * 0.32))
+            path.addLine(to: CGPoint(x: x + w * 0.86, y: y + h * 0.32))
+            path.move(to: CGPoint(x: x + w * 0.06, y: y + h * 0.32))
+            path.addLine(to: CGPoint(x: x + w * 0.24, y: y + h * 0.32))
+            path.move(to: CGPoint(x: x + w * 0.06, y: y + h * 0.32))
+            path.addCurve(to: CGPoint(x: x + w * 0.24, y: y + h * 0.32),
+                          control1: CGPoint(x: x + w * 0.08, y: y + h * 0.5),
+                          control2: CGPoint(x: x + w * 0.22, y: y + h * 0.5))
+            path.move(to: CGPoint(x: x + w * 0.76, y: y + h * 0.32))
+            path.addLine(to: CGPoint(x: x + w * 0.94, y: y + h * 0.32))
+            path.move(to: CGPoint(x: x + w * 0.76, y: y + h * 0.32))
+            path.addCurve(to: CGPoint(x: x + w * 0.94, y: y + h * 0.32),
+                          control1: CGPoint(x: x + w * 0.78, y: y + h * 0.5),
+                          control2: CGPoint(x: x + w * 0.92, y: y + h * 0.5))
+        case .vrischik: // Scorpion: pincers, segmented body, curled tail with a stinger
+            path.move(to: CGPoint(x: x + w * 0.18, y: y + h * 0.32))
+            path.addCurve(to: CGPoint(x: x + w * 0.06, y: y + h * 0.14),
+                          control1: CGPoint(x: x + w * 0.12, y: y + h * 0.26),
+                          control2: CGPoint(x: x + w * 0.06, y: y + h * 0.2))
+            path.move(to: CGPoint(x: x + w * 0.32, y: y + h * 0.32))
+            path.addCurve(to: CGPoint(x: x + w * 0.24, y: y + h * 0.1),
+                          control1: CGPoint(x: x + w * 0.28, y: y + h * 0.24),
+                          control2: CGPoint(x: x + w * 0.24, y: y + h * 0.18))
+            path.move(to: CGPoint(x: x + w * 0.18, y: y + h * 0.32))
+            path.addLine(to: CGPoint(x: x + w * 0.48, y: y + h * 0.52))
+            path.addCurve(to: CGPoint(x: x + w * 0.85, y: y + h * 0.38),
+                          control1: CGPoint(x: x + w * 0.68, y: y + h * 0.62),
+                          control2: CGPoint(x: x + w * 0.9, y: y + h * 0.58))
+            path.addCurve(to: CGPoint(x: x + w * 0.68, y: y + h * 0.18),
+                          control1: CGPoint(x: x + w * 0.8, y: y + h * 0.18),
+                          control2: CGPoint(x: x + w * 0.72, y: y + h * 0.1))
+            path.move(to: CGPoint(x: x + w * 0.68, y: y + h * 0.18))
+            path.addLine(to: CGPoint(x: x + w * 0.8, y: y + h * 0.1))
+        case .dhanu: // Archer: drawn bow, nocked arrow
+            path.move(to: CGPoint(x: x + w * 0.22, y: y + h * 0.14))
+            path.addCurve(to: CGPoint(x: x + w * 0.22, y: y + h * 0.86),
+                          control1: CGPoint(x: x + w * 0.64, y: y + h * 0.3),
+                          control2: CGPoint(x: x + w * 0.64, y: y + h * 0.7))
+            path.move(to: CGPoint(x: x + w * 0.22, y: y + h * 0.14))
+            path.addLine(to: CGPoint(x: x + w * 0.22, y: y + h * 0.86))
+            path.move(to: CGPoint(x: x + w * 0.16, y: y + h * 0.5))
+            path.addLine(to: CGPoint(x: x + w * 0.9, y: y + h * 0.5))
+            path.move(to: CGPoint(x: x + w * 0.9, y: y + h * 0.5))
+            path.addLine(to: CGPoint(x: x + w * 0.74, y: y + h * 0.38))
+            path.move(to: CGPoint(x: x + w * 0.9, y: y + h * 0.5))
+            path.addLine(to: CGPoint(x: x + w * 0.74, y: y + h * 0.62))
+        case .makar: // Sea-goat: horned head flowing into a curled fish tail
             path.move(to: CGPoint(x: x + w * 0.24, y: y + h * 0.18))
-            path.addCurve(to: CGPoint(x: x + w * 0.24, y: y + h * 0.82),
-                          control1: CGPoint(x: x + w * 0.48, y: y + h * 0.34),
-                          control2: CGPoint(x: x + w * 0.48, y: y + h * 0.66))
-            path.move(to: CGPoint(x: x + w * 0.76, y: y + h * 0.18))
-            path.addCurve(to: CGPoint(x: x + w * 0.76, y: y + h * 0.82),
-                          control1: CGPoint(x: x + w * 0.52, y: y + h * 0.34),
-                          control2: CGPoint(x: x + w * 0.52, y: y + h * 0.66))
-            path.move(to: CGPoint(x: x + w * 0.2, y: y + h * 0.5))
-            path.addLine(to: CGPoint(x: x + w * 0.8, y: y + h * 0.5))
+            path.addCurve(to: CGPoint(x: x + w * 0.09, y: y + h * 0.15),
+                          control1: CGPoint(x: x + w * 0.16, y: y + h * 0.09),
+                          control2: CGPoint(x: x + w * 0.07, y: y + h * 0.11))
+            path.move(to: CGPoint(x: x + w * 0.24, y: y + h * 0.18))
+            path.addLine(to: CGPoint(x: x + w * 0.36, y: y + h * 0.42))
+            path.addLine(to: CGPoint(x: x + w * 0.19, y: y + h * 0.42))
+            path.move(to: CGPoint(x: x + w * 0.36, y: y + h * 0.42))
+            path.addCurve(to: CGPoint(x: x + w * 0.74, y: y + h * 0.58),
+                          control1: CGPoint(x: x + w * 0.52, y: y + h * 0.44),
+                          control2: CGPoint(x: x + w * 0.62, y: y + h * 0.48))
+            path.addCurve(to: CGPoint(x: x + w * 0.8, y: y + h * 0.84),
+                          control1: CGPoint(x: x + w * 0.92, y: y + h * 0.66),
+                          control2: CGPoint(x: x + w * 0.96, y: y + h * 0.8))
+            path.addCurve(to: CGPoint(x: x + w * 0.58, y: y + h * 0.74),
+                          control1: CGPoint(x: x + w * 0.68, y: y + h * 0.86),
+                          control2: CGPoint(x: x + w * 0.6, y: y + h * 0.8))
+        case .kumbha: // Water bearer: jug pouring two wavy streams
+            path.move(to: CGPoint(x: x + w * 0.36, y: y + h * 0.12))
+            path.addLine(to: CGPoint(x: x + w * 0.32, y: y + h * 0.26))
+            path.addCurve(to: CGPoint(x: x + w * 0.5, y: y + h * 0.38),
+                          control1: CGPoint(x: x + w * 0.28, y: y + h * 0.34),
+                          control2: CGPoint(x: x + w * 0.38, y: y + h * 0.38))
+            path.addCurve(to: CGPoint(x: x + w * 0.6, y: y + h * 0.22),
+                          control1: CGPoint(x: x + w * 0.62, y: y + h * 0.38),
+                          control2: CGPoint(x: x + w * 0.62, y: y + h * 0.28))
+            path.addLine(to: CGPoint(x: x + w * 0.56, y: y + h * 0.12))
+            path.closeSubpath()
+            path.move(to: CGPoint(x: x + w * 0.12, y: y + h * 0.58))
+            path.addCurve(to: CGPoint(x: x + w * 0.88, y: y + h * 0.58),
+                          control1: CGPoint(x: x + w * 0.32, y: y + h * 0.44),
+                          control2: CGPoint(x: x + w * 0.68, y: y + h * 0.72))
+            path.move(to: CGPoint(x: x + w * 0.12, y: y + h * 0.8))
+            path.addCurve(to: CGPoint(x: x + w * 0.88, y: y + h * 0.8),
+                          control1: CGPoint(x: x + w * 0.32, y: y + h * 0.66),
+                          control2: CGPoint(x: x + w * 0.68, y: y + h * 0.94))
+        case .meen: // Two fish tied together, swimming opposite ways
+            path.move(to: CGPoint(x: x + w * 0.13, y: y + h * 0.3))
+            path.addCurve(to: CGPoint(x: x + w * 0.5, y: y + h * 0.46),
+                          control1: CGPoint(x: x + w * 0.3, y: y + h * 0.16),
+                          control2: CGPoint(x: x + w * 0.42, y: y + h * 0.3))
+            path.addCurve(to: CGPoint(x: x + w * 0.13, y: y + h * 0.58),
+                          control1: CGPoint(x: x + w * 0.42, y: y + h * 0.58),
+                          control2: CGPoint(x: x + w * 0.28, y: y + h * 0.68))
+            path.move(to: CGPoint(x: x + w * 0.13, y: y + h * 0.3))
+            path.addLine(to: CGPoint(x: x + w * 0.03, y: y + h * 0.44))
+            path.addLine(to: CGPoint(x: x + w * 0.13, y: y + h * 0.58))
+            path.move(to: CGPoint(x: x + w * 0.87, y: y + h * 0.42))
+            path.addCurve(to: CGPoint(x: x + w * 0.5, y: y + h * 0.58),
+                          control1: CGPoint(x: x + w * 0.7, y: y + h * 0.56),
+                          control2: CGPoint(x: x + w * 0.58, y: y + h * 0.42))
+            path.addCurve(to: CGPoint(x: x + w * 0.87, y: y + h * 0.7),
+                          control1: CGPoint(x: x + w * 0.58, y: y + h * 0.7),
+                          control2: CGPoint(x: x + w * 0.72, y: y + h * 0.8))
+            path.move(to: CGPoint(x: x + w * 0.87, y: y + h * 0.42))
+            path.addLine(to: CGPoint(x: x + w * 0.97, y: y + h * 0.56))
+            path.addLine(to: CGPoint(x: x + w * 0.87, y: y + h * 0.7))
         }
         return path
     }

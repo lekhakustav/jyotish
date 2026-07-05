@@ -167,22 +167,23 @@ struct DiyaScore: View {
     }
 }
 
+/// Classic 5-point star, one continuous outline so it always fills as a single
+/// solid piece (the old two-triangle hexagram left a hollow gap in the middle).
 struct YantraStar: Shape {
     func path(in rect: CGRect) -> Path {
-        let top = CGPoint(x: rect.midX, y: rect.minY)
-        let left = CGPoint(x: rect.minX, y: rect.maxY * 0.78)
-        let right = CGPoint(x: rect.maxX, y: rect.maxY * 0.78)
-        let bottom = CGPoint(x: rect.midX, y: rect.maxY)
-        let leftTop = CGPoint(x: rect.minX, y: rect.maxY * 0.22)
-        let rightTop = CGPoint(x: rect.maxX, y: rect.maxY * 0.22)
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        let outerR = min(rect.width, rect.height) / 2
+        let innerR = outerR * 0.382
+        var points: [CGPoint] = []
+        for i in 0..<10 {
+            let angle = (Double(i) * .pi / 5) - .pi / 2
+            let radius = i % 2 == 0 ? outerR : innerR
+            points.append(CGPoint(x: center.x + CGFloat(cos(angle)) * radius,
+                                   y: center.y + CGFloat(sin(angle)) * radius))
+        }
         var path = Path()
-        path.move(to: top)
-        path.addLine(to: left)
-        path.addLine(to: right)
-        path.closeSubpath()
-        path.move(to: bottom)
-        path.addLine(to: leftTop)
-        path.addLine(to: rightTop)
+        path.move(to: points[0])
+        for p in points.dropFirst() { path.addLine(to: p) }
         path.closeSubpath()
         return path
     }

@@ -234,21 +234,46 @@ struct BirthFlowView: View {
         }
     }
 
+    private var relationSections: [(titleKey: String, relations: [Relation])] {
+        [
+            ("flow.relation.immediate", [.husband, .wife, .son, .daughter, .father, .mother,
+                                          .brother, .sister, .grandfather, .grandmother,
+                                          .grandson, .granddaughter]),
+            ("flow.relation.paternal", [.kaka, .kaki, .thuloBaa, .thuloAma, .phupu, .phupaju]),
+            ("flow.relation.maternal", [.mama, .maiju, .saniAma, .thuliAma]),
+            ("flow.relation.inlaws", [.sasura, .sasu, .jethaju, .devar, .jethani, .devrani,
+                                       .nanad, .saala, .saali, .bhinaju, .bhauju, .buhari, .jwaai]),
+            ("flow.relation.extended", [.bhatija, .bhatiji, .bhanja, .bhanji, .cousin]),
+        ]
+    }
+
     private var relationGrid: some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible())], spacing: 10) {
-                ForEach(Relation.allCases.filter { $0 != .selfMember }) { r in
-                    Button { Haptics.tap(); relation = r } label: {
-                        Text(ne ? r.labelNE : r.labelEN)
-                            .scaledFont(size: 16, weight: relation == r ? .semibold : .regular, design: .serif)
-                            .foregroundStyle(relation == r ? p.sindoor : p.inkPrimary)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 52)
-                            .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                .fill(relation == r ? p.marigold.opacity(0.16) : .clear))
+            VStack(alignment: .leading, spacing: 20) {
+                ForEach(relationSections, id: \.titleKey) { section in
+                    VStack(alignment: .leading, spacing: 10) {
+                        SectionLabel(text: app.t(section.titleKey))
+                        LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible())], spacing: 10) {
+                            ForEach(section.relations) { r in
+                                Button { Haptics.tap(); relation = r } label: {
+                                    Text(ne ? r.labelNE : r.labelEN)
+                                        .scaledFont(size: 15, weight: relation == r ? .semibold : .regular, design: .serif)
+                                        .foregroundStyle(relation == r ? p.sindoor : p.inkPrimary)
+                                        .lineLimit(2)
+                                        .minimumScaleFactor(0.75)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.horizontal, 6)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 56)
+                                        .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                            .fill(relation == r ? p.marigold.opacity(0.16) : .clear))
+                                }
+                            }
+                        }
                     }
                 }
             }
+            .padding(.bottom, 8)
         }
         .scrollIndicators(.hidden)
     }

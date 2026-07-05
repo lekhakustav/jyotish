@@ -6,8 +6,10 @@ struct HomeView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @State private var showSettings = false
+    @State private var showTemple = false
 
     private var ne: Bool { app.language == .ne }
+    private let temple = Temple.ofToday()
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -15,10 +17,11 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 36) {
                     header.fadeRise()
-                    tithiHero.fadeRise(delay: 0.05)
-                    rashifalBlock.fadeRise(delay: 0.1)
-                    if hasRelatives { familyRow.fadeRise(delay: 0.15) }
-                    if hasUpcoming { upcoming.fadeRise(delay: 0.2) }
+                    rashifalBlock.fadeRise(delay: 0.05)
+                    templeOfDay.fadeRise(delay: 0.1)
+                    tithiHero.fadeRise(delay: 0.15)
+                    if hasRelatives { familyRow.fadeRise(delay: 0.2) }
+                    if hasUpcoming { upcoming.fadeRise(delay: 0.25) }
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 112)
@@ -27,12 +30,17 @@ struct HomeView: View {
                 Haptics.tap()
                 app.open(.pandit)
             } label: {
-                Image(systemName: "bubble.left.and.bubble.right.fill")
-                    .scaledFont(size: 22, weight: .medium)
-                    .foregroundStyle(Color(hex: 0x3B1F14))
-                    .frame(width: 60, height: 60)
-                    .background(Circle().fill(p.saffron))
-                    .shadow(color: p.saffron.opacity(0.22), radius: 12, y: 5)
+                HStack(spacing: 8) {
+                    Image(systemName: "bubble.left.and.bubble.right.fill")
+                        .scaledFont(size: 21, weight: .medium)
+                    Text(app.t("home.chat"))
+                        .scaledFont(size: 15, weight: .semibold, design: .serif)
+                }
+                .foregroundStyle(Color(hex: 0x3B1F14))
+                .padding(.horizontal, 20)
+                .frame(height: 64)
+                .background(Capsule().fill(p.saffron))
+                .shadow(color: p.saffron.opacity(0.22), radius: 12, y: 5)
             }
             .accessibilityLabel(app.t("home.askPandit"))
             .padding(.trailing, 22)
@@ -41,6 +49,7 @@ struct HomeView: View {
         .statusBarFade()
         .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showSettings) { SettingsView() }
+        .sheet(isPresented: $showTemple) { TempleDetailSheet(temple: temple) }
     }
 
     private var header: some View {
@@ -77,7 +86,8 @@ struct HomeView: View {
         return "greet.night"
     }
 
-    /// The BS date as pure typography — the whole block opens the Patro.
+    /// The BS date, now a quiet secondary line — the horoscope is the hero
+    /// people open the app for (docs ask). Whole block still opens the Patro.
     private var tithiHero: some View {
         let bs = BikramSambat.today()
         let pan = Panchanga.forDay(Date())
@@ -85,28 +95,21 @@ struct HomeView: View {
             Haptics.tap()
             app.open(.patro)
         } label: {
-            VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text("\(app.digits(bs.day)) \(bs.monthName(ne: ne))")
-                    .scaledFont(size: 44, weight: .bold, design: .serif)
+                    .scaledFont(size: 20, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
-                HStack(spacing: 7) {
-                    Text(pan.tithiName(ne: ne))
-                    Text("·")
-                    Text(pan.pakshaName(ne: ne))
-                    Text("·")
-                    Text(ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)
-                }
-                .scaledFont(size: 13, weight: .medium, design: .serif)
-                .foregroundStyle(p.inkSecondary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.75)
-
-                HStack(spacing: 8) {
-                    Text(app.t("home.openPatro"))
-                    Image(systemName: "chevron.right")
-                }
-                .scaledFont(size: 18, weight: .bold, design: .serif)
-                .foregroundStyle(p.saffron)
+                Text("·")
+                    .foregroundStyle(p.inkSecondary)
+                Text("\(pan.tithiName(ne: ne)) · \(pan.pakshaName(ne: ne))")
+                    .scaledFont(size: 14, weight: .medium, design: .serif)
+                    .foregroundStyle(p.inkSecondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .scaledFont(size: 13, weight: .semibold)
+                    .foregroundStyle(p.saffron)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
@@ -114,32 +117,34 @@ struct HomeView: View {
         .buttonStyle(SpringPressStyle())
     }
 
-    /// Personal rashifal, flat: rashi mark + two lines + the dasha in one quiet line.
+    /// Personal rashifal is the reason most people open the app, so it leads
+    /// the page: rashi mark, a hook line that pulls you into the full reading,
+    /// then the dasha in one quiet line.
     private var rashifalBlock: some View {
         Group {
             if let k = app.selfMember?.kundali {
                 let r = RashifalEngine.generate(rashi: k.moonRashi, period: .daily, date: Date(), lang: app.language)
                 Button { app.open(.rashifal) } label: {
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack(spacing: 12) {
-                            RashiIcon(rashi: k.moonRashi, size: 44)
+                    VStack(alignment: .leading, spacing: 14) {
+                        HStack(spacing: 14) {
+                            RashiIcon(rashi: k.moonRashi, size: 52)
                             Text(ne ? k.moonRashi.nameNE : k.moonRashi.shortEN)
-                                .scaledFont(size: 21, weight: .semibold, design: .serif)
+                                .scaledFont(size: 30, weight: .bold, design: .serif)
                                 .foregroundStyle(p.inkPrimary)
                             Spacer()
                             DiyaScore(score: r.scores.values.reduce(0, +) / max(1, r.scores.count))
                         }
-                        Text(r.text)
-                            .scaledFont(size: 16, design: .serif)
-                            .foregroundStyle(p.inkPrimary.opacity(0.88))
-                            .lineSpacing(4)
-                            .lineLimit(2)
+                        Text(hookLine(from: r.text))
+                            .scaledFont(size: 18, weight: .medium, design: .serif)
+                            .foregroundStyle(p.inkPrimary.opacity(0.92))
+                            .lineSpacing(5)
+                            .lineLimit(3)
                             .multilineTextAlignment(.leading)
                         HStack(spacing: 4) {
                             Text(app.t("common.readMore"))
                             Image(systemName: "chevron.right")
                         }
-                        .scaledFont(size: 14, weight: .medium)
+                        .scaledFont(size: 15, weight: .semibold)
                         .foregroundStyle(p.sindoor)
                         if let cur = Vimshottari.current(for: k, at: Ephemeris.julianDay(Date())) {
                             Text("\(app.t("home.mahadasha")) \(ne ? cur.maha.lord.nameNE : cur.maha.lord.nameEN) · \(app.t("home.antardasha")) \(ne ? cur.antar.lord.nameNE : cur.antar.lord.nameEN)")
@@ -152,6 +157,41 @@ struct HomeView: View {
                 .buttonStyle(SpringPressStyle())
             }
         }
+    }
+
+    /// The opening sentence of the reading, alone, reads as a hook (docs ask
+    /// for a first line that "makes people want to tap in to learn more").
+    private func hookLine(from text: String) -> String {
+        let terminator: Character = ne ? "।" : "."
+        if let idx = text.firstIndex(of: terminator) {
+            return String(text[...idx])
+        }
+        return text
+    }
+
+    /// A single well-known temple, rotating daily — tapping opens a short
+    /// devotional detail page.
+    private var templeOfDay: some View {
+        Button {
+            Haptics.tap()
+            showTemple = true
+        } label: {
+            VStack(alignment: .leading, spacing: 8) {
+                SectionLabel(text: app.t("home.templeOfDay"))
+                Text(ne ? temple.nameNE : temple.nameEN)
+                    .scaledFont(size: 21, weight: .semibold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                Text(ne ? temple.blurbNE : temple.blurbEN)
+                    .scaledFont(size: 14, design: .serif)
+                    .foregroundStyle(p.inkSecondary)
+                    .lineSpacing(3)
+                    .lineLimit(3)
+                    .multilineTextAlignment(.leading)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(SpringPressStyle())
     }
 
     private var familyRow: some View {
@@ -216,5 +256,37 @@ struct HomeView: View {
 
     private var hasUpcoming: Bool {
         !app.upcomingEvents().isEmpty
+    }
+}
+
+/// Placeholder devotional detail page for the temple-of-the-day tap-through.
+private struct TempleDetailSheet: View {
+    @EnvironmentObject private var app: AppState
+    @Environment(\.palette) private var p
+    let temple: Temple
+    private var ne: Bool { app.language == .ne }
+
+    var body: some View {
+        ZStack {
+            p.bgCanvas.ignoresSafeArea()
+            VStack(spacing: 18) {
+                Spacer()
+                MandalaView().frame(width: 120, height: 120)
+                Text(ne ? temple.nameNE : temple.nameEN)
+                    .scaledFont(size: 26, weight: .bold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                    .multilineTextAlignment(.center)
+                Text(ne
+                     ? "\(temple.nameNE), यहाँ आरती र थप कुराहरू छन्।"
+                     : "\(temple.nameEN), here is the aarati and more.")
+                    .scaledFont(size: 17, design: .serif)
+                    .foregroundStyle(p.inkSecondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+                Spacer()
+            }
+        }
+        .overlay(alignment: .topTrailing) { SheetCloseButton().padding(8) }
+        .presentationDetents([.medium])
     }
 }

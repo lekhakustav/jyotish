@@ -62,19 +62,15 @@ struct PatroView: View {
                 Haptics.tap()
                 showDatePicker = true
             } label: {
-                VStack(spacing: 3) {
-                    Text("\(shown.monthName(ne: ne)) \(app.digits(shown.year))")
-                        .scaledFont(size: 24, weight: .bold, design: .serif)
-                        .foregroundStyle(p.inkPrimary)
-                    Text(app.t("patro.jumpToDate"))
-                        .scaledFont(size: 12, weight: .medium)
-                        .foregroundStyle(p.saffron)
-                }
-                .padding(.horizontal, 18)
-                .padding(.vertical, 8)
-                .background(Capsule().fill(p.bgSunken))
+                Text("\(shown.monthName(ne: ne)) \(app.digits(shown.year))")
+                    .scaledFont(size: 24, weight: .bold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                    .padding(.horizontal, 18)
+                    .padding(.vertical, 10)
+                    .background(Capsule().fill(p.bgSunken))
             }
             .buttonStyle(SpringPressStyle())
+            .accessibilityLabel(app.t("patro.jumpToDate"))
             Spacer()
             Button { move(1) } label: {
                 Image(systemName: "chevron.right")
@@ -138,12 +134,13 @@ struct PatroView: View {
                             .font(.system(size: 18, weight: .semibold, design: .serif))
                             .foregroundStyle(isSat ? p.sindoor : p.inkPrimary)
                         Text(pan.tithiName(ne: ne))
-                            .font(.system(size: 11))
+                            .font(.system(size: isToday ? 9.5 : 11))
                             .lineLimit(1)
-                            .minimumScaleFactor(0.8)
+                            .minimumScaleFactor(0.7)
                             .foregroundStyle(p.inkSecondary)
                         Circle().fill(hasEvent ? p.marigold : .clear).frame(width: 4, height: 4)
                     }
+                    .padding(.horizontal, 4)
                     .frame(maxWidth: .infinity)
                     .frame(height: 72)
                     .background(
@@ -182,11 +179,11 @@ private struct PatroDatePickerSheet: View {
     var body: some View {
         ZStack {
             p.bgCanvas.ignoresSafeArea()
-            VStack(alignment: .leading, spacing: 28) {
+            VStack(alignment: .leading, spacing: 18) {
                 Text(app.t("patro.jumpToDate"))
-                    .scaledFont(size: 30, weight: .bold, design: .serif)
+                    .scaledFont(size: 24, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
-                    .padding(.top, 24)
+                    .padding(.top, 14)
 
                 HStack(alignment: .top, spacing: 10) {
                     VStack(spacing: 8) {
@@ -247,12 +244,12 @@ private struct PatroDatePickerSheet: View {
                     shown = NepaliDate(year: year, month: month, day: min(day, maxDay))
                     dismiss()
                 }
-                Spacer()
+                .padding(.bottom, 14)
             }
             .padding(.horizontal, 20)
         }
         .overlay(alignment: .topTrailing) { SheetCloseButton().padding(8) }
-        .presentationDetents([.large])
+        .presentationDetents([.height(400)])
     }
 
     private func clampDay() {

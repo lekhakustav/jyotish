@@ -1,9 +1,28 @@
 import SwiftUI
 
+/// Reports a tree node's horizontal center, in the shared "familyTree"
+/// coordinate space, so connector lines can target the exact rendered
+/// position instead of assuming the row is evenly spread across full width.
+private struct TreeNodeXKey: PreferenceKey {
+    static var defaultValue: [String: CGFloat] = [:]
+    static func reduce(value: inout [String: CGFloat], nextValue: () -> [String: CGFloat]) {
+        value.merge(nextValue()) { _, new in new }
+    }
+}
+
+private extension View {
+    func reportTreeX(_ key: String) -> some View {
+        background(GeometryReader { g in
+            Color.clear.preference(key: TreeNodeXKey.self, value: [key: g.frame(in: .named("familyTree")).midX])
+        })
+    }
+}
+
 struct FamilyView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @State private var showAdd = false
+    @State private var nodeX: [String: CGFloat] = [:]
 
     var body: some View {
         NavigationStack {
@@ -61,46 +80,52 @@ struct FamilyView: View {
         let children = app.family.filter { [.son, .daughter].contains($0.relation) }
         let grandchildren = app.family.filter { [.grandson, .granddaughter].contains($0.relation) }
 
+        let parentXs = (0..<parents.count).compactMap { nodeX["parent-\($0)"] }
+        let childXs = (0..<children.count).compactMap { nodeX["child-\($0)"] }
+        let grandchildXs = (0..<grandchildren.count).compactMap { nodeX["grandchild-\($0)"] }
+        let selfX = nodeX["self"].map { [$0] } ?? []
+
         return VStack(spacing: 10) {
             if !parents.isEmpty {
-                treeRow(parents)
-                TreeBranch(count: parents.count, lowerCount: 1)
+                treeRow(parents, keyPrefix: "parent")
+                TreeBranch(upperX: parentXs, lowerX: selfX)
                     .frame(height: 34)
-                    .padding(.horizontal, 54)
             }
 
             VStack(spacing: 12) {
                 familyNode(for: app.selfMember, relation: app.t("common.you"), size: 72)
+                    .reportTreeX("self")
                 if !partners.isEmpty || !siblings.isEmpty {
-                    treeRow(partners + siblings, size: 58)
+                    treeRow(partners + siblings, keyPrefix: "partner", size: 58)
                 }
             }
 
             if !children.isEmpty {
-                TreeBranch(count: 1, lowerCount: children.count)
+                TreeBranch(upperX: selfX, lowerX: childXs)
                     .frame(height: 38)
-                    .padding(.horizontal, 54)
-                treeRow(children)
+                treeRow(children, keyPrefix: "child")
             }
 
             if !grandchildren.isEmpty {
-                TreeBranch(count: max(1, children.count), lowerCount: grandchildren.count)
+                TreeBranch(upperX: children.isEmpty ? selfX : childXs, lowerX: grandchildXs)
                     .frame(height: 38)
-                    .padding(.horizontal, 54)
-                treeRow(grandchildren, size: 60)
+                treeRow(grandchildren, keyPrefix: "grandchild", size: 60)
             }
         }
         .padding(.horizontal, 16)
         .padding(.top, 4)
         .padding(.bottom, 12)
+        .coordinateSpace(name: "familyTree")
+        .onPreferenceChange(TreeNodeXKey.self) { nodeX = $0 }
     }
 
-    private func treeRow(_ members: [FamilyMember], size: CGFloat = 64) -> some View {
+    private func treeRow(_ members: [FamilyMember], keyPrefix: String, size: CGFloat = 64) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .top, spacing: 16) {
-                ForEach(members) { m in
+                ForEach(Array(members.enumerated()), id: \.element.id) { i, m in
                     NavigationLink(value: m.id) {
                         familyNode(for: m, relation: relationText(for: m), size: size)
+                            .reportTreeX("\(keyPrefix)-\(i)")
                     }
                     .buttonStyle(SpringPressStyle())
                 }
@@ -141,13 +166,17 @@ struct FamilyView: View {
 
     private func relationSymbol(for member: FamilyMember?) -> String {
         switch member?.relation {
-        case .son, .daughter, .grandson, .granddaughter:
+        case .son, .daughter, .grandson, .granddaughter,
+             .bhatija, .bhatiji, .bhanja, .bhanji:
             return "figure.child"
         case .husband, .wife:
             return "person.2"
-        case .father, .mother, .grandfather, .grandmother:
+        case .father, .mother, .grandfather, .grandmother,
+             .kaka, .kaki, .thuloBaa, .thuloAma, .phupu, .phupaju,
+             .mama, .maiju, .saniAma, .thuliAma, .sasura, .sasu:
             return "person.fill"
-        case .brother, .sister:
+        case .brother, .sister, .jethaju, .devar, .jethani, .devrani, .nanad,
+             .saala, .saali, .bhinaju, .bhauju, .buhari, .jwaai, .cousin:
             return "person"
         case .selfMember, nil:
             return "person.crop.circle"
@@ -196,18 +225,21 @@ struct FamilyView: View {
     }
 }
 
+/// Draws connectors from the measured centers of the row above to the
+/// measured centers of the row below, so lines always meet the node they
+/// point at rather than an assumed even split of the available width.
 private struct TreeBranch: View {
     @Environment(\.palette) private var p
-    let count: Int
-    let lowerCount: Int
+    let upperX: [CGFloat]
+    let lowerX: [CGFloat]
 
     var body: some View {
         GeometryReader { geo in
+            let originX = geo.frame(in: .named("familyTree")).minX
+            let upper = upperX.map { $0 - originX }
+            let lower = lowerX.map { $0 - originX }
             Path { path in
-                let w = geo.size.width
                 let h = geo.size.height
-                let upper = points(count: count, width: w)
-                let lower = points(count: lowerCount, width: w)
                 let midY = h * 0.48
 
                 for x in upper {
@@ -226,12 +258,6 @@ private struct TreeBranch: View {
             .stroke(p.templeGold.opacity(0.34), style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round))
         }
         .accessibilityHidden(true)
-    }
-
-    private func points(count: Int, width: CGFloat) -> [CGFloat] {
-        guard count > 1 else { return [width / 2] }
-        let step = width / CGFloat(count)
-        return (0..<count).map { step * (CGFloat($0) + 0.5) }
     }
 }
 

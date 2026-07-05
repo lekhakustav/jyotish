@@ -51,6 +51,11 @@ enum L10n {
         // Paged birth flow
         "flow.continue": ("Continue", "अगाडि बढ्नुहोस्"),
         "flow.relation.q": ("Who are you adding?", "कसलाई थप्दै हुनुहुन्छ?"),
+        "flow.relation.immediate": ("Immediate family", "नजिकको परिवार"),
+        "flow.relation.paternal": ("Father's side", "बुबातर्फ"),
+        "flow.relation.maternal": ("Mother's side", "आमातर्फ"),
+        "flow.relation.inlaws": ("In-laws", "ससुराली नाता"),
+        "flow.relation.extended": ("Nieces, nephews & cousins", "भतिजा-भतिजी, भाञ्जा-भाञ्जी र चचेरे"),
         "flow.name.q": ("What is your name?", "तपाईंको नाम के हो?"),
         "flow.name.q.family": ("What is their name?", "उहाँको नाम के हो?"),
         "flow.gender.q": ("Gender", "लिङ्ग"),
@@ -67,6 +72,8 @@ enum L10n {
         "home.antardasha": ("Antardasha", "अन्तर्दशा"),
         "home.openPatro": ("Open Patro", "पात्रो खोल्नुहोस्"),
         "home.askPandit": ("Ask Pandit-ji", "पण्डितजीलाई सोध्नुहोस्"),
+        "home.chat": ("Chat", "कुराकानी"),
+        "home.templeOfDay": ("Temple of the Day", "आजको मन्दिर"),
         // Rashifal
         "rashifal.title": ("Rashifal", "राशिफल"),
         "rashifal.daily": ("Daily", "दैनिक"),
