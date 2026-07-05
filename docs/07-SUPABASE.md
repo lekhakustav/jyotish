@@ -34,6 +34,10 @@ create table if not exists public.households (
 
 alter table public.households enable row level security;
 
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on public.households to authenticated;
+grant select, insert, update, delete on public.households to service_role;
+
 create policy "Users can read their household"
 on public.households
 for select

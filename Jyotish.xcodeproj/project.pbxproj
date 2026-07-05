@@ -382,8 +382,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotish;
 				SDKROOT = iphoneos;
-				SUPABASE_ANON_OR_PUBLISHABLE_KEY = "";
-				SUPABASE_URL = "";
+				SUPABASE_ANON_OR_PUBLISHABLE_KEY = "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW";
+				SUPABASE_URL = "https://ghfcssxptpazfbtiwshz.supabase.co";
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -523,8 +523,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotish;
 				SDKROOT = iphoneos;
-				SUPABASE_ANON_OR_PUBLISHABLE_KEY = "";
-				SUPABASE_URL = "";
+				SUPABASE_ANON_OR_PUBLISHABLE_KEY = "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW";
+				SUPABASE_URL = "https://ghfcssxptpazfbtiwshz.supabase.co";
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

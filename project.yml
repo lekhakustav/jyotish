@@ -28,5 +28,5 @@ targets:
         SWIFT_VERSION: "5.9"
         TARGETED_DEVICE_FAMILY: "1"
         CODE_SIGNING_ALLOWED: NO
-        SUPABASE_URL: ""
-        SUPABASE_ANON_OR_PUBLISHABLE_KEY: ""
+        SUPABASE_URL: "https://ghfcssxptpazfbtiwshz.supabase.co"
+        SUPABASE_ANON_OR_PUBLISHABLE_KEY: "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW"
