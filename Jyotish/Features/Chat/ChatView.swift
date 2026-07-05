@@ -5,14 +5,16 @@ import SwiftUI
 struct ChatView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var voice = VoiceAgent()
     @State private var draft = ""
+    @State private var showHistory = false
     @FocusState private var focused: Bool
 
     private let chips = ["chat.chip.color", "chat.chip.city", "chat.chip.vastu", "chat.chip.dasha"]
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .leading) {
             p.bgCanvas.ignoresSafeArea()
             VStack(spacing: 0) {
                 header
@@ -43,34 +45,39 @@ struct ChatView: View {
                 chipsRow
                 inputBar
             }
+            if showHistory { historyDrawer }
         }
         .statusBarFade()
         .onDisappear { voice.stopSpeaking() }
     }
 
     private var header: some View {
-        HStack(alignment: .firstTextBaseline) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text("पण्डितजी")
-                    .scaledFont(size: 15, design: .serif)
-                    .foregroundStyle(p.templeGold)
-                    .accessibilityHidden(true)
-                Text(app.t("chat.title"))
-                    .scaledFont(size: 34, weight: .bold, design: .serif)
-                    .foregroundStyle(p.inkPrimary)
+        HStack(alignment: .center) {
+            Button {
+                Haptics.tap()
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = true }
+            } label: {
+                Image(systemName: "sidebar.left")
+                    .scaledFont(size: 19, weight: .light)
+                    .foregroundStyle(p.inkSecondary)
+                    .frame(width: 48, height: 48)
             }
+            .accessibilityLabel(app.t("chat.history"))
+
+            Text(app.t("chat.title"))
+                .scaledFont(size: 34, weight: .bold, design: .serif)
+                .foregroundStyle(p.inkPrimary)
             Spacer()
             Button {
                 Haptics.tap()
-                voice.speaksReplies.toggle()
-                if !voice.speaksReplies { voice.stopSpeaking() }
+                dismiss()
             } label: {
-                Image(systemName: voice.speaksReplies ? "speaker.wave.2" : "speaker.slash")
+                Image(systemName: "xmark")
                     .scaledFont(size: 19, weight: .light)
-                    .foregroundStyle(voice.speaksReplies ? p.saffron : p.inkSecondary)
+                    .foregroundStyle(p.inkSecondary)
                     .frame(width: 48, height: 48)
             }
-            .accessibilityLabel(app.t("chat.speak"))
+            .accessibilityLabel("Close")
         }
         .padding(.horizontal, 24)
         .padding(.top, 8)
@@ -182,6 +189,60 @@ struct ChatView: View {
         app.sendChat(text)
         if let reply = app.chat.last, !reply.isUser {
             voice.speak(reply.text, lang: app.language)
+        }
+    }
+
+    private var historyDrawer: some View {
+        ZStack(alignment: .leading) {
+            Color.black.opacity(0.18)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
+                }
+            VStack(alignment: .leading, spacing: 18) {
+                HStack {
+                    Text(app.t("chat.history"))
+                        .scaledFont(size: 24, weight: .bold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                    Spacer()
+                    Button {
+                        Haptics.tap()
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
+                    } label: {
+                        Image(systemName: "xmark")
+                            .scaledFont(size: 16, weight: .medium)
+                            .foregroundStyle(p.inkSecondary)
+                            .frame(width: 44, height: 44)
+                    }
+                    .accessibilityLabel("Close")
+                }
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(app.chat.filter(\.isUser).suffix(20).reversed()) { msg in
+                            Text(msg.text)
+                                .scaledFont(size: 15)
+                                .foregroundStyle(p.inkPrimary)
+                                .lineLimit(2)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.vertical, 12)
+                            Hairline()
+                        }
+                        if app.chat.filter(\.isUser).isEmpty {
+                            Text(app.t("chat.noHistory"))
+                                .scaledFont(size: 15)
+                                .foregroundStyle(p.inkSecondary)
+                                .padding(.top, 8)
+                        }
+                    }
+                }
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 24)
+            .frame(width: 300)
+            .frame(maxHeight: .infinity)
+            .background(p.bgElevated)
+            .transition(.move(edge: .leading).combined(with: .opacity))
         }
     }
 }

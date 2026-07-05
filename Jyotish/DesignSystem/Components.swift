@@ -151,19 +151,40 @@ struct Hairline: View {
     }
 }
 
-/// 1–5 score as tiny diya flames.
+/// 1–5 score as small yantra stars.
 struct DiyaScore: View {
     @Environment(\.palette) private var p
     let score: Int
     var body: some View {
         HStack(spacing: 3) {
             ForEach(0..<5, id: \.self) { i in
-                Image(systemName: "flame.fill")
-                    .scaledFont(size: 11)
-                    .foregroundStyle(i < score ? p.marigold : p.inkSecondary.opacity(0.25))
+                YantraStar()
+                    .fill(i < score ? p.marigold : p.inkSecondary.opacity(0.25))
+                    .frame(width: 11, height: 11)
             }
         }
         .accessibilityLabel("\(score) of 5")
+    }
+}
+
+struct YantraStar: Shape {
+    func path(in rect: CGRect) -> Path {
+        let top = CGPoint(x: rect.midX, y: rect.minY)
+        let left = CGPoint(x: rect.minX, y: rect.maxY * 0.78)
+        let right = CGPoint(x: rect.maxX, y: rect.maxY * 0.78)
+        let bottom = CGPoint(x: rect.midX, y: rect.maxY)
+        let leftTop = CGPoint(x: rect.minX, y: rect.maxY * 0.22)
+        let rightTop = CGPoint(x: rect.maxX, y: rect.maxY * 0.22)
+        var path = Path()
+        path.move(to: top)
+        path.addLine(to: left)
+        path.addLine(to: right)
+        path.closeSubpath()
+        path.move(to: bottom)
+        path.addLine(to: leftTop)
+        path.addLine(to: rightTop)
+        path.closeSubpath()
+        return path
     }
 }
 

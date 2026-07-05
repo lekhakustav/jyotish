@@ -1,6 +1,6 @@
 import SwiftUI
 
-// Extreme-minimal rashifal: seal, prose, quiet score lines. No cards, no
+// Extreme-minimal rashifal: rashi mark, prose, quiet score lines. No cards, no
 // dividers except one hairline before the upaya (docs/01 §v3).
 struct RashifalView: View {
     @EnvironmentObject private var app: AppState
@@ -17,7 +17,10 @@ struct RashifalView: View {
             p.bgCanvas.ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
-                    SacredHeader(devanagari: "राशिफल", title: app.t("rashifal.title"))
+                    Text(app.t("rashifal.title"))
+                        .scaledFont(size: 34, weight: .bold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                        .padding(.horizontal, 24)
                         .padding(.top, 8)
 
                     periodPicker
@@ -67,11 +70,15 @@ struct RashifalView: View {
                     } label: {
                         VStack(spacing: 5) {
                             RashiSeal(rashi: r, size: 48)
-                                .overlay(Circle().strokeBorder(
-                                    rashi == r ? p.saffron : .clear, lineWidth: 2))
                             Text(app.language == .ne ? r.nameNE : r.shortEN)
                                 .scaledFont(size: 11, weight: rashi == r ? .semibold : .regular)
                                 .foregroundStyle(rashi == r ? p.sindoor : p.inkSecondary)
+                        }
+                        .padding(.bottom, 4)
+                        .overlay(alignment: .bottom) {
+                            Capsule()
+                                .fill(rashi == r ? p.saffron : .clear)
+                                .frame(height: 2)
                         }
                     }
                 }
@@ -113,9 +120,11 @@ struct RashifalView: View {
                 }
             }
 
-            Text("\(app.t("rashifal.lucky.color")) \(r.luckyColor) · \(app.t("rashifal.lucky.number")) \(app.digits(r.luckyNumber)) · \(r.luckyDay)")
-                .scaledFont(size: 14)
-                .foregroundStyle(p.inkSecondary)
+            HStack(spacing: 10) {
+                LuckyFact(label: app.t("rashifal.lucky.color"), value: r.luckyColor, systemImage: "paintpalette")
+                LuckyFact(label: app.t("rashifal.lucky.number"), value: app.digits(r.luckyNumber), systemImage: "number")
+                LuckyFact(label: app.t("rashifal.lucky.day"), value: r.luckyDay, systemImage: "calendar")
+            }
 
             VStack(alignment: .leading, spacing: 10) {
                 Hairline()
@@ -124,7 +133,50 @@ struct RashifalView: View {
                     .italic()
                     .foregroundStyle(p.inkPrimary.opacity(0.85))
             }
+
+            Button {
+                Haptics.tap()
+                app.open(.pandit)
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                    Text(app.t("home.askPandit"))
+                }
+                .scaledFont(size: 15, weight: .medium)
+                .foregroundStyle(p.saffron)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 8)
+            }
+            .buttonStyle(SpringPressStyle())
         }
         .padding(.horizontal, 24)
+    }
+}
+
+private struct LuckyFact: View {
+    @Environment(\.palette) private var p
+    let label: String
+    let value: String
+    let systemImage: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Image(systemName: systemImage)
+                .scaledFont(size: 15, weight: .medium)
+                .foregroundStyle(p.saffron)
+            Text(label)
+                .scaledFont(size: 11)
+                .foregroundStyle(p.inkSecondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+            Text(value)
+                .scaledFont(size: 14, weight: .semibold, design: .serif)
+                .foregroundStyle(p.inkPrimary)
+                .lineLimit(2)
+                .minimumScaleFactor(0.75)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(10)
+        .background(RoundedRectangle(cornerRadius: 8).fill(p.bgSunken))
     }
 }

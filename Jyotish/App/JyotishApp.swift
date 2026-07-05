@@ -48,18 +48,40 @@ struct MainTabView: View {
     @Environment(\.palette) private var p
 
     var body: some View {
-        TabView(selection: $app.selectedTab) {
-            HomeView()
-                .tabItem { Label(app.t("tab.home"), systemImage: "house.fill") }.tag(0)
-            RashifalView()
-                .tabItem { Label(app.t("tab.rashifal"), systemImage: "sparkles") }.tag(1)
-            PatroView()
-                .tabItem { Label(app.t("tab.patro"), systemImage: "calendar") }.tag(2)
-            FamilyView()
-                .tabItem { Label(app.t("tab.family"), systemImage: "person.3.fill") }.tag(3)
-            ChatView()
-                .tabItem { Label(app.t("tab.pandit"), systemImage: "bubble.left.and.bubble.right.fill") }.tag(4)
+        NavigationStack {
+            TabView(selection: $app.selectedTab) {
+                HomeView()
+                    .tabItem { Image(systemName: "house.fill") }
+                    .tag(AppTab.home)
+                    .accessibilityLabel(app.t("tab.home"))
+                RashifalView()
+                    .tabItem { Image(systemName: "sparkles") }
+                    .tag(AppTab.rashifal)
+                    .accessibilityLabel(app.t("tab.rashifal"))
+                FamilyView()
+                    .tabItem { Image(systemName: "person.3.fill") }
+                    .tag(AppTab.family)
+                    .accessibilityLabel(app.t("tab.family"))
+            }
+            .navigationDestination(isPresented: Binding(
+                get: { app.pushedDestination != nil },
+                set: { if !$0 { app.pushedDestination = nil } })) {
+                switch app.pushedDestination {
+                case .patro:
+                    PatroView()
+                default:
+                    EmptyView()
+                }
+            }
         }
         .tint(p.saffron)
+        .fullScreenCover(item: $app.modalDestination) { destination in
+            switch destination {
+            case .pandit:
+                ChatView()
+            default:
+                EmptyView()
+            }
+        }
     }
 }

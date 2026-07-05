@@ -24,7 +24,7 @@ kundali chart, text input, user chat tint). Everything else is **flat typography
 the canvas**: hierarchy comes from size, weight, serif/sans contrast, color and
 whitespace (40pt between sections). The only divider is `Hairline` (1pt gold @18%).
 No card borders, no shadows, no tika dots, no ornament dividers, no section
-descriptions. Ornaments (mandala, diya, seals) survive only as *content*, never as
+descriptions. Ornaments (mandala, diya, rashi marks) survive only as *content*, never as
 decoration-around-content. Every list is bare rows separated by hairlines.
 
 ### v4 — PLAIN CANVAS CLARIFICATION (current law)
@@ -54,12 +54,12 @@ Every container must pass this test before it is added:
    paged flows: one focused question, one control, one continue button. Progress shown as
    small gold diamonds. Steps slide in from the trailing edge with a spring.
 2. **Ceremony at the payoff.** Computing a kundali is a *moment*: rotating mandala +
-   diya + "Drawing the kundali…", then the rashi seal reveals with a blessing. Never jump
+   diya + "Drawing the kundali…", then the rashi mark reveals with a blessing. Never jump
    from a form straight to a dashboard.
 3. **Minimalism first.** Prefer whitespace over borders, one accent per region, at most
    two card styles per screen. If an ornament competes with content, delete the ornament.
-4. **Glyph honesty.** Rashi seals use Devanagari monograms (मे, वृ, मि…) — native to the
-   audience and always renderable. Never rely on zodiac emoji/Unicode symbols.
+4. **Glyph honesty.** Rashi marks are path-drawn vector symbols. Never rely on zodiac
+   emoji/Unicode/SF symbols that can render as tofu or disappear.
 5. **Navigation depth ≤ 2.** Tab → detail. Everything else is a sheet with a drag indicator.
 
 ## 2. Color — "Diya & Sindoor" palette
@@ -93,7 +93,7 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 ### Rules
 - Exactly **one saturated accent zone per screen region**. Saffron leads; sindoor punctuates.
 - Favorability is **green/gold/nightBlue**, never traffic-light red-green.
-- Gradients allowed only inside content tokens such as the diya flame and rashi seal.
+- Gradients allowed only inside content tokens such as the diya flame.
   Do not use gradients as screen backgrounds.
 
 ## 3. Typography
@@ -110,8 +110,8 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 | Element | Spec |
 |---|---|
 | **Mandala** | `Canvas`-drawn: concentric petal rings (8/16/32 petals), 0.75pt `templeGold` strokes at 18–30% opacity. Reserved for the kundali computation ceremony. |
-| **Diya flame** | Home greeting: small teardrop flame (2 blended ellipses, marigold core + saffron rim) with a gentle 1.6s scale-flicker animation. |
-| **Rashi glyphs** | The 12 Devanagari monograms (मे, वृ, मि…) set in serif inside a gold-ringed circular seal — treated like a wax seal / temple token. |
+| **Diya flame** | Ceremony content: small teardrop flame (2 blended ellipses, marigold core + saffron rim) with a gentle 1.6s scale-flicker animation. |
+| **Rashi marks** | The 12 signs are unframed, path-drawn vector marks. Do not put text monograms inside circles for live rashi UI. |
 | **Planet tokens** | Circular chips with the planet's traditional color: Su gold, Mo silver-cream, Ma sindoor, Me green, Ju saffron, Ve lotus pink, Sa nightBlue, Ra smoky brown, Ke smoky gray. |
 | **North-Indian kundali chart** | The classic diamond chart drawn with `Path`: outer square + two diagonals + midpoint diamond, gold strokes on `bgElevated`, house numbers in `inkSecondary`, planet abbreviations placed per house. |
 

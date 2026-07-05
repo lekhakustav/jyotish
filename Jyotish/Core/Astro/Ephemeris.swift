@@ -7,9 +7,12 @@ import Foundation
 enum Rashi: Int, CaseIterable, Codable, Identifiable {
     case mesh, vrish, mithun, karkat, simha, kanya, tula, vrischik, dhanu, makar, kumbha, meen
     var id: Int { rawValue }
-    /// Devanagari monogram used inside the circular seal (zodiac Unicode glyphs
-    /// have no text-presentation form in iOS serif fonts).
+    /// Legacy monogram retained for text-only contexts; live UI uses path-drawn rashi marks.
     var glyph: String { ["मे", "वृ", "मि", "क", "सिं", "कन्", "तु", "वृश्", "ध", "म", "कु", "मी"][rawValue] }
+    var symbolName: String {
+        ["aries", "taurus", "gemini", "cancer", "leo", "virgo",
+         "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"][rawValue]
+    }
     var nameEN: String { ["Mesh (Aries)", "Vrish (Taurus)", "Mithun (Gemini)", "Karkat (Cancer)", "Simha (Leo)", "Kanya (Virgo)", "Tula (Libra)", "Vrischik (Scorpio)", "Dhanu (Sagittarius)", "Makar (Capricorn)", "Kumbha (Aquarius)", "Meen (Pisces)"][rawValue] }
     var nameNE: String { ["मेष", "वृष", "मिथुन", "कर्कट", "सिंह", "कन्या", "तुला", "वृश्चिक", "धनु", "मकर", "कुम्भ", "मीन"][rawValue] }
     var shortEN: String { ["Mesh", "Vrish", "Mithun", "Karkat", "Simha", "Kanya", "Tula", "Vrischik", "Dhanu", "Makar", "Kumbha", "Meen"][rawValue] }

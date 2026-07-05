@@ -4,7 +4,7 @@ If a session dies mid-build, resume from the first unchecked box, guided by docs
 
 ## Phase A — Skeleton
 - [x] `project.yml` (XcodeGen, iOS 17, target Jyotish) + Info.plist
-- [x] Theme.swift (full palette both modes), Components, Ornaments (mandala, diya, seals, divider, kundali chart path)
+- [x] Theme.swift (full palette both modes), Components, Ornaments (mandala, diya, rashi marks, divider, kundali chart path)
 - [x] L10n.swift, Models.swift, AppState + RootView + JyotishApp
 
 ## Phase B — Engines
@@ -36,8 +36,8 @@ If a session dies mid-build, resume from the first unchecked box, guided by docs
 - [x] git commit
 
 ## Hard-won lessons (do not re-learn these)
-- **Zodiac Unicode glyphs (♈…) and emoji (🙏) render as tofu** in iOS serif text —
-  use Devanagari monograms in seals and no emoji in copy (docs/01 craft rule 4).
+- **Zodiac Unicode/SF glyphs and emoji can render as tofu or disappear** in iOS text —
+  use path-drawn rashi marks and no emoji in copy (docs/01 craft rule 4).
 - **LazyVGrid with two ForEach ranges must not share integer ids** — leading blank
   calendar cells use a negative range or rows scramble.
 - **Date text must carry `.locale(app.locale)`** ("ne_NP") or dates render in English

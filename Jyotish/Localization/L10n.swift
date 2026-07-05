@@ -64,6 +64,8 @@ enum L10n {
         "home.noEvents": ("No events yet — add one in Patro", "अहिलेसम्म कुनै कार्यक्रम छैन — पात्रोमा थप्नुहोस्"),
         "home.mahadasha": ("Mahadasha", "महादशा"),
         "home.antardasha": ("Antardasha", "अन्तर्दशा"),
+        "home.openPatro": ("Open Patro", "पात्रो खोल्नुहोस्"),
+        "home.askPandit": ("Ask Pandit-ji", "पण्डितजीलाई सोध्नुहोस्"),
         // Rashifal
         "rashifal.title": ("Rashifal", "राशिफल"),
         "rashifal.daily": ("Daily", "दैनिक"),
@@ -81,6 +83,10 @@ enum L10n {
         "rashifal.love": ("Love", "प्रेम"),
         // Patro
         "patro.title": ("Nepali Patro", "नेपाली पात्रो"),
+        "patro.jumpToDate": ("Go to date", "मिति छान्नुहोस्"),
+        "patro.month": ("Month", "महिना"),
+        "patro.year": ("Year", "वर्ष"),
+        "patro.day": ("Day", "गते"),
         "patro.addEvent": ("Add event", "कार्यक्रम थप्नुहोस्"),
         "patro.eventTitle": ("Event title", "कार्यक्रमको नाम"),
         "patro.eventNote": ("Note (optional)", "टिप्पणी (वैकल्पिक)"),
@@ -116,6 +122,8 @@ enum L10n {
         "chat.chip.dasha": ("How is my dasha now?", "मेरो दशा अहिले कस्तो छ?"),
         "chat.listening": ("Listening…", "सुन्दै…"),
         "chat.speak": ("Speak replies", "उत्तर बोल्ने"),
+        "chat.history": ("History", "इतिहास"),
+        "chat.noHistory": ("No questions yet", "अहिलेसम्म प्रश्न छैन"),
         // Settings
         "settings.title": ("Settings", "सेटिङ"),
         "settings.language": ("Language", "भाषा"),

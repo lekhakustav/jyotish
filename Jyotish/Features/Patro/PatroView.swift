@@ -6,6 +6,7 @@ struct PatroView: View {
     @State private var shown: NepaliDate = BikramSambat.today()
     @State private var selectedDay: NepaliDate?
     @State private var monthDelta = 1 // last navigation direction, drives the slide
+    @State private var showDatePicker = false
 
     private var ne: Bool { app.language == .ne }
 
@@ -14,9 +15,11 @@ struct PatroView: View {
             p.bgCanvas.ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    SacredHeader(devanagari: "पात्रो", title: app.t("patro.title"))
+                    Text(app.t("patro.title"))
+                        .scaledFont(size: 34, weight: .bold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                        .padding(.horizontal, 24)
                         .padding(.top, 8)
-                    todayBox
                     monthHeader
                     VStack(spacing: 12) {
                         weekdayRow
@@ -36,25 +39,14 @@ struct PatroView: View {
             set: { selectedDay = $0?.date })) { sel in
             DayDetailSheet(bs: sel.date)
         }
+        .sheet(isPresented: $showDatePicker) {
+            PatroDatePickerSheet(shown: $shown)
+        }
     }
 
     private struct DaySelection: Identifiable {
         let date: NepaliDate
         var id: String { "\(date.year)-\(date.month)-\(date.day)" }
-    }
-
-    private var todayBox: some View {
-        let today = BikramSambat.today()
-        let pan = Panchanga.forDay(Date())
-        return VStack(alignment: .leading, spacing: 4) {
-            Text("\(app.t("common.today")) · \(app.digits(today.day)) \(today.monthName(ne: ne))")
-                .scaledFont(size: 14)
-                .foregroundStyle(p.inkSecondary)
-            Text("\(pan.tithiName(ne: ne)) · \(pan.pakshaName(ne: ne)) · \(ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)")
-                .scaledFont(size: 17, weight: .semibold, design: .serif)
-                .foregroundStyle(p.sindoor)
-        }
-        .padding(.horizontal, 24)
     }
 
     private var monthHeader: some View {
@@ -66,14 +58,15 @@ struct PatroView: View {
                     .frame(width: 48, height: 48)
             }
             Spacer()
-            VStack(spacing: 2) {
+            Button {
+                Haptics.tap()
+                showDatePicker = true
+            } label: {
                 Text("\(shown.monthName(ne: ne)) \(app.digits(shown.year))")
                     .scaledFont(size: 24, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
-                Text(adRangeLabel)
-                    .scaledFont(size: 12)
-                    .foregroundStyle(p.inkSecondary)
             }
+            .buttonStyle(SpringPressStyle())
             Spacer()
             Button { move(1) } label: {
                 Image(systemName: "chevron.right")
@@ -83,16 +76,6 @@ struct PatroView: View {
             }
         }
         .padding(.horizontal, 12)
-    }
-
-    private var adRangeLabel: String {
-        let start = BikramSambat.toAD(NepaliDate(year: shown.year, month: shown.month, day: 1))
-        let days = BikramSambat.daysInMonth(year: shown.year, month: shown.month)
-        let end = BikramSambat.toAD(NepaliDate(year: shown.year, month: shown.month, day: days))
-        let f = DateFormatter(); f.dateFormat = "MMM yyyy"; f.locale = app.locale
-        let f2 = DateFormatter(); f2.dateFormat = "MMM"; f2.locale = app.locale
-        let a = f2.string(from: start), b = f.string(from: end)
-        return a == f2.string(from: end) ? b : "\(a) – \(b)"
     }
 
     private func move(_ delta: Int) {
@@ -151,24 +134,87 @@ struct PatroView: View {
                             .lineLimit(1)
                             .minimumScaleFactor(0.8)
                             .foregroundStyle(p.inkSecondary)
-                        Text("\(Calendar.nepali.component(.day, from: ad))")
-                            .font(.system(size: 11))
-                            .foregroundStyle(p.inkSecondary.opacity(0.7))
                         Circle().fill(hasEvent ? p.marigold : .clear).frame(width: 4, height: 4)
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 72)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(isToday ? p.marigold.opacity(0.16) : .clear))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(isToday ? p.saffron : .clear, lineWidth: 1.6))
+                            .fill(isToday ? p.bgSunken : .clear))
                 }
                 .accessibilityLabel("\(app.digits(d)) \(bs.monthName(ne: ne)), \(pan.tithiName(ne: ne))\(hasEvent ? ", \(app.t("patro.events"))" : "")")
             }
         }
         .padding(.horizontal, 16)
+    }
+}
+
+private struct PatroDatePickerSheet: View {
+    @EnvironmentObject private var app: AppState
+    @Environment(\.palette) private var p
+    @Environment(\.dismiss) private var dismiss
+    @Binding var shown: NepaliDate
+    @State private var year: Int
+    @State private var month: Int
+    @State private var day: Int
+
+    init(shown: Binding<NepaliDate>) {
+        _shown = shown
+        _year = State(initialValue: shown.wrappedValue.year)
+        _month = State(initialValue: shown.wrappedValue.month)
+        _day = State(initialValue: shown.wrappedValue.day)
+    }
+
+    private var ne: Bool { app.language == .ne }
+    private var years: [Int] {
+        Array(BikramSambat.firstYear..<(BikramSambat.firstYear + BikramSambat.table.count))
+    }
+    private var maxDay: Int { BikramSambat.daysInMonth(year: year, month: month) }
+
+    var body: some View {
+        ZStack {
+            p.bgCanvas.ignoresSafeArea()
+            VStack(alignment: .leading, spacing: 22) {
+                Text(app.t("patro.jumpToDate"))
+                    .scaledFont(size: 28, weight: .bold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                    .padding(.top, 24)
+
+                VStack(spacing: 0) {
+                    Picker(app.t("patro.month"), selection: $month) {
+                        ForEach(1...12, id: \.self) { m in
+                            Text(NepaliDate(year: year, month: m, day: 1).monthName(ne: ne)).tag(m)
+                        }
+                    }
+                    Picker(app.t("patro.year"), selection: $year) {
+                        ForEach(years, id: \.self) { y in
+                            Text(app.digits(y)).tag(y)
+                        }
+                    }
+                    Picker(app.t("patro.day"), selection: $day) {
+                        ForEach(1...maxDay, id: \.self) { d in
+                            Text(app.digits(d)).tag(d)
+                        }
+                    }
+                }
+                .pickerStyle(.wheel)
+                .onChange(of: month) { clampDay() }
+                .onChange(of: year) { clampDay() }
+
+                PrimaryButton(title: app.t("common.done"), icon: "checkmark") {
+                    shown = NepaliDate(year: year, month: month, day: min(day, maxDay))
+                    dismiss()
+                }
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+        }
+        .overlay(alignment: .topTrailing) { SheetCloseButton().padding(8) }
+        .presentationDetents([.medium])
+    }
+
+    private func clampDay() {
+        day = min(day, maxDay)
     }
 }
 

@@ -11,9 +11,15 @@ struct FamilyView: View {
                 p.bgCanvas.ignoresSafeArea()
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
-                        SacredHeader(devanagari: "परिवार", title: app.t("family.title"),
-                                     trailing: AnyView(addButton))
-                            .padding(.top, 8)
+                        HStack(alignment: .firstTextBaseline) {
+                            Text(app.t("family.title"))
+                                .scaledFont(size: 34, weight: .bold, design: .serif)
+                                .foregroundStyle(p.inkPrimary)
+                            Spacer()
+                            addButton
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 8)
                         if hasRelatives {
                             constellation.fadeRise()
                         }
@@ -41,7 +47,7 @@ struct FamilyView: View {
         .accessibilityLabel(app.t("family.add"))
     }
 
-    /// The auto family tree: user's seal centered, relatives orbiting with gold connectors.
+    /// The auto family tree: names and relations centered around the user.
     private var constellation: some View {
         let others = app.family.filter { $0.relation != .selfMember }
         return GeometryReader { geo in
@@ -58,13 +64,13 @@ struct FamilyView: View {
             .stroke(p.templeGold.opacity(0.28), lineWidth: 1)
 
             // center: the user
-            seal(for: app.selfMember, label: app.t("common.you"), size: 66)
+            familyNode(for: app.selfMember, relation: app.t("common.you"), size: 74)
                 .position(c)
 
             ForEach(Array(others.enumerated()), id: \.element.id) { i, m in
                 let a = angle(i, count: others.count)
                 NavigationLink(value: m.id) {
-                    seal(for: m, label: m.relation == .selfMember ? m.name : (app.language == .ne ? m.relation.labelNE : m.relation.labelEN), size: 52)
+                    familyNode(for: m, relation: app.language == .ne ? m.relation.labelNE : m.relation.labelEN, size: 66)
                 }
                 .position(x: c.x + cos(a) * radius, y: c.y + sin(a) * radius)
             }
@@ -83,19 +89,40 @@ struct FamilyView: View {
         return CGFloat(i) / CGFloat(count) * 2 * .pi - .pi / 2
     }
 
-    private func seal(for m: FamilyMember?, label: String, size: CGFloat) -> some View {
-        VStack(spacing: 4) {
-            if let k = m?.kundali {
-                RashiSeal(rashi: k.moonRashi, size: size)
-            } else {
-                Circle().strokeBorder(p.templeGold.opacity(0.4), style: StrokeStyle(lineWidth: 1, dash: [4]))
-                    .frame(width: size, height: size)
-                    .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
+    private func familyNode(for member: FamilyMember?, relation: String, size: CGFloat) -> some View {
+        VStack(spacing: 5) {
+            Image(systemName: relationSymbol(for: member))
+                .scaledFont(size: size * 0.32, weight: .light)
+                .foregroundStyle(p.saffron)
+                .frame(width: size, height: size * 0.58)
+            VStack(spacing: 1) {
+                Text(member?.name ?? app.t("common.you"))
+                    .scaledFont(size: 12, weight: .semibold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+                Text(relation)
+                    .scaledFont(size: 10)
+                    .foregroundStyle(p.inkSecondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
             }
-            Text(label)
-                .scaledFont(size: 11, weight: .medium)
-                .foregroundStyle(p.inkSecondary)
-                .lineLimit(1)
+        }
+        .frame(width: size + 24)
+    }
+
+    private func relationSymbol(for member: FamilyMember?) -> String {
+        switch member?.relation {
+        case .son, .daughter, .grandson, .granddaughter:
+            return "figure.child"
+        case .husband, .wife:
+            return "person.2"
+        case .father, .mother, .grandfather, .grandmother:
+            return "person.fill"
+        case .brother, .sister:
+            return "person"
+        case .selfMember, nil:
+            return "person.crop.circle"
         }
     }
 

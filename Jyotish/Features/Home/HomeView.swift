@@ -8,46 +8,43 @@ struct HomeView: View {
     @State private var showSettings = false
 
     private var ne: Bool { app.language == .ne }
-    private var greetingKey: String {
-        let h = Calendar.nepali.component(.hour, from: Date())
-        if h < 12 { return "greet.morning" }
-        if h < 17 { return "greet.afternoon" }
-        return "greet.evening"
-    }
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                p.bgCanvas.ignoresSafeArea()
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 40) {
-                        header.fadeRise()
-                        tithiHero.fadeRise(delay: 0.05)
-                        rashifalBlock.fadeRise(delay: 0.1)
-                        familyRow.fadeRise(delay: 0.15)
-                        upcoming.fadeRise(delay: 0.2)
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 96)
+        ZStack(alignment: .bottomTrailing) {
+            p.bgCanvas.ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 40) {
+                    header.fadeRise()
+                    tithiHero.fadeRise(delay: 0.05)
+                    rashifalBlock.fadeRise(delay: 0.1)
+                    if hasRelatives { familyRow.fadeRise(delay: 0.15) }
+                    if hasUpcoming { upcoming.fadeRise(delay: 0.2) }
                 }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 112)
             }
-            .statusBarFade()
-            .toolbar(.hidden, for: .navigationBar)
-            .sheet(isPresented: $showSettings) { SettingsView() }
+            Button {
+                Haptics.tap()
+                app.open(.pandit)
+            } label: {
+                Image(systemName: "bubble.left.and.bubble.right.fill")
+                    .scaledFont(size: 22, weight: .medium)
+                    .foregroundStyle(Color(hex: 0x3B1F14))
+                    .frame(width: 60, height: 60)
+                    .background(Circle().fill(p.saffron))
+                    .shadow(color: p.saffron.opacity(0.22), radius: 12, y: 5)
+            }
+            .accessibilityLabel(app.t("home.askPandit"))
+            .padding(.trailing, 22)
+            .padding(.bottom, 24)
         }
+        .statusBarFade()
+        .toolbar(.hidden, for: .navigationBar)
+        .sheet(isPresented: $showSettings) { SettingsView() }
     }
 
     private var header: some View {
-        HStack(alignment: .center, spacing: 12) {
-            DiyaFlame(size: 30)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(app.t(greetingKey))
-                    .scaledFont(size: 14, design: .serif)
-                    .foregroundStyle(p.inkSecondary)
-                Text(app.selfMember?.name ?? app.t("common.you"))
-                    .scaledFont(size: 28, weight: .bold, design: .serif)
-                    .foregroundStyle(p.inkPrimary)
-            }
+        HStack {
             Spacer()
             Button { showSettings = true } label: {
                 Image(systemName: "gearshape")
@@ -64,39 +61,44 @@ struct HomeView: View {
     private var tithiHero: some View {
         let bs = BikramSambat.today()
         let pan = Panchanga.forDay(Date())
-        return Button {
-            app.selectedTab = 2
-        } label: {
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    Text("\(app.digits(bs.day)) \(bs.monthName(ne: ne))")
-                        .scaledFont(size: 44, weight: .bold, design: .serif)
-                        .foregroundStyle(p.inkPrimary)
-                    Text(app.digits(bs.year))
-                        .scaledFont(size: 22, design: .serif)
-                        .foregroundStyle(p.inkSecondary)
+        return VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("\(app.digits(bs.day)) \(bs.monthName(ne: ne))")
+                    .scaledFont(size: 44, weight: .bold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(pan.tithiName(ne: ne))
+                    Text(pan.pakshaName(ne: ne))
+                    Text(ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)
                 }
-                Text("\(pan.tithiName(ne: ne)) · \(pan.pakshaName(ne: ne)) · \(ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)")
-                    .scaledFont(size: 16, design: .serif)
-                    .foregroundStyle(p.sindoor)
-                Text(Date().formatted(.dateTime.weekday(.wide).day().month(.wide).locale(app.locale)))
-                    .scaledFont(size: 13)
-                    .foregroundStyle(p.inkSecondary.opacity(0.8))
+                .scaledFont(size: 16, design: .serif)
+                .foregroundStyle(p.sindoor)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            Button {
+                Haptics.tap()
+                app.open(.patro)
+            } label: {
+                HStack(spacing: 8) {
+                    Text(app.t("home.openPatro"))
+                    Image(systemName: "chevron.right")
+                }
+                .scaledFont(size: 15, weight: .medium)
+                .foregroundStyle(p.saffron)
+            }
+            .buttonStyle(SpringPressStyle())
         }
-        .buttonStyle(SpringPressStyle())
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// Personal rashifal, flat: seal + two lines + the dasha in one quiet line.
+    /// Personal rashifal, flat: rashi mark + two lines + the dasha in one quiet line.
     private var rashifalBlock: some View {
         Group {
             if let k = app.selfMember?.kundali {
                 let r = RashifalEngine.generate(rashi: k.moonRashi, period: .daily, date: Date(), lang: app.language)
-                Button { app.selectedTab = 1 } label: {
+                Button { app.open(.rashifal) } label: {
                     VStack(alignment: .leading, spacing: 12) {
                         HStack(spacing: 12) {
-                            RashiSeal(rashi: k.moonRashi, size: 44)
+                            RashiIcon(rashi: k.moonRashi, size: 44)
                             Text(ne ? k.moonRashi.nameNE : k.moonRashi.shortEN)
                                 .scaledFont(size: 21, weight: .semibold, design: .serif)
                                 .foregroundStyle(p.inkPrimary)
@@ -131,17 +133,17 @@ struct HomeView: View {
     private var familyRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
-                ForEach(app.family) { m in
-                    Button { app.selectedTab = 3 } label: {
+                ForEach(app.family.filter { $0.relation != .selfMember }) { m in
+                    Button { app.open(.family) } label: {
                         VStack(spacing: 5) {
                             if let k = m.kundali {
-                                RashiSeal(rashi: k.moonRashi, size: 50)
+                                RashiIcon(rashi: k.moonRashi, size: 50)
                             } else {
                                 Circle().strokeBorder(p.templeGold.opacity(0.4), style: StrokeStyle(lineWidth: 1, dash: [4]))
                                     .frame(width: 50, height: 50)
                                     .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
                             }
-                            Text(m.relation == .selfMember ? app.t("common.you") : m.name)
+                            Text(m.name)
                                 .scaledFont(size: 12)
                                 .foregroundStyle(p.inkSecondary)
                                 .lineLimit(1)
@@ -149,7 +151,7 @@ struct HomeView: View {
                         .frame(width: 62)
                     }
                     .buttonStyle(SpringPressStyle())
-                    .accessibilityLabel(m.relation == .selfMember ? app.t("common.you") : m.name)
+                    .accessibilityLabel(m.name)
                 }
             }
         }
@@ -161,32 +163,34 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 16) {
             SectionLabel(text: app.t("home.upcoming"))
             let items = Array(app.upcomingEvents().prefix(3))
-            if items.isEmpty {
-                Text(app.t("home.noEvents"))
-                    .scaledFont(size: 15)
-                    .foregroundStyle(p.inkSecondary)
-            } else {
-                VStack(spacing: 0) {
-                    ForEach(Array(items.enumerated()), id: \.element.event.id) { i, item in
-                        Button { app.selectedTab = 2 } label: {
-                            HStack(spacing: 14) {
-                                Text("\(app.digits(item.bs.day)) \(item.bs.monthName(ne: ne))")
-                                    .scaledFont(size: 15, weight: .semibold, design: .serif)
-                                    .foregroundStyle(p.sindoor)
-                                    .frame(width: 96, alignment: .leading)
-                                Text(item.event.title)
-                                    .scaledFont(size: 16, design: .serif)
-                                    .foregroundStyle(p.inkPrimary)
-                                    .lineLimit(1)
-                                Spacer()
-                            }
-                            .padding(.vertical, 12)
+            VStack(spacing: 0) {
+                ForEach(Array(items.enumerated()), id: \.element.event.id) { i, item in
+                    Button { app.open(.patro) } label: {
+                        HStack(spacing: 14) {
+                            Text("\(app.digits(item.bs.day)) \(item.bs.monthName(ne: ne))")
+                                .scaledFont(size: 15, weight: .semibold, design: .serif)
+                                .foregroundStyle(p.sindoor)
+                                .frame(width: 96, alignment: .leading)
+                            Text(item.event.title)
+                                .scaledFont(size: 16, design: .serif)
+                                .foregroundStyle(p.inkPrimary)
+                                .lineLimit(1)
+                            Spacer()
                         }
-                        .buttonStyle(SpringPressStyle())
-                        if i < items.count - 1 { Hairline() }
+                        .padding(.vertical, 12)
                     }
+                    .buttonStyle(SpringPressStyle())
+                    if i < items.count - 1 { Hairline() }
                 }
             }
         }
+    }
+
+    private var hasRelatives: Bool {
+        app.family.contains { $0.relation != .selfMember }
+    }
+
+    private var hasUpcoming: Bool {
+        !app.upcomingEvents().isEmpty
     }
 }

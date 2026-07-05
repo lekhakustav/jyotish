@@ -9,7 +9,7 @@ import AVFoundation
 final class VoiceAgent: NSObject, ObservableObject {
     @Published var isListening = false
     @Published var transcript = ""
-    @Published var speaksReplies = true
+    @Published var speaksReplies = false
     @Published var unavailable = false
 
     private let synthesizer = AVSpeechSynthesizer()

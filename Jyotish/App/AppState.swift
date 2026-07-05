@@ -10,11 +10,15 @@ final class AppState: ObservableObject {
     @Published var theme: ThemeChoice = .system
     @Published var syncStatus: String?
     /// Transient tab selection — lets Home blocks deep-link into their tabs.
-    @Published var selectedTab: Int = {
+    @Published var selectedTab: AppTab = {
         let args = ProcessInfo.processInfo.arguments
-        if let i = args.firstIndex(of: "-tab"), i + 1 < args.count, let n = Int(args[i + 1]) { return n }
-        return 0
+        if let i = args.firstIndex(of: "-tab"), i + 1 < args.count, let n = Int(args[i + 1]) {
+            return AppTab.fromLaunchIndex(n)
+        }
+        return .home
     }()
+    @Published var pushedDestination: AppDestination?
+    @Published var modalDestination: AppDestination?
 
     // Service seam. Supabase is used when configured; otherwise the app remains local-first.
     let auth: AuthService
@@ -180,6 +184,17 @@ final class AppState: ObservableObject {
 
     func addEvent(_ event: PatroEvent) { events.append(event); persist() }
     func removeEvent(_ event: PatroEvent) { events.removeAll { $0.id == event.id }; persist() }
+
+    func open(_ destination: AppDestination) {
+        switch destination.presentationStyle {
+        case .tab:
+            selectedTab = AppTab.allCases.first { $0.destination == destination } ?? .home
+        case .pushed:
+            pushedDestination = destination
+        case .modal:
+            modalDestination = destination
+        }
+    }
 
     func sendChat(_ text: String) {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)

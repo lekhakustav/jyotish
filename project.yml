@@ -30,3 +30,14 @@ targets:
         CODE_SIGNING_ALLOWED: NO
         SUPABASE_URL: "https://ghfcssxptpazfbtiwshz.supabase.co"
         SUPABASE_ANON_OR_PUBLISHABLE_KEY: "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW"
+  JyotishTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [JyotishTests]
+    dependencies:
+      - target: Jyotish
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sodhera.jyotish.tests
+        SWIFT_VERSION: "5.9"
+        CODE_SIGNING_ALLOWED: NO
