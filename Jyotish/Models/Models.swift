@@ -78,7 +78,7 @@ struct ChatMessage: Codable, Identifiable, Equatable {
     var timestamp: Date = Date()
 }
 
-/// Everything one account owns — mirrors the future Supabase schema 1:1.
+/// Everything one account owns; synced as one user-owned Supabase household row.
 struct Household: Codable {
     var schemaVersion: Int = 1
     var account: UserAccount?

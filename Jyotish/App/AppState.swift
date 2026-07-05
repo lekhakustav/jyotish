@@ -8,6 +8,7 @@ final class AppState: ObservableObject {
     @Published var chat: [ChatMessage] = []
     @Published var language: Language = .en
     @Published var theme: ThemeChoice = .system
+    @Published var syncStatus: String?
     /// Transient tab selection — lets Home cards deep-link into their tabs.
     @Published var selectedTab: Int = {
         let args = ProcessInfo.processInfo.arguments
@@ -15,11 +16,25 @@ final class AppState: ObservableObject {
         return 0
     }()
 
-    // Service seam — swap for Supabase implementations later (docs/02).
-    let auth: AuthService = DummyAuthService()
+    // Service seam. Supabase is used when configured; otherwise the app remains local-first.
+    let auth: AuthService
     private let store: DataStore = LocalDataStore()
+    private let remoteStore: RemoteDataStore?
 
     init() {
+        let sessionStore = SupabaseSessionStore()
+        var restoredSupabaseAccount: UserAccount?
+        if let config = SupabaseConfig.current {
+            let supabaseAuth = SupabaseAuthService(config: config, sessionStore: sessionStore)
+            auth = supabaseAuth
+            remoteStore = SupabaseDataStore(config: config, sessionStore: sessionStore)
+            if let session = supabaseAuth.currentSession {
+                restoredSupabaseAccount = UserAccount(id: session.userID, email: nil, displayName: "", isDemo: false)
+            }
+        } else {
+            auth = DummyAuthService()
+            remoteStore = nil
+        }
         if let saved = store.load() {
             account = saved.account
             family = saved.family
@@ -27,6 +42,15 @@ final class AppState: ObservableObject {
             chat = saved.chat
             language = saved.language
             theme = saved.theme
+        }
+        if let restoredSupabaseAccount {
+            if account?.id == restoredSupabaseAccount.id, var cached = account {
+                cached.isDemo = false
+                account = cached
+            } else {
+                account = restoredSupabaseAccount
+            }
+            Task { await loadRemoteHousehold() }
         }
         seedIfRequested()
     }
@@ -72,23 +96,59 @@ final class AppState: ObservableObject {
     var locale: Locale { Locale(identifier: language == .ne ? "ne_NP" : "en_US") }
 
     private func persist() {
-        store.save(Household(account: account, family: family, events: events,
-                             chat: chat, language: language, theme: theme))
+        let household = Household(account: account, family: family, events: events,
+                                  chat: chat, language: language, theme: theme)
+        store.save(household)
+        guard let account, let remoteStore else { return }
+        Task {
+            do {
+                try await remoteStore.save(household, for: account)
+                syncStatus = nil
+            } catch {
+                syncStatus = error.localizedDescription
+            }
+        }
     }
 
     // ── Mutations ────────────────────────────────────────────────────────────
     func signInDemo() {
         Task {
-            if let acct = try? await auth.signInDemo(name: "") {
+            do {
+                let acct = try await auth.signInDemo(name: "")
                 account = acct
+                await loadRemoteHousehold()
                 persist()
+            } catch {
+                syncStatus = error.localizedDescription
             }
         }
     }
 
     func signOut() {
+        Task { try? await auth.signOut() }
         account = nil
+        family = []
+        events = []
+        chat = []
         persist()
+    }
+
+    private func loadRemoteHousehold() async {
+        guard let account, let remoteStore else { return }
+        do {
+            if let remote = try await remoteStore.load(for: account) {
+                self.account = remote.account ?? account
+                family = remote.family
+                events = remote.events
+                chat = remote.chat
+                language = remote.language
+                theme = remote.theme
+                store.save(remote)
+            }
+            syncStatus = nil
+        } catch {
+            syncStatus = error.localizedDescription
+        }
     }
 
     func saveSelf(name: String, gender: Gender, birth: BirthData) {

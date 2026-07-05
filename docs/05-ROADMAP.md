@@ -16,7 +16,7 @@ If a session dies mid-build, resume from the first unchecked box, guided by docs
 - [x] PanditBrain + VastuKnowledge + CityMatcher
 
 ## Phase C — Services
-- [x] AuthService (Dummy + Supabase stub), DataStore (Local JSON + Supabase stub)
+- [x] AuthService (Dummy + Supabase anonymous auth), DataStore (Local JSON + Supabase sync)
 
 ## Phase D — Features
 - [x] Welcome + paged birth flow with kundali ceremony/reveal
@@ -47,5 +47,7 @@ If a session dies mid-build, resume from the first unchecked box, guided by docs
 - QA hooks: launch args `-demoSeed` (seed household), `-tab N` (open tab), `-lang ne`.
 
 ## Post-v1 (when Supabase arrives)
-Fill SupabaseConfig, implement the two stub services, add real sign-in UI states.
-Schema is documented in Services/SupabaseStubs.swift.
+Supabase sync is implemented for the current "Continue" path through anonymous auth,
+one user-owned `households` JSONB row, and RLS. Next step: add explicit email/phone
+account linking UI so users can restore the same account across devices.
+Schema is documented in `docs/07-SUPABASE.md`.

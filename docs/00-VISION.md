@@ -38,8 +38,8 @@ Parents and grandparents in Nepal, **age 40–80**. Design consequences:
 
 ## Non-goals (v1)
 
-- No real network calls. Supabase is **stubbed behind protocols** (see 02-ARCHITECTURE.md);
-  a dummy login button stands in for auth. Everything persists locally as JSON.
+- No external services are required. Supabase sync is optional behind protocols
+  (see 02-ARCHITECTURE.md); local JSON remains the offline cache.
 - No push notifications, no widgets, no payments.
 
 ## Definition of done (v1)

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0290FA070DFFEBFFFCCB13E3 /* FamilyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A582A58746E5941C82D0D1 /* FamilyView.swift */; };
 		095C1183AD1CEBA94728DEB4 /* MemberDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D1B04B741F6E03E3BE1F9E /* MemberDetailView.swift */; };
-		0EE2368F9219677664DDC9C6 /* SupabaseStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27939F41726D6CABCC68EE59 /* SupabaseStubs.swift */; };
 		1357305D9B9BFA4D77E3DCA9 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C5768710846A9B19385D5D /* AppState.swift */; };
 		18FD98C3C69EBFF96796E2D4 /* JyotishApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04874C08BA79769F89665330 /* JyotishApp.swift */; };
 		342595E8504959599F44F45F /* Ornaments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44A4C641E1416AD6B34B960 /* Ornaments.swift */; };
@@ -33,6 +32,7 @@
 		B1F4DCC228EC5921A8084668 /* PatroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EDE8C06A4966A678575C68 /* PatroView.swift */; };
 		BB18557AA47A96F20C4EA043 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C324F7E4013404A123B04A /* Interpreter.swift */; };
 		BE7CB82D1A359417E872EA22 /* BikramSambat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB564A0D2D0D03EB2CA6E865 /* BikramSambat.swift */; };
+		C311C6BFE5D07B045C3C5C69 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */; };
 		CCC6A0BF1539CA238DD5CAFA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4CFB496D533A622FAE8A9 /* Models.swift */; };
 		CDEB601E28C6202765C6DD99 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7523A559BF6D4E01C9C9FB04 /* L10n.swift */; };
 		DAE42E526033BEEE15D677BC /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE8C25232BB28C6E6BBD5E2 /* Ephemeris.swift */; };
@@ -43,7 +43,6 @@
 		0161B72EC6663579F8AB2188 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		04874C08BA79769F89665330 /* JyotishApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JyotishApp.swift; sourceTree = "<group>"; };
 		24F0CB684B9DA81F1A9CE9A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		27939F41726D6CABCC68EE59 /* SupabaseStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseStubs.swift; sourceTree = "<group>"; };
 		2DA60917EF91A0E7FC741D7A /* VoiceAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAgent.swift; sourceTree = "<group>"; };
 		2E2A1DEF7A570615F8F915AD /* Dasha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dasha.swift; sourceTree = "<group>"; };
 		31C3A63C337A93743E1C5EA4 /* CityMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityMatcher.swift; sourceTree = "<group>"; };
@@ -53,6 +52,7 @@
 		52D4CFB496D533A622FAE8A9 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		6A6D62BEE40DC68331B2BAAC /* VastuKnowledge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VastuKnowledge.swift; sourceTree = "<group>"; };
 		7523A559BF6D4E01C9C9FB04 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
+		7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
 		86D1B04B741F6E03E3BE1F9E /* MemberDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberDetailView.swift; sourceTree = "<group>"; };
 		9777A86C8ACCA10A6FEF6B69 /* PanditBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanditBrain.swift; sourceTree = "<group>"; };
 		9AFFE2FD7A849DC61A4D7460 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -259,7 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				CCE8FC0FA8B659775C2DB8D1 /* Services.swift */,
-				27939F41726D6CABCC68EE59 /* SupabaseStubs.swift */,
+				7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */,
 				2DA60917EF91A0E7FC741D7A /* VoiceAgent.swift */,
 			);
 			path = Services;
@@ -356,7 +356,7 @@
 				A38B8453A71ED87233B14BD6 /* RashifalView.swift in Sources */,
 				B1784E2D79797EFFB7C4532F /* Services.swift in Sources */,
 				4B7C1766D0AEB43508C605D7 /* SettingsView.swift in Sources */,
-				0EE2368F9219677664DDC9C6 /* SupabaseStubs.swift in Sources */,
+				C311C6BFE5D07B045C3C5C69 /* SupabaseService.swift in Sources */,
 				4387C6122422FD7B392AC4B2 /* Theme.swift in Sources */,
 				800E4B5C901EA1D3EB8553DD /* VastuKnowledge.swift in Sources */,
 				78A1DAD5E136C29FCF492587 /* VoiceAgent.swift in Sources */,
@@ -382,6 +382,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotish;
 				SDKROOT = iphoneos;
+				SUPABASE_ANON_OR_PUBLISHABLE_KEY = "";
+				SUPABASE_URL = "";
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -521,6 +523,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotish;
 				SDKROOT = iphoneos;
+				SUPABASE_ANON_OR_PUBLISHABLE_KEY = "";
+				SUPABASE_URL = "";
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

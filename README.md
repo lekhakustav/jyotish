@@ -2,8 +2,8 @@
 
 A SwiftUI iOS app that is your family's pandit: real Vedic astrology (kundali, dasha,
 panchanga), generated rashifal, a Bikram Sambat patro with events, a family tree of
-kundalis, and a bilingual (EN/नेपाली) Pandit-ji chatbot. Local-first; Supabase-ready
-service layer stubs for future sync.
+kundalis, and a bilingual (EN/नेपाली) Pandit-ji chatbot. Local-first with optional
+Supabase sync for real user profiles, family data, events, settings, and chat history.
 
 ## Run it
 ```sh
@@ -21,3 +21,4 @@ xcodebuild -project Jyotish.xcodeproj -scheme Jyotish \
 - [docs/04-FEATURES.md](docs/04-FEATURES.md) — screen-by-screen specs
 - [docs/05-ROADMAP.md](docs/05-ROADMAP.md) — build order & status
 - [docs/06-BACKEND-AGENT.md](docs/06-BACKEND-AGENT.md) — OpenAI-backed backend agent contract
+- [docs/07-SUPABASE.md](docs/07-SUPABASE.md) — Supabase auth, RLS, schema, and key handling

@@ -17,6 +17,8 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         NSMicrophoneUsageDescription: "The microphone lets you ask Pandit-ji questions by voice."
         NSSpeechRecognitionUsageDescription: "Speech recognition turns your voice into a question for Pandit-ji."
+        SUPABASE_URL: "$(SUPABASE_URL)"
+        SUPABASE_ANON_OR_PUBLISHABLE_KEY: "$(SUPABASE_ANON_OR_PUBLISHABLE_KEY)"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.sodhera.jyotish
@@ -26,3 +28,5 @@ targets:
         SWIFT_VERSION: "5.9"
         TARGETED_DEVICE_FAMILY: "1"
         CODE_SIGNING_ALLOWED: NO
+        SUPABASE_URL: ""
+        SUPABASE_ANON_OR_PUBLISHABLE_KEY: ""

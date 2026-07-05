@@ -1,7 +1,7 @@
 import Foundation
 
-// The service seam. v1 runs on the Dummy/Local implementations; when Supabase
-// arrives only the wiring in AppState.init changes. See docs/02-ARCHITECTURE.md.
+// The service seam. The app runs on Dummy/Local when Supabase is absent and
+// SupabaseAuthService/SupabaseDataStore when client config is present.
 
 protocol AuthService {
     func signInDemo(name: String) async throws -> UserAccount
@@ -11,6 +11,11 @@ protocol AuthService {
 protocol DataStore {
     func load() -> Household?
     func save(_ household: Household)
+}
+
+protocol RemoteDataStore {
+    func load(for account: UserAccount) async throws -> Household?
+    func save(_ household: Household, for account: UserAccount) async throws
 }
 
 struct DummyAuthService: AuthService {
