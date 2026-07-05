@@ -20,3 +20,4 @@ xcodebuild -project Jyotish.xcodeproj -scheme Jyotish \
 - [docs/03-ASTROLOGY-ENGINE.md](docs/03-ASTROLOGY-ENGINE.md) — the real math
 - [docs/04-FEATURES.md](docs/04-FEATURES.md) — screen-by-screen specs
 - [docs/05-ROADMAP.md](docs/05-ROADMAP.md) — build order & status
+- [docs/06-BACKEND-AGENT.md](docs/06-BACKEND-AGENT.md) — OpenAI-backed backend agent contract
