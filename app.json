@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Jyotish baje",
+    "slug": "jyotish-baje",
+    "scheme": "jyotishbaje",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/expo/images/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "assetBundlePatterns": [
+      "assets/expo/**/*"
+    ],
+    "android": {
+      "package": "com.sodhera.jyotish",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/expo/images/icon.png",
+        "backgroundColor": "#FCF7ED"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/expo/fonts/Inter-Regular.ttf",
+            "./assets/expo/fonts/Inter-SemiBold.ttf",
+            "./assets/expo/fonts/Inter-Bold.ttf",
+            "./assets/expo/fonts/Fraunces-Regular.ttf",
+            "./assets/expo/fonts/Fraunces-Bold.ttf"
+          ]
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
