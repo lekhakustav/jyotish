@@ -21,19 +21,17 @@ the schedule reason.
 
 ## Supabase Upload Status
 
-The app Supabase URL and publishable key are present in `project.yml`, but the
-local `.env.local` does not contain `SUPABASE_SERVICE_ROLE_KEY`, and the Supabase
-CLI is not authenticated for this account. A direct storage check on 2026-07-06
-returned an empty bucket list, and creating the public `temple-of-day` bucket with
-the publishable key failed with storage RLS.
+Uploaded on 2026-07-06 using a service-role key in a local admin process. The
+public storage bucket is `temple-of-day`; the six PNGs and `manifest.json` are
+under the `2083/` prefix. Public GET verification succeeded for all PNGs with
+`image/png`, and the manifest is publicly readable as `application/json`.
 
-To finish the upload, run it from an admin/server context with a service-role key:
+The app can either read `assets/temple-of-day/2083/manifest.json` at build time
+or fetch the hosted manifest once the display feature is implemented:
 
-1. Create a public storage bucket named `temple-of-day`.
-2. Upload the six PNGs to the `2083/` paths listed above.
-3. Set public-read storage policy for the bucket, or serve signed URLs from a backend.
-4. Replace local image references in the app with Supabase public URLs or signed URL
-   lookups once the display feature is implemented.
+```text
+https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/manifest.json
+```
 
 The intended public URL shape is:
 

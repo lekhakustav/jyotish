@@ -2,7 +2,7 @@
   "bucket": "temple-of-day",
   "generatedAt": "2026-07-06",
   "style": "16-bit pixel art, square PNG, Nepal temple with relevant natural or sacred background",
-  "status": "local-assets-ready-supabase-upload-blocked-by-storage-rls",
+  "status": "uploaded-to-supabase",
   "items": [
     {
       "adDate": "2026-07-06",
@@ -11,7 +11,8 @@
       "templeName": "Pashupatinath Temple",
       "file": "2026-07-06_pashupatinath.png",
       "storagePath": "2083/2026-07-06_pashupatinath.png",
-      "sourceScheduleReason": "It is Monday, the weekly Shiva day, so Pashupatinath overrides the neutral tithi fallback."
+      "sourceScheduleReason": "It is Monday, the weekly Shiva day, so Pashupatinath overrides the neutral tithi fallback.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-06_pashupatinath.png"
     },
     {
       "adDate": "2026-07-07",
@@ -20,7 +21,8 @@
       "templeName": "Gorkha Kalika Temple",
       "file": "2026-07-07_gorkha-kalika.png",
       "storagePath": "2083/2026-07-07_gorkha-kalika.png",
-      "sourceScheduleReason": "The calendar explicitly marks Gorkhakali Puja, so the day goes to Gorkha Kalika."
+      "sourceScheduleReason": "The calendar explicitly marks Gorkhakali Puja, so the day goes to Gorkha Kalika.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-07_gorkha-kalika.png"
     },
     {
       "adDate": "2026-07-08",
@@ -29,7 +31,8 @@
       "templeName": "Dakshinkali Temple",
       "file": "2026-07-08_dakshinkali.png",
       "storagePath": "2083/2026-07-08_dakshinkali.png",
-      "sourceScheduleReason": "Ashtami is a Devi tithi, so Dakshinkali anchors the day."
+      "sourceScheduleReason": "Ashtami is a Devi tithi, so Dakshinkali anchors the day.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-08_dakshinkali.png"
     },
     {
       "adDate": "2026-07-09",
@@ -38,7 +41,8 @@
       "templeName": "Taleju Bhawani Temple",
       "file": "2026-07-09_taleju-bhawani.png",
       "storagePath": "2083/2026-07-09_taleju-bhawani.png",
-      "sourceScheduleReason": "Navami is kept in Shakti/Durga logic with Taleju Bhawani."
+      "sourceScheduleReason": "Navami is kept in Shakti/Durga logic with Taleju Bhawani.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-09_taleju-bhawani.png"
     },
     {
       "adDate": "2026-07-10",
@@ -47,7 +51,8 @@
       "templeName": "Budhanilkantha Temple",
       "file": "2026-07-10_budhanilkantha.png",
       "storagePath": "2083/2026-07-10_budhanilkantha.png",
-      "sourceScheduleReason": "Ekadashi is a Vishnu vrata, so Budhanilkantha is the default Nepal Narayana anchor."
+      "sourceScheduleReason": "Ekadashi is a Vishnu vrata, so Budhanilkantha is the default Nepal Narayana anchor.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-10_budhanilkantha.png"
     },
     {
       "adDate": "2026-07-11",
@@ -56,7 +61,10 @@
       "templeName": "Budhanilkantha Temple",
       "file": "2026-07-11_budhanilkantha-yogini-ekadashi.png",
       "storagePath": "2083/2026-07-11_budhanilkantha-yogini-ekadashi.png",
-      "sourceScheduleReason": "Ekadashi is a Vishnu vrata, so Budhanilkantha is the default Nepal Narayana anchor."
+      "sourceScheduleReason": "Ekadashi is a Vishnu vrata, so Budhanilkantha is the default Nepal Narayana anchor.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-11_budhanilkantha-yogini-ekadashi.png"
     }
-  ]
+  ],
+  "uploadedAt": "2026-07-06",
+  "manifestPublicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/manifest.json"
 }
