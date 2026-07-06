@@ -13,7 +13,7 @@ enum L10n {
         "greet.afternoon": ("Namaste", "नमस्ते"),
         "greet.evening": ("Shubha Sandhya", "शुभ सन्ध्या"),
         "greet.night": ("Shubha Ratri", "शुभ रात्री"),
-        "app.name": ("Jyotish", "ज्योतिष"),
+        "app.name": ("Jyotish baje", "ज्योतिष बाजे"),
         "app.tagline": ("Your family's pandit, in your pocket", "तपाईंको परिवारको पण्डित, तपाईंकै हातमा"),
         "common.save": ("Save", "सुरक्षित गर्नुहोस्"),
         "common.cancel": ("Cancel", "रद्द गर्नुहोस्"),
@@ -75,7 +75,7 @@ enum L10n {
         "home.antardasha": ("Antardasha", "अन्तर्दशा"),
         "home.openPatro": ("Open Patro", "पात्रो खोल्नुहोस्"),
         "home.askPandit": ("Ask Pandit-ji", "पण्डितजीलाई सोध्नुहोस्"),
-        "home.chat": ("Chat", "कुराकानी"),
+        "home.chat": ("Pandit Chat", "पण्डित च्याट"),
         "home.templeOfDay": ("Temple of the Day", "आजको मन्दिर"),
         // Rashifal
         "rashifal.title": ("Rashifal", "राशिफल"),

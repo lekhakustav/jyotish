@@ -493,7 +493,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Jyotish/Info.plist;
-				JYOTISH_AGENT_BASE_URL = "http://127.0.0.1:8788";
+				JYOTISH_AGENT_BASE_URL = "";
+				JYOTISH_AGENT_ENDPOINT_URL = "http://127.0.0.1:8788/api/jyotish-agent/chat";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -671,7 +672,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Jyotish/Info.plist;
-				JYOTISH_AGENT_BASE_URL = "http://127.0.0.1:8788";
+				JYOTISH_AGENT_BASE_URL = "";
+				JYOTISH_AGENT_ENDPOINT_URL = "http://127.0.0.1:8788/api/jyotish-agent/chat";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

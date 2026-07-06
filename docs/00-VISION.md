@@ -1,4 +1,4 @@
-# Jyotish — Vision Document
+# Jyotish baje — Vision Document
 
 > **The one-line vibe:** *Sacred dawn in your pocket.* Marigold garlands,
 > vermillion sindoor, the hush of a temple courtyard at dawn — rendered as a modern iOS app

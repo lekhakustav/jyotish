@@ -1,5 +1,6 @@
 {
   "scripts": {
-    "agent": "node server/jyotish-agent.mjs"
+    "agent": "node server/jyotish-agent.mjs",
+    "upload:brand-logo": "node scripts/upload-brand-logo.mjs"
   }
 }

@@ -56,10 +56,12 @@ See `docs/07-SUPABASE.md` for the SQL schema, RLS policies, and key handling.
 ## Pandit agent backend
 `AppState.sendChat(_:)` appends the user's message immediately, builds an
 `AgentChatRequest` from the current household, and posts it through
-`HTTPAgentService` to `JYOTISH_AGENT_BASE_URL` (default `http://127.0.0.1:8788`).
-The backend is `server/jyotish-agent.mjs`, which reads the ignored `.env.local`
-`OPENAI_API_KEY` and calls OpenAI server-side. If the server is unavailable or returns an
-invalid reply, `AppState` appends the deterministic local `PanditBrain` answer instead.
+`HTTPAgentService` to `JYOTISH_AGENT_ENDPOINT_URL` (default
+`http://127.0.0.1:8788/api/jyotish-agent/chat`). The development backend is
+`server/jyotish-agent.mjs`; the production no-dedicated-server path is the Supabase Edge
+Function in `supabase/functions/jyotish-agent`. Both keep `OPENAI_API_KEY` server-side and
+call OpenAI outside the iOS app. If the endpoint is unavailable or returns an invalid reply,
+`AppState` appends the deterministic local `PanditBrain` answer instead.
 
 ## Profile gating
 Kundali-dependent features (rashifal personalization, kundali screen, chat questions that

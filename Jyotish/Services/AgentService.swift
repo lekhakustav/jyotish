@@ -70,15 +70,22 @@ enum AgentServiceError: Error {
 }
 
 struct HTTPAgentService: AgentService {
-    let baseURL: URL
+    let endpointURL: URL
+    var apiKey: String?
+    var authorizationToken: (() -> String?)?
     var session: URLSession = .shared
 
     func reply(to message: String, context: AgentChatRequest) async throws -> String {
-        let endpoint = baseURL.appending(path: "/api/jyotish-agent/chat")
-        var request = URLRequest(url: endpoint)
+        var request = URLRequest(url: endpointURL)
         request.httpMethod = "POST"
         request.timeoutInterval = 45
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let apiKey {
+            request.setValue(apiKey, forHTTPHeaderField: "apikey")
+        }
+        if let token = authorizationToken?(), !token.isEmpty {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
         request.httpBody = try JSONEncoder.agentEncoder.encode(context)
 
         let (data, response) = try await session.data(for: request)

@@ -9,9 +9,10 @@ Jyotish chat is backend-first with a local fallback:
 3. `AgentService` builds an `AgentChatRequest` with the user's profile, family kundlis,
    local readings, current dasha, daily rashifal, saved events, recent chat history, and
    the local fallback answer.
-4. `HTTPAgentService` posts that context to `JYOTISH_AGENT_BASE_URL`
-   (`http://127.0.0.1:8788` by default).
-5. `server/jyotish-agent.mjs` keeps the OpenAI key server-side and calls OpenAI.
+4. `HTTPAgentService` posts that context to `JYOTISH_AGENT_ENDPOINT_URL`
+   (`http://127.0.0.1:8788/api/jyotish-agent/chat` by default for local development).
+5. The local dev backend (`server/jyotish-agent.mjs`) or production Supabase Edge Function
+   (`supabase/functions/jyotish-agent`) keeps the OpenAI key server-side and calls OpenAI.
 6. If the backend fails or returns an empty reply, `AppState` appends the local
    `PanditBrain` answer so the chat still works offline.
 7. `VoiceAgent` only handles speech-to-text and text-to-speech. It does not call OpenAI.
@@ -26,6 +27,7 @@ OPENAI_API_KEY=...
 OPENAI_JYOTISH_AGENT_MODEL=gpt-5-mini
 OPENAI_JYOTISH_AGENT_PLANNER_MODEL=gpt-5-nano
 JYOTISH_AGENT_PORT=8788
+JYOTISH_AGENT_ENDPOINT_URL=http://127.0.0.1:8788/api/jyotish-agent/chat
 ```
 
 `.env.local` is intentionally ignored by git.
@@ -45,6 +47,7 @@ Never echo the key, commit `.env.local`, place it in `Info.plist`, or put it in 
 settings.
 
 ## Run the backend
+### Local development
 
 ```sh
 npm run agent
@@ -63,6 +66,24 @@ curl -sS http://127.0.0.1:8788/api/jyotish-agent/chat \
   -H 'Content-Type: application/json' \
   -d '{"language":"en","message":"Namaste, how is my day?","family":[],"events":[],"chatHistory":[],"localFallbackReply":"Namaste."}'
 ```
+
+### Production without a dedicated server
+Use the Supabase Edge Function in `supabase/functions/jyotish-agent`:
+
+```sh
+supabase secrets set OPENAI_API_KEY=... OPENAI_JYOTISH_AGENT_MODEL=gpt-5-mini
+supabase functions deploy jyotish-agent
+```
+
+Then build the app with:
+
+```sh
+JYOTISH_AGENT_ENDPOINT_URL=https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent
+```
+
+Keep Supabase function JWT verification enabled for production. The app includes the
+publishable `apikey` header and the user's Supabase Auth bearer token when a session exists.
+That prevents placing the OpenAI key in the app and avoids running a separate server.
 
 ## Backend contract
 The backend exposes one narrow chat endpoint:
@@ -108,7 +129,7 @@ The server prompt tells OpenAI to:
 - avoid fear-based predictions and medical/legal/financial certainty.
 
 ## iOS integration
-`project.yml` and `Jyotish/Info.plist` define `JYOTISH_AGENT_BASE_URL`, defaulting to the
-simulator-friendly loopback URL. For a physical device, override this setting to a reachable
-LAN or deployed HTTPS backend. Do not read `.env.local` from the iOS app and do not ship the
+`project.yml` and `Jyotish/Info.plist` define `JYOTISH_AGENT_ENDPOINT_URL`, defaulting to the
+simulator-friendly local endpoint. For production, override this setting to the deployed
+Supabase Edge Function URL. Do not read `.env.local` from the iOS app and do not ship the
 OpenAI key in source code, asset catalogs, `Info.plist`, or build settings.

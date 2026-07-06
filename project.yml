@@ -3,6 +3,15 @@ options:
   bundleIdPrefix: com.sodhera
   deploymentTarget:
     iOS: "17.0"
+schemes:
+  Jyotish:
+    build:
+      targets:
+        Jyotish: all
+        JyotishTests: [test]
+    test:
+      targets:
+        - JyotishTests
 targets:
   Jyotish:
     type: application
@@ -11,7 +20,7 @@ targets:
     info:
       path: Jyotish/Info.plist
       properties:
-        CFBundleDisplayName: Jyotish
+        CFBundleDisplayName: Jyotish baje
         UILaunchScreen:
           UIColorName: LaunchBackground
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
@@ -19,6 +28,7 @@ targets:
         NSSpeechRecognitionUsageDescription: "Speech recognition turns your voice into a question for Pandit-ji."
         SUPABASE_URL: "$(SUPABASE_URL)"
         SUPABASE_ANON_OR_PUBLISHABLE_KEY: "$(SUPABASE_ANON_OR_PUBLISHABLE_KEY)"
+        JYOTISH_AGENT_ENDPOINT_URL: "$(JYOTISH_AGENT_ENDPOINT_URL)"
         JYOTISH_AGENT_BASE_URL: "$(JYOTISH_AGENT_BASE_URL)"
         UIAppFonts:
           - Fraunces-Light.ttf
@@ -42,7 +52,8 @@ targets:
         CODE_SIGNING_ALLOWED: NO
         SUPABASE_URL: "https://ghfcssxptpazfbtiwshz.supabase.co"
         SUPABASE_ANON_OR_PUBLISHABLE_KEY: "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW"
-        JYOTISH_AGENT_BASE_URL: "http://127.0.0.1:8788"
+        JYOTISH_AGENT_ENDPOINT_URL: "http://127.0.0.1:8788/api/jyotish-agent/chat"
+        JYOTISH_AGENT_BASE_URL: ""
   JyotishTests:
     type: bundle.unit-test
     platform: iOS

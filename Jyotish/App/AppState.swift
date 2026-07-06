@@ -22,14 +22,14 @@ final class AppState: ObservableObject {
 
     // Service seam. Supabase is used when configured; otherwise the app remains local-first.
     let auth: AuthService
+    private let sessionStore = SupabaseSessionStore()
     private let store: DataStore = LocalDataStore()
     private let remoteStore: RemoteDataStore?
     private let agent: AgentService?
 
     init() {
-        let sessionStore = SupabaseSessionStore()
         var restoredSupabaseAccount: UserAccount?
-        agent = Self.makeAgentService()
+        agent = Self.makeAgentService(sessionStore: sessionStore)
         if let config = SupabaseConfig.current {
             let supabaseAuth = SupabaseAuthService(config: config, sessionStore: sessionStore)
             auth = supabaseAuth
@@ -61,11 +61,17 @@ final class AppState: ObservableObject {
         seedIfRequested()
     }
 
-    private static func makeAgentService() -> AgentService? {
-        let configured = Bundle.main.object(forInfoDictionaryKey: "JYOTISH_AGENT_BASE_URL") as? String
-        let raw = configured?.trimmingCharacters(in: .whitespacesAndNewlines)
+    private static func makeAgentService(sessionStore: SupabaseSessionStore) -> AgentService? {
+        let info = Bundle.main.infoDictionary ?? [:]
+        let endpoint = (info["JYOTISH_AGENT_ENDPOINT_URL"] as? String)?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        let base = (info["JYOTISH_AGENT_BASE_URL"] as? String)?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        let raw = endpoint?.isEmpty == false ? endpoint : base
         guard let raw, !raw.isEmpty, let url = URL(string: raw) else { return nil }
-        return HTTPAgentService(baseURL: url)
+        return HTTPAgentService(endpointURL: url,
+                                apiKey: SupabaseConfig.current?.publishableKey,
+                                authorizationToken: { sessionStore.load()?.accessToken })
     }
 
     /// QA-only: `-demoSeed` launch argument creates a ready-made household so
