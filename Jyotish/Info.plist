@@ -20,6 +20,8 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>JYOTISH_AGENT_BASE_URL</key>
+	<string>$(JYOTISH_AGENT_BASE_URL)</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>The microphone lets you ask Pandit-ji questions by voice.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
@@ -30,16 +32,16 @@
 	<string>$(SUPABASE_URL)</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Fonts/Fraunces-Light.ttf</string>
-		<string>Fonts/Fraunces-Regular.ttf</string>
-		<string>Fonts/Fraunces-Medium.ttf</string>
-		<string>Fonts/Fraunces-SemiBold.ttf</string>
-		<string>Fonts/Fraunces-Bold.ttf</string>
-		<string>Fonts/Inter-Light.ttf</string>
-		<string>Fonts/Inter-Regular.ttf</string>
-		<string>Fonts/Inter-Medium.ttf</string>
-		<string>Fonts/Inter-SemiBold.ttf</string>
-		<string>Fonts/Inter-Bold.ttf</string>
+		<string>Fraunces-Light.ttf</string>
+		<string>Fraunces-Regular.ttf</string>
+		<string>Fraunces-Medium.ttf</string>
+		<string>Fraunces-SemiBold.ttf</string>
+		<string>Fraunces-Bold.ttf</string>
+		<string>Inter-Light.ttf</string>
+		<string>Inter-Regular.ttf</string>
+		<string>Inter-Medium.ttf</string>
+		<string>Inter-SemiBold.ttf</string>
+		<string>Inter-Bold.ttf</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>

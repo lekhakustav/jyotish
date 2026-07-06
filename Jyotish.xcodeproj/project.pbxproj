@@ -43,6 +43,7 @@
 		B1F4DCC228EC5921A8084668 /* PatroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EDE8C06A4966A678575C68 /* PatroView.swift */; };
 		BB18557AA47A96F20C4EA043 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C324F7E4013404A123B04A /* Interpreter.swift */; };
 		BE7CB82D1A359417E872EA22 /* BikramSambat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB564A0D2D0D03EB2CA6E865 /* BikramSambat.swift */; };
+		BFE7737B8492C21CD7A0FEE8 /* AgentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A2B609F60974ACC59E2E /* AgentService.swift */; };
 		C311C6BFE5D07B045C3C5C69 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */; };
 		C79CCBB82D3200337E6AB918 /* Fraunces-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5B51DC2C722AF9CF78EC0D2 /* Fraunces-Light.ttf */; };
 		CCC6A0BF1539CA238DD5CAFA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4CFB496D533A622FAE8A9 /* Models.swift */; };
@@ -84,6 +85,7 @@
 		7C0A3C9008CC0AED2AD5D23C /* Fraunces-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Bold.ttf"; sourceTree = "<group>"; };
 		7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
 		86D1B04B741F6E03E3BE1F9E /* MemberDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberDetailView.swift; sourceTree = "<group>"; };
+		9221A2B609F60974ACC59E2E /* AgentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentService.swift; sourceTree = "<group>"; };
 		9777A86C8ACCA10A6FEF6B69 /* PanditBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanditBrain.swift; sourceTree = "<group>"; };
 		987D33B98247512D8CCC19C2 /* Temple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temple.swift; sourceTree = "<group>"; };
 		9AFFE2FD7A849DC61A4D7460 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 		F9CCDF66E8A945B266ACFBAC /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9221A2B609F60974ACC59E2E /* AgentService.swift */,
 				CCE8FC0FA8B659775C2DB8D1 /* Services.swift */,
 				7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */,
 				2DA60917EF91A0E7FC741D7A /* VoiceAgent.swift */,
@@ -436,6 +439,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFE7737B8492C21CD7A0FEE8 /* AgentService.swift in Sources */,
 				196B259F6C44EB6E70031433 /* AppNavigation.swift in Sources */,
 				1357305D9B9BFA4D77E3DCA9 /* AppState.swift in Sources */,
 				BE7CB82D1A359417E872EA22 /* BikramSambat.swift in Sources */,
@@ -489,6 +493,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Jyotish/Info.plist;
+				JYOTISH_AGENT_BASE_URL = "http://127.0.0.1:8788";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -666,6 +671,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Jyotish/Info.plist;
+				JYOTISH_AGENT_BASE_URL = "http://127.0.0.1:8788";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

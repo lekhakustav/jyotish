@@ -24,10 +24,12 @@ final class AppState: ObservableObject {
     let auth: AuthService
     private let store: DataStore = LocalDataStore()
     private let remoteStore: RemoteDataStore?
+    private let agent: AgentService?
 
     init() {
         let sessionStore = SupabaseSessionStore()
         var restoredSupabaseAccount: UserAccount?
+        agent = Self.makeAgentService()
         if let config = SupabaseConfig.current {
             let supabaseAuth = SupabaseAuthService(config: config, sessionStore: sessionStore)
             auth = supabaseAuth
@@ -57,6 +59,13 @@ final class AppState: ObservableObject {
             Task { await loadRemoteHousehold() }
         }
         seedIfRequested()
+    }
+
+    private static func makeAgentService() -> AgentService? {
+        let configured = Bundle.main.object(forInfoDictionaryKey: "JYOTISH_AGENT_BASE_URL") as? String
+        let raw = configured?.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let raw, !raw.isEmpty, let url = URL(string: raw) else { return nil }
+        return HTTPAgentService(baseURL: url)
     }
 
     /// QA-only: `-demoSeed` launch argument creates a ready-made household so
@@ -196,14 +205,33 @@ final class AppState: ObservableObject {
         }
     }
 
-    func sendChat(_ text: String) {
+    func sendChat(_ text: String) async -> ChatMessage? {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
+        guard !trimmed.isEmpty else { return nil }
         chat.append(ChatMessage(isUser: true, text: trimmed))
         let brain = PanditBrain(family: family, lang: language)
-        let answer = brain.reply(to: trimmed)
-        chat.append(ChatMessage(isUser: false, text: answer))
+        let localAnswer = brain.reply(to: trimmed)
         persist()
+
+        let context = AgentChatRequest.make(message: trimmed,
+                                            localFallbackReply: localAnswer,
+                                            family: family,
+                                            events: events,
+                                            chat: chat,
+                                            language: language,
+                                            selfMember: selfMember)
+        let answer: String
+        do {
+            answer = try await agent?.reply(to: trimmed, context: context) ?? localAnswer
+            syncStatus = nil
+        } catch {
+            answer = localAnswer
+            syncStatus = "Pandit backend unavailable; using local reading."
+        }
+        let reply = ChatMessage(isUser: false, text: answer)
+        chat.append(reply)
+        persist()
+        return reply
     }
 
     func setLanguage(_ l: Language) { language = l; persist() }

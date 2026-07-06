@@ -41,40 +41,6 @@ struct MandalaView: View {
     }
 }
 
-/// A softly flickering diya flame (two blended teardrops).
-struct DiyaFlame: View {
-    @Environment(\.palette) private var p
-    @State private var flicker = false
-    var size: CGFloat = 26
-    var body: some View {
-        ZStack {
-            FlameShape().fill(p.saffron.opacity(0.85))
-                .frame(width: size * 0.62, height: size)
-            FlameShape().fill(p.marigold)
-                .frame(width: size * 0.34, height: size * 0.6)
-                .offset(y: size * 0.14)
-        }
-        .scaleEffect(y: flicker ? 1.06 : 0.96, anchor: .bottom)
-        .animation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true), value: flicker)
-        .onAppear { if !UIAccessibility.isReduceMotionEnabled { flicker = true } }
-        .accessibilityHidden(true)
-    }
-}
-
-struct FlameShape: Shape {
-    func path(in r: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: r.midX, y: r.minY))
-        path.addCurve(to: CGPoint(x: r.midX, y: r.maxY),
-                      control1: CGPoint(x: r.maxX + r.width * 0.15, y: r.height * 0.55),
-                      control2: CGPoint(x: r.maxX, y: r.maxY))
-        path.addCurve(to: CGPoint(x: r.midX, y: r.minY),
-                      control1: CGPoint(x: r.minX, y: r.maxY),
-                      control2: CGPoint(x: r.minX - r.width * 0.15, y: r.height * 0.55))
-        return path
-    }
-}
-
 /// Simple zodiac-style rashi mark. The mark is intentionally unframed so rashi
 /// rows do not look like monograms inside double seals.
 struct RashiIcon: View {

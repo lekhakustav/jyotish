@@ -14,7 +14,7 @@ Source: critique transcript from Sita Sharan and Utsav about the Jyotish app, in
 2. Make astrology marks feel like icons, not text badges.
    - Do not show rashi monograms inside double circles.
    - Use unframed, vector-style rashi marks wherever the app shows a sign.
-   - Replace flame-based ratings with a quieter sacred star mark.
+   - Use quiet sacred star marks for ratings.
    - Make the star marks darker and a little larger so they are visible.
 
 3. Keep empty states out of the Home dashboard.

@@ -4,7 +4,7 @@ If a session dies mid-build, resume from the first unchecked box, guided by docs
 
 ## Phase A — Skeleton
 - [x] `project.yml` (XcodeGen, iOS 17, target Jyotish) + Info.plist
-- [x] Theme.swift (full palette both modes), Components, Ornaments (mandala, diya, rashi marks, divider, kundali chart path)
+- [x] Theme.swift (full palette both modes), Components, Ornaments (mandala, rashi marks, divider, kundali chart path)
 - [x] L10n.swift, Models.swift, AppState + RootView + JyotishApp
 
 ## Phase B — Engines

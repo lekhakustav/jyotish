@@ -5,9 +5,8 @@ Every color, curve, and animation in the codebase must trace back to a rule here
 
 ## 1. The Big Vibe
 
-**Morning aarti.** The moment a brass diya is lit in a dim shrine room: deep warm darkness,
-a single golden flame, vermillion powder, cream-colored dhaka fabric, marigold orange.
-The app is that moment. It must feel:
+**Sacred dawn.** The moment a temple courtyard wakes: warm darkness lifting, vermillion
+powder, cream-colored dhaka fabric, marigold orange. The app is that moment. It must feel:
 
 - **Tasteful** — restrained luxury. Lots of warm negative space. One accent at a time.
 - **Joyful** — marigold and saffron used *generously but purposefully*; celebratory moments
@@ -24,7 +23,7 @@ kundali chart, text input, user chat tint). Everything else is **flat typography
 the canvas**: hierarchy comes from size, weight, serif/sans contrast, color and
 whitespace (40pt between sections). The only divider is `Hairline` (1pt gold @18%).
 No card borders, no shadows, no tika dots, no ornament dividers, no section
-descriptions. Ornaments (mandala, diya, rashi marks) survive only as *content*, never as
+descriptions. Ornaments (mandala, rashi marks) survive only as *content*, never as
 decoration-around-content. Every list is bare rows separated by hairlines.
 
 ### v4 — PLAIN CANVAS CLARIFICATION (current law)
@@ -54,7 +53,7 @@ Every container must pass this test before it is added:
    paged flows: one focused question, one control, one continue button. Progress shown as
    small gold diamonds. Steps slide in from the trailing edge with a spring.
 2. **Ceremony at the payoff.** Computing a kundali is a *moment*: rotating mandala +
-   diya + "Drawing the kundali…", then the rashi mark reveals with a blessing. Never jump
+   quiet rashi mark + "Drawing the kundali…", then the computed rashi reveals with a blessing. Never jump
    from a form straight to a dashboard.
 3. **Minimalism first.** Prefer whitespace over borders, one accent per region, at most
    two card styles per screen. If an ornament competes with content, delete the ornament.
@@ -62,7 +61,7 @@ Every container must pass this test before it is added:
    emoji/Unicode/SF symbols that can render as tofu or disappear.
 5. **Navigation depth ≤ 2.** Tab → detail. Everything else is a sheet with a drag indicator.
 
-## 2. Color — "Diya & Sindoor" palette
+## 2. Color — "Sindoor & Gold" palette
 
 All colors are defined ONCE in `DesignSystem/Theme.swift` and consumed via semantic names.
 Never use raw hex in views.
@@ -93,8 +92,7 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 ### Rules
 - Exactly **one saturated accent zone per screen region**. Saffron leads; sindoor punctuates.
 - Favorability is **green/gold/nightBlue**, never traffic-light red-green.
-- Gradients allowed only inside content tokens such as the diya flame.
-  Do not use gradients as screen backgrounds.
+- Gradients are not used as screen backgrounds. Keep the app canvas plain.
 
 ## 3. Typography
 
@@ -110,7 +108,6 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 | Element | Spec |
 |---|---|
 | **Mandala** | `Canvas`-drawn: concentric petal rings (8/16/32 petals), 0.75pt `templeGold` strokes at 18–30% opacity. Reserved for the kundali computation ceremony. |
-| **Diya flame** | Ceremony content: small teardrop flame (2 blended ellipses, marigold core + saffron rim) with a gentle 1.6s scale-flicker animation. |
 | **Rashi marks** | The 12 signs are unframed, path-drawn vector marks. Do not put text monograms inside circles for live rashi UI. |
 | **Planet tokens** | Circular chips with the planet's traditional color: Su gold, Mo silver-cream, Ma sindoor, Me green, Ju saffron, Ve lotus pink, Sa nightBlue, Ra smoky brown, Ke smoky gray. |
 | **North-Indian kundali chart** | The classic diamond chart drawn with `Path`: outer square + two diagonals + midpoint diamond, gold strokes on `bgElevated`, house numbers in `inkSecondary`, planet abbreviations placed per house. |
@@ -127,7 +124,7 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 
 - Standard transition: `.spring(response: 0.45, dampingFraction: 0.85)`.
 - Hero numbers/glyphs fade-rise in (opacity + 8pt y-offset) with 0.05s stagger.
-- Diya flame flickers forever, softly. Mandala rotates imperceptibly. Nothing else loops.
+- Mandala rotates imperceptibly during the kundali computation ceremony. Nothing else loops.
 - Tab switching: crossfade, no slide. Respect Reduce Motion.
 
 ## 7. Voice

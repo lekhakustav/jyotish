@@ -1,6 +1,6 @@
 # Jyotish — Vision Document
 
-> **The one-line vibe:** *Morning aarti in your pocket.* Brass diya light, marigold garlands,
+> **The one-line vibe:** *Sacred dawn in your pocket.* Marigold garlands,
 > vermillion sindoor, the hush of a temple courtyard at dawn — rendered as a modern iOS app
 > that feels like it was made by a master craftsman, not a template.
 

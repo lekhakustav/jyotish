@@ -13,6 +13,16 @@ xcodebuild -project Jyotish.xcodeproj -scheme Jyotish \
 # then install/launch the built .app with `xcrun simctl`
 ```
 
+## Run the Pandit-ji backend
+Copy `OPENAI_API_KEY` into ignored `.env.local` first, then:
+
+```sh
+npm run agent
+```
+
+The iOS app posts chat context to `http://127.0.0.1:8788` by default and falls back to the
+local `PanditBrain` if the backend is unavailable. See `docs/06-BACKEND-AGENT.md`.
+
 ## Documents (read these first — they are the source of truth)
 - [docs/00-VISION.md](docs/00-VISION.md) — what & why, the vibe
 - [docs/01-DESIGN-SYSTEM.md](docs/01-DESIGN-SYSTEM.md) — the taste bible (palette, ornament, motion)

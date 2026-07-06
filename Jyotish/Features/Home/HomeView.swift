@@ -140,7 +140,7 @@ struct HomeView: View {
                                 .scaledFont(size: 22, weight: .semibold, design: .serif)
                                 .foregroundStyle(p.inkPrimary)
                             Spacer()
-                            DiyaScore(score: r.scores.values.reduce(0, +) / max(1, r.scores.count))
+                            YantraScore(score: r.scores.values.reduce(0, +) / max(1, r.scores.count))
                         }
                         Text(hookLine(from: r.text))
                             .scaledFont(size: 18, weight: .medium, design: .serif)

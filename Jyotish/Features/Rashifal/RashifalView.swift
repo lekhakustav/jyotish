@@ -115,7 +115,7 @@ struct RashifalView: View {
                     HStack {
                         Text(app.t(d)).scaledFont(size: 15).foregroundStyle(p.inkSecondary)
                         Spacer()
-                        DiyaScore(score: r.scores[d] ?? 3)
+                        YantraScore(score: r.scores[d] ?? 3)
                     }
                 }
             }

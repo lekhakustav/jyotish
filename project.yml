@@ -19,17 +19,18 @@ targets:
         NSSpeechRecognitionUsageDescription: "Speech recognition turns your voice into a question for Pandit-ji."
         SUPABASE_URL: "$(SUPABASE_URL)"
         SUPABASE_ANON_OR_PUBLISHABLE_KEY: "$(SUPABASE_ANON_OR_PUBLISHABLE_KEY)"
+        JYOTISH_AGENT_BASE_URL: "$(JYOTISH_AGENT_BASE_URL)"
         UIAppFonts:
-          - Fonts/Fraunces-Light.ttf
-          - Fonts/Fraunces-Regular.ttf
-          - Fonts/Fraunces-Medium.ttf
-          - Fonts/Fraunces-SemiBold.ttf
-          - Fonts/Fraunces-Bold.ttf
-          - Fonts/Inter-Light.ttf
-          - Fonts/Inter-Regular.ttf
-          - Fonts/Inter-Medium.ttf
-          - Fonts/Inter-SemiBold.ttf
-          - Fonts/Inter-Bold.ttf
+          - Fraunces-Light.ttf
+          - Fraunces-Regular.ttf
+          - Fraunces-Medium.ttf
+          - Fraunces-SemiBold.ttf
+          - Fraunces-Bold.ttf
+          - Inter-Light.ttf
+          - Inter-Regular.ttf
+          - Inter-Medium.ttf
+          - Inter-SemiBold.ttf
+          - Inter-Bold.ttf
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.sodhera.jyotish
@@ -41,6 +42,7 @@ targets:
         CODE_SIGNING_ALLOWED: NO
         SUPABASE_URL: "https://ghfcssxptpazfbtiwshz.supabase.co"
         SUPABASE_ANON_OR_PUBLISHABLE_KEY: "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW"
+        JYOTISH_AGENT_BASE_URL: "http://127.0.0.1:8788"
   JyotishTests:
     type: bundle.unit-test
     platform: iOS

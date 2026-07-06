@@ -9,6 +9,7 @@ struct ChatView: View {
     @StateObject private var voice = VoiceAgent()
     @State private var draft = ""
     @State private var showHistory = false
+    @State private var isSending = false
     @FocusState private var focused: Bool
 
     private let chips = ["chat.chip.color", "chat.chip.city", "chat.chip.vastu", "chat.chip.dasha"]
@@ -175,6 +176,7 @@ struct ChatView: View {
                         .scaledFont(size: 36)
                         .foregroundStyle(p.saffron)
                 }
+                .disabled(isSending)
                 .transition(.scale.combined(with: .opacity))
                 .accessibilityLabel("Send")
             }
@@ -185,8 +187,12 @@ struct ChatView: View {
     }
 
     private func send(_ text: String) {
-        app.sendChat(text)
-        if let reply = app.chat.last, !reply.isUser {
+        guard !isSending else { return }
+        isSending = true
+        Task {
+            let reply = await app.sendChat(text)
+            isSending = false
+            guard let reply else { return }
             voice.speak(reply.text, lang: app.language)
         }
     }

@@ -170,7 +170,7 @@ struct Hairline: View {
 }
 
 /// 1–5 score as small yantra stars.
-struct DiyaScore: View {
+struct YantraScore: View {
     @Environment(\.palette) private var p
     let score: Int
     var body: some View {

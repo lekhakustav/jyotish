@@ -21,13 +21,13 @@ Patro is opened from the Home date block and pushes onto the navigation stack. P
 opens from Home/Rashifal as a modal chat. Settings remains reachable from Home (gear).
 
 ## 1. Onboarding
-- **WelcomeView:** plain full-screen canvas, diya flame, app name in serif + Devanagari,
+- **WelcomeView:** plain full-screen canvas, app name in serif + Devanagari,
   one saffron button: "Continue with account (demo)" → DummyAuth → ProfileSetup, plus the
   language segmented control.
 - **Birth flow (paged, one decision per screen — docs/01 craft rule 1):**
   step 1 name → step 2 gender (bare rows) → step 3 DOB (wheel) → step 4 time
   (wheel + "time unknown" toggle → 06:00) → step 5 birthplace (curated city list) →
-  **ceremony**: rotating mandala + "Drawing the kundali…" (~2s) → reveal screen with the
+  **ceremony**: rotating mandala + quiet rashi mark + "Drawing the kundali…" (~2s) → reveal screen with the
   computed rashi mark, moon rashi + nakshatra, and a blessing "शुभ होस् 🙏" → Home.
   Gold-diamond progress dots at top; back chevron; steps spring-slide from trailing edge.
   The same flow (prefixed with a relation step) is used for adding family members.
@@ -74,7 +74,11 @@ tithi/weekday fallbacks choose the Nepal temple and explanation.
   prose on the canvas; user messages are the only tinted bubbles.
   Suggestion chips ("Which color suits my son's room?", "Best city for me?", "Vastu for main door",
   "मेरो दशा कस्तो छ?").
-- **PanditBrain** (rule-based intent router, bilingual in/out) with tool access:
+- **OpenAI-backed Pandit agent** (`server/jyotish-agent.mjs`) receives the full app context
+  from `AgentService`: self and family birth data, computed kundlis, readings, current
+  dasha, daily rashifal, saved events, chat history, and the local fallback answer.
+  It keeps `OPENAI_API_KEY` server-side and answers in Pandit-ji style.
+- **PanditBrain** remains the local rule-based fallback and context source:
   - resolves the family member mentioned ("my son" → the son's chart; asks to add if absent),
   - **color questions** → member's rashi lucky colors + current dasha lord color,
   - **city/place questions** → CityMatcher (rashi→cities DB with reasons),

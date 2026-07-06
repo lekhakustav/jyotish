@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "agent": "node server/jyotish-agent.mjs"
+  }
+}
