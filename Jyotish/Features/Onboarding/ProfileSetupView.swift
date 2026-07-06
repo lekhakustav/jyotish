@@ -316,7 +316,8 @@ struct BirthFlowView: View {
                     RashiSeal(rashi: k.moonRashi, size: 92)
                         .transition(.scale(scale: 0.6).combined(with: .opacity))
                 } else {
-                    DiyaFlame(size: 40)
+                    RashiIcon(rashi: .mesh, size: 54)
+                        .opacity(0.55)
                 }
             }
             if let k = revealed {

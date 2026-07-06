@@ -86,7 +86,6 @@ struct ChatView: View {
 
     private var welcome: some View {
         VStack(spacing: 16) {
-            DiyaFlame(size: 36)
             Text(PanditBrain(family: app.family, lang: app.language).reply(to: "namaste"))
                 .scaledFont(size: 16, design: .serif)
                 .foregroundStyle(p.inkPrimary.opacity(0.85))

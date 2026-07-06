@@ -10,7 +10,6 @@ struct WelcomeView: View {
 
             VStack(spacing: 0) {
                 Spacer()
-                DiyaFlame(size: 44).fadeRise()
                 Text("ज्योतिष")
                     .scaledFont(size: 56, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)

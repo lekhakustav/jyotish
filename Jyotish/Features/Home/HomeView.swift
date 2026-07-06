@@ -137,7 +137,7 @@ struct HomeView: View {
                         HStack(spacing: 14) {
                             RashiIcon(rashi: k.moonRashi, size: 52)
                             Text(ne ? k.moonRashi.nameNE : k.moonRashi.shortEN)
-                                .scaledFont(size: 30, weight: .bold, design: .serif)
+                                .scaledFont(size: 22, weight: .semibold, design: .serif)
                                 .foregroundStyle(p.inkPrimary)
                             Spacer()
                             DiyaScore(score: r.scores.values.reduce(0, +) / max(1, r.scores.count))
@@ -189,13 +189,14 @@ struct HomeView: View {
                     AsyncImage(url: url) { phase in
                         switch phase {
                         case .success(let img):
-                            img.resizable().aspectRatio(contentMode: .fill)
+                            img.resizable().aspectRatio(contentMode: .fit)
                         default:
                             Rectangle().fill(p.bgSunken)
                         }
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(height: 180)
+                    .frame(height: 220)
+                    .background(p.bgSunken)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 }
                 Text(ne ? temple.nameNE : temple.nameEN)
@@ -289,19 +290,22 @@ private struct TempleDetailSheet: View {
     var body: some View {
         ZStack {
             p.bgCanvas.ignoresSafeArea()
-            VStack(spacing: 18) {
-                Spacer()
+            ScrollView {
+                VStack(spacing: 22) {
+                    Spacer(minLength: 18)
                 if let url = temple.imageURL {
                     AsyncImage(url: url) { phase in
                         switch phase {
                         case .success(let img):
-                            img.resizable().aspectRatio(1, contentMode: .fill)
+                            img.resizable().aspectRatio(contentMode: .fit)
                         default:
                             MandalaView().padding(30)
                         }
                     }
-                    .frame(width: 160, height: 160)
-                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                    .frame(maxWidth: .infinity)
+                    .frame(minHeight: 300)
+                    .background(p.bgSunken)
+                    .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
                 } else {
                     MandalaView().frame(width: 120, height: 120)
                 }
@@ -313,11 +317,15 @@ private struct TempleDetailSheet: View {
                     .scaledFont(size: 17, design: .serif)
                     .foregroundStyle(p.inkSecondary)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-                Spacer()
+                    .lineSpacing(5)
+                Spacer(minLength: 24)
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 44)
+                .padding(.bottom, 30)
             }
         }
         .overlay(alignment: .topTrailing) { SheetCloseButton().padding(8) }
-        .presentationDetents([.medium])
+        .presentationDetents([.large])
     }
 }
