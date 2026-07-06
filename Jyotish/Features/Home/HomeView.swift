@@ -18,8 +18,11 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 36) {
                     header.fadeRise()
                     rashifalBlock.fadeRise(delay: 0.05)
-                    templeOfDay.fadeRise(delay: 0.1)
-                    tithiHero.fadeRise(delay: 0.15)
+                    VStack(alignment: .leading, spacing: 18) {
+                        tithiHero
+                        templeOfDay
+                    }
+                    .fadeRise(delay: 0.1)
                     if hasRelatives { familyRow.fadeRise(delay: 0.2) }
                     if hasUpcoming { upcoming.fadeRise(delay: 0.25) }
                 }
@@ -91,10 +94,7 @@ struct HomeView: View {
     private var tithiHero: some View {
         let bs = BikramSambat.today()
         let pan = Panchanga.forDay(Date())
-        return Button {
-            Haptics.tap()
-            app.open(.patro)
-        } label: {
+        return VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text("\(app.digits(bs.day)) \(bs.monthName(ne: ne))")
                     .scaledFont(size: 20, weight: .bold, design: .serif)
@@ -106,15 +106,23 @@ struct HomeView: View {
                     .foregroundStyle(p.inkSecondary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .scaledFont(size: 13, weight: .semibold)
-                    .foregroundStyle(p.saffron)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .contentShape(Rectangle())
+            Button {
+                Haptics.tap()
+                app.open(.patro)
+            } label: {
+                HStack(spacing: 6) {
+                    Text(app.t("home.openPatro"))
+                        .scaledFont(size: 15, weight: .semibold, design: .serif)
+                    Image(systemName: "chevron.right")
+                        .scaledFont(size: 13, weight: .semibold)
+                }
+                .foregroundStyle(p.saffron)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(SpringPressStyle())
         }
-        .buttonStyle(SpringPressStyle())
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     /// Personal rashifal is the reason most people open the app, so it leads
@@ -176,8 +184,20 @@ struct HomeView: View {
             Haptics.tap()
             showTemple = true
         } label: {
-            VStack(alignment: .leading, spacing: 8) {
-                SectionLabel(text: app.t("home.templeOfDay"))
+            VStack(alignment: .leading, spacing: 12) {
+                if let url = temple.imageURL {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let img):
+                            img.resizable().aspectRatio(contentMode: .fill)
+                        default:
+                            Rectangle().fill(p.bgSunken)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 180)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                }
                 Text(ne ? temple.nameNE : temple.nameEN)
                     .scaledFont(size: 21, weight: .semibold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
@@ -185,7 +205,7 @@ struct HomeView: View {
                     .scaledFont(size: 14, design: .serif)
                     .foregroundStyle(p.inkSecondary)
                     .lineSpacing(3)
-                    .lineLimit(3)
+                    .lineLimit(4)
                     .multilineTextAlignment(.leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -271,14 +291,25 @@ private struct TempleDetailSheet: View {
             p.bgCanvas.ignoresSafeArea()
             VStack(spacing: 18) {
                 Spacer()
-                MandalaView().frame(width: 120, height: 120)
+                if let url = temple.imageURL {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let img):
+                            img.resizable().aspectRatio(1, contentMode: .fill)
+                        default:
+                            MandalaView().padding(30)
+                        }
+                    }
+                    .frame(width: 160, height: 160)
+                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                } else {
+                    MandalaView().frame(width: 120, height: 120)
+                }
                 Text(ne ? temple.nameNE : temple.nameEN)
                     .scaledFont(size: 26, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
                     .multilineTextAlignment(.center)
-                Text(ne
-                     ? "\(temple.nameNE), यहाँ आरती र थप कुराहरू छन्।"
-                     : "\(temple.nameEN), here is the aarati and more.")
+                Text(ne ? temple.blurbNE : temple.blurbEN)
                     .scaledFont(size: 17, design: .serif)
                     .foregroundStyle(p.inkSecondary)
                     .multilineTextAlignment(.center)

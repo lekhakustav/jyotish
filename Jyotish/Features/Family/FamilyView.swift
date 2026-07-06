@@ -246,9 +246,10 @@ private struct TreeBranch: View {
                     path.move(to: CGPoint(x: x, y: 0))
                     path.addLine(to: CGPoint(x: x, y: midY))
                 }
-                if let first = lower.first, let last = lower.last {
-                    path.move(to: CGPoint(x: first, y: midY))
-                    path.addLine(to: CGPoint(x: last, y: midY))
+                let bridge = upper + lower
+                if let minX = bridge.min(), let maxX = bridge.max(), bridge.count > 1 {
+                    path.move(to: CGPoint(x: minX, y: midY))
+                    path.addLine(to: CGPoint(x: maxX, y: midY))
                 }
                 for x in lower {
                     path.move(to: CGPoint(x: x, y: midY))

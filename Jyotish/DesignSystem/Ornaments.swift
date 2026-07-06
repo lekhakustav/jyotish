@@ -82,14 +82,65 @@ struct RashiIcon: View {
     let rashi: Rashi
     var size: CGFloat = 56
     var body: some View {
-        Canvas { ctx, canvasSize in
-            let rect = CGRect(origin: .zero, size: canvasSize).insetBy(dx: size * 0.12, dy: size * 0.12)
-            ctx.stroke(Self.path(for: rashi, in: rect),
-                       with: .color(p.sindoor),
-                       style: StrokeStyle(lineWidth: max(1.6, size * 0.055), lineCap: .round, lineJoin: .round))
+        ZStack {
+            Circle()
+                .stroke(p.templeGold.opacity(0.4), lineWidth: max(1, size * 0.018))
+            Canvas { ctx, canvasSize in
+                let rect = CGRect(origin: .zero, size: canvasSize).insetBy(dx: size * 0.2, dy: size * 0.2)
+                let fillPath = Self.fillPath(for: rashi, in: rect)
+                if let fillPath {
+                    ctx.fill(fillPath, with: .color(p.sindoor))
+                }
+                ctx.stroke(Self.path(for: rashi, in: rect),
+                           with: .color(p.sindoor),
+                           style: StrokeStyle(lineWidth: max(2.4, size * 0.1), lineCap: .round, lineJoin: .round))
+            }
         }
         .frame(width: size, height: size)
         .accessibilityHidden(true)
+    }
+
+    /// Solid silhouette fill for the body of each mark (drawn under the bold
+    /// stroke) so the icon reads as a filled emblem rather than a thin
+    /// scribble at small sizes — matches the classic medallion rashi style.
+    private static func fillPath(for rashi: Rashi, in r: CGRect) -> Path? {
+        let x = r.minX, y = r.minY, w = r.width, h = r.height
+        switch rashi {
+        case .karkat:
+            var p = Path()
+            p.addEllipse(in: CGRect(x: x + w * 0.27, y: y + h * 0.4, width: w * 0.46, height: h * 0.32))
+            return p
+        case .simha:
+            var p = Path()
+            p.addEllipse(in: CGRect(x: x + w * 0.33, y: y + h * 0.33, width: w * 0.34, height: h * 0.34))
+            return p
+        case .mithun:
+            var p = Path()
+            for dx: CGFloat in [0, 0.46] {
+                p.addEllipse(in: CGRect(x: x + w * (0.19 + dx), y: y + h * 0.12, width: w * 0.17, height: w * 0.17))
+            }
+            return p
+        case .vrish:
+            var p = Path()
+            p.addRoundedRect(in: CGRect(x: x + w * 0.28, y: y + h * 0.4, width: w * 0.44, height: h * 0.42),
+                              cornerSize: CGSize(width: w * 0.12, height: w * 0.12))
+            return p
+        case .kanya:
+            var p = Path()
+            p.move(to: CGPoint(x: x + w * 0.38, y: y + h * 0.37))
+            p.addCurve(to: CGPoint(x: x + w * 0.24, y: y + h * 0.86),
+                       control1: CGPoint(x: x + w * 0.3, y: y + h * 0.5),
+                       control2: CGPoint(x: x + w * 0.22, y: y + h * 0.68))
+            p.addLine(to: CGPoint(x: x + w * 0.76, y: y + h * 0.86))
+            p.addCurve(to: CGPoint(x: x + w * 0.62, y: y + h * 0.37),
+                       control1: CGPoint(x: x + w * 0.78, y: y + h * 0.68),
+                       control2: CGPoint(x: x + w * 0.7, y: y + h * 0.5))
+            p.closeSubpath()
+            p.addEllipse(in: CGRect(x: x + w * 0.42, y: y + h * 0.1, width: w * 0.16, height: w * 0.16))
+            return p
+        default:
+            return nil
+        }
     }
 
     /// Every mark is drawn as the literal creature or object people associate with
@@ -347,10 +398,10 @@ struct KundaliChartView: View {
                     let sign = (chart.lagna.rawValue + house) % 12
                     VStack(spacing: 2) {
                         Text("\(sign + 1)")
-                            .font(.system(size: s * 0.032, design: .serif))
+                            .font(.custom(AppFont.name(weight: .regular, design: .serif), size: s * 0.032))
                             .foregroundStyle(p.inkSecondary.opacity(0.8))
                         Text(chart.planetsInHouse(house).map(\.abbrev).joined(separator: " "))
-                            .font(.system(size: s * 0.045, weight: .semibold, design: .serif))
+                            .font(.custom(AppFont.name(weight: .semibold, design: .serif), size: s * 0.045))
                             .foregroundStyle(p.sindoor)
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: s * 0.22)

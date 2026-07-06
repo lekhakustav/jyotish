@@ -150,7 +150,8 @@ struct BirthFlowView: View {
                 question("नाता", app.t("flow.relation.q"))
                 relationGrid
             case .name:
-                question("नाम", app.t(mode == .familyMember ? "flow.name.q.family" : "flow.name.q"))
+                question("नाम", app.t(mode == .familyMember ? "flow.name.q.family" : "flow.name.q"),
+                          mode == .selfProfile ? app.t("flow.name.sub") : nil)
                 nameField
             case .gender:
                 question("लिङ्ग", app.t("flow.gender.q"))
@@ -179,7 +180,7 @@ struct BirthFlowView: View {
                         .padding(.horizontal, 4)
                 }
             case .place:
-                question("जन्म स्थान", app.t("flow.place.q"))
+                question("जन्म स्थान", app.t("flow.place.q"), app.t("flow.place.sub"))
                 placeList
             case .ceremony:
                 EmptyView()
@@ -333,10 +334,15 @@ struct BirthFlowView: View {
                 }
                 .transition(.opacity.combined(with: .offset(y: 10)))
             } else {
-                Text(app.t("flow.drawing"))
-                    .scaledFont(size: 18, design: .serif)
-                    .italic()
-                    .foregroundStyle(p.inkSecondary)
+                VStack(spacing: 6) {
+                    Text(app.t("flow.drawing"))
+                        .scaledFont(size: 18, design: .serif)
+                        .italic()
+                        .foregroundStyle(p.inkSecondary)
+                    Text(app.t("flow.drawing.sub"))
+                        .scaledFont(size: 14)
+                        .foregroundStyle(p.inkSecondary.opacity(0.7))
+                }
             }
             Spacer()
             if revealed != nil {

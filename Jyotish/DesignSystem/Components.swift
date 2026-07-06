@@ -2,6 +2,24 @@ import SwiftUI
 
 // ── Apple-basics layer: Dynamic Type, haptics, status-bar protection ────────
 
+/// Maps the app's two type designs to bundled open-source faces: Fraunces
+/// (an editorial serif in Claude's visual family) for `.serif`, Inter for
+/// everything else. Falls back to the system font if a face is missing.
+enum AppFont {
+    static func name(weight: Font.Weight, design: Font.Design) -> String {
+        let family = design == .serif ? "Fraunces" : "Inter"
+        let suffix: String
+        switch weight {
+        case .light, .ultraLight, .thin: suffix = "Light"
+        case .medium: suffix = "Medium"
+        case .semibold: suffix = "SemiBold"
+        case .bold, .heavy, .black: suffix = "Bold"
+        default: suffix = "Regular"
+        }
+        return "\(family)-\(suffix)"
+    }
+}
+
 /// Dynamic-Type-aware font: scales with the user's text size setting.
 /// Always use this instead of `.font(.system(size:))` for text (docs/01 §3).
 struct ScaledFontModifier: ViewModifier {
@@ -14,7 +32,7 @@ struct ScaledFontModifier: ViewModifier {
         self.design = design
     }
     func body(content: Content) -> some View {
-        content.font(.system(size: scaled, weight: weight, design: design))
+        content.font(.custom(AppFont.name(weight: weight, design: design), size: scaled))
     }
 }
 

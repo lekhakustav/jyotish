@@ -131,10 +131,10 @@ struct PatroView: View {
                     // matching Apple Calendar) — but never below the 11pt HIG floor.
                     VStack(spacing: 1) {
                         Text(app.digits(d))
-                            .font(.system(size: 18, weight: .semibold, design: .serif))
+                            .font(.custom(AppFont.name(weight: .semibold, design: .serif), size: 18))
                             .foregroundStyle(isSat ? p.sindoor : p.inkPrimary)
                         Text(pan.tithiName(ne: ne))
-                            .font(.system(size: isToday ? 9.5 : 11))
+                            .font(.custom(AppFont.name(weight: .regular, design: .default), size: isToday ? 9.5 : 11))
                             .lineLimit(1)
                             .minimumScaleFactor(0.7)
                             .foregroundStyle(p.inkSecondary)

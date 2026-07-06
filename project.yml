@@ -19,6 +19,17 @@ targets:
         NSSpeechRecognitionUsageDescription: "Speech recognition turns your voice into a question for Pandit-ji."
         SUPABASE_URL: "$(SUPABASE_URL)"
         SUPABASE_ANON_OR_PUBLISHABLE_KEY: "$(SUPABASE_ANON_OR_PUBLISHABLE_KEY)"
+        UIAppFonts:
+          - Fonts/Fraunces-Light.ttf
+          - Fonts/Fraunces-Regular.ttf
+          - Fonts/Fraunces-Medium.ttf
+          - Fonts/Fraunces-SemiBold.ttf
+          - Fonts/Fraunces-Bold.ttf
+          - Fonts/Inter-Light.ttf
+          - Fonts/Inter-Regular.ttf
+          - Fonts/Inter-Medium.ttf
+          - Fonts/Inter-SemiBold.ttf
+          - Fonts/Inter-Bold.ttf
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.sodhera.jyotish

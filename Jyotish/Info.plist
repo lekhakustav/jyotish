@@ -28,6 +28,19 @@
 	<string>$(SUPABASE_ANON_OR_PUBLISHABLE_KEY)</string>
 	<key>SUPABASE_URL</key>
 	<string>$(SUPABASE_URL)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fonts/Fraunces-Light.ttf</string>
+		<string>Fonts/Fraunces-Regular.ttf</string>
+		<string>Fonts/Fraunces-Medium.ttf</string>
+		<string>Fonts/Fraunces-SemiBold.ttf</string>
+		<string>Fonts/Fraunces-Bold.ttf</string>
+		<string>Fonts/Inter-Light.ttf</string>
+		<string>Fonts/Inter-Regular.ttf</string>
+		<string>Fonts/Inter-Medium.ttf</string>
+		<string>Fonts/Inter-SemiBold.ttf</string>
+		<string>Fonts/Inter-Bold.ttf</string>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
