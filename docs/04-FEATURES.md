@@ -39,6 +39,10 @@ paksha, nakshatra on separate lines + Open Patro action) → **personal rashifal
 as one quiet text line) → **family quick row** only when relatives exist → **upcoming
 events** only when events exist. Home also carries the floating Pandit-ji chat action.
 
+Temple of the Day should move from pure day-of-year rotation to the BS 2083 planning
+dataset in `docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md`: festival anchors win first, then
+tithi/weekday fallbacks choose the Nepal temple and explanation.
+
 ## 3. Rashifal
 - Segmented: दैनिक / साप्ताहिक / मासिक / वार्षिक.
 - Default = user's janma rashi; horizontal rashi-mark picker to read any other rashi
