@@ -41,8 +41,8 @@ Every I/O path goes through protocols so the app can run local-only or sync with
 
 ```swift
 protocol AuthService  { func signIn(...) async throws -> UserAccount; func signOut() ... }
-protocol DataStore    { func loadProfile() / saveProfile / loadFamily / saveFamily
-                        loadEvents / saveEvents / loadChat / saveChat }
+protocol DataStore    { func load() -> Household?; func save(_ household: Household) }
+protocol RemoteDataStore { func load(for:) async throws -> Household?; func save(_:for:) async throws }
 ```
 - `DummyAuthService` — instant fake account when Supabase is not configured.
 - `LocalDataStore` — JSON files in `Documents/` (atomic writes, Codable), retained as
@@ -50,6 +50,11 @@ protocol DataStore    { func loadProfile() / saveProfile / loadFamily / saveFami
 - `SupabaseAuthService` — anonymous Supabase Auth for the current "Continue" flow.
 - `SupabaseDataStore` — persists the full `Household` aggregate to the user-owned
   `households.payload` JSONB row through PostgREST and RLS.
+- Local saves remain immediate. Remote Supabase saves are debounced after mutation bursts
+  so typing, streaming chat, and multi-field edits do not fire redundant network writes.
+- `AppRuntime.configureCaches()` sets a 64 MB memory / 256 MB disk `URLCache` for temple
+  artwork and HTTP responses. `RashifalEngine` and `Panchanga` cache deterministic daily
+  astrology results in memory by date/rashi/period/language.
 
 See `docs/07-SUPABASE.md` for the SQL schema, RLS policies, and key handling.
 

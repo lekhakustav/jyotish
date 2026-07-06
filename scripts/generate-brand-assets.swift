@@ -1,119 +1,90 @@
 #!/usr/bin/env swift
 import AppKit
+import ImageIO
+import UniformTypeIdentifiers
 
 struct BrandAsset {
     let path: String
     let size: CGFloat
     let transparent: Bool
+    let padding: CGFloat
 }
 
+let sourcePath = "assets/brand/jyotish-baje-logo-imagegen-transparent.png"
+let sourceCopyPath = "assets/brand/jyotish-baje-swastika-logo-transparent.png"
 let assets = [
-    BrandAsset(path: "assets/brand/jyotish-baje-logo-1024.png", size: 1024, transparent: false),
-    BrandAsset(path: "assets/brand/jyotish-baje-swastika-logo-transparent.png", size: 1254, transparent: true),
-    BrandAsset(path: "Jyotish/Assets.xcassets/AppIcon.appiconset/icon1024.png", size: 1024, transparent: false),
-    BrandAsset(path: "Jyotish/Assets.xcassets/BrandLogo.imageset/jyotish-baje-logo.png", size: 1024, transparent: true),
+    BrandAsset(path: "assets/brand/jyotish-baje-logo-1024.png", size: 1024, transparent: false, padding: 90),
+    BrandAsset(path: "Jyotish/Assets.xcassets/AppIcon.appiconset/icon1024.png", size: 1024, transparent: false, padding: 90),
+    BrandAsset(path: "Jyotish/Assets.xcassets/BrandLogo.imageset/jyotish-baje-logo.png", size: 1024, transparent: true, padding: 72),
 ]
 
 let root = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+let sourceURL = root.appendingPathComponent(sourcePath)
+let sourceCopyURL = root.appendingPathComponent(sourceCopyPath)
+let background = NSColor(calibratedRed: 0xFC / 255, green: 0xF7 / 255, blue: 0xED / 255, alpha: 1)
 
-for asset in assets {
-    guard let rep = NSBitmapImageRep(
-        bitmapDataPlanes: nil,
-        pixelsWide: Int(asset.size),
-        pixelsHigh: Int(asset.size),
-        bitsPerSample: 8,
-        samplesPerPixel: 4,
-        hasAlpha: true,
-        isPlanar: false,
-        colorSpaceName: .deviceRGB,
-        bytesPerRow: 0,
-        bitsPerPixel: 0
-    ) else {
-        fatalError("Could not create bitmap for \(asset.path)")
-    }
-    rep.size = NSSize(width: asset.size, height: asset.size)
-    NSGraphicsContext.saveGraphicsState()
-    NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
-    drawLogo(size: asset.size, transparent: asset.transparent)
-    NSGraphicsContext.restoreGraphicsState()
-
-    guard let png = rep.representation(using: .png, properties: [:]) else {
-        fatalError("Could not render \(asset.path)")
-    }
-    try png.write(to: root.appendingPathComponent(asset.path))
+guard let sourceImage = NSImage(contentsOf: sourceURL) else {
+    fatalError("Missing source logo at \(sourcePath)")
+}
+guard let sourceCGImage = sourceImage.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+    fatalError("Could not decode source logo at \(sourcePath)")
 }
 
-func drawLogo(size: CGFloat, transparent: Bool) {
-    let scale = size / 1024
-    let rect = CGRect(x: 0, y: 0, width: size, height: size)
-    let background = NSColor(calibratedRed: 0xFC / 255, green: 0xF7 / 255, blue: 0xED / 255, alpha: 1)
-    let sindoor = NSColor(calibratedRed: 0xB9 / 255, green: 0x33 / 255, blue: 0x1F / 255, alpha: 1)
-    let templeGold = NSColor(calibratedRed: 0xB8 / 255, green: 0x86 / 255, blue: 0x0B / 255, alpha: 1)
+try FileManager.default.createDirectory(
+    at: sourceCopyURL.deletingLastPathComponent(),
+    withIntermediateDirectories: true
+)
+try FileManager.default.copyItemReplacingExisting(at: sourceURL, to: sourceCopyURL)
 
-    if transparent {
-        NSColor.clear.setFill()
-    } else {
-        background.setFill()
+for asset in assets {
+    let outputURL = root.appendingPathComponent(asset.path)
+    try FileManager.default.createDirectory(
+        at: outputURL.deletingLastPathComponent(),
+        withIntermediateDirectories: true
+    )
+    try render(sourceImage: sourceCGImage, asset: asset, outputURL: outputURL)
+}
+
+func render(sourceImage: CGImage, asset: BrandAsset, outputURL: URL) throws {
+    let pixelSize = Int(asset.size)
+    guard let context = CGContext(
+        data: nil,
+        width: pixelSize,
+        height: pixelSize,
+        bitsPerComponent: 8,
+        bytesPerRow: pixelSize * 4,
+        space: CGColorSpaceCreateDeviceRGB(),
+        bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+    ) else {
+        fatalError("Could not create bitmap context for \(asset.path)")
     }
-    rect.fill()
+    context.interpolationQuality = .high
+    context.setFillColor(asset.transparent ? NSColor.clear.cgColor : background.cgColor)
+    context.fill(CGRect(x: 0, y: 0, width: asset.size, height: asset.size))
 
-    let c = CGPoint(x: size / 2, y: size / 2)
-    let arm = 226 * scale
-    let bend = 236 * scale
-    let stroke = 112 * scale
-    let terminalInset = 18 * scale
+    let drawRect = CGRect(
+        x: asset.padding,
+        y: asset.padding,
+        width: asset.size - asset.padding * 2,
+        height: asset.size - asset.padding * 2
+    )
+    context.draw(sourceImage, in: drawRect)
 
-    let path = NSBezierPath()
-    path.lineWidth = stroke
-    path.lineCapStyle = .round
-    path.lineJoinStyle = .round
+    guard let renderedImage = context.makeImage(),
+          let destination = CGImageDestinationCreateWithURL(outputURL as CFURL, UTType.png.identifier as CFString, 1, nil) else {
+        fatalError("Could not render \(asset.path)")
+    }
+    CGImageDestinationAddImage(destination, renderedImage, nil)
+    if !CGImageDestinationFinalize(destination) {
+        fatalError("Could not write \(asset.path)")
+    }
+}
 
-    path.move(to: c)
-    path.line(to: CGPoint(x: c.x, y: c.y + arm))
-    path.line(to: CGPoint(x: c.x + bend, y: c.y + arm))
-    path.curve(to: CGPoint(x: c.x + bend + terminalInset, y: c.y + arm + terminalInset),
-               controlPoint1: CGPoint(x: c.x + bend + terminalInset * 0.75, y: c.y + arm),
-               controlPoint2: CGPoint(x: c.x + bend + terminalInset, y: c.y + arm + terminalInset * 0.25))
-
-    path.move(to: c)
-    path.line(to: CGPoint(x: c.x + arm, y: c.y))
-    path.line(to: CGPoint(x: c.x + arm, y: c.y - bend))
-    path.curve(to: CGPoint(x: c.x + arm + terminalInset, y: c.y - bend - terminalInset),
-               controlPoint1: CGPoint(x: c.x + arm, y: c.y - bend - terminalInset * 0.75),
-               controlPoint2: CGPoint(x: c.x + arm + terminalInset * 0.25, y: c.y - bend - terminalInset))
-
-    path.move(to: c)
-    path.line(to: CGPoint(x: c.x, y: c.y - arm))
-    path.line(to: CGPoint(x: c.x - bend, y: c.y - arm))
-    path.curve(to: CGPoint(x: c.x - bend - terminalInset, y: c.y - arm - terminalInset),
-               controlPoint1: CGPoint(x: c.x - bend - terminalInset * 0.75, y: c.y - arm),
-               controlPoint2: CGPoint(x: c.x - bend - terminalInset, y: c.y - arm - terminalInset * 0.25))
-
-    path.move(to: c)
-    path.line(to: CGPoint(x: c.x - arm, y: c.y))
-    path.line(to: CGPoint(x: c.x - arm, y: c.y + bend))
-    path.curve(to: CGPoint(x: c.x - arm - terminalInset, y: c.y + bend + terminalInset),
-               controlPoint1: CGPoint(x: c.x - arm, y: c.y + bend + terminalInset * 0.75),
-               controlPoint2: CGPoint(x: c.x - arm - terminalInset * 0.25, y: c.y + bend + terminalInset))
-
-    templeGold.withAlphaComponent(0.9).setStroke()
-    path.lineWidth = stroke + 20 * scale
-    path.stroke()
-    sindoor.setStroke()
-    path.lineWidth = stroke
-    path.stroke()
-
-    let dotRadius = 26 * scale
-    for point in [
-        CGPoint(x: c.x - 116 * scale, y: c.y + 116 * scale),
-        CGPoint(x: c.x + 116 * scale, y: c.y + 116 * scale),
-        CGPoint(x: c.x - 116 * scale, y: c.y - 116 * scale),
-        CGPoint(x: c.x + 116 * scale, y: c.y - 116 * scale),
-    ] {
-        let dot = CGRect(x: point.x - dotRadius, y: point.y - dotRadius, width: dotRadius * 2, height: dotRadius * 2)
-        templeGold.setFill()
-        NSBezierPath(ovalIn: dot.insetBy(dx: -8 * scale, dy: -8 * scale)).fill()
-        sindoor.setFill()
-        NSBezierPath(ovalIn: dot).fill()
+extension FileManager {
+    func copyItemReplacingExisting(at source: URL, to destination: URL) throws {
+        if fileExists(atPath: destination.path) {
+            try removeItem(at: destination)
+        }
+        try copyItem(at: source, to: destination)
     }
 }

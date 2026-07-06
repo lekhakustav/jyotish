@@ -20,6 +20,17 @@ struct Rashifal {
 /// Generates rashifal from *real* gochar (transits) — deterministic per
 /// (rashi, period, date) so the same day always reads the same. docs/03 §6.
 enum RashifalEngine {
+    private struct CacheKey: Hashable {
+        var rashi: Rashi
+        var period: RashifalPeriod
+        var periodStamp: Int
+        var language: Language
+    }
+
+    private static var cache: [CacheKey: Rashifal] = [:]
+    private static let cacheLock = NSLock()
+    private static var cacheHits = 0
+    private static var cacheMisses = 0
 
     /// Simple seeded PRNG (splitmix64) — stable across launches.
     struct Seeded: RandomNumberGenerator {
@@ -38,8 +49,15 @@ enum RashifalEngine {
                           "rashifal.wealth", "rashifal.love"]
 
     static func generate(rashi: Rashi, period: RashifalPeriod, date: Date, lang: Language) -> Rashifal {
-        let cal = Calendar.nepali
-        let comps = cal.dateComponents([.year, .month, .day, .weekOfYear], from: date)
+        generate(rashi: rashi, period: period, date: date, lang: lang, julianDay: nil)
+    }
+
+    static func generate(rashi: Rashi,
+                         period: RashifalPeriod,
+                         date: Date,
+                         lang: Language,
+                         julianDay suppliedJD: Double?) -> Rashifal {
+        let comps = Calendar.nepali.dateComponents([.year, .month, .day, .weekOfYear], from: date)
         let periodStamp: Int
         switch period {
         case .daily: periodStamp = comps.year! * 10000 + comps.month! * 100 + comps.day!
@@ -47,10 +65,13 @@ enum RashifalEngine {
         case .monthly: periodStamp = comps.year! * 100 + comps.month!
         case .yearly: periodStamp = comps.year!
         }
+        let key = CacheKey(rashi: rashi, period: period, periodStamp: periodStamp, language: lang)
+        if let cached = cachedValue(for: key) { return cached }
+
         var rng = Seeded(UInt64(periodStamp) &* 12 &+ UInt64(rashi.rawValue))
 
         // ── Real transits ────────────────────────────────────────────────────
-        let jd = Ephemeris.julianDay(date)
+        let jd = suppliedJD ?? Ephemeris.julianDay(date)
         let moonNow = Ephemeris.rashi(of: Ephemeris.sidereal(.moon, jd: jd))
         let jupiterHouse = (Ephemeris.rashi(of: Ephemeris.sidereal(.jupiter, jd: jd)).rawValue - rashi.rawValue + 12) % 12 + 1
         let venusHouse = (Ephemeris.rashi(of: Ephemeris.sidereal(.venus, jd: jd)).rawValue - rashi.rawValue + 12) % 12 + 1
@@ -103,12 +124,48 @@ enum RashifalEngine {
                "Feed green grass to a cow and seek an elder's blessing."]
         let upaya = upayaOptions[Int(rng.next() % UInt64(upayaOptions.count))]
         let colors = ne ? g.colorsNE : g.colorsEN
-        return Rashifal(rashi: rashi, period: period,
-                        text: lines.joined(separator: " "),
-                        scores: scores, upaya: upaya,
-                        luckyColor: colors[Int(rng.next() % UInt64(colors.count))],
-                        luckyNumber: g.numbers[Int(rng.next() % UInt64(g.numbers.count))],
-                        luckyDay: ne ? g.dayNE : g.dayEN)
+        let result = Rashifal(rashi: rashi, period: period,
+                              text: lines.joined(separator: " "),
+                              scores: scores, upaya: upaya,
+                              luckyColor: colors[Int(rng.next() % UInt64(colors.count))],
+                              luckyNumber: g.numbers[Int(rng.next() % UInt64(g.numbers.count))],
+                              luckyDay: ne ? g.dayNE : g.dayEN)
+        store(result, for: key)
+        return result
+    }
+
+    private static func cachedValue(for key: CacheKey) -> Rashifal? {
+        cacheLock.lock()
+        defer { cacheLock.unlock() }
+        if let value = cache[key] {
+            cacheHits += 1
+            return value
+        }
+        cacheMisses += 1
+        return nil
+    }
+
+    private static func store(_ value: Rashifal, for key: CacheKey) {
+        cacheLock.lock()
+        cache[key] = value
+        if cache.count > 512 {
+            cache.remove(at: cache.startIndex)
+        }
+        cacheLock.unlock()
+    }
+
+    static func resetCacheForTesting() {
+        cacheLock.lock()
+        cache.removeAll()
+        cacheHits = 0
+        cacheMisses = 0
+        cacheLock.unlock()
+    }
+
+    static var cacheSnapshotForTesting: (entries: Int, hits: Int, misses: Int) {
+        cacheLock.lock()
+        defer { cacheLock.unlock() }
+        return (cache.count, cacheHits, cacheMisses)
     }
 
     private static func opening(chandra: (house: Int, favorable: Bool), ne: Bool, rng: inout Seeded) -> String {

@@ -27,6 +27,7 @@ final class AppState: ObservableObject {
     private let store: DataStore = LocalDataStore()
     private let remoteStore: RemoteDataStore?
     private let agent: AgentService?
+    private var remotePersistTask: Task<Void, Never>?
 
     init() {
         var restoredSupabaseAccount: UserAccount?
@@ -120,12 +121,15 @@ final class AppState: ObservableObject {
                                   chat: chat, language: language, theme: theme)
         store.save(household)
         guard let account, let remoteStore else { return }
-        Task {
+        remotePersistTask?.cancel()
+        remotePersistTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: 750_000_000)
+            guard !Task.isCancelled else { return }
             do {
                 try await remoteStore.save(household, for: account)
-                syncStatus = nil
+                await MainActor.run { self?.syncStatus = nil }
             } catch {
-                syncStatus = error.localizedDescription
+                await MainActor.run { self?.syncStatus = error.localizedDescription }
             }
         }
     }

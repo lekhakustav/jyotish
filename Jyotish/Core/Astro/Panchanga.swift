@@ -70,9 +70,58 @@ struct Panchanga {
         var cal = calendar
         cal.timeZone = TimeZone(identifier: "Asia/Kathmandu")!
         let comps = cal.dateComponents([.year, .month, .day, .weekday], from: date)
+        let key = CacheKey(year: comps.year!, month: comps.month!, day: comps.day!)
+        if let cached = cachedValue(for: key) { return cached }
         let jd = Ephemeris.julianDay(year: comps.year!, month: comps.month!, day: comps.day!,
-                                     hourUT: 5.75 - 5.75) // 05:45 NPT → 00:00 UT
-        return at(jd: jd, weekday: comps.weekday ?? 1)
+                                     hourUT: 5.75 - 5.75) // 05:45 NPT -> 00:00 UT
+        let result = at(jd: jd, weekday: comps.weekday ?? 1)
+        store(result, for: key)
+        return result
+    }
+
+    private struct CacheKey: Hashable {
+        var year: Int
+        var month: Int
+        var day: Int
+    }
+
+    private static var cache: [CacheKey: Panchanga] = [:]
+    private static let cacheLock = NSLock()
+    private static var cacheHits = 0
+    private static var cacheMisses = 0
+
+    private static func cachedValue(for key: CacheKey) -> Panchanga? {
+        cacheLock.lock()
+        defer { cacheLock.unlock() }
+        if let value = cache[key] {
+            cacheHits += 1
+            return value
+        }
+        cacheMisses += 1
+        return nil
+    }
+
+    private static func store(_ value: Panchanga, for key: CacheKey) {
+        cacheLock.lock()
+        cache[key] = value
+        if cache.count > 512 {
+            cache.remove(at: cache.startIndex)
+        }
+        cacheLock.unlock()
+    }
+
+    static func resetCacheForTesting() {
+        cacheLock.lock()
+        cache.removeAll()
+        cacheHits = 0
+        cacheMisses = 0
+        cacheLock.unlock()
+    }
+
+    static var cacheSnapshotForTesting: (entries: Int, hits: Int, misses: Int) {
+        cacheLock.lock()
+        defer { cacheLock.unlock() }
+        return (cache.count, cacheHits, cacheMisses)
     }
 }
 

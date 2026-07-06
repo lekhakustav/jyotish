@@ -5,11 +5,23 @@ struct JyotishApp: App {
     @StateObject private var app = AppState()
     @Environment(\.colorScheme) private var systemScheme
 
+    init() {
+        AppRuntime.configureCaches()
+    }
+
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environmentObject(app)
         }
+    }
+}
+
+enum AppRuntime {
+    static func configureCaches() {
+        URLCache.shared = URLCache(memoryCapacity: 64 * 1024 * 1024,
+                                   diskCapacity: 256 * 1024 * 1024,
+                                   diskPath: "jyotish-url-cache")
     }
 }
 

@@ -168,12 +168,15 @@ extension AgentChatRequest {
                      chat: [ChatMessage],
                      language: Language,
                      selfMember: FamilyMember?) -> AgentChatRequest {
-        AgentChatRequest(
+        let now = Date()
+        let nowISO = ISO8601DateFormatter.agentFormatter.string(from: now)
+        let nowJD = Ephemeris.julianDay(now)
+        return AgentChatRequest(
             language: language.rawValue,
             message: message,
-            nowISO: ISO8601DateFormatter.agentFormatter.string(from: Date()),
+            nowISO: nowISO,
             selfMemberID: selfMember?.id,
-            family: family.map { AgentFamilyMember.make(from: $0, language: language) },
+            family: family.map { AgentFamilyMember.make(from: $0, language: language, now: now, nowJD: nowJD) },
             events: events.map(AgentEvent.make),
             chatHistory: chat.suffix(16).map(AgentChatMessage.make),
             localFallbackReply: localFallbackReply
@@ -182,7 +185,10 @@ extension AgentChatRequest {
 }
 
 extension AgentFamilyMember {
-    static func make(from member: FamilyMember, language: Language) -> AgentFamilyMember {
+    static func make(from member: FamilyMember,
+                     language: Language,
+                     now: Date = Date(),
+                     nowJD: Double? = nil) -> AgentFamilyMember {
         var agentKundali: AgentKundali?
         var readingEN: String?
         var readingNE: String?
@@ -194,14 +200,16 @@ extension AgentFamilyMember {
             agentKundali = AgentKundali.make(from: kundali)
             readingEN = Interpreter.reading(for: kundali, lang: .en)
             readingNE = Interpreter.reading(for: kundali, lang: .ne)
-            if let current = Vimshottari.current(for: kundali, at: Ephemeris.julianDay(Date())) {
+            let jd = nowJD ?? Ephemeris.julianDay(now)
+            if let current = Vimshottari.current(for: kundali, at: jd) {
                 dashaEN = "\(current.maha.lord.nameEN) mahadasha, \(current.antar.lord.nameEN) antardasha"
                 dashaNE = "\(current.maha.lord.nameNE) महादशा, \(current.antar.lord.nameNE) अन्तर्दशा"
             }
             let daily = RashifalEngine.generate(rashi: kundali.moonRashi,
                                                 period: .daily,
-                                                date: Date(),
-                                                lang: language)
+                                                date: now,
+                                                lang: language,
+                                                julianDay: jd)
             rashifal = daily.text
         }
 
