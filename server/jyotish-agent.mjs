@@ -7,7 +7,7 @@ const root = process.cwd();
 loadEnv(resolve(root, ".env.local"));
 
 const port = Number(process.env.JYOTISH_AGENT_PORT || 8788);
-const model = process.env.OPENAI_JYOTISH_AGENT_MODEL || "gpt-5-mini";
+const model = process.env.OPENAI_JYOTISH_AGENT_MODEL || "gpt-5.4-mini";
 const apiKey = process.env.OPENAI_API_KEY;
 
 if (!apiKey) {
@@ -30,6 +30,10 @@ createServer(async (req, res) => {
 
   try {
     const payload = JSON.parse(await readBody(req));
+    if (wantsEventStream(req)) {
+      await streamPanditReply(payload, res);
+      return;
+    }
     const reply = await generatePanditReply(payload);
     sendJSON(res, 200, { reply, usedLocalFallback: false });
   } catch (error) {
@@ -64,6 +68,28 @@ async function readBody(req) {
     if (body.length > 1_000_000) throw new Error("Request body too large");
   }
   return body;
+}
+
+async function streamPanditReply(payload, res) {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache, no-transform",
+    "Connection": "keep-alive",
+    "Access-Control-Allow-Origin": "*"
+  });
+
+  try {
+    for await (const delta of generatePanditReplyStream(payload)) {
+      res.write(`data: ${JSON.stringify({ delta })}\n\n`);
+    }
+    res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+    res.write("data: [DONE]\n\n");
+    res.end();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    res.write(`data: ${JSON.stringify({ error: message })}\n\n`);
+    res.end();
+  }
 }
 
 async function generatePanditReply(payload) {
@@ -114,6 +140,52 @@ async function generatePanditReply(payload) {
   return reply;
 }
 
+async function* generatePanditReplyStream(payload) {
+  if (!payload || typeof payload.message !== "string" || !payload.message.trim()) {
+    throw new Error("message is required");
+  }
+
+  const response = await fetch("https://api.openai.com/v1/responses", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model,
+      input: [
+        {
+          role: "system",
+          content: [{ type: "input_text", text: systemPrompt(payload) }]
+        },
+        {
+          role: "user",
+          content: [{ type: "input_text", text: userPrompt(payload) }]
+        }
+      ],
+      max_output_tokens: 900,
+      stream: true
+    })
+  });
+
+  if (!response.ok || !response.body) {
+    const text = await response.text();
+    throw new Error(`OpenAI ${response.status}: ${text.slice(0, 600)}`);
+  }
+
+  const decoder = new TextDecoder();
+  let buffer = "";
+  for await (const chunk of response.body) {
+    buffer += decoder.decode(chunk, { stream: true });
+    const parts = buffer.split("\n\n");
+    buffer = parts.pop() || "";
+    for (const part of parts) {
+      const delta = extractStreamingDelta(part);
+      if (delta) yield delta;
+    }
+  }
+}
+
 function systemPrompt(payload) {
   const language = payload.language === "ne" ? "Nepali" : "English";
   return [
@@ -152,6 +224,24 @@ function extractText(data) {
     }
   }
   return chunks.join("\n");
+}
+
+function extractStreamingDelta(event) {
+  for (const line of event.split(/\r?\n/)) {
+    if (!line.startsWith("data:")) continue;
+    const raw = line.slice(5).trim();
+    if (!raw || raw === "[DONE]") continue;
+    try {
+      const data = JSON.parse(raw);
+      if (data.type === "response.output_text.delta" && typeof data.delta === "string") return data.delta;
+      if (typeof data.delta === "string") return data.delta;
+    } catch {}
+  }
+  return "";
+}
+
+function wantsEventStream(req) {
+  return String(req.headers.accept || "").includes("text/event-stream");
 }
 
 function setCors(res) {

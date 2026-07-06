@@ -1,11 +1,13 @@
 # 04 — Feature Specs
 
 ## Voice agent (Pandit-ji)
-`Services/VoiceAgent.swift` — mic button in the chat input starts on-device speech
-recognition (SFSpeechRecognizer; ne-NP unavailable on iOS → hi-IN Devanagari fallback →
-en-IN); tapping stop sends the transcript as a question. Spoken replies use
-AVSpeechSynthesizer only when explicitly enabled in code; typed chat does not auto-speak
-by default. Recognition degrades gracefully (mic dims) when permissions are unavailable.
+`Services/VoiceAgent.swift` — mic button in the chat input starts speech recognition and
+shows the live transcript in the input before send. The app falls back through ne-NP,
+hi-IN, en-IN, and en-US recognizers depending on what iOS makes available. Server-side
+ElevenLabs config (`ELEVENLABS_API_KEY`, `ELEVENLABS_STT_MODEL=scribe_v2`,
+`ELEVENLABS_TTS_MODEL=eleven_multilingual_v2`, agent IDs) is kept in ignored env files for
+voice-agent and transcription work; it must not be placed in Info.plist or app source.
+Spoken replies remain opt-in so typed chat does not unexpectedly start audio.
 
 ## Popular Aarti (deferred)
 The placeholder doorway and "coming soon" list are intentionally not mounted in the
@@ -78,7 +80,10 @@ tithi/weekday fallbacks choose the Nepal temple and explanation.
   `supabase/functions/jyotish-agent` in production) receives the full app context
   from `AgentService`: self and family birth data, computed kundlis, readings, current
   dasha, daily rashifal, saved events, chat history, and the local fallback answer.
-  It keeps `OPENAI_API_KEY` server-side and answers in Pandit-ji style.
+  It keeps `OPENAI_API_KEY` server-side, defaults to `gpt-5.4-mini`, and answers in
+  Pandit-ji style.
+- Chat requests stream over server-sent events when available. The assistant row appears
+  immediately with a typing indicator, then fills character-by-character as deltas arrive.
 - **PanditBrain** remains the local rule-based fallback and context source:
   - resolves the family member mentioned ("my son" → the son's chart; asks to add if absent),
   - **color questions** → member's rashi lucky colors + current dasha lord color,

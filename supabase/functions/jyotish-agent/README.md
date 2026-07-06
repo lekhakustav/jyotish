@@ -7,7 +7,7 @@ function using the user's Supabase Auth token.
 Deploy:
 
 ```sh
-supabase secrets set OPENAI_API_KEY=... OPENAI_JYOTISH_AGENT_MODEL=gpt-5-mini
+supabase secrets set OPENAI_API_KEY=... OPENAI_JYOTISH_AGENT_MODEL=gpt-5.4-mini
 supabase functions deploy jyotish-agent
 ```
 

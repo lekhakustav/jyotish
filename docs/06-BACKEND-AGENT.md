@@ -15,7 +15,11 @@ Jyotish chat is backend-first with a local fallback:
    (`supabase/functions/jyotish-agent`) keeps the OpenAI key server-side and calls OpenAI.
 6. If the backend fails or returns an empty reply, `AppState` appends the local
    `PanditBrain` answer so the chat still works offline.
-7. `VoiceAgent` only handles speech-to-text and text-to-speech. It does not call OpenAI.
+7. `HTTPAgentService.streamReply(...)` requests `text/event-stream` and appends assistant
+   characters as they arrive. The UI shows a typing indicator until the first delta lands.
+8. `VoiceAgent` captures the user's spoken question and keeps the transcript visible before
+   send. Server-side ElevenLabs credentials are reserved for higher quality voice agents,
+   speech-to-text, and TTS; they are not shipped in the iOS target.
 
 This means the OpenAI key belongs in a backend process, not in the iOS target.
 
@@ -24,10 +28,15 @@ Create `.env.local` at the repo root:
 
 ```sh
 OPENAI_API_KEY=...
-OPENAI_JYOTISH_AGENT_MODEL=gpt-5-mini
+OPENAI_JYOTISH_AGENT_MODEL=gpt-5.4-mini
 OPENAI_JYOTISH_AGENT_PLANNER_MODEL=gpt-5-nano
 JYOTISH_AGENT_PORT=8788
 JYOTISH_AGENT_ENDPOINT_URL=https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent
+ELEVENLABS_API_KEY=...
+ELEVENLABS_TTS_MODEL=eleven_multilingual_v2
+ELEVENLABS_STT_MODEL=scribe_v2
+ELEVENLABS_FEMALE_AGENT_ID=...
+ELEVENLABS_MALE_AGENT_ID=...
 ```
 
 `.env.local` is intentionally ignored by git.
@@ -71,7 +80,7 @@ curl -sS http://127.0.0.1:8788/api/jyotish-agent/chat \
 Use the Supabase Edge Function in `supabase/functions/jyotish-agent`:
 
 ```sh
-supabase secrets set OPENAI_API_KEY=... OPENAI_JYOTISH_AGENT_MODEL=gpt-5-mini
+supabase secrets set OPENAI_API_KEY=... OPENAI_JYOTISH_AGENT_MODEL=gpt-5.4-mini
 supabase functions deploy jyotish-agent
 ```
 
@@ -115,6 +124,23 @@ Response:
   "reply": "Namaste...",
   "usedLocalFallback": false
 }
+```
+
+Streaming response:
+
+```http
+POST /api/jyotish-agent/chat
+Accept: text/event-stream
+Content-Type: application/json
+```
+
+Each event is a small JSON payload:
+
+```text
+data: {"delta":"Namaste"}
+data: {"delta":"..."}
+data: {"done":true}
+data: [DONE]
 ```
 
 ## Prompting rules

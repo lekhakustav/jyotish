@@ -6,6 +6,7 @@ final class AppState: ObservableObject {
     @Published var family: [FamilyMember] = []
     @Published var events: [PatroEvent] = []
     @Published var chat: [ChatMessage] = []
+    @Published var chatTypingMessageID: UUID?
     @Published var language: Language = .en
     @Published var theme: ThemeChoice = .system
     @Published var syncStatus: String?
@@ -219,6 +220,10 @@ final class AppState: ObservableObject {
         let localAnswer = brain.reply(to: trimmed)
         persist()
 
+        let pendingID = UUID()
+        chatTypingMessageID = pendingID
+        chat.append(ChatMessage(id: pendingID, isUser: false, text: ""))
+
         let context = AgentChatRequest.make(message: trimmed,
                                             localFallbackReply: localAnswer,
                                             family: family,
@@ -228,16 +233,42 @@ final class AppState: ObservableObject {
                                             selfMember: selfMember)
         let answer: String
         do {
-            answer = try await agent?.reply(to: trimmed, context: context) ?? localAnswer
+            if let agent {
+                answer = try await agent.streamReply(to: trimmed, context: context) { delta in
+                    self.appendAssistantDelta(delta, messageID: pendingID)
+                }
+            } else {
+                answer = localAnswer
+                await streamLocalFallback(localAnswer, messageID: pendingID)
+            }
             syncStatus = nil
         } catch {
             answer = localAnswer
             syncStatus = "Pandit backend unavailable; using local reading."
+            replaceAssistantMessage(answer, messageID: pendingID)
         }
-        let reply = ChatMessage(isUser: false, text: answer)
-        chat.append(reply)
+        let reply = ChatMessage(id: pendingID, isUser: false, text: answer)
+        replaceAssistantMessage(answer, messageID: pendingID)
+        chatTypingMessageID = nil
         persist()
         return reply
+    }
+
+    private func appendAssistantDelta(_ delta: String, messageID: UUID) {
+        guard let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
+        chat[index].text += delta
+    }
+
+    private func replaceAssistantMessage(_ text: String, messageID: UUID) {
+        guard let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
+        chat[index].text = text
+    }
+
+    private func streamLocalFallback(_ text: String, messageID: UUID) async {
+        for character in text {
+            appendAssistantDelta(String(character), messageID: messageID)
+            try? await Task.sleep(nanoseconds: 12_000_000)
+        }
     }
 
     func setLanguage(_ l: Language) { language = l; persist() }

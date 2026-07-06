@@ -110,10 +110,15 @@ struct ChatView: View {
                         .fill(p.marigold.opacity(0.2)))
             } else {
                 // Pandit speaks directly on the canvas — no container at all.
-                Text(msg.text)
-                    .scaledFont(size: 16, design: .serif)
-                    .foregroundStyle(p.inkPrimary.opacity(0.92))
-                    .lineSpacing(6)
+                if msg.text.isEmpty && app.chatTypingMessageID == msg.id {
+                    TypingIndicator()
+                        .padding(.vertical, 6)
+                } else {
+                    Text(msg.text)
+                        .scaledFont(size: 16, design: .serif)
+                        .foregroundStyle(p.inkPrimary.opacity(0.92))
+                        .lineSpacing(6)
+                }
             }
             if !msg.isUser { Spacer(minLength: 56) }
         }
@@ -248,6 +253,29 @@ struct ChatView: View {
             .frame(maxHeight: .infinity)
             .background(p.bgElevated)
             .transition(.move(edge: .leading).combined(with: .opacity))
+        }
+    }
+}
+
+private struct TypingIndicator: View {
+    @Environment(\.palette) private var p
+    @State private var phase = 0
+
+    var body: some View {
+        HStack(spacing: 6) {
+            ForEach(0..<3, id: \.self) { index in
+                Circle()
+                    .fill(p.inkSecondary.opacity(index == phase ? 0.9 : 0.35))
+                    .frame(width: 6, height: 6)
+                    .scaleEffect(index == phase ? 1.15 : 1)
+            }
+        }
+        .accessibilityLabel("Pandit-ji is typing")
+        .task {
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 260_000_000)
+                phase = (phase + 1) % 3
+            }
         }
     }
 }

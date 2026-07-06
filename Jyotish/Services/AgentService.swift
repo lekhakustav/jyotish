@@ -61,6 +61,9 @@ struct AgentChatResponse: Decodable {
 
 protocol AgentService {
     func reply(to message: String, context: AgentChatRequest) async throws -> String
+    func streamReply(to message: String,
+                     context: AgentChatRequest,
+                     onDelta: @escaping @MainActor (String) -> Void) async throws -> String
 }
 
 enum AgentServiceError: Error {
@@ -101,6 +104,60 @@ struct HTTPAgentService: AgentService {
         guard !reply.isEmpty else { throw AgentServiceError.emptyReply }
         return reply
     }
+
+    func streamReply(to message: String,
+                     context: AgentChatRequest,
+                     onDelta: @escaping @MainActor (String) -> Void) async throws -> String {
+        var request = URLRequest(url: endpointURL)
+        request.httpMethod = "POST"
+        request.timeoutInterval = 60
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("text/event-stream", forHTTPHeaderField: "Accept")
+        if let apiKey {
+            request.setValue(apiKey, forHTTPHeaderField: "apikey")
+        }
+        if let token = authorizationToken?(), !token.isEmpty {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        request.httpBody = try JSONEncoder.agentEncoder.encode(context)
+
+        let (bytes, response) = try await session.bytes(for: request)
+        guard let http = response as? HTTPURLResponse else {
+            throw AgentServiceError.badStatus(-1, "Missing HTTP response")
+        }
+        guard (200..<300).contains(http.statusCode) else {
+            var body = ""
+            for try await line in bytes.lines {
+                body += line
+                if body.count > 600 { break }
+            }
+            throw AgentServiceError.badStatus(http.statusCode, body)
+        }
+
+        var collected = ""
+        for try await line in bytes.lines {
+            guard line.hasPrefix("data:") else { continue }
+            let raw = String(line.dropFirst(5)).trimmingCharacters(in: .whitespacesAndNewlines)
+            if raw == "[DONE]" { break }
+            guard let data = raw.data(using: .utf8),
+                  let event = try? JSONDecoder().decode(AgentStreamEvent.self, from: data) else {
+                continue
+            }
+            if let delta = event.delta, !delta.isEmpty {
+                collected += delta
+                await onDelta(delta)
+            }
+            if event.done == true { break }
+        }
+        let reply = collected.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !reply.isEmpty else { throw AgentServiceError.emptyReply }
+        return reply
+    }
+}
+
+private struct AgentStreamEvent: Decodable {
+    var delta: String?
+    var done: Bool?
 }
 
 extension AgentChatRequest {

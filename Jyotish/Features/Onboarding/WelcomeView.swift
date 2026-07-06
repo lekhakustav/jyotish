@@ -20,11 +20,6 @@ struct WelcomeView: View {
                     .scaledFont(size: 56, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
                     .fadeRise(delay: 0.05)
-                Text("Jyotish baje")
-                    .scaledFont(size: 15, weight: .semibold)
-                    .foregroundStyle(p.inkSecondary)
-                    .padding(.top, 4)
-                    .fadeRise(delay: 0.1)
                 Text(app.t("app.tagline"))
                     .scaledFont(size: 18, design: .serif)
                     .italic()
@@ -32,7 +27,7 @@ struct WelcomeView: View {
                     .multilineTextAlignment(.center)
                     .padding(.top, 20)
                     .padding(.horizontal, 40)
-                    .fadeRise(delay: 0.15)
+                    .fadeRise(delay: 0.1)
                 Spacer()
 
                 VStack(spacing: 14) {
@@ -61,7 +56,7 @@ struct WelcomeView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 40)
-                .fadeRise(delay: 0.2)
+                .fadeRise(delay: 0.15)
             }
         }
     }

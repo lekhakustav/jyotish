@@ -1,6 +1,7 @@
 {
   "scripts": {
     "agent": "node server/jyotish-agent.mjs",
+    "generate:brand-assets": "swift scripts/generate-brand-assets.swift",
     "upload:brand-logo": "node scripts/upload-brand-logo.mjs"
   }
 }
