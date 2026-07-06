@@ -494,7 +494,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Jyotish/Info.plist;
 				JYOTISH_AGENT_BASE_URL = "";
-				JYOTISH_AGENT_ENDPOINT_URL = "http://127.0.0.1:8788/api/jyotish-agent/chat";
+				JYOTISH_AGENT_ENDPOINT_URL = "https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -673,7 +673,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Jyotish/Info.plist;
 				JYOTISH_AGENT_BASE_URL = "";
-				JYOTISH_AGENT_ENDPOINT_URL = "http://127.0.0.1:8788/api/jyotish-agent/chat";
+				JYOTISH_AGENT_ENDPOINT_URL = "https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

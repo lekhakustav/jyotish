@@ -6,3 +6,4 @@ xcuserdata/
 *.xcuserstate
 DerivedData/
 .gstack/
+supabase/.temp/

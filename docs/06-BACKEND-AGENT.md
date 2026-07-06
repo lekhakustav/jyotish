@@ -10,7 +10,7 @@ Jyotish chat is backend-first with a local fallback:
    local readings, current dasha, daily rashifal, saved events, recent chat history, and
    the local fallback answer.
 4. `HTTPAgentService` posts that context to `JYOTISH_AGENT_ENDPOINT_URL`
-   (`http://127.0.0.1:8788/api/jyotish-agent/chat` by default for local development).
+   (`https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent` by default).
 5. The local dev backend (`server/jyotish-agent.mjs`) or production Supabase Edge Function
    (`supabase/functions/jyotish-agent`) keeps the OpenAI key server-side and calls OpenAI.
 6. If the backend fails or returns an empty reply, `AppState` appends the local
@@ -27,7 +27,7 @@ OPENAI_API_KEY=...
 OPENAI_JYOTISH_AGENT_MODEL=gpt-5-mini
 OPENAI_JYOTISH_AGENT_PLANNER_MODEL=gpt-5-nano
 JYOTISH_AGENT_PORT=8788
-JYOTISH_AGENT_ENDPOINT_URL=http://127.0.0.1:8788/api/jyotish-agent/chat
+JYOTISH_AGENT_ENDPOINT_URL=https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent
 ```
 
 `.env.local` is intentionally ignored by git.
@@ -75,7 +75,7 @@ supabase secrets set OPENAI_API_KEY=... OPENAI_JYOTISH_AGENT_MODEL=gpt-5-mini
 supabase functions deploy jyotish-agent
 ```
 
-Then build the app with:
+Production builds use:
 
 ```sh
 JYOTISH_AGENT_ENDPOINT_URL=https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent
@@ -130,6 +130,6 @@ The server prompt tells OpenAI to:
 
 ## iOS integration
 `project.yml` and `Jyotish/Info.plist` define `JYOTISH_AGENT_ENDPOINT_URL`, defaulting to the
-simulator-friendly local endpoint. For production, override this setting to the deployed
-Supabase Edge Function URL. Do not read `.env.local` from the iOS app and do not ship the
-OpenAI key in source code, asset catalogs, `Info.plist`, or build settings.
+deployed Supabase Edge Function. For local development, override this setting to
+`http://127.0.0.1:8788/api/jyotish-agent/chat`. Do not read `.env.local` from the iOS app
+and do not ship the OpenAI key in source code, asset catalogs, `Info.plist`, or build settings.

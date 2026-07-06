@@ -52,7 +52,7 @@ targets:
         CODE_SIGNING_ALLOWED: NO
         SUPABASE_URL: "https://ghfcssxptpazfbtiwshz.supabase.co"
         SUPABASE_ANON_OR_PUBLISHABLE_KEY: "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW"
-        JYOTISH_AGENT_ENDPOINT_URL: "http://127.0.0.1:8788/api/jyotish-agent/chat"
+        JYOTISH_AGENT_ENDPOINT_URL: "https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent"
         JYOTISH_AGENT_BASE_URL: ""
   JyotishTests:
     type: bundle.unit-test

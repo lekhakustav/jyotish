@@ -3,32 +3,34 @@
 ## Current logo
 The production name is **Jyotish baje** / **ज्योतिष बाजे**.
 
-The current minimalist mark is a non-swastika Nepali kundali/mandala icon:
+The current minimalist mark is a Hindu swastika with Nepali kundali/mandala geometry:
 
 - Source asset: `assets/brand/jyotish-baje-logo-1024.png`
+- Transparent source: `assets/brand/jyotish-baje-swastika-logo-transparent.png`
 - App icon: `Jyotish/Assets.xcassets/AppIcon.appiconset/icon1024.png`
 - In-app welcome logo: `Jyotish/Assets.xcassets/BrandLogo.imageset/jyotish-baje-logo.png`
 
-The mark uses a sindoor/gold kundali diamond, circular jyotish orbit, and four bindu dots.
-The image generation service rejected the swastika prompt, so the shipped logo avoids that
-symbol while preserving Nepali devotional visual language.
+The mark uses sindoor red, temple gold, marigold, a circular jyotish orbit, lotus/mandala
+petals, and four bindu dots. It is upright Hindu/Nepali devotional symbolism, not tilted
+Nazi-style iconography.
 
 ## Supabase storage
-Attempted upload target:
+Uploaded target:
 
 ```text
 temple-of-day/brand/jyotish-baje-logo-1024.png
 ```
 
-The current publishable app key cannot upload storage objects:
+Public URL:
 
 ```text
-new row violates row-level security policy
+https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/brand/jyotish-baje-logo-1024.png
 ```
 
-That is the correct production posture. To store brand assets in Supabase, upload from a
-trusted environment with `SUPABASE_SERVICE_ROLE_KEY`, or add a dedicated admin-only Edge
-Function/storage policy. Do not add storage write permission for anonymous app clients.
+The publishable app key cannot upload storage objects; Supabase correctly blocks that with
+RLS. Brand uploads must use `SUPABASE_SERVICE_ROLE_KEY` from a trusted environment or a
+dedicated admin-only Edge Function/storage policy. Do not add storage write permission for
+anonymous app clients.
 
 Once the service-role key is present in ignored `.env.local`, run:
 
