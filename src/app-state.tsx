@@ -1,6 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 import React from "react";
 import { demoEvents, demoFamily, localPanditReply, recomputeMember, uuid } from "@/astro";
+import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase, supabase } from "@/supabase";
 import type { AppModal, AppTab, ChatMessage, FamilyMember, Household, Language, PatroEvent, ThemeChoice, UserAccount } from "@/types";
 
 type AppContextValue = {
@@ -15,6 +16,10 @@ type AppContextValue = {
   isTyping: boolean;
   syncStatus?: string;
   signInDemo: () => void;
+  signInGoogle: () => Promise<void>;
+  signInEmail: (email: string, password: string) => Promise<void>;
+  signUpEmail: (email: string, password: string) => Promise<void>;
+  skipAuth: () => void;
   signOut: () => void;
   setLanguage: (language: Language) => void;
   setTheme: (theme: ThemeChoice) => void;
@@ -87,13 +92,52 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const signInDemo = React.useCallback(() => {
     updateHousehold((current) => ({
       ...current,
-      account: { id: uuid(), displayName: "Sita Sharma", isDemo: true },
+      account: { id: uuid(), displayName: "Sita Sharma", isDemo: true, authProvider: "demo" },
       family: demoFamily(),
       events: demoEvents()
     }));
   }, [updateHousehold]);
 
+  const signInGoogle = React.useCallback(async () => {
+    const session = await signInWithGoogle();
+    if (session) {
+      updateHousehold((current) => ({
+        ...current,
+        account: current.account ? { ...current.account, authProvider: "google", supabaseUserId: session.user.id } : { id: uuid(), displayName: session.user.email?.split("@")[0] || "User", isDemo: false, authProvider: "google", supabaseUserId: session.user.id }
+      }));
+    }
+  }, [updateHousehold]);
+
+  const signInEmail = React.useCallback(async (email: string, password: string) => {
+    const session = await signInWithEmail(email, password);
+    if (session) {
+      updateHousehold((current) => ({
+        ...current,
+        account: current.account ? { ...current.account, authProvider: "email", supabaseUserId: session.user.id } : { id: uuid(), displayName: session.user.email?.split("@")[0] || "User", isDemo: false, authProvider: "email", supabaseUserId: session.user.id }
+      }));
+    }
+  }, [updateHousehold]);
+
+  const signUpEmail = React.useCallback(async (email: string, password: string) => {
+    const data = await signUpWithEmail(email, password);
+    const user = data.user;
+    if (user) {
+      updateHousehold((current) => ({
+        ...current,
+        account: current.account ? { ...current.account, authProvider: "email", supabaseUserId: user.id } : { id: uuid(), displayName: user.email?.split("@")[0] || "User", isDemo: false, authProvider: "email", supabaseUserId: user.id }
+      }));
+    }
+  }, [updateHousehold]);
+
+  const skipAuth = React.useCallback(() => {
+    updateHousehold((current) => ({
+      ...current,
+      account: current.account ? { ...current.account, authProvider: "demo" } : { id: uuid(), displayName: "User", isDemo: true, authProvider: "demo" }
+    }));
+  }, [updateHousehold]);
+
   const signOut = React.useCallback(() => {
+    signOutSupabase().catch(() => undefined);
     setHousehold(initialHousehold());
     setSelectedTab("home");
     setModal(null);
@@ -186,6 +230,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     isTyping,
     syncStatus,
     signInDemo,
+    signInGoogle,
+    signInEmail,
+    signUpEmail,
+    skipAuth,
     signOut,
     setLanguage,
     setTheme,
@@ -196,7 +244,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     addMember,
     addEvent,
     sendChat
-  }), [household, selectedTab, modal, isTyping, syncStatus, signInDemo, signOut, setLanguage, setTheme, saveSelf, addMember, addEvent, sendChat]);
+  }), [household, selectedTab, modal, isTyping, syncStatus, signInDemo, signInGoogle, signInEmail, signUpEmail, skipAuth, signOut, setLanguage, setTheme, saveSelf, addMember, addEvent, sendChat]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

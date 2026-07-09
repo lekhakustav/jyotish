@@ -31,7 +31,15 @@ enum L10n {
         "tab.family": ("Parivar", "परिवार"),
         "tab.pandit": ("Pandit", "पण्डित"),
         // Welcome / onboarding
-        "welcome.continue": ("Continue with account (demo)", "खाता सहित अगाडि बढ्नुहोस् (डेमो)"),
+        "welcome.createAccount": ("Create an account", "खाता खोल्नुहोस्"),
+        "welcome.signIn": ("Sign in", "साइन इन गर्नुहोस्"),
+        "welcome.signUp": ("Sign up", "साइन अप गर्नुहोस्"),
+        "welcome.googleSignIn": ("Sign in with Google", "गुगलबाट साइन इन गर्नुहोस्"),
+        "welcome.googleSignUp": ("Sign up with Google", "गुगलबाट साइन अप गर्नुहोस्"),
+        "welcome.emailSignIn": ("Sign in with email", "इमेलबाट साइन इन गर्नुहोस्"),
+        "welcome.emailSignUp": ("Sign up with email", "इमेलबाट साइन अप गर्नुहोस्"),
+        "welcome.emailPlaceholder": ("Email", "इमेल"),
+        "welcome.passwordPlaceholder": ("Password", "पासवर्ड"),
         "profile.title": ("Birth Details", "जन्म विवरण"),
         "profile.subtitle": ("Pandit-ji needs these to draw the kundali",
                              "कुण्डली बनाउन पण्डितजीलाई यी विवरण चाहिन्छ"),
@@ -143,6 +151,9 @@ enum L10n {
         "settings.theme.light": ("Prabhat (Light)", "प्रभात (उज्यालो)"),
         "settings.theme.dark": ("Ratri (Dark)", "रात्री (अँध्यारो)"),
         "settings.editProfile": ("Edit birth profile", "जन्म विवरण सम्पादन"),
+        "settings.legal": ("Legal", "कानूनी"),
+        "settings.privacyPolicy": ("Privacy Policy", "गोपनीयता नीति"),
+        "settings.termsOfService": ("Terms of Service", "सेवाका सर्तहरू"),
         "settings.signOut": ("Sign out", "साइन आउट"),
     ]
 

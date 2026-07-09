@@ -404,7 +404,14 @@ struct BirthFlowView: View {
 
     private func load() {
         let existing = prefill ?? (mode == .selfProfile ? app.selfMember : nil)
-        guard let m = existing else { return }
+        guard let m = existing else {
+            // No family member yet (fresh sign-up) — Apple hands us the real
+            // name on first authorization, so start the name field with it.
+            if mode == .selfProfile, let accountName = app.account?.displayName, !accountName.isEmpty {
+                name = accountName
+            }
+            return
+        }
         name = m.name
         gender = m.gender
         relation = m.relation

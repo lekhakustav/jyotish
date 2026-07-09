@@ -1,0 +1,73 @@
+================================================================================
+  JYOTISH BAJE — BUILD & RUN COMMANDS
+================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+  PREREQUISITES (run once)
+────────────────────────────────────────────────────────────────────────────────
+
+  Install Node dependencies:
+    npm install
+
+  Copy environment variables:
+    cp .env.example .env
+    # Then fill in the values in .env
+
+────────────────────────────────────────────────────────────────────────────────
+  iOS  (Native Swift — Xcode)
+────────────────────────────────────────────────────────────────────────────────
+
+  1. Generate the Xcode project (requires xcodegen):
+       brew install xcodegen        # install once
+       xcodegen generate
+
+  2. Open in Xcode and run on simulator or device:
+       open Jyotish.xcodeproj
+
+     — OR — build & run on the default iOS simulator from the terminal:
+       xcodebuild \
+         -project Jyotish.xcodeproj \
+         -scheme Jyotish \
+         -sdk iphonesimulator \
+         -destination 'platform=iOS Simulator,name=iPhone 16' \
+         build
+
+  3. Boot the simulator and install the app (if not done via Xcode):
+       open -a Simulator
+       xcrun simctl install booted \
+         $(find ~/Library/Developer/Xcode/DerivedData -name "Jyotish.app" | head -1)
+       xcrun simctl launch booted com.sodhera.jyotish
+
+────────────────────────────────────────────────────────────────────────────────
+  ANDROID  (Expo / React Native)
+────────────────────────────────────────────────────────────────────────────────
+
+  Prerequisites:
+    • Android Studio installed with an AVD (emulator) created, OR
+    • A physical Android device connected via USB with USB debugging enabled
+
+  1. Start the Expo dev server + launch on Android emulator / device:
+       npm run android
+       # alias for: expo run:android
+
+  2. Start the dev server only (connect from Expo Go or existing build):
+       npm run start
+       # alias for: expo start
+
+  3. Prebuild the Android native project (generates /android folder):
+       npm run android:prebuild
+       # alias for: expo prebuild --platform android
+
+  4. Export a production bundle for Android:
+       npm run android:export
+       # alias for: expo export --platform android
+
+────────────────────────────────────────────────────────────────────────────────
+  BACKEND / AGENT SERVER
+────────────────────────────────────────────────────────────────────────────────
+
+  Start the Jyotish AI agent server locally:
+    npm run agent
+    # alias for: node server/jyotish-agent.mjs
+
+================================================================================

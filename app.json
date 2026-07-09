@@ -12,7 +12,7 @@
       "assets/expo/**/*"
     ],
     "android": {
-      "package": "com.sodhera.jyotish",
+      "package": "com.sodhera.jyotishbaje",
       "adaptiveIcon": {
         "foregroundImage": "./assets/expo/images/icon.png",
         "backgroundColor": "#FCF7ED"
@@ -39,6 +39,9 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.sodhera.jyotishbaje"
     }
   }
 }

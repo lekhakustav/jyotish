@@ -4,7 +4,10 @@ import Foundation
 // SupabaseAuthService/SupabaseDataStore when client config is present.
 
 protocol AuthService {
-    func signInDemo(name: String) async throws -> UserAccount
+    func signInWithApple(idToken: String, rawNonce: String, fullName: String?, mode: AuthMode) async throws -> UserAccount
+    func signInWithGoogle(mode: AuthMode) async throws -> UserAccount
+    func signUpEmail(email: String, password: String) async throws -> UserAccount
+    func signInEmail(email: String, password: String) async throws -> UserAccount
     func signOut() async throws
 }
 
@@ -19,8 +22,17 @@ protocol RemoteDataStore {
 }
 
 struct DummyAuthService: AuthService {
-    func signInDemo(name: String) async throws -> UserAccount {
-        UserAccount(email: nil, displayName: name, isDemo: true)
+    func signInWithApple(idToken: String, rawNonce: String, fullName: String?, mode: AuthMode) async throws -> UserAccount {
+        UserAccount(email: nil, displayName: fullName ?? "", isDemo: true)
+    }
+    func signInWithGoogle(mode: AuthMode) async throws -> UserAccount {
+        UserAccount(email: nil, displayName: "", isDemo: true)
+    }
+    func signUpEmail(email: String, password: String) async throws -> UserAccount {
+        UserAccount(email: email, displayName: "", isDemo: true)
+    }
+    func signInEmail(email: String, password: String) async throws -> UserAccount {
+        UserAccount(email: email, displayName: "", isDemo: true)
     }
     func signOut() async throws {}
 }
