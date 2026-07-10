@@ -2,6 +2,17 @@ import XCTest
 @testable import Jyotish
 
 final class PanditToolsTests: XCTestCase {
+    func testAgentActionConvertsConfirmedDateAndAvoidsImmediateReminder() {
+        let date = Calendar.current.date(from: DateComponents(year: 2026, month: 8, day: 15))!
+        let event = PanditActionResolver.event(title: "  Griha Pravesh  ", date: date)
+        XCTAssertEqual(event.title, "Griha Pravesh")
+        XCTAssertEqual(event.bsDate, BikramSambat.toBS(date))
+
+        let now = Calendar.current.date(from: DateComponents(year: 2026, month: 8, day: 10, hour: 9))!
+        let fire = PanditActionResolver.reminderFireDate(for: date, now: now)
+        XCTAssertEqual(Calendar.current.component(.hour, from: fire), 18)
+        XCTAssertEqual(Calendar.current.dateComponents([.day], from: now, to: fire).day, 4)
+    }
     func testMuhurtaFinderReturnsRankedPanchangaEvidence() {
         let start = Date(timeIntervalSince1970: 1_783_440_000)
         let results = MuhurtaEngine.find(purpose: .grihaPravesh,

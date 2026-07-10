@@ -293,6 +293,23 @@ final class AppState: ObservableObject {
     func addEvent(_ event: PatroEvent) { events.append(event); persist() }
     func removeEvent(_ event: PatroEvent) { events.removeAll { $0.id == event.id }; persist() }
 
+    /// Returns false when the same dated item already exists, so an accidental
+    /// second tap never creates duplicate Patro entries.
+    @discardableResult
+    func addPanditEvent(title: String, date: Date) -> Bool {
+        let event = PanditActionResolver.event(title: title, date: date)
+        guard !event.title.isEmpty else { return false }
+        guard !events.contains(where: { $0.title.localizedCaseInsensitiveCompare(event.title) == .orderedSame
+            && $0.bsDate == event.bsDate
+        }) else { return false }
+        addEvent(event)
+        return true
+    }
+
+    func schedulePanditReminder(title: String, date: Date) async throws {
+        try await ReminderService.schedule(title: title, date: date, language: language)
+    }
+
     func open(_ destination: AppDestination) {
         switch destination.presentationStyle {
         case .tab:

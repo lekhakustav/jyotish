@@ -53,6 +53,7 @@
 		C79CCBB82D3200337E6AB918 /* Fraunces-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5B51DC2C722AF9CF78EC0D2 /* Fraunces-Light.ttf */; };
 		CCC6A0BF1539CA238DD5CAFA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4CFB496D533A622FAE8A9 /* Models.swift */; };
 		CDEB601E28C6202765C6DD99 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7523A559BF6D4E01C9C9FB04 /* L10n.swift */; };
+		D7028681684DCD5E9F7FC12D /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361C2CE197A850F22336573 /* ReminderService.swift */; };
 		DAE42E526033BEEE15D677BC /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE8C25232BB28C6E6BBD5E2 /* Ephemeris.swift */; };
 		E65954A10FC5B50AFE19DFBB /* AppNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA4FEB1504A4A8AB30ED72 /* AppNavigationTests.swift */; };
 		F109AA60F3D7ABAEAEDF47CE /* Kundali.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6EAF520AA82A3822747D8BB /* Kundali.swift */; };
@@ -91,6 +92,7 @@
 		6A6D62BEE40DC68331B2BAAC /* VastuKnowledge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VastuKnowledge.swift; sourceTree = "<group>"; };
 		6DDAEF38565EB3485A2BB6DE /* EmailAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthView.swift; sourceTree = "<group>"; };
 		6FAD1A1FEA7E7A47FFB6D8CF /* PanditTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanditTools.swift; sourceTree = "<group>"; };
+		7361C2CE197A850F22336573 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		7523A559BF6D4E01C9C9FB04 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
 		7778391ED6AB13C0E5E34C1F /* AuthMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthMethodView.swift; sourceTree = "<group>"; };
 		7C0A3C9008CC0AED2AD5D23C /* Fraunces-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Bold.ttf"; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				9221A2B609F60974ACC59E2E /* AgentService.swift */,
+				7361C2CE197A850F22336573 /* ReminderService.swift */,
 				CCE8FC0FA8B659775C2DB8D1 /* Services.swift */,
 				7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */,
 				2DA60917EF91A0E7FC741D7A /* VoiceAgent.swift */,
@@ -489,6 +492,7 @@
 				A489B76D7C351579A19984D6 /* ProfileSetupView.swift in Sources */,
 				7953F4E8ADE00171CFD252DE /* RashifalEngine.swift in Sources */,
 				A38B8453A71ED87233B14BD6 /* RashifalView.swift in Sources */,
+				D7028681684DCD5E9F7FC12D /* ReminderService.swift in Sources */,
 				B1784E2D79797EFFB7C4532F /* Services.swift in Sources */,
 				4B7C1766D0AEB43508C605D7 /* SettingsView.swift in Sources */,
 				C311C6BFE5D07B045C3C5C69 /* SupabaseService.swift in Sources */,
