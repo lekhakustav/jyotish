@@ -83,6 +83,8 @@ enum L10n {
         "home.antardasha": ("Antardasha", "अन्तर्दशा"),
         "home.openPatro": ("Open Patro", "पात्रो खोल्नुहोस्"),
         "home.askPandit": ("Ask Pandit-ji", "पण्डितजीलाई सोध्नुहोस्"),
+        "home.bajePrompt": ("What would you like help with?", "के कुरामा मद्दत चाहिन्छ?"),
+        "home.bajePromptHint": ("Ask in your own words", "आफ्नै शब्दमा सोध्नुहोस्"),
         "home.chat": ("Pandit Chat", "पण्डित च्याट"),
         "home.templeOfDay": ("Temple of the Day", "आजको मन्दिर"),
         // Rashifal

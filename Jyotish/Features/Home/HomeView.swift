@@ -12,47 +12,63 @@ struct HomeView: View {
     private let temple = Temple.ofToday()
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
+        ZStack {
             p.bgCanvas.ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 36) {
                     header.fadeRise()
-                    rashifalBlock.fadeRise(delay: 0.05)
+                    bajeEntry.fadeRise(delay: 0.04)
+                    rashifalBlock.fadeRise(delay: 0.08)
                     VStack(alignment: .leading, spacing: 18) {
                         tithiHero
                         templeOfDay
                     }
-                    .fadeRise(delay: 0.1)
+                    .fadeRise(delay: 0.12)
                     if hasRelatives { familyRow.fadeRise(delay: 0.2) }
                     if hasUpcoming { upcoming.fadeRise(delay: 0.25) }
                 }
                 .padding(.horizontal, 24)
-                .padding(.bottom, 112)
+                .padding(.bottom, 24)
             }
-            Button {
-                Haptics.tap()
-                app.open(.pandit)
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: "bubble.left.and.bubble.right.fill")
-                        .scaledFont(size: 21, weight: .medium)
-                    Text(app.t("home.chat"))
-                        .scaledFont(size: 15, weight: .semibold, design: .serif)
-                }
-                .foregroundStyle(Color(hex: 0x3B1F14))
-                .padding(.horizontal, 20)
-                .frame(height: 64)
-                .background(Capsule().fill(p.saffron))
-                .shadow(color: p.saffron.opacity(0.22), radius: 12, y: 5)
-            }
-            .accessibilityLabel(app.t("home.askPandit"))
-            .padding(.trailing, 22)
-            .padding(.bottom, 24)
         }
         .statusBarFade()
         .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .sheet(isPresented: $showTemple) { TempleDetailSheet(temple: temple) }
+    }
+
+    /// Agent entry lives in the document flow, never above content. It asks in
+    /// ordinary language rather than requiring users to know a feature name.
+    private var bajeEntry: some View {
+        Button {
+            Haptics.tap()
+            app.open(.pandit)
+        } label: {
+            HStack(spacing: 14) {
+                Image(systemName: "bubble.left.and.bubble.right.fill")
+                    .scaledFont(size: 20, weight: .medium)
+                    .foregroundStyle(p.saffron)
+                    .frame(width: 42, height: 42)
+                    .background(Circle().fill(p.bgCanvas))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(app.t("home.bajePrompt"))
+                        .scaledFont(size: 16, weight: .semibold, design: .serif)
+                    Text(app.t("home.bajePromptHint"))
+                        .scaledFont(size: 12)
+                        .foregroundStyle(p.inkSecondary)
+                        .lineLimit(1)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .scaledFont(size: 13, weight: .semibold)
+                    .foregroundStyle(p.inkSecondary)
+            }
+            .foregroundStyle(p.inkPrimary)
+            .padding(.horizontal, 12)
+            .frame(height: 66)
+            .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(p.bgSunken))
+        }
+        .accessibilityLabel(app.t("home.askPandit"))
     }
 
     private var header: some View {

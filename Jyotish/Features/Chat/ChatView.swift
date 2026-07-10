@@ -114,7 +114,7 @@ struct ChatView: View {
                     TypingIndicator()
                         .padding(.vertical, 6)
                 } else {
-                    Text(msg.text)
+                    Text(PanditTextFormatter.attributed(msg.text))
                         .scaledFont(size: 16, design: .serif)
                         .foregroundStyle(p.inkPrimary.opacity(0.92))
                         .lineSpacing(6)
@@ -254,6 +254,19 @@ struct ChatView: View {
             .background(p.bgElevated)
             .transition(.move(edge: .leading).combined(with: .opacity))
         }
+    }
+}
+
+/// The model may use lightweight Markdown for emphasis. Convert it before
+/// SwiftUI renders the answer so users never see implementation markers such
+/// as `**text**`. Newlines are preserved for readable, structured replies.
+enum PanditTextFormatter {
+    static func attributed(_ text: String) -> AttributedString {
+        let options = AttributedString.MarkdownParsingOptions(
+            interpretedSyntax: .inlineOnlyPreservingWhitespace,
+            failurePolicy: .returnPartiallyParsedIfPossible
+        )
+        return (try? AttributedString(markdown: text, options: options)) ?? AttributedString(text)
     }
 }
 

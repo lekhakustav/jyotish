@@ -72,4 +72,11 @@ final class PerformanceOptimizationTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(URLCache.shared.memoryCapacity, 64 * 1024 * 1024)
         XCTAssertGreaterThanOrEqual(URLCache.shared.diskCapacity, 256 * 1024 * 1024)
     }
+
+    func testPanditMarkdownFormattingRemovesRawEmphasisMarkers() {
+        let formatted = PanditTextFormatter.attributed("**Direct answer:** हल्का हरियो शुभ छ।")
+
+        XCTAssertEqual(String(formatted.characters), "Direct answer: हल्का हरियो शुभ छ।")
+        XCTAssertFalse(String(formatted.characters).contains("**"))
+    }
 }
