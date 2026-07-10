@@ -21,6 +21,9 @@ Jyotish chat is backend-first with a local fallback:
 8. `VoiceAgent` captures spoken questions. Every completed answer can expose compact,
    typed actions such as Add to Patro, Remind me, Compare, Listen, See Kundli, and Share.
    Calendar and reminder writes require an explicit confirmation sheet.
+9. `PanditAnswerContract` rejects stale remote replies that omit the required answer shape
+   and replaces them with the deterministic structured result. This keeps the user contract
+   intact while backend prompts and credentials are being rolled out.
 
 This means the OpenAI key belongs in a backend process, not in the iOS target.
 
