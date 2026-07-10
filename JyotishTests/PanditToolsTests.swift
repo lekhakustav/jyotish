@@ -2,6 +2,16 @@ import XCTest
 @testable import Jyotish
 
 final class PanditToolsTests: XCTestCase {
+    func testAnswerContractRejectsStaleUnstructuredBackendReplies() {
+        XCTAssertFalse(PanditAnswerContract.isSatisfied(
+            by: "A good date is Monday. Light a lamp.", language: .en))
+        XCTAssertTrue(PanditAnswerContract.isSatisfied(
+            by: "Direct answer\nYes\nWhy Baje says this\nEvidence\nWhat to do\nPlan\nOptional practice\nA lamp",
+            language: .en))
+        XCTAssertTrue(PanditAnswerContract.isSatisfied(
+            by: "सीधा उत्तर\nहुन्छ\nबाजेले यसो भन्नुको कारण\nआधार\nअब के गर्ने\nकाम\nवैकल्पिक साधना\nदीप",
+            language: .ne))
+    }
     func testAgentActionConvertsConfirmedDateAndAvoidsImmediateReminder() {
         let date = Calendar.current.date(from: DateComponents(year: 2026, month: 8, day: 15))!
         let event = PanditActionResolver.event(title: "  Griha Pravesh  ", date: date)

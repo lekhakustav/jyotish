@@ -356,9 +356,11 @@ final class AppState: ObservableObject {
         let answer: String
         do {
             if let agent {
-                answer = try await agent.streamReply(to: trimmed, context: context) { delta in
+                let remoteAnswer = try await agent.streamReply(to: trimmed, context: context) { delta in
                     self.appendAssistantDelta(delta, messageID: pendingID)
                 }
+                answer = PanditAnswerContract.isSatisfied(by: remoteAnswer, language: language)
+                    ? remoteAnswer : localAnswer
             } else {
                 answer = localAnswer
                 await streamLocalFallback(localAnswer, messageID: pendingID)

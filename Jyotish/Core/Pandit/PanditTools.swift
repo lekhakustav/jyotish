@@ -383,6 +383,18 @@ struct PanditToolPlan: Equatable {
     var actions: [PanditAction]
 }
 
+enum PanditAnswerContract {
+    /// A stale or misconfigured remote model must never remove the clear shape
+    /// promised by the app. The local deterministic answer is used whenever a
+    /// remote response omits one of these user-facing sections.
+    static func isSatisfied(by answer: String, language: Language) -> Bool {
+        let required = language == .ne
+            ? ["सीधा उत्तर", "बाजेले यसो भन्नुको कारण", "अब के गर्ने", "वैकल्पिक साधना"]
+            : ["Direct answer", "Why Baje says this", "What to do", "Optional practice"]
+        return required.allSatisfy(answer.localizedCaseInsensitiveContains)
+    }
+}
+
 private struct StructuredPanditAnswer {
     var direct: String
     var why: [String]
