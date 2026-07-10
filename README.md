@@ -40,3 +40,4 @@ For production without a dedicated server, deploy `supabase/functions/jyotish-ag
 - [docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md](docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md) — temple-of-day schedule
 - [docs/11-TEMPLE-ART-ASSETS.md](docs/11-TEMPLE-ART-ASSETS.md) — temple art storage contract
 - [docs/12-BRAND-ASSETS.md](docs/12-BRAND-ASSETS.md) — logo, app icon, and Supabase brand asset notes
+- [docs/14-PRODUCT-UX-INTENT-REVIEW.md](docs/14-PRODUCT-UX-INTENT-REVIEW.md) — current UI/UX audit, market feature landscape, user-intent model, and Pandit Baje agent direction
