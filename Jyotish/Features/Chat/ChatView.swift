@@ -10,9 +10,12 @@ struct ChatView: View {
     @State private var draft = ""
     @State private var showHistory = false
     @State private var isSending = false
+    @State private var pendingAction: PanditAction?
+    @State private var showComparison = false
+    @State private var notice: String?
     @FocusState private var focused: Bool
 
-    private let chips = ["chat.chip.color", "chat.chip.city", "chat.chip.vastu", "chat.chip.dasha"]
+    private let chips = ["chat.chip.today", "chat.chip.muhurta", "chat.chip.family", "chat.chip.vrat"]
 
     var body: some View {
         ZStack(alignment: .leading) {
@@ -50,6 +53,23 @@ struct ChatView: View {
         }
         .statusBarFade()
         .onDisappear { voice.stopSpeaking() }
+        .sheet(item: $pendingAction) { action in
+            AgentActionConfirmationSheet(action: action) { title, date in
+                confirm(action, title: title, date: date)
+            }
+        }
+        .sheet(isPresented: $showComparison) {
+            CompatibilityPromptSheet(members: app.family) { first, second in
+                showComparison = false
+                send("Compare \(first.name) and \(second.name) compatibility")
+            }
+        }
+        .alert(app.t("chat.action.result"),
+               isPresented: Binding(get: { notice != nil }, set: { if !$0 { notice = nil } })) {
+            Button(app.t("common.done")) { notice = nil }
+        } message: {
+            Text(notice ?? "")
+        }
     }
 
     private var header: some View {
@@ -98,29 +118,118 @@ struct ChatView: View {
     }
 
     private func bubble(_ msg: ChatMessage) -> some View {
-        HStack {
-            if msg.isUser { Spacer(minLength: 56) }
-            if msg.isUser {
-                Text(msg.text)
-                    .scaledFont(size: 16)
-                    .foregroundStyle(p.inkPrimary)
-                    .lineSpacing(4)
-                    .padding(.horizontal, 16).padding(.vertical, 10)
-                    .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(p.marigold.opacity(0.2)))
-            } else {
-                // Pandit speaks directly on the canvas — no container at all.
-                if msg.text.isEmpty && app.chatTypingMessageID == msg.id {
-                    TypingIndicator()
-                        .padding(.vertical, 6)
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                if msg.isUser { Spacer(minLength: 56) }
+                if msg.isUser {
+                    Text(msg.text)
+                        .scaledFont(size: 16)
+                        .foregroundStyle(p.inkPrimary)
+                        .lineSpacing(4)
+                        .padding(.horizontal, 16).padding(.vertical, 10)
+                        .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .fill(p.marigold.opacity(0.2)))
                 } else {
-                    Text(PanditTextFormatter.attributed(msg.text))
-                        .scaledFont(size: 16, design: .serif)
-                        .foregroundStyle(p.inkPrimary.opacity(0.92))
-                        .lineSpacing(6)
+                    // Pandit speaks directly on the canvas — no container at all.
+                    if msg.text.isEmpty && app.chatTypingMessageID == msg.id {
+                        TypingIndicator()
+                            .padding(.vertical, 6)
+                    } else {
+                        Text(PanditTextFormatter.attributed(msg.text))
+                            .scaledFont(size: 16, design: .serif)
+                            .foregroundStyle(p.inkPrimary.opacity(0.92))
+                            .lineSpacing(6)
+                    }
+                }
+                if !msg.isUser { Spacer(minLength: 56) }
+            }
+            if !msg.isUser, !msg.text.isEmpty, let actions = msg.actions, !actions.isEmpty {
+                actionRow(actions, message: msg)
+            }
+        }
+    }
+
+    private func actionRow(_ actions: [PanditAction], message: ChatMessage) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(actions) { action in
+                    if action.kind == .share {
+                        ShareLink(item: PanditTextFormatter.plain(message.text)) {
+                            actionLabel(action.kind)
+                        }
+                    } else {
+                        Button { handle(action, message: message) } label: { actionLabel(action.kind) }
+                    }
                 }
             }
-            if !msg.isUser { Spacer(minLength: 56) }
+        }
+    }
+
+    private func actionLabel(_ kind: PanditActionKind) -> some View {
+        Label(app.t("chat.action.\(kind.rawValue)"), systemImage: actionIcon(kind))
+            .scaledFont(size: 12, weight: .medium)
+            .foregroundStyle(p.sindoor)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 9)
+            .background(Capsule().fill(p.bgElevated))
+    }
+
+    private func actionIcon(_ kind: PanditActionKind) -> String {
+        switch kind {
+        case .openPatro: return "calendar"
+        case .addToPatro: return "calendar.badge.plus"
+        case .remind: return "bell"
+        case .compare: return "person.2"
+        case .listen: return "speaker.wave.2"
+        case .seeKundli: return "square.grid.3x3"
+        case .share: return "square.and.arrow.up"
+        }
+    }
+
+    private func handle(_ action: PanditAction, message: ChatMessage) {
+        Haptics.tap()
+        switch action.kind {
+        case .addToPatro, .remind:
+            pendingAction = action
+        case .openPatro:
+            leaveChat { app.open(.patro) }
+        case .seeKundli:
+            leaveChat { app.openFamilyMember(action.memberID) }
+        case .compare:
+            guard app.family.count >= 2 else {
+                notice = app.t("chat.compare.needTwo")
+                return
+            }
+            showComparison = true
+        case .listen:
+            voice.speakNow(PanditTextFormatter.plain(message.text), lang: app.language)
+        case .share:
+            break
+        }
+    }
+
+    private func confirm(_ action: PanditAction, title: String, date: Date) {
+        pendingAction = nil
+        if action.kind == .addToPatro {
+            notice = app.t(app.addPanditEvent(title: title, date: date)
+                           ? "chat.action.added" : "chat.action.duplicate")
+        } else {
+            Task {
+                do {
+                    try await app.schedulePanditReminder(title: title, date: date)
+                    notice = app.t("chat.action.reminderSet")
+                } catch {
+                    notice = app.t("chat.action.reminderFailed")
+                }
+            }
+        }
+    }
+
+    private func leaveChat(action: @escaping @MainActor () -> Void) {
+        dismiss()
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 220_000_000)
+            action()
         }
     }
 
@@ -267,6 +376,105 @@ enum PanditTextFormatter {
             failurePolicy: .returnPartiallyParsedIfPossible
         )
         return (try? AttributedString(markdown: text, options: options)) ?? AttributedString(text)
+    }
+
+    static func plain(_ text: String) -> String {
+        String(attributed(text).characters)
+    }
+}
+
+private struct AgentActionConfirmationSheet: View {
+    @EnvironmentObject private var app: AppState
+    @Environment(\.palette) private var p
+    @Environment(\.dismiss) private var dismiss
+    let action: PanditAction
+    let onConfirm: (String, Date) -> Void
+    @State private var title: String
+    @State private var date: Date
+
+    init(action: PanditAction, onConfirm: @escaping (String, Date) -> Void) {
+        self.action = action
+        self.onConfirm = onConfirm
+        _title = State(initialValue: action.title ?? "")
+        _date = State(initialValue: action.date ?? Date())
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                TextField(app.t("chat.action.eventTitle"), text: $title)
+                DatePicker(app.t("chat.action.date"), selection: $date, displayedComponents: [.date])
+            }
+            .scrollContentBackground(.hidden)
+            .background(p.bgCanvas)
+            .navigationTitle(app.t("chat.action.details"))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(app.t("common.cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(app.t("common.done")) {
+                        onConfirm(title, date)
+                        dismiss()
+                    }
+                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            }
+        }
+        .onAppear {
+            if title.isEmpty {
+                title = app.t(action.kind == .remind
+                              ? "chat.action.defaultReminder" : "chat.action.defaultEvent")
+            }
+        }
+        .presentationDetents([.medium])
+    }
+}
+
+private struct CompatibilityPromptSheet: View {
+    @EnvironmentObject private var app: AppState
+    @Environment(\.palette) private var p
+    @Environment(\.dismiss) private var dismiss
+    let members: [FamilyMember]
+    let onCompare: (FamilyMember, FamilyMember) -> Void
+    @State private var firstID: UUID
+    @State private var secondID: UUID
+
+    init(members: [FamilyMember], onCompare: @escaping (FamilyMember, FamilyMember) -> Void) {
+        self.members = members
+        self.onCompare = onCompare
+        _firstID = State(initialValue: members.first?.id ?? UUID())
+        _secondID = State(initialValue: members.dropFirst().first?.id ?? UUID())
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Picker(app.t("chat.compare.first"), selection: $firstID) {
+                    ForEach(members) { Text($0.name).tag($0.id) }
+                }
+                Picker(app.t("chat.compare.second"), selection: $secondID) {
+                    ForEach(members) { Text($0.name).tag($0.id) }
+                }
+            }
+            .scrollContentBackground(.hidden)
+            .background(p.bgCanvas)
+            .navigationTitle(app.t("chat.compare.title"))
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(app.t("common.cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(app.t("chat.compare.go")) {
+                        guard let first = members.first(where: { $0.id == firstID }),
+                              let second = members.first(where: { $0.id == secondID }) else { return }
+                        onCompare(first, second)
+                    }
+                    .disabled(firstID == secondID)
+                }
+            }
+        }
+        .presentationDetents([.medium])
     }
 }
 

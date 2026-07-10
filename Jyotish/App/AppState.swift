@@ -28,6 +28,8 @@ final class AppState: ObservableObject {
     }()
     @Published var pushedDestination: AppDestination?
     @Published var modalDestination: AppDestination?
+    /// A one-shot deep link from Pandit chat into a person's Kundali.
+    @Published var requestedFamilyMemberID: UUID?
 
     // Service seam. Supabase is used when configured; otherwise the app remains local-first.
     let auth: AuthService
@@ -319,6 +321,13 @@ final class AppState: ObservableObject {
         case .modal:
             modalDestination = destination
         }
+    }
+
+    func openFamilyMember(_ id: UUID?) {
+        requestedFamilyMemberID = nil
+        selectedTab = .family
+        guard let id else { return }
+        DispatchQueue.main.async { self.requestedFamilyMemberID = id }
     }
 
     func sendChat(_ text: String) async -> ChatMessage? {

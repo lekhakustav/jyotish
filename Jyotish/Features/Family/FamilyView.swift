@@ -23,9 +23,10 @@ struct FamilyView: View {
     @Environment(\.palette) private var p
     @State private var showAdd = false
     @State private var nodeX: [String: CGFloat] = [:]
+    @State private var path: [UUID] = []
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ZStack {
                 p.bgCanvas.ignoresSafeArea()
                 ScrollView {
@@ -54,7 +55,14 @@ struct FamilyView: View {
                     MemberDetailView(memberID: m.id)
                 }
             }
+            .onAppear { openRequestedMember(app.requestedFamilyMemberID) }
+            .onChange(of: app.requestedFamilyMemberID) { _, id in openRequestedMember(id) }
         }
+    }
+
+    private func openRequestedMember(_ id: UUID?) {
+        guard let id, app.family.contains(where: { $0.id == id }) else { return }
+        path = [id]
     }
 
     private var hasRelatives: Bool {

@@ -107,6 +107,12 @@ final class VoiceAgent: NSObject, ObservableObject {
     /// reads Devanagari naturally and is the accepted fallback.
     func speak(_ text: String, lang: Language) {
         guard speaksReplies else { return }
+        speakNow(text, lang: lang)
+    }
+
+    /// Explicit Listen actions must always speak, even when automatic spoken
+    /// replies are disabled.
+    func speakNow(_ text: String, lang: Language) {
         stopSpeaking()
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, options: [])
         let utterance = AVSpeechUtterance(string: text)
