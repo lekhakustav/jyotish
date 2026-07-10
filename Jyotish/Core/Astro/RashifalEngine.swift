@@ -73,24 +73,74 @@ enum RashifalEngine {
         // ── Real transits ────────────────────────────────────────────────────
         let jd = suppliedJD ?? Ephemeris.julianDay(date)
         let moonNow = Ephemeris.rashi(of: Ephemeris.sidereal(.moon, jd: jd))
-        let jupiterHouse = (Ephemeris.rashi(of: Ephemeris.sidereal(.jupiter, jd: jd)).rawValue - rashi.rawValue + 12) % 12 + 1
-        let venusHouse = (Ephemeris.rashi(of: Ephemeris.sidereal(.venus, jd: jd)).rawValue - rashi.rawValue + 12) % 12 + 1
+        func transitHouse(_ planet: Planet) -> Int {
+            (Ephemeris.rashi(of: Ephemeris.sidereal(planet, jd: jd)).rawValue - rashi.rawValue + 12) % 12 + 1
+        }
+        let jupiterHouse = transitHouse(.jupiter)
+        let venusHouse = transitHouse(.venus)
+        let mercuryHouse = transitHouse(.mercury)
+        let marsHouse = transitHouse(.mars)
+        let saturnHouse = transitHouse(.saturn)
         let saturnRashi = Ephemeris.rashi(of: Ephemeris.sidereal(.saturn, jd: jd))
         let chandra = Interpreter.chandraBala(natal: rashi, transitMoon: moonNow)
         let sadheSati = Interpreter.sadheSatiPhase(natal: rashi, transitSaturn: saturnRashi)
 
-        // ── Domain scores from transit weights ──────────────────────────────
-        func clamp(_ x: Int) -> Int { max(1, min(5, x)) }
-        var base = chandra.favorable ? 4 : 3
-        if sadheSati != nil { base -= 1 }
-        let jupiterBoost = [2, 5, 7, 9, 11].contains(jupiterHouse) ? 1 : 0
-        let venusBoost = [1, 4, 5, 7, 11].contains(venusHouse) ? 1 : 0
-        var scores: [String: Int] = [:]
-        scores["rashifal.career"] = clamp(base + jupiterBoost + Int(rng.next() % 2) - ([10, 8].contains(chandra.house) ? 1 : 0))
-        scores["rashifal.family"] = clamp(base + venusBoost + Int(rng.next() % 2))
-        scores["rashifal.health"] = clamp(base + (chandra.favorable ? 1 : 0) - (sadheSati == 2 ? 1 : 0) + Int(rng.next() % 2))
-        scores["rashifal.wealth"] = clamp(base + jupiterBoost + venusBoost - 1 + Int(rng.next() % 2))
-        scores["rashifal.love"] = clamp(base + venusBoost + Int(rng.next() % 2))
+        // ── Domain scores from distinct transit evidence ────────────────────
+        // Stars are not random decoration. Each life area weighs the grahas
+        // and houses that actually relate to it, then maps the result onto a
+        // deliberately conservative scale where 5 means exceptional support.
+        func effect(_ house: Int, favorable: Set<Int>, difficult: Set<Int>) -> Double {
+            if favorable.contains(house) { return 1 }
+            if difficult.contains(house) { return -1 }
+            return 0
+        }
+        func stars(_ raw: Double) -> Int {
+            switch raw {
+            case ..<1.85: return 1
+            case ..<2.65: return 2
+            case ..<3.45: return 3
+            case ..<4.25: return 4
+            default: return 5
+            }
+        }
+
+        let moon = chandra.favorable ? 0.55 : -0.45
+        let sadePenalty = sadheSati == nil ? 0.0 : (sadheSati == 2 ? -0.75 : -0.45)
+        let rawScores: [String: Double] = [
+            "rashifal.career": 3
+                + 0.75 * effect(jupiterHouse, favorable: [2, 5, 7, 9, 10, 11], difficult: [3, 6, 8, 12])
+                + 0.55 * effect(saturnHouse, favorable: [3, 6, 10, 11], difficult: [1, 4, 8, 12])
+                + 0.40 * effect(mercuryHouse, favorable: [2, 3, 6, 10, 11], difficult: [8, 12])
+                + 0.25 * moon,
+            "rashifal.family": 3
+                + 0.65 * effect(venusHouse, favorable: [1, 2, 4, 5, 7, 9, 11], difficult: [6, 8, 12])
+                + 0.40 * effect(jupiterHouse, favorable: [2, 4, 5, 7, 9, 11], difficult: [6, 8, 12])
+                + 0.45 * moon + 0.35 * sadePenalty,
+            "rashifal.health": 3
+                + 0.75 * moon
+                + 0.40 * effect(marsHouse, favorable: [3, 6, 10, 11], difficult: [1, 4, 8, 12])
+                + 0.35 * effect(saturnHouse, favorable: [3, 6, 11], difficult: [1, 4, 8, 12])
+                + sadePenalty,
+            "rashifal.wealth": 3
+                + 0.80 * effect(jupiterHouse, favorable: [2, 5, 9, 11], difficult: [6, 8, 12])
+                + 0.50 * effect(venusHouse, favorable: [2, 5, 9, 11], difficult: [6, 8, 12])
+                + 0.40 * effect(mercuryHouse, favorable: [2, 6, 10, 11], difficult: [8, 12]),
+            "rashifal.love": 3
+                + 0.90 * effect(venusHouse, favorable: [1, 5, 7, 9, 11], difficult: [6, 8, 12])
+                + 0.35 * moon
+                + 0.35 * effect(marsHouse, favorable: [3, 5, 11], difficult: [4, 7, 8, 12]),
+        ]
+        var scores = rawScores.mapValues(stars)
+        // A page full of perfect marks communicates no information. Even in
+        // the rare case of universally supportive transits, retain the weakest
+        // relative domain as a four so five stars stays meaningful.
+        if scores.values.allSatisfy({ $0 == 5 }),
+           let weakest = rawScores.min(by: { $0.value < $1.value })?.key {
+            scores[weakest] = 4
+        }
+
+        let jupiterBoost = effect(jupiterHouse, favorable: [2, 5, 7, 9, 11], difficult: []) > 0 ? 1 : 0
+        let venusBoost = effect(venusHouse, favorable: [1, 4, 5, 7, 11], difficult: []) > 0 ? 1 : 0
 
         // ── Sentences ────────────────────────────────────────────────────────
         let ne = lang == .ne

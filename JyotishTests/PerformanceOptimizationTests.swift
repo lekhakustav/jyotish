@@ -18,6 +18,18 @@ final class PerformanceOptimizationTests: XCTestCase {
         XCTAssertEqual(afterSecond.hits, 1)
     }
 
+    func testRashifalStarsAreTransitBasedBoundedAndNeverAllPerfect() {
+        RashifalEngine.resetCacheForTesting()
+        let date = Date(timeIntervalSince1970: 1_783_440_000)
+
+        for rashi in Rashi.allCases {
+            let result = RashifalEngine.generate(rashi: rashi, period: .daily, date: date, lang: .en)
+            XCTAssertEqual(Set(result.scores.keys), Set(RashifalEngine.domains))
+            XCTAssertTrue(result.scores.values.allSatisfy { (1...5).contains($0) })
+            XCTAssertFalse(result.scores.values.allSatisfy { $0 == 5 }, "\(rashi) should not show five perfect domains")
+        }
+    }
+
     func testPanchangaDayResultsAreCached() {
         Panchanga.resetCacheForTesting()
         let date = Date(timeIntervalSince1970: 1_783_440_000)
