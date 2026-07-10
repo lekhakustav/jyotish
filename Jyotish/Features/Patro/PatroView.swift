@@ -297,9 +297,9 @@ struct DayDetailSheet: View {
                         InfoRow(label: app.t("patro.nakshatra"),
                                 value: ne ? pan.nakshatra.nameNE : pan.nakshatra.nameEN)
                         Hairline()
-                        InfoRow(label: app.t("patro.yoga"), value: Panchanga.yogaNamesEN[pan.yogaIndex])
+                        InfoRow(label: app.t("patro.yoga"), value: pan.yogaName(ne: ne))
                         Hairline()
-                        InfoRow(label: app.t("patro.karana"), value: Panchanga.karanaNamesEN[pan.karanaIndex])
+                        InfoRow(label: app.t("patro.karana"), value: pan.karanaName(ne: ne))
                     }
 
                     if !dayEvents.isEmpty {

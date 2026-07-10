@@ -46,6 +46,20 @@ final class PerformanceOptimizationTests: XCTestCase {
         XCTAssertEqual(afterSecond.hits, 1)
     }
 
+    func testPanchangaYogaAndKaranaRespectNepaliLanguage() {
+        let panchanga = Panchanga(tithiIndex: 6,
+                                  nakshatra: .ashwini,
+                                  yogaIndex: 4,
+                                  karanaIndex: 0,
+                                  weekday: 1,
+                                  moonRashi: .mesh)
+
+        XCTAssertEqual(panchanga.yogaName(ne: false), "Shobhana")
+        XCTAssertEqual(panchanga.yogaName(ne: true), "शोभन")
+        XCTAssertEqual(panchanga.karanaName(ne: false), "Bava")
+        XCTAssertEqual(panchanga.karanaName(ne: true), "बव")
+    }
+
     func testAgentContextGenerationKeepsHistoryBoundedAndScalesAcrossFamily() {
         RashifalEngine.resetCacheForTesting()
         let family = (0..<24).map { index -> FamilyMember in
