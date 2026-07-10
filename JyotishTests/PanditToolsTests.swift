@@ -61,4 +61,51 @@ final class PanditToolsTests: XCTestCase {
 
         XCTAssertEqual(Panchanga.cacheSnapshotForTesting.entries, 2)
     }
+
+    func testPlannerRoutesMuhuratThroughDeterministicEvidenceAndActions() {
+        var me = FamilyMember(name: "Sita", gender: .female, relation: .selfMember,
+                              birth: BirthData(year: 1962, month: 3, day: 15,
+                                               hour: 7, minute: 30, timeKnown: true,
+                                               place: .kathmandu))
+        me.recompute()
+
+        let plan = PanditToolPlanner.plan(query: "When is a good date for griha pravesh?",
+                                          family: [me],
+                                          events: [],
+                                          language: .en,
+                                          now: Date(timeIntervalSince1970: 1_783_440_000))
+
+        XCTAssertEqual(plan.intent, .muhurta)
+        XCTAssertEqual(plan.evidence.first?.tool, "find_muhurta")
+        XCTAssertTrue(plan.actions.contains { $0.kind == .addToPatro && $0.date != nil })
+        XCTAssertTrue(plan.actions.contains { $0.kind == .remind && $0.date != nil })
+        XCTAssertTrue(plan.answer.contains("**Direct answer**"))
+        XCTAssertTrue(plan.answer.contains("**Why Baje says this**"))
+        XCTAssertTrue(plan.answer.contains("**What to do**"))
+        XCTAssertTrue(plan.answer.contains("**Optional practice**"))
+        XCTAssertTrue(plan.answer.contains("**Uncertainty**"))
+    }
+
+    func testPlannerBuildsCompatibilityFromTwoFamilyCharts() {
+        var first = FamilyMember(name: "Aarav", gender: .male, relation: .son,
+                                 birth: BirthData(year: 1990, month: 6, day: 15,
+                                                  hour: 8, minute: 30, timeKnown: true,
+                                                  place: .kathmandu))
+        var second = FamilyMember(name: "Priya", gender: .female, relation: .daughter,
+                                  birth: BirthData(year: 1993, month: 11, day: 2,
+                                                   hour: 14, minute: 10, timeKnown: true,
+                                                   place: .kathmandu))
+        first.recompute()
+        second.recompute()
+
+        let plan = PanditToolPlanner.plan(query: "Compare Aarav and Priya compatibility",
+                                          family: [first, second],
+                                          events: [],
+                                          language: .en)
+
+        XCTAssertEqual(plan.intent, .compatibility)
+        XCTAssertEqual(plan.evidence.first?.tool, "compare_kundli")
+        XCTAssertTrue(plan.actions.contains { $0.kind == .compare })
+        XCTAssertTrue(plan.answer.contains("Aarav + Priya"))
+    }
 }

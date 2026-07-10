@@ -308,13 +308,16 @@ final class AppState: ObservableObject {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return nil }
         chat.append(ChatMessage(isUser: true, text: trimmed))
-        let brain = PanditBrain(family: family, lang: language)
-        let localAnswer = brain.reply(to: trimmed)
+        let plan = PanditToolPlanner.plan(query: trimmed,
+                                          family: family,
+                                          events: events,
+                                          language: language)
+        let localAnswer = plan.answer
         persist()
 
         let pendingID = UUID()
         chatTypingMessageID = pendingID
-        chat.append(ChatMessage(id: pendingID, isUser: false, text: ""))
+        chat.append(ChatMessage(id: pendingID, isUser: false, text: "", actions: plan.actions))
 
         let context = AgentChatRequest.make(message: trimmed,
                                             localFallbackReply: localAnswer,
@@ -322,7 +325,8 @@ final class AppState: ObservableObject {
                                             events: events,
                                             chat: chat,
                                             language: language,
-                                            selfMember: selfMember)
+                                            selfMember: selfMember,
+                                            toolEvidence: plan.evidence)
         let answer: String
         do {
             if let agent {
@@ -337,10 +341,10 @@ final class AppState: ObservableObject {
         } catch {
             answer = localAnswer
             syncStatus = "Pandit backend unavailable; using local reading."
-            replaceAssistantMessage(answer, messageID: pendingID)
+            replaceAssistantMessage(answer, actions: plan.actions, messageID: pendingID)
         }
-        let reply = ChatMessage(id: pendingID, isUser: false, text: answer)
-        replaceAssistantMessage(answer, messageID: pendingID)
+        let reply = ChatMessage(id: pendingID, isUser: false, text: answer, actions: plan.actions)
+        replaceAssistantMessage(answer, actions: plan.actions, messageID: pendingID)
         chatTypingMessageID = nil
         persist()
         return reply
@@ -351,9 +355,12 @@ final class AppState: ObservableObject {
         chat[index].text += delta
     }
 
-    private func replaceAssistantMessage(_ text: String, messageID: UUID) {
+    private func replaceAssistantMessage(_ text: String,
+                                         actions: [PanditAction]? = nil,
+                                         messageID: UUID) {
         guard let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
         chat[index].text = text
+        if let actions { chat[index].actions = actions }
     }
 
     private func streamLocalFallback(_ text: String, messageID: UUID) async {

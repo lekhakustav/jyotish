@@ -361,3 +361,333 @@ enum DevotionalKnowledge {
         }
     }
 }
+
+// MARK: - Intent planning and structured answers
+
+enum PanditIntent: String, Codable, Equatable {
+    case daily, muhurta, compatibility, panchang, kundliDasha
+    case family, remedy, devotional, event, reminder, general
+}
+
+struct PanditToolEvidence: Codable, Equatable {
+    var tool: String
+    var summary: String
+    var facts: [String]
+    var uncertainty: String?
+}
+
+struct PanditToolPlan: Equatable {
+    var intent: PanditIntent
+    var answer: String
+    var evidence: [PanditToolEvidence]
+    var actions: [PanditAction]
+}
+
+private struct StructuredPanditAnswer {
+    var direct: String
+    var why: [String]
+    var action: String
+    var practice: String
+    var uncertainty: String?
+
+    func render(_ language: Language) -> String {
+        let ne = language == .ne
+        var sections = [
+            "**\(ne ? "सीधा उत्तर" : "Direct answer")**\n\(direct)",
+            "**\(ne ? "बाजेले यसो भन्नुको कारण" : "Why Baje says this")**\n\(why.map { "• \($0)" }.joined(separator: "\n"))",
+            "**\(ne ? "अब के गर्ने" : "What to do")**\n\(action)",
+            "**\(ne ? "वैकल्पिक साधना" : "Optional practice")**\n\(practice)",
+        ]
+        if let uncertainty, !uncertainty.isEmpty {
+            sections.append("**\(ne ? "अनिश्चितता" : "Uncertainty")**\n\(uncertainty)")
+        }
+        return sections.joined(separator: "\n\n")
+    }
+}
+
+/// Converts ordinary household questions into deterministic tool calls. The
+/// future remote model receives this evidence and interprets it; it does not
+/// get to invent the astrology or the available actions.
+enum PanditToolPlanner {
+    static func plan(query: String,
+                     family: [FamilyMember],
+                     events: [PatroEvent],
+                     language: Language,
+                     now: Date = Date()) -> PanditToolPlan {
+        let q = query.lowercased()
+        let intent = detectIntent(q)
+        let selfMember = family.first { $0.relation == .selfMember }
+        let place = selfMember?.birth?.place ?? .kathmandu
+
+        switch intent {
+        case .muhurta:
+            return muhurtaPlan(query: query, place: place, language: language, now: now)
+        case .compatibility:
+            return compatibilityPlan(query: query, family: family, language: language)
+        case .panchang:
+            return panchangPlan(place: place, language: language, now: now)
+        case .devotional:
+            return devotionalPlan(place: place, language: language, now: now)
+        case .daily:
+            return dailyPlan(member: resolveMember(in: q, family: family) ?? selfMember,
+                             family: family, language: language, now: now)
+        case .kundliDasha, .family, .remedy, .general:
+            return chartPlan(intent: intent,
+                             query: query,
+                             member: resolveMember(in: q, family: family) ?? selfMember,
+                             family: family,
+                             language: language)
+        case .event:
+            let answer = StructuredPanditAnswer(
+                direct: language == .ne ? "म पात्रोमा कार्यक्रम थप्न तयार छु।" : "I am ready to add an event to your Patro.",
+                why: [language == .ne ? "कार्यक्रम परिवारको एउटै पात्रोमा सुरक्षित हुन्छ।" : "The event will be saved in the household Patro."],
+                action: language == .ne ? "तलको ‘पात्रोमा थप्नुहोस्’ थिचेर मिति र नाम पुष्टि गर्नुहोस्।" : "Tap Add to Patro below and confirm the date and title.",
+                practice: language == .ne ? "कार्यक्रमको दिन परिवारका लागि सानो शुभकामना राख्न सक्नुहुन्छ।" : "You can include a short family blessing for the day.",
+                uncertainty: nil)
+            return PanditToolPlan(intent: .event,
+                                  answer: answer.render(language),
+                                  evidence: [PanditToolEvidence(tool: "patro.events", summary: "Household event store", facts: [], uncertainty: nil)],
+                                  actions: commonActions(prefix: [PanditAction(kind: .addToPatro)]))
+        case .reminder:
+            let answer = StructuredPanditAnswer(
+                direct: language == .ne ? "म तपाईंलाई स्थानीय रिमाइन्डर राख्न मद्दत गर्छु।" : "I can help set a private local reminder.",
+                why: [language == .ne ? "रिमाइन्डर यही उपकरणमा रहन्छ।" : "The reminder stays on this device."],
+                action: language == .ne ? "तल ‘सम्झाइदिनुहोस्’ थिचेर मिति पुष्टि गर्नुहोस्।" : "Tap Remind me below and confirm the date.",
+                practice: language == .ne ? "रिमाइन्डरलाई उपयोगी कामसँग जोड्नुहोस्, डर वा दबाबसँग होइन।" : "Tie reminders to a useful action, never fear or pressure.",
+                uncertainty: nil)
+            return PanditToolPlan(intent: .reminder,
+                                  answer: answer.render(language),
+                                  evidence: [PanditToolEvidence(tool: "local.reminder", summary: "Local notification", facts: [], uncertainty: nil)],
+                                  actions: commonActions(prefix: [PanditAction(kind: .remind)]))
+        }
+    }
+
+    private static func detectIntent(_ q: String) -> PanditIntent {
+        if contains(q, ["muhurat", "muhurta", "auspicious time", "good time", "good date", "when should", "शुभ समय", "शुभ दिन", "साइत", "कहिले"]) { return .muhurta }
+        if contains(q, ["compatib", "matchmaking", "match kundli", "guna", "मिलान", "गुण", "जोडी", "विवाह मिल्छ"]) { return .compatibility }
+        if contains(q, ["add event", "save date", "add to patro", "कार्यक्रम थप", "पात्रोमा राख"]) { return .event }
+        if contains(q, ["remind", "reminder", "याद दिला", "सम्झाइ"]) { return .reminder }
+        if contains(q, ["panchang", "panchanga", "tithi", "nakshatra", "पञ्चाङ्ग", "तिथि", "नक्षत्र", "पात्रो"]) { return .panchang }
+        if contains(q, ["festival", "vrat", "fast", "puja", "pooja", "aarti", "mantra", "पर्व", "व्रत", "पूजा", "आरती", "मन्त्र", "चाड"]) { return .devotional }
+        if contains(q, ["today", "my day", "daily", "आज", "आजको दिन", "राशिफल"]) { return .daily }
+        if contains(q, ["kundli", "kundali", "dasha", "rashi", "lagna", "कुण्डली", "दशा", "राशि", "लग्न"]) { return .kundliDasha }
+        if contains(q, ["son", "daughter", "child", "family", "छोरा", "छोरी", "बच्चा", "परिवार"]) { return .family }
+        if contains(q, ["remedy", "upaya", "gem", "color", "vastu", "उपाय", "रत्न", "रंग", "रङ", "वास्तु"]) { return .remedy }
+        return .general
+    }
+
+    private static func contains(_ query: String, _ terms: [String]) -> Bool {
+        terms.contains(where: query.contains)
+    }
+
+    private static func muhurtaPlan(query: String,
+                                    place: BirthPlace,
+                                    language: Language,
+                                    now: Date) -> PanditToolPlan {
+        let purpose = MuhurtaPurpose.detect(in: query)
+        let candidates = MuhurtaEngine.find(purpose: purpose, from: now, days: 30, place: place, language: language)
+        guard let best = candidates.first else {
+            return chartPlan(intent: .general, query: query, member: nil, family: [], language: language)
+        }
+        let date = dateLabel(best.date, language: language)
+        let bs = "\(L10n.digits(best.bsDate.day, language)) \(best.bsDate.monthName(ne: language == .ne))"
+        let direct = language == .ne
+            ? "\(purpose.name(.ne))का लागि प्रारम्भिक रूपमा \(date) (\(bs)) सबैभन्दा सहयोगी देखिन्छ।"
+            : "\(date) (\(bs) BS) is the strongest preliminary candidate for \(purpose.name(.en))."
+        let devotional = DevotionalKnowledge.forDay(best.date, place: place, language: language)
+        let sections = StructuredPanditAnswer(
+            direct: direct,
+            why: best.reasons,
+            action: language == .ne ? "म यो मिति पात्रोमा राख्न वा रिमाइन्डर बनाउन सक्छु।" : "I can add this date to Patro or set a reminder.",
+            practice: devotional.practice,
+            uncertainty: best.caution)
+        let title = language == .ne ? "\(purpose.name(.ne)) साइत" : "\(purpose.name(.en).capitalized) Muhurta"
+        let evidence = PanditToolEvidence(
+            tool: "find_muhurta",
+            summary: "\(best.score)/100",
+            facts: best.reasons + ["date=\(ISO8601DateFormatter().string(from: best.date))", "place=\(place.name)"],
+            uncertainty: best.caution)
+        return PanditToolPlan(
+            intent: .muhurta,
+            answer: sections.render(language),
+            evidence: [evidence],
+            actions: commonActions(prefix: [
+                PanditAction(kind: .addToPatro, date: best.date, title: title),
+                PanditAction(kind: .remind, date: best.date, title: title),
+                PanditAction(kind: .openPatro),
+            ]))
+    }
+
+    private static func compatibilityPlan(query: String,
+                                          family: [FamilyMember],
+                                          language: Language) -> PanditToolPlan {
+        let named = family.filter { member in
+            !member.name.isEmpty && query.lowercased().contains(member.name.lowercased())
+        }
+        let pair: [FamilyMember]
+        if named.count >= 2 {
+            pair = Array(named.prefix(2))
+        } else {
+            pair = Array(family.filter(\.hasBirthData).prefix(2))
+        }
+        guard pair.count == 2,
+              let reading = CompatibilityEngine.compare(pair[0], pair[1], language: language) else {
+            let sections = StructuredPanditAnswer(
+                direct: language == .ne ? "मिलानका लागि दुई जनाको जन्म विवरण चाहिन्छ।" : "I need birth details for two people to compare them.",
+                why: [language == .ne ? "मिलान चन्द्र राशि, नक्षत्र र स्वामी ग्रहबाट सुरु हुन्छ।" : "The preliminary match uses Moon signs, nakshatras, and rashi lords."],
+                action: language == .ne ? "परिवारमा दुवै व्यक्ति थपेर फेरि सोध्नुहोस्।" : "Add both people to Parivar, then ask again.",
+                practice: language == .ne ? "निर्णयमा संवाद र परिवारको सहमति पनि महत्त्वपूर्ण हुन्छ।" : "Conversation and family consent matter alongside astrology.",
+                uncertainty: language == .ne ? "यो औपचारिक ३६ गुण मिलान होइन।" : "This is not a formal 36-guna report.")
+            return PanditToolPlan(intent: .compatibility,
+                                  answer: sections.render(language),
+                                  evidence: [],
+                                  actions: commonActions(prefix: [PanditAction(kind: .compare)]))
+        }
+        let why = Array((reading.strengths + reading.cautions).prefix(4))
+        let sections = StructuredPanditAnswer(
+            direct: "\(pair[0].name) + \(pair[1].name): \(reading.summary)",
+            why: why.isEmpty ? [language == .ne ? "चार देखिने कुण्डली कारक तुलना गरिएको छ।" : "Four visible chart factors were compared."] : why,
+            action: language == .ne ? "बलियो र संवेदनशील दुवै क्षेत्रमा खुला कुरा गर्नुहोस्।" : "Discuss both the strong and sensitive areas openly.",
+            practice: language == .ne ? "ठूलो निर्णयअघि दुवै परिवारको शान्त सहमतिका लागि प्रार्थना गर्नुहोस्।" : "Before a major decision, make space for calm agreement between both families.",
+            uncertainty: reading.uncertainty ?? (language == .ne ? "यो प्रारम्भिक तुलना हो; औपचारिक विवाह मिलान होइन।" : "This is a preliminary comparison, not formal marriage matching."))
+        let evidence = PanditToolEvidence(tool: "compare_kundli",
+                                          summary: "\(reading.score)/100",
+                                          facts: why,
+                                          uncertainty: reading.uncertainty)
+        return PanditToolPlan(intent: .compatibility,
+                              answer: sections.render(language),
+                              evidence: [evidence],
+                              actions: commonActions(prefix: [
+                                PanditAction(kind: .compare),
+                                PanditAction(kind: .seeKundli, memberID: pair[0].id),
+                              ]))
+    }
+
+    private static func panchangPlan(place: BirthPlace,
+                                     language: Language,
+                                     now: Date) -> PanditToolPlan {
+        let pan = Panchanga.forDay(now, place: place)
+        let ne = language == .ne
+        let direct = ne
+            ? "आज \(pan.tithiName(ne: true)), \(pan.pakshaName(ne: true)) र \(pan.nakshatra.nameNE) नक्षत्र छ।"
+            : "Today is \(pan.tithiName(ne: false)), \(pan.pakshaName(ne: false)), under \(pan.nakshatra.nameEN) nakshatra."
+        let devotional = DevotionalKnowledge.guidance(for: pan, language: language)
+        let facts = [
+            ne ? "योग: \(pan.yogaName(ne: true))" : "Yoga: \(pan.yogaName(ne: false))",
+            ne ? "करण: \(pan.karanaName(ne: true))" : "Karana: \(pan.karanaName(ne: false))",
+            ne ? "स्थान: \(place.nameNE)" : "Place: \(place.name)",
+        ]
+        let sections = StructuredPanditAnswer(
+            direct: direct,
+            why: facts,
+            action: ne ? "पूरा दिन वा अर्को मिति हेर्न पात्रो खोल्नुहोस्।" : "Open Patro for the full day or another date.",
+            practice: devotional.practice,
+            uncertainty: nil)
+        return PanditToolPlan(intent: .panchang,
+                              answer: sections.render(language),
+                              evidence: [PanditToolEvidence(tool: "get_panchang", summary: direct, facts: facts, uncertainty: nil)],
+                              actions: commonActions(prefix: [PanditAction(kind: .openPatro)]))
+    }
+
+    private static func devotionalPlan(place: BirthPlace,
+                                        language: Language,
+                                        now: Date) -> PanditToolPlan {
+        let guide = DevotionalKnowledge.forDay(now, place: place, language: language)
+        let sections = StructuredPanditAnswer(
+            direct: "\(guide.title): \(guide.meaning)",
+            why: [language == .ne ? "आजको तिथि र स्थानअनुसार यो साधना सान्दर्भिक छ।" : "This practice is relevant to today's tithi and place."],
+            action: language == .ne ? "स्वास्थ्य र परिवारको अवस्थाअनुसार सरल रूपमा पालन गर्नुहोस्।" : "Observe it simply, according to your health and household circumstances.",
+            practice: guide.practice,
+            uncertainty: language == .ne ? "क्षेत्रीय परम्परा फरक हुन सक्छ।" : "Regional traditions may differ.")
+        return PanditToolPlan(intent: .devotional,
+                              answer: sections.render(language),
+                              evidence: [PanditToolEvidence(tool: "get_vrat_festival", summary: guide.title, facts: [guide.meaning, guide.practice], uncertainty: nil)],
+                              actions: commonActions(prefix: [PanditAction(kind: .openPatro)]))
+    }
+
+    private static func dailyPlan(member: FamilyMember?,
+                                  family: [FamilyMember],
+                                  language: Language,
+                                  now: Date) -> PanditToolPlan {
+        guard let member, let kundali = member.kundali else {
+            return chartPlan(intent: .daily, query: language == .ne ? "आज" : "today", member: member, family: family, language: language)
+        }
+        let r = RashifalEngine.generate(rashi: kundali.moonRashi, period: .daily, date: now, lang: language)
+        let strongest = r.scores.max(by: { $0.value < $1.value })?.key ?? "rashifal.family"
+        let why = [
+            language == .ne ? "चन्द्र राशि: \(kundali.moonRashi.nameNE)" : "Moon rashi: \(kundali.moonRashi.shortEN)",
+            language == .ne ? "आज बलियो क्षेत्र: \(L10n.t(strongest, .ne))" : "Strongest area today: \(L10n.t(strongest, .en))",
+        ]
+        let uncertainty = member.birth?.timeKnown == false
+            ? (language == .ne ? "जन्म समय अज्ञात भएकाले लग्न-आधारित भाग समावेश छैन।" : "Birth time is unknown, so Lagna-based guidance is excluded.")
+            : nil
+        let sections = StructuredPanditAnswer(
+            direct: r.text,
+            why: why,
+            action: language == .ne ? "आज सबैभन्दा बलियो क्षेत्रलाई प्राथमिकता दिनुहोस्।" : "Prioritize the strongest area today.",
+            practice: r.upaya,
+            uncertainty: uncertainty)
+        return PanditToolPlan(intent: .daily,
+                              answer: sections.render(language),
+                              evidence: [PanditToolEvidence(tool: "get_daily_guidance", summary: r.text, facts: why, uncertainty: uncertainty)],
+                              actions: commonActions(prefix: [
+                                PanditAction(kind: .seeKundli, memberID: member.id),
+                                PanditAction(kind: .openPatro),
+                              ]))
+    }
+
+    private static func chartPlan(intent: PanditIntent,
+                                  query: String,
+                                  member: FamilyMember?,
+                                  family: [FamilyMember],
+                                  language: Language) -> PanditToolPlan {
+        let brain = PanditBrain(family: family, lang: language)
+        let direct = brain.reply(to: query)
+        let hasChart = member?.kundali != nil
+        let why = hasChart
+            ? [language == .ne ? "परिवारमा सुरक्षित जन्म विवरण र गणना गरिएको कुण्डली प्रयोग गरिएको छ।" : "The saved birth details and computed household kundli were used."]
+            : [language == .ne ? "ठ्याक्कै कुण्डली उत्तरका लागि जन्म विवरण आवश्यक हुन्छ।" : "Exact chart guidance needs birth details."]
+        let uncertainty = member?.birth?.timeKnown == false
+            ? (language == .ne ? "जन्म समय अज्ञात भएकाले लग्नसम्बन्धी दाबी नरम राखिएको छ।" : "Birth time is unknown, so Lagna claims are softened.")
+            : nil
+        let sections = StructuredPanditAnswer(
+            direct: direct,
+            why: why,
+            action: language == .ne ? "तपाईं चाहनुहुन्छ भने म यही प्रश्नलाई दिन, परिवार वा मितिमा केन्द्रित गर्न सक्छु।" : "If you like, I can narrow this to a day, family member, or date.",
+            practice: DevotionalKnowledge.forDay(language: language).practice,
+            uncertainty: uncertainty)
+        var prefix: [PanditAction] = []
+        if hasChart { prefix.append(PanditAction(kind: .seeKundli, memberID: member?.id)) }
+        if intent == .family { prefix.append(PanditAction(kind: .compare)) }
+        return PanditToolPlan(intent: intent,
+                              answer: sections.render(language),
+                              evidence: [PanditToolEvidence(tool: "get_kundli_context", summary: direct, facts: why, uncertainty: uncertainty)],
+                              actions: commonActions(prefix: prefix))
+    }
+
+    private static func commonActions(prefix: [PanditAction]) -> [PanditAction] {
+        prefix + [PanditAction(kind: .listen), PanditAction(kind: .share)]
+    }
+
+    private static func resolveMember(in query: String, family: [FamilyMember]) -> FamilyMember? {
+        if let named = family.first(where: { !($0.name.isEmpty) && query.contains($0.name.lowercased()) }) {
+            return named
+        }
+        let relations: [(Relation, [String])] = [
+            (.son, ["son", "छोरा"]), (.daughter, ["daughter", "छोरी"]),
+            (.husband, ["husband", "श्रीमान्"]), (.wife, ["wife", "श्रीमती"]),
+            (.father, ["father", "बुबा"]), (.mother, ["mother", "आमा"]),
+        ]
+        for (relation, words) in relations where words.contains(where: query.contains) {
+            if let member = family.first(where: { $0.relation == relation }) { return member }
+        }
+        return family.first { $0.relation == .selfMember }
+    }
+
+    private static func dateLabel(_ date: Date, language: Language) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.locale = Locale(identifier: language == .ne ? "ne_NP" : "en_US")
+        return formatter.string(from: date)
+    }
+}

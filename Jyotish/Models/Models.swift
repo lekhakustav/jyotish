@@ -141,6 +141,21 @@ struct ChatMessage: Codable, Identifiable, Equatable {
     var isUser: Bool
     var text: String
     var timestamp: Date = Date()
+    /// Optional keeps existing local/Supabase household JSON backwards
+    /// compatible while new replies can expose confirmed, typed actions.
+    var actions: [PanditAction]?
+}
+
+enum PanditActionKind: String, Codable, Equatable {
+    case openPatro, addToPatro, remind, compare, listen, seeKundli, share
+}
+
+struct PanditAction: Codable, Identifiable, Equatable {
+    var id: UUID = UUID()
+    var kind: PanditActionKind
+    var date: Date?
+    var title: String?
+    var memberID: UUID?
 }
 
 /// Everything one account owns; synced as one user-owned Supabase household row.
