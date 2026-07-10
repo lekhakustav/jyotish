@@ -1,4 +1,4 @@
-import { MainScreen, ProfileScreen, WelcomeScreen } from "@/screens";
+import { AuthScreen, MainScreen, ProfileScreen, WelcomeScreen } from "@/screens";
 import { useAppState } from "@/app-state";
 
 export default function IndexRoute() {
@@ -6,5 +6,6 @@ export default function IndexRoute() {
   const self = app.family.find((member) => member.relation === "selfMember");
   if (!app.account) return <WelcomeScreen />;
   if (!self?.kundali) return <ProfileScreen />;
+  if (!app.account.authProvider) return <AuthScreen />;
   return <MainScreen />;
 }

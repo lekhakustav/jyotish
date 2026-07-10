@@ -57,6 +57,112 @@ export function ProfileScreen() {
   );
 }
 
+export function AuthScreen() {
+  const app = useAppState();
+  const [isLogin, setIsLogin] = React.useState(true);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
+
+  const handleEmailAuth = async () => {
+    if (!email || !password) return;
+    setLoading(true);
+    setError("");
+    try {
+      if (isLogin) {
+        await app.signInEmail(email, password);
+      } else {
+        await app.signUpEmail(email, password);
+      }
+      app.closeModal();
+    } catch (e: any) {
+      setError(e.message || "Authentication failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      await app.signInGoogle();
+      app.closeModal();
+    } catch (e: any) {
+      setError(e.message || "Google sign in failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1, backgroundColor: palette.bgCanvas }}>
+      <Screen>
+        <View style={{ gap: 24, paddingTop: 40, flex: 1, justifyContent: "center" }}>
+          <View style={{ gap: 8, alignItems: "center" }}>
+            <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 32, textAlign: "center" }}>{t("auth.title", app.language)}</SerifText>
+            <AppText style={{ color: palette.inkSecondary, lineHeight: 24, textAlign: "center" }}>{t("auth.subtitle", app.language)}</AppText>
+          </View>
+          
+          <View style={{ gap: 16, marginTop: 20 }}>
+            <PressableScale
+              disabled={loading}
+              onPress={handleGoogleAuth}
+              style={{
+                minHeight: 52,
+                borderRadius: 20,
+                borderCurve: "continuous",
+                backgroundColor: "#FFFFFF",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "row",
+                gap: 12,
+                borderWidth: 1,
+                borderColor: "#E5E5E5"
+              }}
+            >
+              <AppText style={{ fontSize: 20 }}>G</AppText>
+              <AppText style={{ fontSize: 16, fontFamily: "Inter-SemiBold", color: "#3C4043" }}>{t("auth.google", app.language)}</AppText>
+            </PressableScale>
+
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 8 }}>
+              <Hairline /><AppText style={{ color: palette.inkSecondary }}>{t("auth.or", app.language)}</AppText><View style={{ flex: 1, height: 1, backgroundColor: palette.hairline }} />
+            </View>
+
+            <Field value={email} onChangeText={setEmail} placeholder={t("auth.email", app.language)} autoCapitalize="none" keyboardType="email-address" />
+            <Field value={password} onChangeText={setPassword} placeholder={t("auth.password", app.language)} secureTextEntry />
+            
+            {error ? <AppText style={{ color: palette.sindoor, fontSize: 14, textAlign: "center" }}>{error}</AppText> : null}
+
+            <PrimaryButton
+              title={loading ? t("auth.loading", app.language) : (isLogin ? t("auth.signIn", app.language) : t("auth.signUp", app.language))}
+              onPress={handleEmailAuth}
+              disabled={loading}
+            />
+
+            <PressableScale onPress={() => setIsLogin(!isLogin)} style={{ alignItems: "center", padding: 8 }}>
+              <AppText style={{ color: palette.inkSecondary }}>
+                {isLogin ? "Need an account? Sign Up" : "Already have an account? Sign In"}
+              </AppText>
+            </PressableScale>
+          </View>
+
+          <View style={{ flex: 1 }} />
+
+          <GhostButton
+            title={t("auth.skip", app.language)}
+            onPress={() => {
+              app.skipAuth();
+              app.closeModal();
+            }}
+          />
+        </View>
+      </Screen>
+    </KeyboardAvoidingView>
+  );
+}
+
 export function MainScreen() {
   const app = useAppState();
   return (
@@ -305,7 +411,7 @@ function AppModal() {
   const app = useAppState();
   return (
     <Modal animationType="slide" visible={app.modal !== null} onRequestClose={app.closeModal}>
-      {app.modal === "chat" ? <ChatScreen /> : app.modal === "settings" ? <SettingsScreen /> : app.modal === "patro" ? <PatroScreen /> : <ProfileScreen />}
+      {app.modal === "auth" ? <AuthScreen /> : app.modal === "chat" ? <ChatScreen /> : app.modal === "settings" ? <SettingsScreen /> : app.modal === "patro" ? <PatroScreen /> : <ProfileScreen />}
     </Modal>
   );
 }

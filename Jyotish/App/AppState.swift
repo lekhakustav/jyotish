@@ -1,4 +1,9 @@
+import AuthenticationServices
 import SwiftUI
+
+enum EmailSignUpOutcome {
+    case success, emailAlreadyExists, failure
+}
 
 @MainActor
 final class AppState: ObservableObject {
@@ -10,6 +15,9 @@ final class AppState: ObservableObject {
     @Published var language: Language = .en
     @Published var theme: ThemeChoice = .system
     @Published var syncStatus: String?
+    /// True while any sign-in/sign-up provider flow is in flight — drives the
+    /// loading spinner on whichever button was tapped.
+    @Published var isAuthenticating = false
     /// Transient tab selection — lets Home blocks deep-link into their tabs.
     @Published var selectedTab: AppTab = {
         let args = ProcessInfo.processInfo.arguments
@@ -135,16 +143,67 @@ final class AppState: ObservableObject {
     }
 
     // ── Mutations ────────────────────────────────────────────────────────────
-    func signInDemo() {
+    func signInApple(credential: ASAuthorizationAppleIDCredential, rawNonce: String, mode: AuthMode) {
+        guard let tokenData = credential.identityToken,
+              let idToken = String(data: tokenData, encoding: .utf8) else {
+            syncStatus = "Apple sign-in did not return an identity token."
+            return
+        }
+        let fullName = PersonNameComponentsFormatter.localizedString(
+            from: credential.fullName ?? PersonNameComponents(), style: .default
+        ).trimmingCharacters(in: .whitespaces)
+        isAuthenticating = true
         Task {
             do {
-                let acct = try await auth.signInDemo(name: "")
-                account = acct
-                await loadRemoteHousehold()
-                persist()
+                let acct = try await auth.signInWithApple(idToken: idToken, rawNonce: rawNonce,
+                                                           fullName: fullName.isEmpty ? nil : fullName, mode: mode)
+                await completeSignIn(acct)
             } catch {
                 syncStatus = error.localizedDescription
             }
+            isAuthenticating = false
+        }
+    }
+
+    func signInGoogle(mode: AuthMode) {
+        isAuthenticating = true
+        Task {
+            do {
+                let acct = try await auth.signInWithGoogle(mode: mode)
+                await completeSignIn(acct)
+            } catch {
+                syncStatus = error.localizedDescription
+            }
+            isAuthenticating = false
+        }
+    }
+
+    func signUpEmail(email: String, password: String) async -> EmailSignUpOutcome {
+        isAuthenticating = true
+        defer { isAuthenticating = false }
+        do {
+            let acct = try await auth.signUpEmail(email: email, password: password)
+            await completeSignIn(acct)
+            return .success
+        } catch {
+            syncStatus = error.localizedDescription
+            if case SupabaseError.authError("user_already_exists", _) = error {
+                return .emailAlreadyExists
+            }
+            return .failure
+        }
+    }
+
+    func signInEmail(email: String, password: String) async -> Bool {
+        isAuthenticating = true
+        defer { isAuthenticating = false }
+        do {
+            let acct = try await auth.signInEmail(email: email, password: password)
+            await completeSignIn(acct)
+            return true
+        } catch {
+            syncStatus = error.localizedDescription
+            return false
         }
     }
 
@@ -154,6 +213,35 @@ final class AppState: ObservableObject {
         family = []
         events = []
         chat = []
+        persist()
+    }
+
+    /// Fetches the account's saved household (if any) before publishing `account`,
+    /// so `isLoggedIn` and `hasBirthProfile` flip together — otherwise RootView
+    /// briefly shows the birth-details flow before the real profile arrives.
+    private func completeSignIn(_ acct: UserAccount) async {
+        guard let remoteStore else {
+            account = acct
+            persist()
+            return
+        }
+        do {
+            if let remote = try await remoteStore.load(for: acct) {
+                account = remote.account ?? acct
+                family = remote.family
+                events = remote.events
+                chat = remote.chat
+                language = remote.language
+                theme = remote.theme
+                store.save(remote)
+            } else {
+                account = acct
+            }
+            syncStatus = nil
+        } catch {
+            account = acct
+            syncStatus = error.localizedDescription
+        }
         persist()
     }
 

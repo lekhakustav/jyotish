@@ -23,9 +23,13 @@ targets:
         CFBundleDisplayName: Jyotish baje
         UILaunchScreen:
           UIColorName: LaunchBackground
+          UIImageName: LaunchLogo
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         NSMicrophoneUsageDescription: "The microphone lets you ask Pandit-ji questions by voice."
         NSSpeechRecognitionUsageDescription: "Speech recognition turns your voice into a question for Pandit-ji."
+        CFBundleURLTypes:
+          - CFBundleURLName: com.sodhera.jyotishbaje
+            CFBundleURLSchemes: [jyotishbaje]
         SUPABASE_URL: "$(SUPABASE_URL)"
         SUPABASE_ANON_OR_PUBLISHABLE_KEY: "$(SUPABASE_ANON_OR_PUBLISHABLE_KEY)"
         JYOTISH_AGENT_ENDPOINT_URL: "$(JYOTISH_AGENT_ENDPOINT_URL)"
@@ -41,15 +45,22 @@ targets:
           - Inter-Medium.ttf
           - Inter-SemiBold.ttf
           - Inter-Bold.ttf
+    entitlements:
+      path: Jyotish/Jyotish.entitlements
+      properties:
+        com.apple.developer.applesignin:
+          - Default
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.sodhera.jyotish
+        PRODUCT_BUNDLE_IDENTIFIER: com.sodhera.jyotishbaje
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         SWIFT_VERSION: "5.9"
         TARGETED_DEVICE_FAMILY: "1"
-        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_ALLOWED: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 6LYZDNCM4M
         SUPABASE_URL: "https://ghfcssxptpazfbtiwshz.supabase.co"
         SUPABASE_ANON_OR_PUBLISHABLE_KEY: "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW"
         JYOTISH_AGENT_ENDPOINT_URL: "https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent"
@@ -62,6 +73,6 @@ targets:
       - target: Jyotish
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.sodhera.jyotish.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.sodhera.jyotishbaje.tests
         SWIFT_VERSION: "5.9"
         CODE_SIGNING_ALLOWED: NO

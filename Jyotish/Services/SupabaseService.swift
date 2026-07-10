@@ -1,4 +1,7 @@
+import AuthenticationServices
+import CryptoKit
 import Foundation
+import UIKit
 
 struct SupabaseConfig {
     let url: URL
@@ -30,6 +33,8 @@ enum SupabaseError: LocalizedError {
     case notConfigured
     case missingSession
     case badResponse(Int, String)
+    case authError(code: String, message: String)
+    case accountNotFound
 
     var errorDescription: String? {
         switch self {
@@ -39,7 +44,28 @@ enum SupabaseError: LocalizedError {
             return "Supabase session is missing."
         case let .badResponse(status, body):
             return "Supabase request failed (\(status)): \(body)"
+        case let .authError(code, message):
+            switch code {
+            case "user_already_exists":
+                return "This email is already registered — try signing in instead."
+            case "invalid_credentials":
+                return "Incorrect email or password."
+            default:
+                return message
+            }
+        case .accountNotFound:
+            return "No account found for this sign-in — please create an account first."
         }
+    }
+}
+
+/// Supabase's GoTrue auth endpoints (signup, token) all return this shape on failure.
+private struct SupabaseAuthErrorBody: Decodable {
+    let errorCode: String
+    let msg: String
+    enum CodingKeys: String, CodingKey {
+        case errorCode = "error_code"
+        case msg
     }
 }
 
@@ -66,6 +92,8 @@ struct SupabaseSession: Codable {
     var accessToken: String
     var refreshToken: String
     var userID: UUID
+    var email: String?
+    var createdAt: String?
 
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"
@@ -73,12 +101,14 @@ struct SupabaseSession: Codable {
         case user
     }
 
-    enum UserKeys: String, CodingKey { case id }
+    enum UserKeys: String, CodingKey { case id, email, createdAt = "created_at" }
 
-    init(accessToken: String, refreshToken: String, userID: UUID) {
+    init(accessToken: String, refreshToken: String, userID: UUID, email: String? = nil, createdAt: String? = nil) {
         self.accessToken = accessToken
         self.refreshToken = refreshToken
         self.userID = userID
+        self.email = email
+        self.createdAt = createdAt
     }
 
     init(from decoder: Decoder) throws {
@@ -87,6 +117,8 @@ struct SupabaseSession: Codable {
         refreshToken = try container.decode(String.self, forKey: .refreshToken)
         let user = try container.nestedContainer(keyedBy: UserKeys.self, forKey: .user)
         userID = try user.decode(UUID.self, forKey: .id)
+        email = try user.decodeIfPresent(String.self, forKey: .email)
+        createdAt = try user.decodeIfPresent(String.self, forKey: .createdAt)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -95,6 +127,19 @@ struct SupabaseSession: Codable {
         try container.encode(refreshToken, forKey: .refreshToken)
         var user = container.nestedContainer(keyedBy: UserKeys.self, forKey: .user)
         try user.encode(userID, forKey: .id)
+        try user.encodeIfPresent(email, forKey: .email)
+        try user.encodeIfPresent(createdAt, forKey: .createdAt)
+    }
+
+    /// True if this Supabase user was created within the last few seconds —
+    /// i.e. this exact OAuth exchange just created the account rather than
+    /// resolving to an existing one.
+    var isLikelyNewUser: Bool {
+        guard let createdAt else { return false }
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        guard let date = formatter.date(from: createdAt) else { return false }
+        return abs(date.timeIntervalSinceNow) < 10
     }
 }
 
@@ -111,20 +156,77 @@ final class SupabaseAuthService: AuthService {
 
     var currentSession: SupabaseSession? { sessionStore.load() }
 
-    func signInDemo(name: String) async throws -> UserAccount {
-        if let session = sessionStore.load() {
-            return UserAccount(id: session.userID, email: nil, displayName: name, isDemo: false)
-        }
-
-        var request = authRequest(path: "/auth/v1/signup")
+    func signInWithApple(idToken: String, rawNonce: String, fullName: String?, mode: AuthMode) async throws -> UserAccount {
+        var request = authRequest(path: "/auth/v1/token?grant_type=id_token")
         request.httpMethod = "POST"
         request.httpBody = try JSONSerialization.data(withJSONObject: [
-            "data": ["display_name": name]
+            "provider": "apple",
+            "id_token": idToken,
+            "nonce": rawNonce,
         ])
 
         let session: SupabaseSession = try await send(request)
+        if mode == .signIn && session.isLikelyNewUser {
+            sessionStore.clear()
+            throw SupabaseError.accountNotFound
+        }
         sessionStore.save(session)
-        return UserAccount(id: session.userID, email: nil, displayName: name, isDemo: false)
+        return UserAccount(id: session.userID, email: session.email, displayName: fullName ?? "", isDemo: false)
+    }
+
+    func signInWithGoogle(mode: AuthMode) async throws -> UserAccount {
+        let redirectTo = "jyotishbaje://auth-callback"
+        var components = URLComponents(url: endpoint("/auth/v1/authorize"), resolvingAgainstBaseURL: true)!
+        components.queryItems = [
+            URLQueryItem(name: "provider", value: "google"),
+            URLQueryItem(name: "redirect_to", value: redirectTo),
+            URLQueryItem(name: "apikey", value: config.publishableKey),
+        ]
+
+        let callbackURL = try await GoogleSignInCoordinator().signIn(authorizeURL: components.url!, callbackScheme: "jyotishbaje")
+        let params = Self.parseFragment(callbackURL.fragment ?? "")
+        guard let accessToken = params["access_token"], let refreshToken = params["refresh_token"] else {
+            throw SupabaseError.badResponse(0, "Missing tokens in OAuth redirect")
+        }
+
+        let userRequest = authRequest(path: "/auth/v1/user", bearer: accessToken)
+        let user: SupabaseUserResponse = try await send(userRequest)
+        let session = SupabaseSession(accessToken: accessToken, refreshToken: refreshToken,
+                                      userID: user.id, email: user.email, createdAt: user.createdAt)
+        print("[GoogleAuth] resolved user id=\(user.id) createdAt=\(user.createdAt ?? "nil") isLikelyNewUser=\(session.isLikelyNewUser) mode=\(mode)")
+        if mode == .signIn && session.isLikelyNewUser {
+            throw SupabaseError.accountNotFound
+        }
+        sessionStore.save(session)
+        return UserAccount(id: session.userID, email: session.email, displayName: "", isDemo: false)
+    }
+
+    func signUpEmail(email: String, password: String) async throws -> UserAccount {
+        var request = authRequest(path: "/auth/v1/signup")
+        request.httpMethod = "POST"
+        request.httpBody = try JSONSerialization.data(withJSONObject: ["email": email, "password": password])
+
+        let session: SupabaseSession = try await send(request)
+        sessionStore.save(session)
+        return UserAccount(id: session.userID, email: session.email, displayName: "", isDemo: false)
+    }
+
+    func signInEmail(email: String, password: String) async throws -> UserAccount {
+        var request = authRequest(path: "/auth/v1/token?grant_type=password")
+        request.httpMethod = "POST"
+        request.httpBody = try JSONSerialization.data(withJSONObject: ["email": email, "password": password])
+
+        let session: SupabaseSession = try await send(request)
+        sessionStore.save(session)
+        return UserAccount(id: session.userID, email: session.email, displayName: "", isDemo: false)
+    }
+
+    private static func parseFragment(_ fragment: String) -> [String: String] {
+        Dictionary(uniqueKeysWithValues: fragment.split(separator: "&").compactMap { pair -> (String, String)? in
+            let parts = pair.split(separator: "=", maxSplits: 1)
+            guard parts.count == 2 else { return nil }
+            return (String(parts[0]), String(parts[1]).removingPercentEncoding ?? String(parts[1]))
+        })
     }
 
     func signOut() async throws {
@@ -147,6 +249,9 @@ final class SupabaseAuthService: AuthService {
         let (data, response) = try await urlSession.data(for: request)
         guard let http = response as? HTTPURLResponse else { throw SupabaseError.badResponse(0, "") }
         guard (200..<300).contains(http.statusCode) else {
+            if let authError = try? JSONDecoder().decode(SupabaseAuthErrorBody.self, from: data) {
+                throw SupabaseError.authError(code: authError.errorCode, message: authError.msg)
+            }
             throw SupabaseError.badResponse(http.statusCode, String(data: data, encoding: .utf8) ?? "")
         }
         return try JSONDecoder().decode(T.self, from: data)
@@ -175,7 +280,7 @@ final class SupabaseDataStore: RemoteDataStore {
     func load(for account: UserAccount) async throws -> Household? {
         guard let session = sessionStore.load() else { throw SupabaseError.missingSession }
         var request = restRequest(path: "/rest/v1/households", session: session)
-        request.url = URL(string: request.url!.absoluteString + "?user_id=eq.\(account.id.uuidString)&select=payload")!
+        request.url = URL(string: request.url!.absoluteString + "?user_id=eq.\(account.id.uuidString)&select=user_id,payload")!
 
         let rows: [HouseholdRow] = try await send(request)
         return rows.first?.payload
@@ -232,5 +337,70 @@ private struct HouseholdRow: Codable {
     enum CodingKeys: String, CodingKey {
         case userID = "user_id"
         case payload
+    }
+}
+
+private struct SupabaseUserResponse: Decodable {
+    var id: UUID
+    var email: String?
+    var createdAt: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id, email
+        case createdAt = "created_at"
+    }
+}
+
+/// Drives Google's browser-based OAuth flow (Supabase's Google provider is
+/// already configured server-side — no native Google SDK needed). The system
+/// browser sheet handles login; we only capture the final redirect.
+@MainActor
+final class GoogleSignInCoordinator: NSObject, ASWebAuthenticationPresentationContextProviding {
+    // Must be retained for the life of the flow — ASWebAuthenticationSession
+    // doesn't keep itself alive, and a deallocated session crashes the app
+    // when the system tries to present or complete it.
+    private var session: ASWebAuthenticationSession?
+
+    func signIn(authorizeURL: URL, callbackScheme: String) async throws -> URL {
+        try await withCheckedThrowingContinuation { continuation in
+            let session = ASWebAuthenticationSession(url: authorizeURL, callbackURLScheme: callbackScheme) { callbackURL, error in
+                if let callbackURL {
+                    continuation.resume(returning: callbackURL)
+                } else {
+                    continuation.resume(throwing: error ?? URLError(.badServerResponse))
+                }
+            }
+            session.presentationContextProvider = self
+            session.prefersEphemeralWebBrowserSession = true
+            self.session = session
+            session.start()
+        }
+    }
+
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow } ?? ASPresentationAnchor()
+    }
+}
+
+/// Sign in with Apple replay-attack mitigation: a random nonce is hashed and sent to
+/// Apple in the authorization request, then the raw nonce is sent to Supabase alongside
+/// the identity token so it can verify the token was issued for this exact request.
+enum AppleSignInNonce {
+    static func random(length: Int = 32) -> String {
+        precondition(length > 0)
+        var randomBytes = [UInt8](repeating: 0, count: length)
+        let status = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
+        precondition(status == errSecSuccess, "Unable to generate secure nonce")
+        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        return String(randomBytes.map { charset[Int($0) % charset.count] })
+    }
+
+    static func sha256(_ input: String) -> String {
+        SHA256.hash(data: Data(input.utf8))
+            .map { String(format: "%02x", $0) }
+            .joined()
     }
 }

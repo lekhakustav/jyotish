@@ -126,6 +126,7 @@ struct PrimaryButton: View {
     @Environment(\.palette) private var p
     let title: String
     var icon: String? = nil
+    var isLoading: Bool = false
     let action: () -> Void
     var body: some View {
         Button {
@@ -133,7 +134,11 @@ struct PrimaryButton: View {
             action()
         } label: {
             HStack(spacing: 8) {
-                if let icon { Image(systemName: icon) }
+                if isLoading {
+                    ProgressView().tint(Color(hex: 0x3B1F14))
+                } else if let icon {
+                    Image(systemName: icon)
+                }
                 Text(title).scaledFont(size: 19, weight: .semibold, design: .serif)
             }
             // Dark umber, not cream: cream-on-saffron fails the 3:1 large-text
@@ -144,8 +149,46 @@ struct PrimaryButton: View {
             .background(
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
                     .fill(p.saffron))
+            .contentShape(Rectangle())
         }
         .buttonStyle(SpringPressStyle())
+        .disabled(isLoading)
+    }
+}
+
+/// 52pt outlined button — auxiliary sign-in options, one step below PrimaryButton.
+struct SecondaryButton: View {
+    @Environment(\.palette) private var p
+    let title: String
+    var icon: String? = nil
+    var isLoading: Bool = false
+    let action: () -> Void
+    var body: some View {
+        Button {
+            Haptics.tap()
+            action()
+        } label: {
+            HStack(spacing: 8) {
+                if isLoading {
+                    ProgressView().tint(p.inkPrimary)
+                } else if let icon {
+                    Image(systemName: icon)
+                }
+                // Sans-serif, not the app's editorial Fraunces serif: this button
+                // sits directly beside Apple's system-rendered (sans-serif) button,
+                // and pairing serif against sans-serif reads as mismatched.
+                Text(title).scaledFont(size: 17, weight: .semibold)
+            }
+            .foregroundStyle(p.inkPrimary)
+            .frame(maxWidth: .infinity)
+            .frame(minHeight: 56)
+            .background(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .strokeBorder(p.templeGold.opacity(0.4), lineWidth: 1))
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(SpringPressStyle())
+        .disabled(isLoading)
     }
 }
 

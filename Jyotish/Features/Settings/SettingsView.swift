@@ -64,6 +64,15 @@ struct SettingsView: View {
                         }
                     }
 
+                    // Legal
+                    VStack(alignment: .leading, spacing: 10) {
+                        SectionLabel(text: app.t("settings.legal"))
+                        legalRow(app.t("settings.privacyPolicy"), icon: "hand.raised.fill",
+                                 url: "https://www.orecci.com/jyotish/privacy-policy.html")
+                        legalRow(app.t("settings.termsOfService"), icon: "doc.text.fill",
+                                 url: "https://www.orecci.com/jyotish/terms-of-service.html")
+                    }
+
                     Button {
                         dismiss()
                         app.signOut()
@@ -83,6 +92,24 @@ struct SettingsView: View {
         .presentationDragIndicator(.visible)
         .sheet(isPresented: $editingProfile) {
             ProfileSetupView(editing: app.selfMember)
+        }
+    }
+
+    private func legalRow(_ label: String, icon: String, url: String) -> some View {
+        Button {
+            if let link = URL(string: url) { UIApplication.shared.open(link) }
+        } label: {
+            HStack {
+                Image(systemName: icon).foregroundStyle(p.saffron).frame(width: 28)
+                Text(label)
+                    .scaledFont(size: 16, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                Spacer()
+                Image(systemName: "arrow.up.right")
+                    .scaledFont(size: 13)
+                    .foregroundStyle(p.templeGold)
+            }
+            .padding(.vertical, 12)
         }
     }
 

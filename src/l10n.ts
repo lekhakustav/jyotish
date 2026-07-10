@@ -38,7 +38,17 @@ export const l10n: Record<string, { en: string; ne: string }> = {
   "settings.theme": { en: "Appearance", ne: "रूप" },
   "settings.signOut": { en: "Sign out", ne: "साइन आउट" },
   "profile.title": { en: "Birth Details", ne: "जन्म विवरण" },
-  "profile.compute": { en: "Create my kundali", ne: "मेरो कुण्डली बनाउनुहोस्" }
+  "profile.compute": { en: "Create my kundali", ne: "मेरो कुण्डली बनाउनुहोस्" },
+  "auth.title": { en: "One Last Step", ne: "अन्तिम चरण" },
+  "auth.subtitle": { en: "Sign in to save your kundali", ne: "आफ्नो कुण्डली सुरक्षित गर्न साइन इन गर्नुहोस्" },
+  "auth.google": { en: "Continue with Google", ne: "गुगल मार्फत अगाडि बढ्नुहोस्" },
+  "auth.email": { en: "Email", ne: "इमेल" },
+  "auth.password": { en: "Password", ne: "पासवर्ड" },
+  "auth.signIn": { en: "Sign In", ne: "साइन इन" },
+  "auth.signUp": { en: "Sign Up", ne: "साइन अप" },
+  "auth.or": { en: "or", ne: "वा" },
+  "auth.skip": { en: "Continue without account", ne: "खाता बिना अगाडि बढ्नुहोस्" },
+  "auth.loading": { en: "Please wait...", ne: "कृपया पर्खनुहोस्..." }
 };
 
 const neDigits = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];

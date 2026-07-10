@@ -58,6 +58,8 @@ export type UserAccount = {
   email?: string;
   displayName: string;
   isDemo: boolean;
+  authProvider?: "google" | "email" | "demo";
+  supabaseUserId?: string;
 };
 
 export type NepaliDate = {
@@ -92,4 +94,4 @@ export type Household = {
 };
 
 export type AppTab = "home" | "rashifal" | "family";
-export type AppModal = "chat" | "settings" | "patro" | "profile" | null;
+export type AppModal = "chat" | "settings" | "patro" | "profile" | "auth" | null;

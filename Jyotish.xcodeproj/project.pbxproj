@@ -11,6 +11,7 @@
 		02BFCF9A21E2F9597F6FDE98 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C750A635F7E6158991FCC527 /* Inter-Medium.ttf */; };
 		0548423C0819051E00D80520 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1198F68FCE15C3D2F0970A5 /* Inter-SemiBold.ttf */; };
 		095C1183AD1CEBA94728DEB4 /* MemberDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D1B04B741F6E03E3BE1F9E /* MemberDetailView.swift */; };
+		0A61A885ED50F76B240E1749 /* AuthMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7778391ED6AB13C0E5E34C1F /* AuthMethodView.swift */; };
 		1357305D9B9BFA4D77E3DCA9 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C5768710846A9B19385D5D /* AppState.swift */; };
 		18FD98C3C69EBFF96796E2D4 /* JyotishApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04874C08BA79769F89665330 /* JyotishApp.swift */; };
 		196B259F6C44EB6E70031433 /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD07CBC1E9562A142F38E12 /* AppNavigation.swift */; };
@@ -37,6 +38,7 @@
 		8B40887653B8FFD8EAAB20FA /* Fraunces-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C0A3C9008CC0AED2AD5D23C /* Fraunces-Bold.ttf */; };
 		8FE111208CFF43FE76497CD6 /* Fraunces-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08215CE0B480D62A0FC91506 /* Fraunces-Regular.ttf */; };
 		9A515675446E7C017D3B9CCC /* Dasha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A1DEF7A570615F8F915AD /* Dasha.swift */; };
+		9AA1E37596728B344301945C /* EmailAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAEF38565EB3485A2BB6DE /* EmailAuthView.swift */; };
 		A38B8453A71ED87233B14BD6 /* RashifalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD68A4D028F36F482D9FA402 /* RashifalView.swift */; };
 		A489B76D7C351579A19984D6 /* ProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA021C568E8EF24299EF59 /* ProfileSetupView.swift */; };
 		A8B849ACC8381CFCCB55CE69 /* PanditBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9777A86C8ACCA10A6FEF6B69 /* PanditBrain.swift */; };
@@ -68,6 +70,7 @@
 		0161B72EC6663579F8AB2188 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		04874C08BA79769F89665330 /* JyotishApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JyotishApp.swift; sourceTree = "<group>"; };
 		08215CE0B480D62A0FC91506 /* Fraunces-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Regular.ttf"; sourceTree = "<group>"; };
+		2330AEE3BF7ED552FAE8610F /* Jyotish.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jyotish.entitlements; sourceTree = "<group>"; };
 		24F0CB684B9DA81F1A9CE9A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		251EA90ADE8C26975640E59A /* Fraunces-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Medium.ttf"; sourceTree = "<group>"; };
 		2DA60917EF91A0E7FC741D7A /* VoiceAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAgent.swift; sourceTree = "<group>"; };
@@ -83,7 +86,9 @@
 		603A1F10E008F246D46E7233 /* JyotishTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JyotishTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69649463FC2706B0FC8E9B1D /* Fraunces-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-SemiBold.ttf"; sourceTree = "<group>"; };
 		6A6D62BEE40DC68331B2BAAC /* VastuKnowledge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VastuKnowledge.swift; sourceTree = "<group>"; };
+		6DDAEF38565EB3485A2BB6DE /* EmailAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthView.swift; sourceTree = "<group>"; };
 		7523A559BF6D4E01C9C9FB04 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
+		7778391ED6AB13C0E5E34C1F /* AuthMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthMethodView.swift; sourceTree = "<group>"; };
 		7C0A3C9008CC0AED2AD5D23C /* Fraunces-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Bold.ttf"; sourceTree = "<group>"; };
 		7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
 		86D1B04B741F6E03E3BE1F9E /* MemberDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberDetailView.swift; sourceTree = "<group>"; };
@@ -155,6 +160,8 @@
 		18079F12EC8D1A9F9425E953 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				7778391ED6AB13C0E5E34C1F /* AuthMethodView.swift */,
+				6DDAEF38565EB3485A2BB6DE /* EmailAuthView.swift */,
 				E6EA021C568E8EF24299EF59 /* ProfileSetupView.swift */,
 				9B91B9AE858E60348E330F4B /* WelcomeView.swift */,
 			);
@@ -196,6 +203,7 @@
 			children = (
 				FCE00720028CA05B5B8DB6D5 /* Assets.xcassets */,
 				24F0CB684B9DA81F1A9CE9A1 /* Info.plist */,
+				2330AEE3BF7ED552FAE8610F /* Jyotish.entitlements */,
 				C82A4932A5D9D2205D8BA03A /* App */,
 				15653E8710C86EBA5056B82A /* Core */,
 				112F43E5EA8E6BE3A254BAEA /* DesignSystem */,
@@ -386,6 +394,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					F8DB79091C4A6F31CE8C3C0A = {
+						DevelopmentTeam = 6LYZDNCM4M;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 2264F26C6EF46FCF39B7EBF2 /* Build configuration list for PBXProject "Jyotish" */;
@@ -446,11 +458,13 @@
 				BFE7737B8492C21CD7A0FEE8 /* AgentService.swift in Sources */,
 				196B259F6C44EB6E70031433 /* AppNavigation.swift in Sources */,
 				1357305D9B9BFA4D77E3DCA9 /* AppState.swift in Sources */,
+				0A61A885ED50F76B240E1749 /* AuthMethodView.swift in Sources */,
 				BE7CB82D1A359417E872EA22 /* BikramSambat.swift in Sources */,
 				38E15065887B9FCF062DF02F /* ChatView.swift in Sources */,
 				6AAFD83EBE94CCD00773AA5C /* CityMatcher.swift in Sources */,
 				36856623A9AC54D0BDFFA233 /* Components.swift in Sources */,
 				9A515675446E7C017D3B9CCC /* Dasha.swift in Sources */,
+				9AA1E37596728B344301945C /* EmailAuthView.swift in Sources */,
 				DAE42E526033BEEE15D677BC /* Ephemeris.swift in Sources */,
 				0290FA070DFFEBFFFCCB13E3 /* FamilyView.swift in Sources */,
 				3A05992A7F4E49A937079AF7 /* HomeView.swift in Sources */,
@@ -493,9 +507,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_ENTITLEMENTS = Jyotish/Jyotish.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LYZDNCM4M;
 				INFOPLIST_FILE = Jyotish/Info.plist;
 				JYOTISH_AGENT_BASE_URL = "";
 				JYOTISH_AGENT_ENDPOINT_URL = "https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent";
@@ -504,7 +521,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotish;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotishbaje;
 				SDKROOT = iphoneos;
 				SUPABASE_ANON_OR_PUBLISHABLE_KEY = "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW";
 				SUPABASE_URL = "https://ghfcssxptpazfbtiwshz.supabase.co";
@@ -579,7 +596,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotish.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotishbaje.tests;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -597,7 +614,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotish.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotishbaje.tests;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -672,9 +689,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_ENTITLEMENTS = Jyotish/Jyotish.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6LYZDNCM4M;
 				INFOPLIST_FILE = Jyotish/Info.plist;
 				JYOTISH_AGENT_BASE_URL = "";
 				JYOTISH_AGENT_ENDPOINT_URL = "https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent";
@@ -683,7 +703,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotish;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sodhera.jyotishbaje;
 				SDKROOT = iphoneos;
 				SUPABASE_ANON_OR_PUBLISHABLE_KEY = "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW";
 				SUPABASE_URL = "https://ghfcssxptpazfbtiwshz.supabase.co";
