@@ -81,13 +81,23 @@ struct Panchanga {
 
     /// Panchanga for a civil date in Nepal (evaluated near sunrise, 05:45 NPT).
     static func forDay(_ date: Date, calendar: Calendar = .nepali) -> Panchanga {
+        forDay(date, place: .kathmandu, calendar: calendar)
+    }
+
+    /// Panchanga for the chosen place, evaluated at the existing 05:45 local
+    /// sunrise fallback. Keeping place in the cache key prevents Nepal results
+    /// from being reused for a household abroad.
+    static func forDay(_ date: Date,
+                       place: BirthPlace,
+                       calendar: Calendar = Calendar(identifier: .gregorian)) -> Panchanga {
         var cal = calendar
-        cal.timeZone = TimeZone(identifier: "Asia/Kathmandu")!
+        cal.timeZone = TimeZone(secondsFromGMT: Int(place.utcOffsetHours * 3600)) ?? .current
         let comps = cal.dateComponents([.year, .month, .day, .weekday], from: date)
-        let key = CacheKey(year: comps.year!, month: comps.month!, day: comps.day!)
+        let key = CacheKey(year: comps.year!, month: comps.month!, day: comps.day!,
+                           utcOffsetMinutes: Int(place.utcOffsetHours * 60))
         if let cached = cachedValue(for: key) { return cached }
         let jd = Ephemeris.julianDay(year: comps.year!, month: comps.month!, day: comps.day!,
-                                     hourUT: 5.75 - 5.75) // 05:45 NPT -> 00:00 UT
+                                     hourUT: 5.75 - place.utcOffsetHours)
         let result = at(jd: jd, weekday: comps.weekday ?? 1)
         store(result, for: key)
         return result
@@ -97,6 +107,7 @@ struct Panchanga {
         var year: Int
         var month: Int
         var day: Int
+        var utcOffsetMinutes: Int
     }
 
     private static var cache: [CacheKey: Panchanga] = [:]
