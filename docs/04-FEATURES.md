@@ -39,7 +39,8 @@ Order: small settings header → **today's tithi block** (BS day/month large + t
 paksha, nakshatra on separate lines + Open Patro action) → **personal rashifal block**
 (unframed rashi mark + 2-line summary + star score + "read more" → Rashifal; dasha shown
 as one quiet text line) → **family quick row** only when relatives exist → **upcoming
-events** only when events exist. Home also carries the floating Pandit-ji chat action.
+events** only when events exist. The Pandit entry is an inline, full-width question row so
+it remains easy to find without covering Home content.
 
 Temple of the Day should move from pure day-of-year rotation to the BS 2083 planning
 dataset in `docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md`: festival anchors win first, then
@@ -73,18 +74,29 @@ tithi/weekday fallbacks choose the Nepal temple and explanation.
 
 ## 6. Pandit-ji chat
 - Chat UI: modal with close button and history drawer. Pandit messages are bare serif
-  prose on the canvas; user messages are the only tinted bubbles.
-  Suggestion chips ("Which color suits my son's room?", "Best city for me?", "Vastu for main door",
-  "मेरो दशा कस्तो छ?").
+  prose on the canvas; user messages are the only tinted bubbles. Lightweight Markdown
+  is rendered, never exposed as raw markers. Plain-language suggestion chips start with
+  user needs: today's guidance, finding a Muhurta, family help, and today's vrat.
 - **OpenAI-backed Pandit agent** (`server/jyotish-agent.mjs` locally,
   `supabase/functions/jyotish-agent` in production) receives the full app context
   from `AgentService`: self and family birth data, computed kundlis, readings, current
   dasha, daily rashifal, saved events, chat history, and the local fallback answer.
-  It keeps `OPENAI_API_KEY` server-side, defaults to `gpt-5.4-mini`, and answers in
-  Pandit-ji style.
+  It keeps `OPENAI_API_KEY` server-side and answers in Pandit-ji style. The model
+  interprets authoritative deterministic evidence; it does not invent Jyotish calculations.
 - Chat requests stream over server-sent events when available. The assistant row appears
   immediately with a typing indicator, then fills character-by-character as deltas arrive.
-- **PanditBrain** remains the local rule-based fallback and context source:
+- **PanditToolPlanner** is the agentic, local-first coordinator:
+  - understands ordinary requests without requiring feature or astrology vocabulary,
+  - calls deterministic Kundali/Dasha, Panchang, Muhurta, compatibility, festival/vrat,
+    and devotional guidance tools,
+  - always structures guidance as Direct answer → Why Baje says this → What to do →
+    Optional practice → Uncertainty when inputs are incomplete,
+  - offers only relevant actions in a horizontally scrolling row: Add to Patro, Remind me,
+    Open Patro, Compare, Listen, See Kundli, and Share,
+  - requires confirmation before Patro or notification writes and avoids duplicate events,
+  - supports personal daily guidance, family/child questions, practical remedies,
+    devotional practice and Puja support through the same single chat entry point,
+- **PanditBrain** remains available for established local interpretation domains:
   - resolves the family member mentioned ("my son" → the son's chart; asks to add if absent),
   - **color questions** → member's rashi lucky colors + current dasha lord color,
   - **city/place questions** → CityMatcher (rashi→cities DB with reasons),

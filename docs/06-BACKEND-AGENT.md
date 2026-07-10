@@ -4,22 +4,23 @@
 Jyotish chat is backend-first with a local fallback:
 
 1. `ChatView.send(_:)` starts an async send and disables duplicate sends while waiting.
-2. `AppState.sendChat(_:)` appends the user's message and computes a deterministic
-   `PanditBrain` fallback reply.
+2. `PanditToolPlanner` classifies the ordinary-language request and calls deterministic
+   local tools for Kundali/Dasha, Panchang, Muhurta, compatibility, festivals, and
+   devotional guidance. It produces evidence, a structured fallback, and typed actions.
 3. `AgentService` builds an `AgentChatRequest` with the user's profile, family kundlis,
    local readings, current dasha, daily rashifal, saved events, recent chat history, and
-   the local fallback answer.
+   authoritative `toolEvidence`, and the local structured fallback answer.
 4. `HTTPAgentService` posts that context to `JYOTISH_AGENT_ENDPOINT_URL`
    (`https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent` by default).
 5. The local dev backend (`server/jyotish-agent.mjs`) or production Supabase Edge Function
    (`supabase/functions/jyotish-agent`) keeps the OpenAI key server-side and calls OpenAI.
-6. If the backend fails or returns an empty reply, `AppState` appends the local
-   `PanditBrain` answer so the chat still works offline.
+6. If the backend fails or returns an empty reply, `AppState` uses the deterministic
+   structured answer so all core guidance still works offline.
 7. `HTTPAgentService.streamReply(...)` requests `text/event-stream` and appends assistant
    characters as they arrive. The UI shows a typing indicator until the first delta lands.
-8. `VoiceAgent` captures the user's spoken question and keeps the transcript visible before
-   send. Server-side ElevenLabs credentials are reserved for higher quality voice agents,
-   speech-to-text, and TTS; they are not shipped in the iOS target.
+8. `VoiceAgent` captures spoken questions. Every completed answer can expose compact,
+   typed actions such as Add to Patro, Remind me, Compare, Listen, See Kundli, and Share.
+   Calendar and reminder writes require an explicit confirmation sheet.
 
 This means the OpenAI key belongs in a backend process, not in the iOS target.
 
@@ -113,6 +114,14 @@ Request:
   "family": [],
   "events": [],
   "chatHistory": [],
+  "toolEvidence": [
+    {
+      "tool": "local.panchanga",
+      "summary": "Panchanga for the selected place and day",
+      "facts": ["Tithi: Ekadashi", "Nakshatra: Rohini"],
+      "uncertainty": null
+    }
+  ],
   "localFallbackReply": "Today's rashifal..."
 }
 ```
@@ -149,10 +158,16 @@ The server prompt tells OpenAI to:
 - answer as Pandit-ji inside the Jyotish app,
 - match the app language (`Language.en` or `Language.ne`),
 - use respectful `तपाईं` in Nepali,
-- ground chart claims in supplied kundli/context,
+- treat deterministic `toolEvidence` as authoritative,
+- interpret rather than calculate or invent astrology,
+- preserve the facts and uncertainty in `localFallbackReply`,
 - soften the answer when birth data is missing,
-- include practical upaya when useful,
+- return Direct answer, Why Baje says this, What to do, Optional practice, and
+  Uncertainty sections,
 - avoid fear-based predictions and medical/legal/financial certainty.
+
+The model never schedules notifications or writes Patro data. It only returns prose. The
+iOS app owns typed actions and asks for confirmation before executing a write.
 
 ## iOS integration
 `project.yml` and `Jyotish/Info.plist` define `JYOTISH_AGENT_ENDPOINT_URL`, defaulting to the
