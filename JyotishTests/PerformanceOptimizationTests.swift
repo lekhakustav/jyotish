@@ -105,4 +105,12 @@ final class PerformanceOptimizationTests: XCTestCase {
         XCTAssertEqual(String(formatted.characters), "Direct answer: हल्का हरियो शुभ छ।")
         XCTAssertFalse(String(formatted.characters).contains("**"))
     }
+
+    func testAssistiveLabelsAreLocalizedInNepali() {
+        XCTAssertEqual(L10n.t("common.close", .ne), "बन्द गर्नुहोस्")
+        XCTAssertEqual(L10n.t("common.back", .ne), "पछाडि")
+        XCTAssertEqual(L10n.t("common.send", .ne), "पठाउनुहोस्")
+        XCTAssertEqual(L10n.t("chat.askByVoice", .ne), "आवाजबाट सोध्नुहोस्")
+        XCTAssertEqual(L10n.t("chat.typing", .ne), "पण्डितजी उत्तर लेख्दै हुनुहुन्छ")
+    }
 }

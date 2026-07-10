@@ -82,6 +82,7 @@ extension View {
 
 /// Explicit dismiss affordance for sheets (HIG: never rely on drag alone).
 struct SheetCloseButton: View {
+    @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @Environment(\.dismiss) private var dismiss
     var body: some View {
@@ -92,7 +93,7 @@ struct SheetCloseButton: View {
                 .foregroundStyle(p.inkSecondary.opacity(0.6))
                 .frame(width: 48, height: 48)
         }
-        .accessibilityLabel("Close")
+        .accessibilityLabel(app.t("common.close"))
     }
 }
 
@@ -214,6 +215,7 @@ struct Hairline: View {
 
 /// 1–5 score as small yantra stars.
 struct YantraScore: View {
+    @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     let score: Int
     var body: some View {
@@ -224,7 +226,9 @@ struct YantraScore: View {
                     .frame(width: 12.5, height: 12.5)
             }
         }
-        .accessibilityLabel("\(score) of 5")
+        .accessibilityLabel(app.language == .ne
+                            ? "\(app.digits(5)) मध्ये \(app.digits(score))"
+                            : "\(score) of 5")
     }
 }
 

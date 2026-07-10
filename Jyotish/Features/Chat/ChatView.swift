@@ -78,7 +78,7 @@ struct ChatView: View {
                     .foregroundStyle(p.inkSecondary)
                     .frame(width: 48, height: 48)
             }
-            .accessibilityLabel("Close")
+            .accessibilityLabel(app.t("common.close"))
         }
         .padding(.horizontal, 24)
         .padding(.top, 8)
@@ -169,7 +169,7 @@ struct ChatView: View {
             }
             .disabled(voice.unavailable)
             .opacity(voice.unavailable ? 0.35 : 1)
-            .accessibilityLabel(voice.isListening ? "Stop listening" : "Ask by voice")
+            .accessibilityLabel(app.t(voice.isListening ? "chat.stopListening" : "chat.askByVoice"))
 
             if !draft.trimmingCharacters(in: .whitespaces).isEmpty {
                 Button {
@@ -183,7 +183,7 @@ struct ChatView: View {
                 }
                 .disabled(isSending)
                 .transition(.scale.combined(with: .opacity))
-                .accessibilityLabel("Send")
+                .accessibilityLabel(app.t("common.send"))
             }
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.8), value: draft.isEmpty)
@@ -224,7 +224,7 @@ struct ChatView: View {
                             .foregroundStyle(p.inkSecondary)
                             .frame(width: 44, height: 44)
                     }
-                    .accessibilityLabel("Close")
+                    .accessibilityLabel(app.t("common.close"))
                 }
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
@@ -271,6 +271,7 @@ enum PanditTextFormatter {
 }
 
 private struct TypingIndicator: View {
+    @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @State private var phase = 0
 
@@ -283,7 +284,7 @@ private struct TypingIndicator: View {
                     .scaleEffect(index == phase ? 1.15 : 1)
             }
         }
-        .accessibilityLabel("Pandit-ji is typing")
+        .accessibilityLabel(app.t("chat.typing"))
         .task {
             while !Task.isCancelled {
                 try? await Task.sleep(nanoseconds: 260_000_000)

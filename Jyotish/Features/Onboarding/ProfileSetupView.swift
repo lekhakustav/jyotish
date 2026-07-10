@@ -101,7 +101,7 @@ struct BirthFlowView: View {
                             .foregroundStyle(p.inkSecondary)
                             .frame(width: 48, height: 48)
                     }
-                    .accessibilityLabel("Back")
+                    .accessibilityLabel(app.t("common.back"))
                 }
                 Spacer()
                 // Presented as a sheet when adding family — needs explicit dismiss.
