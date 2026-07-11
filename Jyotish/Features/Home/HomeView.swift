@@ -17,7 +17,7 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 36) {
                     header.fadeRise()
-                    bajeEntry.fadeRise(delay: 0.04)
+                    panditDiscovery.fadeRise(delay: 0.04)
                     rashifalBlock.fadeRise(delay: 0.08)
                     VStack(alignment: .leading, spacing: 18) {
                         tithiHero
@@ -37,33 +37,58 @@ struct HomeView: View {
         .sheet(isPresented: $showTemple) { TempleDetailSheet(temple: temple) }
     }
 
-    /// Agent entry lives in the document flow, never above content. It asks in
-    /// ordinary language rather than requiring users to know a feature name.
-    private var bajeEntry: some View {
-        Button {
-            Haptics.tap()
-            app.open(.pandit)
-        } label: {
-            HStack(spacing: 14) {
-                Image(systemName: "sparkles")
-                    .scaledFont(size: 21, weight: .medium)
-                    .foregroundStyle(p.saffron)
-                    .frame(width: 42, height: 42)
-                    .background(Circle().fill(p.bgCanvas))
-                Text(app.t("home.bajePrompt"))
-                    .scaledFont(size: 17, weight: .semibold, design: .serif)
-                    .foregroundStyle(p.inkPrimary)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .scaledFont(size: 13, weight: .semibold)
-                    .foregroundStyle(p.inkSecondary)
+    /// New users see three concrete ways to succeed with Pandit AI. Once they
+    /// have received a few answers, the module keeps the open prompt and one
+    /// rotating suggestion so Home returns to its quieter footprint.
+    private var panditDiscovery: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(app.t("home.panditAI"))
+                .scaledFont(size: 19, weight: .semibold, design: .serif)
+                .foregroundStyle(p.inkPrimary)
+
+            Button {
+                Haptics.tap()
+                app.openPandit()
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: "sparkles")
+                        .scaledFont(size: 19, weight: .medium)
+                        .foregroundStyle(p.saffron)
+                        .frame(width: 40, height: 40)
+                        .background(Circle().fill(p.bgCanvas))
+                    Text(app.t("home.panditAskAnything"))
+                        .scaledFont(size: 16, weight: .medium, design: .serif)
+                        .foregroundStyle(p.inkSecondary)
+                    Spacer()
+                    Image(systemName: "arrow.up.right")
+                        .scaledFont(size: 13, weight: .semibold)
+                        .foregroundStyle(p.saffron)
+                }
+                .padding(.horizontal, 12)
+                .frame(height: 62)
+                .background(RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(p.bgSunken))
             }
-            .foregroundStyle(p.inkPrimary)
-            .padding(.horizontal, 12)
-            .frame(height: 66)
-            .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(p.bgSunken))
+            .buttonStyle(SpringPressStyle())
+            .accessibilityLabel(app.t("home.askPandit"))
+
+            Text(app.t("home.panditTry"))
+                .scaledFont(size: 11, weight: .semibold)
+                .foregroundStyle(p.inkSecondary)
+                .padding(.top, 2)
+
+            ForEach(visiblePanditStarters) { starter in
+                PanditStarterCard(starter: starter, quiet: true) {
+                    app.openPandit(prompt: starter.prompt(language: app.language))
+                }
+            }
         }
-        .accessibilityLabel(app.t("home.askPandit"))
+    }
+
+    private var visiblePanditStarters: [PanditStarter] {
+        guard app.panditInteractionCount >= 3 else { return PanditStarter.all }
+        let day = Calendar.nepali.ordinality(of: .day, in: .year, for: Date()) ?? 0
+        return [PanditStarter.all[day % PanditStarter.all.count]]
     }
 
     private var header: some View {
@@ -197,16 +222,20 @@ struct HomeView: View {
         } label: {
             VStack(alignment: .leading, spacing: 12) {
                 if let url = temple.imageURL {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let img):
-                            img.resizable().aspectRatio(contentMode: .fit)
-                        default:
-                            Rectangle().fill(p.bgSunken)
+                    GeometryReader { proxy in
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .success(let img):
+                                img.resizable().scaledToFill()
+                            default:
+                                Rectangle().fill(p.bgSunken)
+                            }
                         }
+                        .frame(width: proxy.size.width, height: proxy.size.height)
+                        .clipped()
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(height: 220)
+                    .aspectRatio(4 / 3, contentMode: .fit)
                     .background(p.bgSunken)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 }

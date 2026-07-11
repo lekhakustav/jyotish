@@ -15,8 +15,6 @@ struct ChatView: View {
     @State private var notice: String?
     @FocusState private var focused: Bool
 
-    private let chips = ["chat.chip.today", "chat.chip.muhurta", "chat.chip.family", "chat.chip.vrat"]
-
     var body: some View {
         ZStack(alignment: .leading) {
             p.bgCanvas.ignoresSafeArea()
@@ -44,15 +42,26 @@ struct ChatView: View {
                             }
                         }
                     }
+                    .onChange(of: app.chatTypingMessageID) { _, typingID in
+                        guard typingID == nil, let last = app.chat.last else { return }
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
+                            proxy.scrollTo(last.id, anchor: .bottom)
+                        }
+                    }
                 }
 
-                chipsRow
+                if !app.chat.isEmpty { followUpsRow }
                 inputBar
             }
             if showHistory { historyDrawer }
         }
         .statusBarFade()
         .onDisappear { voice.stopSpeaking() }
+        .task {
+            if let prompt = app.consumePendingPanditPrompt() {
+                send(prompt)
+            }
+        }
         .sheet(item: $pendingAction) { action in
             AgentActionConfirmationSheet(action: action) { title, date in
                 confirm(action, title: title, date: date)
@@ -106,15 +115,32 @@ struct ChatView: View {
     }
 
     private var welcome: some View {
-        VStack(spacing: 16) {
-            Text(PanditBrain(family: app.family, lang: app.language).reply(to: "namaste"))
-                .scaledFont(size: 16, design: .serif)
-                .foregroundStyle(p.inkPrimary.opacity(0.85))
-                .multilineTextAlignment(.center)
-                .lineSpacing(5)
-                .padding(.horizontal, 12)
+        VStack(alignment: .leading, spacing: 18) {
+            VStack(alignment: .leading, spacing: 7) {
+                Text(welcomeText)
+                    .scaledFont(size: 20, weight: .semibold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                    .lineSpacing(4)
+                Text(app.t("chat.welcome.hint"))
+                    .scaledFont(size: 14)
+                    .foregroundStyle(p.inkSecondary)
+                    .lineSpacing(3)
+            }
+            VStack(spacing: 10) {
+                ForEach(PanditStarter.all) { starter in
+                    PanditStarterCard(starter: starter) {
+                        send(starter.prompt(language: app.language))
+                    }
+                }
+            }
         }
-        .padding(.top, 16)
+        .padding(.top, 12)
+    }
+
+    private var welcomeText: String {
+        guard let name = app.selfMember?.name.trimmingCharacters(in: .whitespacesAndNewlines),
+              !name.isEmpty else { return app.t("chat.welcome.generic") }
+        return String(format: app.t("chat.welcome"), name)
     }
 
     private func bubble(_ msg: ChatMessage) -> some View {
@@ -233,10 +259,10 @@ struct ChatView: View {
         }
     }
 
-    private var chipsRow: some View {
+    private var followUpsRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                ForEach(chips, id: \.self) { key in
+                ForEach(followUpKeys, id: \.self) { key in
                     Button {
                         Haptics.tap()
                         send(app.t(key))
@@ -252,6 +278,23 @@ struct ChatView: View {
             .padding(.horizontal, 24)
         }
         .padding(.vertical, 8)
+    }
+
+    private var followUpKeys: [String] {
+        let question = app.chat.last(where: \.isUser)?.text.lowercased() ?? ""
+        if ["muhur", "sait", "साइत", "मुहूर्त", "date", "time"].contains(where: question.contains) {
+            return ["chat.followup.anotherDate", "chat.followup.howChosen"]
+        }
+        if ["family", "compat", "compare", "परिवार", "तुलना"].contains(where: question.contains) {
+            return ["chat.followup.compare", "chat.followup.why"]
+        }
+        if ["vrat", "puja", "festival", "व्रत", "पूजा", "चाड"].contains(where: question.contains) {
+            return ["chat.followup.vrat", "chat.followup.mantra"]
+        }
+        if ["kundli", "dasha", "today", "कुण्डली", "दशा", "आज"].contains(where: question.contains) {
+            return ["chat.followup.dasha", "chat.followup.next"]
+        }
+        return ["chat.followup.why", "chat.followup.next"]
     }
 
     private var inputBar: some View {

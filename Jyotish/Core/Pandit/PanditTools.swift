@@ -475,7 +475,7 @@ enum PanditToolPlanner {
     }
 
     private static func detectIntent(_ q: String) -> PanditIntent {
-        if contains(q, ["muhurat", "muhurta", "auspicious time", "good time", "good date", "when should", "शुभ समय", "शुभ दिन", "साइत", "कहिले"]) { return .muhurta }
+        if contains(q, ["muhurat", "muhurta", "auspicious time", "good time", "shubh time", "good date", "when should", "शुभ समय", "शुभ दिन", "शुभ साइत", "साइत", "कहिले"]) { return .muhurta }
         if contains(q, ["compatib", "matchmaking", "match kundli", "guna", "मिलान", "गुण", "जोडी", "विवाह मिल्छ"]) { return .compatibility }
         if contains(q, ["add event", "save date", "add to patro", "कार्यक्रम थप", "पात्रोमा राख"]) { return .event }
         if contains(q, ["remind", "reminder", "याद दिला", "सम्झाइ"]) { return .reminder }

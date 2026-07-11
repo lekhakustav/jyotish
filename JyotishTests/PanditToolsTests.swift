@@ -107,6 +107,20 @@ final class PanditToolsTests: XCTestCase {
         XCTAssertTrue(plan.answer.contains("**Uncertainty**"))
     }
 
+    func testFriendlyShubhTimeStarterStillCallsMuhurtaTool() {
+        let starter = PanditStarter.all.first { $0.id == "muhurta" }!
+        let plan = PanditToolPlanner.plan(query: starter.prompt(language: .en),
+                                          family: [],
+                                          events: [],
+                                          language: .en,
+                                          now: Date(timeIntervalSince1970: 1_783_440_000))
+
+        XCTAssertEqual(PanditStarter.all.count, 3)
+        XCTAssertEqual(plan.intent, .muhurta)
+        XCTAssertEqual(plan.evidence.first?.tool, "find_muhurta")
+        XCTAssertTrue(plan.actions.contains { $0.kind == .addToPatro })
+    }
+
     func testPlannerBuildsCompatibilityFromTwoFamilyCharts() {
         var first = FamilyMember(name: "Aarav", gender: .male, relation: .son,
                                  birth: BirthData(year: 1990, month: 6, day: 15,
