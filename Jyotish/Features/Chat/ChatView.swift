@@ -421,7 +421,16 @@ enum PanditTextFormatter {
             interpretedSyntax: .inlineOnlyPreservingWhitespace,
             failurePolicy: .returnPartiallyParsedIfPossible
         )
-        return (try? AttributedString(markdown: text, options: options)) ?? AttributedString(text)
+        var formatted = (try? AttributedString(markdown: text, options: options))
+            ?? AttributedString(text)
+
+        // Markdown deliberately preserves unmatched markers. Remote answers can
+        // contain a valid bold heading followed by a stray opening marker, so
+        // remove only tokens that remain visible after the normal parser runs.
+        while let marker = formatted.range(of: "**") {
+            formatted.removeSubrange(marker)
+        }
+        return formatted
     }
 
     static func plain(_ text: String) -> String {

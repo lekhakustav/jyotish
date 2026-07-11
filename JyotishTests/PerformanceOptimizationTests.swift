@@ -100,9 +100,14 @@ final class PerformanceOptimizationTests: XCTestCase {
     }
 
     func testPanditMarkdownFormattingRemovesRawEmphasisMarkers() {
-        let formatted = PanditTextFormatter.attributed("**Direct answer:** हल्का हरियो शुभ छ।")
+        let formatted = PanditTextFormatter.attributed(
+            "**Direct answer:** हल्का हरियो शुभ छ।\n- Choose **July 12, 2026"
+        )
 
-        XCTAssertEqual(String(formatted.characters), "Direct answer: हल्का हरियो शुभ छ।")
+        XCTAssertEqual(
+            String(formatted.characters),
+            "Direct answer: हल्का हरियो शुभ छ।\n- Choose July 12, 2026"
+        )
         XCTAssertFalse(String(formatted.characters).contains("**"))
     }
 
