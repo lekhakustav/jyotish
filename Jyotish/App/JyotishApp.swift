@@ -2,6 +2,7 @@ import SwiftUI
 
 @main
 struct JyotishApp: App {
+    @UIApplicationDelegateAdaptor(JyotishAppDelegate.self) private var appDelegate
     @StateObject private var app = AppState()
     @Environment(\.colorScheme) private var systemScheme
 
@@ -52,6 +53,17 @@ struct RootView: View {
         .preferredColorScheme(app.theme == .system ? nil : (isDark ? .dark : .light))
         .animation(.spring(response: 0.45, dampingFraction: 0.85), value: app.isLoggedIn)
         .animation(.spring(response: 0.45, dampingFraction: 0.85), value: app.hasBirthProfile)
+        .onReceive(NotificationCenter.default.publisher(for: .engagementNotificationTapped)) { note in
+            guard app.isLoggedIn, let userInfo = note.object as? [AnyHashable: Any],
+                  let raw = userInfo["destination"] as? String,
+                  let destination = AppDestination(rawValue: raw) else { return }
+            let prompt = (userInfo["prompt"] as? String).flatMap { $0.isEmpty ? nil : $0 }
+            if destination == .pandit {
+                app.openPandit(prompt: prompt)
+            } else {
+                app.open(destination)
+            }
+        }
     }
 }
 

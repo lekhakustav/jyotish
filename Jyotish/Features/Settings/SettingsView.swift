@@ -5,6 +5,7 @@ struct SettingsView: View {
     @Environment(\.palette) private var p
     @Environment(\.dismiss) private var dismiss
     @State private var editingProfile = false
+    @State private var notificationError: String?
 
     var body: some View {
         ZStack {
@@ -64,6 +65,8 @@ struct SettingsView: View {
                         }
                     }
 
+                    notificationSettings
+
                     // Legal
                     VStack(alignment: .leading, spacing: 10) {
                         SectionLabel(text: app.t("settings.legal"))
@@ -93,6 +96,76 @@ struct SettingsView: View {
         .sheet(isPresented: $editingProfile) {
             ProfileSetupView(editing: app.selfMember)
         }
+        .alert(app.t("settings.notifications"),
+               isPresented: Binding(get: { notificationError != nil },
+                                    set: { if !$0 { notificationError = nil } })) {
+            Button(app.t("common.done")) { notificationError = nil }
+        } message: {
+            Text(notificationError ?? "")
+        }
+    }
+
+    private var notificationSettings: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            SectionLabel(text: app.t("settings.notifications"))
+            Toggle(app.t("settings.notifications.daily"), isOn: Binding(
+                get: { app.engagementPreferences.enabled },
+                set: { enabled in
+                    Task {
+                        do {
+                            try await app.setEngagementNotificationsEnabled(enabled)
+                        } catch {
+                            notificationError = app.t("settings.notifications.denied")
+                        }
+                    }
+                }))
+                .scaledFont(size: 16, design: .serif)
+                .tint(p.saffron)
+
+            if app.engagementPreferences.enabled {
+                Hairline()
+                HStack {
+                    Text(app.t("settings.notifications.wake"))
+                        .scaledFont(size: 15, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                    Spacer()
+                    Picker(app.t("settings.notifications.wake"), selection: Binding(
+                        get: { app.engagementPreferences.wakeHour },
+                        set: app.setNotificationWakeHour)) {
+                        ForEach(5...10, id: \.self) { hour in
+                            Text("\(app.digits(hour)):00").tag(hour)
+                        }
+                    }
+                    .labelsHidden()
+                }
+                HStack {
+                    Text(app.t("settings.notifications.frequency"))
+                        .scaledFont(size: 15, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                    Spacer()
+                    Picker(app.t("settings.notifications.frequency"), selection: Binding(
+                        get: { app.engagementPreferences.dailyCount },
+                        set: app.setNotificationDailyCount)) {
+                        ForEach(2...4, id: \.self) { count in
+                            Text(app.digits(count)).tag(count)
+                        }
+                    }
+                    .labelsHidden()
+                }
+                Toggle(app.t("settings.notifications.family"), isOn: Binding(
+                    get: { app.engagementPreferences.familyInsights },
+                    set: app.setFamilyNotifications))
+                    .scaledFont(size: 15, design: .serif)
+                    .tint(p.saffron)
+                Toggle(app.t("settings.notifications.calendar"), isOn: Binding(
+                    get: { app.engagementPreferences.calendarReminders },
+                    set: app.setCalendarNotifications))
+                    .scaledFont(size: 15, design: .serif)
+                    .tint(p.saffron)
+            }
+        }
+        .animation(.spring(response: 0.4, dampingFraction: 0.9),
+                   value: app.engagementPreferences.enabled)
     }
 
     private func legalRow(_ label: String, icon: String, url: String) -> some View {

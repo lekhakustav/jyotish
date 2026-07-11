@@ -124,7 +124,14 @@ the detail sheet can preserve the fuller original composition.
 
 ## 7. Settings
 Language (EN/नेपाली), theme (Light "Prabhat" / Dark "Ratri" / System), profile edit,
-sign-out (returns to Welcome; data kept). No about/credit block in the live UI.
+sign-out (returns to Welcome; data kept), and notification controls. Daily guidance is
+opt-in and exposes wake time, 2–4 moments per day, family insights, and Patro reminders.
+The app maintains a rolling seven-day plan with stable identifiers: refreshing replaces
+old requests instead of duplicating them, keeps no more than 56 engagement alerts pending,
+and deep-links each alert to Rashifal, Pandit AI, or Patro. The default four moments are a
+morning personal rashifal, high-interest midday Pandit question, family-specific guidance
+when a relative has a kundli, and a quiet evening open loop. Preferences sync in the
+Supabase household payload and pending alerts are removed on opt-out/sign-out.
 
 ## 8. Bilinguality
 `L10n` string tables; every user-facing string keyed. Nepali digits helper for Patro.

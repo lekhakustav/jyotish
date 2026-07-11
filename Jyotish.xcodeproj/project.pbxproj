@@ -46,8 +46,10 @@
 		A38B8453A71ED87233B14BD6 /* RashifalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD68A4D028F36F482D9FA402 /* RashifalView.swift */; };
 		A489B76D7C351579A19984D6 /* ProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA021C568E8EF24299EF59 /* ProfileSetupView.swift */; };
 		A8B849ACC8381CFCCB55CE69 /* PanditBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9777A86C8ACCA10A6FEF6B69 /* PanditBrain.swift */; };
+		AF044C10DDADB97420B7732D /* JyotishAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4AC46C1066E6DF4995D975 /* JyotishAppDelegate.swift */; };
 		B1784E2D79797EFFB7C4532F /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE8FC0FA8B659775C2DB8D1 /* Services.swift */; };
 		B1F4DCC228EC5921A8084668 /* PatroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EDE8C06A4966A678575C68 /* PatroView.swift */; };
+		B3D10967F60ACFD468CE648B /* EngagementNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B2680D3EA815A56AD6ED6C /* EngagementNotificationTests.swift */; };
 		BB18557AA47A96F20C4EA043 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C324F7E4013404A123B04A /* Interpreter.swift */; };
 		BE7CB82D1A359417E872EA22 /* BikramSambat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB564A0D2D0D03EB2CA6E865 /* BikramSambat.swift */; };
 		BFE7737B8492C21CD7A0FEE8 /* AgentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A2B609F60974ACC59E2E /* AgentService.swift */; };
@@ -76,6 +78,7 @@
 		0161B72EC6663579F8AB2188 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		04874C08BA79769F89665330 /* JyotishApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JyotishApp.swift; sourceTree = "<group>"; };
 		08215CE0B480D62A0FC91506 /* Fraunces-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Regular.ttf"; sourceTree = "<group>"; };
+		1B4AC46C1066E6DF4995D975 /* JyotishAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JyotishAppDelegate.swift; sourceTree = "<group>"; };
 		2330AEE3BF7ED552FAE8610F /* Jyotish.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jyotish.entitlements; sourceTree = "<group>"; };
 		24F0CB684B9DA81F1A9CE9A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		251EA90ADE8C26975640E59A /* Fraunces-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Medium.ttf"; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		C750A635F7E6158991FCC527 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
 		CCE8FC0FA8B659775C2DB8D1 /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 		D118583482854147800D7438 /* ChatConversationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationTests.swift; sourceTree = "<group>"; };
+		D7B2680D3EA815A56AD6ED6C /* EngagementNotificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementNotificationTests.swift; sourceTree = "<group>"; };
 		DB6708A30C224E4C16DD41D5 /* Panchanga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panchanga.swift; sourceTree = "<group>"; };
 		E0C5768710846A9B19385D5D /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E1EDE8C06A4966A678575C68 /* PatroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatroView.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 			children = (
 				F9FA4FEB1504A4A8AB30ED72 /* AppNavigationTests.swift */,
 				D118583482854147800D7438 /* ChatConversationTests.swift */,
+				D7B2680D3EA815A56AD6ED6C /* EngagementNotificationTests.swift */,
 				2E4E4AB6870A5041C2331609 /* PanditDiscoveryTests.swift */,
 				67C9BC03BBE18FFC36DAB4A0 /* PanditToolsTests.swift */,
 				3926239D658BA52D7F5CB4CC /* PerformanceOptimizationTests.swift */,
@@ -300,6 +305,7 @@
 				5BD07CBC1E9562A142F38E12 /* AppNavigation.swift */,
 				E0C5768710846A9B19385D5D /* AppState.swift */,
 				04874C08BA79769F89665330 /* JyotishApp.swift */,
+				1B4AC46C1066E6DF4995D975 /* JyotishAppDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -466,6 +472,7 @@
 			files = (
 				E65954A10FC5B50AFE19DFBB /* AppNavigationTests.swift in Sources */,
 				9F731CDF9A1576A51032B444 /* ChatConversationTests.swift in Sources */,
+				B3D10967F60ACFD468CE648B /* EngagementNotificationTests.swift in Sources */,
 				67D16C29BEA0B0765C96EB33 /* PanditDiscoveryTests.swift in Sources */,
 				1F22A280B839C2159A20306A /* PanditToolsTests.swift in Sources */,
 				79154E43AF83DE0E6F8AADBA /* PerformanceOptimizationTests.swift in Sources */,
@@ -491,6 +498,7 @@
 				3A05992A7F4E49A937079AF7 /* HomeView.swift in Sources */,
 				BB18557AA47A96F20C4EA043 /* Interpreter.swift in Sources */,
 				18FD98C3C69EBFF96796E2D4 /* JyotishApp.swift in Sources */,
+				AF044C10DDADB97420B7732D /* JyotishAppDelegate.swift in Sources */,
 				F109AA60F3D7ABAEAEDF47CE /* Kundali.swift in Sources */,
 				CDEB601E28C6202765C6DD99 /* L10n.swift in Sources */,
 				095C1183AD1CEBA94728DEB4 /* MemberDetailView.swift in Sources */,

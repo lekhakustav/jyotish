@@ -16,6 +16,7 @@ final class AppState: ObservableObject {
     @Published var chatTypingMessageID: UUID?
     @Published var language: Language = .en
     @Published var theme: ThemeChoice = .system
+    @Published private(set) var engagementPreferences = EngagementPreferences()
     @Published var syncStatus: String?
     /// True while any sign-in/sign-up provider flow is in flight — drives the
     /// loading spinner on whichever button was tapped.
@@ -69,6 +70,7 @@ final class AppState: ObservableObject {
             restoreChats(from: saved)
             language = saved.language
             theme = saved.theme
+            engagementPreferences = saved.engagementPreferences ?? EngagementPreferences()
         }
         if let restoredSupabaseAccount {
             if account?.id == restoredSupabaseAccount.id, var cached = account {
@@ -80,6 +82,9 @@ final class AppState: ObservableObject {
             Task { await loadRemoteHousehold() }
         }
         seedIfRequested()
+        if engagementPreferences.enabled {
+            Task { try? await refreshEngagementNotifications() }
+        }
     }
 
     private static func makeAgentService(sessionStore: SupabaseSessionStore) -> AgentService? {
@@ -139,6 +144,7 @@ final class AppState: ObservableObject {
         syncCurrentConversation()
         let household = Household(account: account, family: family, events: events,
                                   chat: chat, conversations: chatConversations,
+                                  engagementPreferences: engagementPreferences,
                                   language: language, theme: theme)
         store.save(household)
         guard let account, let remoteStore else { return }
@@ -221,13 +227,20 @@ final class AppState: ObservableObject {
     }
 
     func signOut() {
-        Task { try? await auth.signOut() }
+        let previousPreferences = engagementPreferences
+        Task {
+            try? await auth.signOut()
+            try? await EngagementNotificationService.setEnabled(false, family: family, events: events,
+                                                                 preferences: previousPreferences,
+                                                                 language: language)
+        }
         account = nil
         family = []
         events = []
         chat = []
         chatConversations = []
         selectedChatConversationID = nil
+        engagementPreferences = EngagementPreferences()
         persist()
     }
 
@@ -248,11 +261,15 @@ final class AppState: ObservableObject {
                 restoreChats(from: remote)
                 language = remote.language
                 theme = remote.theme
+                engagementPreferences = remote.engagementPreferences ?? EngagementPreferences()
                 store.save(remote)
             } else {
                 account = acct
             }
             syncStatus = nil
+            if engagementPreferences.enabled {
+                try? await refreshEngagementNotifications()
+            }
         } catch {
             account = acct
             syncStatus = error.localizedDescription
@@ -270,9 +287,13 @@ final class AppState: ObservableObject {
                 restoreChats(from: remote)
                 language = remote.language
                 theme = remote.theme
+                engagementPreferences = remote.engagementPreferences ?? EngagementPreferences()
                 store.save(remote)
             }
             syncStatus = nil
+            if engagementPreferences.enabled {
+                try? await refreshEngagementNotifications()
+            }
         } catch {
             syncStatus = error.localizedDescription
         }
@@ -291,6 +312,7 @@ final class AppState: ObservableObject {
         }
         if var acct = account { acct.displayName = name; account = acct }
         persist()
+        Task { try? await refreshEngagementNotifications() }
     }
 
     func addMember(_ member: FamilyMember) {
@@ -298,15 +320,25 @@ final class AppState: ObservableObject {
         m.recompute()
         family.append(m)
         persist()
+        Task { try? await refreshEngagementNotifications() }
     }
 
     func removeMember(_ member: FamilyMember) {
         family.removeAll { $0.id == member.id }
         persist()
+        Task { try? await refreshEngagementNotifications() }
     }
 
-    func addEvent(_ event: PatroEvent) { events.append(event); persist() }
-    func removeEvent(_ event: PatroEvent) { events.removeAll { $0.id == event.id }; persist() }
+    func addEvent(_ event: PatroEvent) {
+        events.append(event)
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+    func removeEvent(_ event: PatroEvent) {
+        events.removeAll { $0.id == event.id }
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
 
     /// Returns false when the same dated item already exists, so an accidental
     /// second tap never creates duplicate Patro entries.
@@ -498,8 +530,51 @@ final class AppState: ObservableObject {
         return words.count > 7 ? concise + "…" : concise
     }
 
-    func setLanguage(_ l: Language) { language = l; persist() }
+    func setLanguage(_ l: Language) {
+        language = l
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
     func setTheme(_ t: ThemeChoice) { theme = t; persist() }
+
+    func setEngagementNotificationsEnabled(_ enabled: Bool) async throws {
+        var updated = engagementPreferences
+        updated.enabled = enabled
+        try await EngagementNotificationService.setEnabled(enabled, family: family, events: events,
+                                                           preferences: updated, language: language)
+        engagementPreferences = updated
+        persist()
+    }
+
+    func setNotificationWakeHour(_ hour: Int) {
+        engagementPreferences.wakeHour = min(10, max(5, hour))
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    func setNotificationDailyCount(_ count: Int) {
+        engagementPreferences.dailyCount = min(4, max(2, count))
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    func setFamilyNotifications(_ enabled: Bool) {
+        engagementPreferences.familyInsights = enabled
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    func setCalendarNotifications(_ enabled: Bool) {
+        engagementPreferences.calendarReminders = enabled
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    private func refreshEngagementNotifications() async throws {
+        try await EngagementNotificationService.refresh(family: family, events: events,
+                                                        preferences: engagementPreferences,
+                                                        language: language)
+    }
 
     /// Events coming up in the next `days` days, resolved to AD dates.
     func upcomingEvents(days: Int = 45) -> [(event: PatroEvent, date: Date, bs: NepaliDate)] {

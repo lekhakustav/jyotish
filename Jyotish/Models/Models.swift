@@ -162,6 +162,14 @@ struct ChatConversation: Codable, Identifiable, Equatable {
     }
 }
 
+struct EngagementPreferences: Codable, Equatable {
+    var enabled = false
+    var wakeHour = 7
+    var dailyCount = 4
+    var familyInsights = true
+    var calendarReminders = true
+}
+
 enum PanditActionKind: String, Codable, Equatable {
     case openPatro, addToPatro, remind, compare, listen, seeKundli, share
 }
@@ -183,6 +191,8 @@ struct Household: Codable {
     var chat: [ChatMessage] = []
     /// Optional for backwards-compatible decoding of schema-v1 payloads.
     var conversations: [ChatConversation]?
+    /// Optional keeps schema-v1/v2 Supabase payloads decodable.
+    var engagementPreferences: EngagementPreferences?
     var language: Language = .en
     var theme: ThemeChoice = .system
 }
