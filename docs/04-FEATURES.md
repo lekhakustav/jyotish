@@ -35,16 +35,22 @@ opens from Home/Rashifal as a modal chat. Settings remains reachable from Home (
   The same flow (prefixed with a relation step) is used for adding family members.
 
 ## 2. Home dashboard (the aarti thali)
-Order: small settings header → **today's tithi block** (BS day/month large + tithi,
-paksha, nakshatra on separate lines + Open Patro action) → **personal rashifal block**
+Order: small settings header → **Pandit AI discovery module** → **personal rashifal block**
 (unframed rashi mark + 2-line summary + star score + "read more" → Rashifal; dasha shown
-as one quiet text line) → **family quick row** only when relatives exist → **upcoming
-events** only when events exist. The Pandit entry is an inline, full-width, single-line AI
-invitation, so the general feature feels available without adding explanation or covering Home content.
+as one quiet text line) → **today's tithi block** + Temple of the Day → **family quick row**
+only when relatives exist → **upcoming events** only when events exist.
+
+The Pandit module combines a general “Ask anything” prompt with three plain-language,
+one-tap starters: today through the user's kundli, finding a shubh time, and family guidance.
+Each starter opens chat and immediately sends a richer deterministic-tool prompt. After three
+successful interactions, the teaching surface collapses to one rotating starter while the
+general prompt remains available.
 
 Temple of the Day should move from pure day-of-year rotation to the BS 2083 planning
 dataset in `docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md`: festival anchors win first, then
 tithi/weekday fallbacks choose the Nepal temple and explanation.
+The Home artwork uses a stable 4:3 `scaledToFill` crop with matching placeholder geometry;
+the detail sheet can preserve the fuller original composition.
 
 ## 3. Rashifal
 - Segmented: दैनिक / साप्ताहिक / मासिक / वार्षिक.
@@ -75,8 +81,12 @@ tithi/weekday fallbacks choose the Nepal temple and explanation.
 ## 6. Pandit-ji chat
 - Chat UI: modal with close button and history drawer. Pandit messages are bare serif
   prose on the canvas; user messages are the only tinted bubbles. Lightweight Markdown
-  is rendered, never exposed as raw markers. Plain-language suggestion chips start with
-  user needs: today's guidance, finding a Muhurta, family help, and today's vrat.
+  is rendered, never exposed as raw markers. The empty state greets the user by name and
+  reuses the three large Home starter cards. After a question, those starters give way to
+  two context-sensitive follow-ups derived from the current intent.
+- Home starter taps carry a one-shot prompt into chat and send it automatically. Friendly
+  phrases such as “shubh time” are part of the deterministic Muhurta intent vocabulary, so
+  users never need to know the engine's technical command language.
 - **OpenAI-backed Pandit agent** (`server/jyotish-agent.mjs` locally,
   `supabase/functions/jyotish-agent` in production) receives the full app context
   from `AgentService`: self and family birth data, computed kundlis, readings, current

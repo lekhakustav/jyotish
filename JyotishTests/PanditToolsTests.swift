@@ -117,8 +117,9 @@ final class PanditToolsTests: XCTestCase {
 
         XCTAssertEqual(PanditStarter.all.count, 3)
         XCTAssertEqual(plan.intent, .muhurta)
-        XCTAssertEqual(plan.evidence.first?.tool, "find_muhurta")
-        XCTAssertTrue(plan.actions.contains { $0.kind == .addToPatro })
+        XCTAssertEqual(plan.evidence.first?.tool, "find_muhurta.requirements")
+        XCTAssertFalse(plan.actions.contains { $0.kind == .addToPatro })
+        XCTAssertTrue(plan.answer.contains("choose what you are planning"))
     }
 
     func testPlannerBuildsCompatibilityFromTwoFamilyCharts() {

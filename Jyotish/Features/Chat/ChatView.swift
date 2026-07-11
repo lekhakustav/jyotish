@@ -283,6 +283,9 @@ struct ChatView: View {
     private var followUpKeys: [String] {
         let question = app.chat.last(where: \.isUser)?.text.lowercased() ?? ""
         if ["muhur", "sait", "साइत", "मुहूर्त", "date", "time"].contains(where: question.contains) {
+            if MuhurtaPurpose.detect(in: question) == .general {
+                return ["chat.followup.pujaTime", "chat.followup.travelTime", "chat.followup.homeTime"]
+            }
             return ["chat.followup.anotherDate", "chat.followup.howChosen"]
         }
         if ["family", "compat", "compare", "परिवार", "तुलना"].contains(where: question.contains) {

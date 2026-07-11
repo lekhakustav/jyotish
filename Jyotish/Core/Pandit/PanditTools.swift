@@ -497,6 +497,33 @@ enum PanditToolPlanner {
                                     language: Language,
                                     now: Date) -> PanditToolPlan {
         let purpose = MuhurtaPurpose.detect(in: query)
+        if purpose == .general {
+            let sections = StructuredPanditAnswer(
+                direct: language == .ne
+                    ? "अवश्य। पहिले तपाईं के योजना बनाउँदै हुनुहुन्छ भनेर छान्नुहोस्।"
+                    : "Of course. First, choose what you are planning.",
+                why: [language == .ne
+                    ? "पूजा, यात्रा, गृहप्रवेश र विवाहका लागि उपयुक्त तिथि, नक्षत्र र वार फरक हुन्छन्।"
+                    : "Puja, travel, house entry, and marriage use different tithi, nakshatra, and weekday factors."],
+                action: language == .ne
+                    ? "तलको विकल्पबाट काम छान्नुहोस्, त्यसपछि म मिति खोज्छु।"
+                    : "Choose an option below, then I will find suitable dates.",
+                practice: language == .ne
+                    ? "निर्णयअघि परिवारसँग आवश्यक स्थान र समयबारे छोटो सल्लाह गर्नुहोस्।"
+                    : "Before choosing, briefly confirm the place and practical timing with your family.",
+                uncertainty: language == .ne
+                    ? "कामको प्रकार नबताई निश्चित साइत दिनु उचित हुँदैन।"
+                    : "A specific Muhurta should not be offered until the purpose is known.")
+            return PanditToolPlan(
+                intent: .muhurta,
+                answer: sections.render(language),
+                evidence: [PanditToolEvidence(
+                    tool: "find_muhurta.requirements",
+                    summary: "purpose required",
+                    facts: [],
+                    uncertainty: language == .ne ? "कामको प्रकार आवश्यक छ।" : "The purpose is required.")],
+                actions: commonActions(prefix: []))
+        }
         let candidates = MuhurtaEngine.find(purpose: purpose, from: now, days: 30, place: place, language: language)
         guard let best = candidates.first else {
             return chartPlan(intent: .general, query: query, member: nil, family: [], language: language)
