@@ -393,6 +393,14 @@ enum PanditAnswerContract {
             : ["Direct answer", "Why Baje says this", "What to do", "Optional practice"]
         return required.allSatisfy(answer.localizedCaseInsensitiveContains)
     }
+
+    static func completed(_ answer: String, fallback: String, language: Language) -> String {
+        let trimmed = answer.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return fallback }
+        guard !isSatisfied(by: trimmed, language: language) else { return trimmed }
+        let heading = language == .ne ? "## प्रमाणित एप मार्गदर्शन" : "## Verified app guidance"
+        return "\(trimmed)\n\n\(heading)\n\(fallback)"
+    }
 }
 
 private struct StructuredPanditAnswer {

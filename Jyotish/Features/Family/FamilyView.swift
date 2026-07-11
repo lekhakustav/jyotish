@@ -214,14 +214,14 @@ struct FamilyView: View {
                                 .foregroundStyle(p.inkSecondary)
                         }
                         Spacer()
-                        if let k = m.kundali {
-                            Text(app.language == .ne ? k.moonRashi.nameNE : k.moonRashi.shortEN)
-                                .scaledFont(size: 13, design: .serif)
+                        if m.kundali != nil {
+                            Label(app.t("family.seeKundli"), systemImage: "square.grid.3x3")
+                                .scaledFont(size: 13, weight: .semibold)
                                 .foregroundStyle(p.sindoor)
+                                .padding(.horizontal, 11)
+                                .frame(minHeight: 40)
+                                .background(Capsule().fill(p.bgSunken))
                         }
-                        Image(systemName: "chevron.right")
-                            .scaledFont(size: 13)
-                            .foregroundStyle(p.inkSecondary.opacity(0.6))
                     }
                     .padding(.vertical, 12)
                 }

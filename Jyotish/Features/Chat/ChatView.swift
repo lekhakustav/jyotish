@@ -13,6 +13,7 @@ struct ChatView: View {
     @State private var isSending = false
     @State private var pendingAction: PanditAction?
     @State private var showComparison = false
+    @State private var kundliPreview: FamilyMember?
     @State private var notice: String?
     @FocusState private var focused: Bool
 
@@ -73,6 +74,10 @@ struct ChatView: View {
                 showComparison = false
                 send("Compare \(first.name) and \(second.name) compatibility")
             }
+        }
+        .fullScreenCover(item: $kundliPreview) { member in
+            KundliChatPreview(member: member)
+                .environmentObject(app)
         }
         .alert(app.t("chat.action.result"),
                isPresented: Binding(get: { notice != nil }, set: { if !$0 { notice = nil } })) {
@@ -171,23 +176,55 @@ struct ChatView: View {
                         .background(RoundedRectangle(cornerRadius: 20, style: .continuous)
                             .fill(p.marigold.opacity(0.2)))
                 } else {
-                    // Pandit speaks directly on the canvas — no container at all.
                     if msg.text.isEmpty && app.chatTypingMessageID == msg.id {
                         TypingIndicator()
                             .padding(.vertical, 6)
+                    } else if app.chatTypingMessageID == msg.id {
+                        HStack(alignment: .bottom, spacing: 5) {
+                            Text(PanditTextFormatter.plain(msg.text))
+                                .scaledFont(size: 16, design: .serif)
+                                .foregroundStyle(p.inkPrimary.opacity(0.92))
+                                .lineSpacing(6)
+                            Circle().fill(p.saffron.opacity(0.7)).frame(width: 5, height: 5)
+                        }
                     } else {
-                        Text(PanditTextFormatter.attributed(msg.text))
-                            .scaledFont(size: 16, design: .serif)
-                            .foregroundStyle(p.inkPrimary.opacity(0.92))
-                            .lineSpacing(6)
+                        PanditRichText(text: msg.text)
                     }
                 }
                 if !msg.isUser { Spacer(minLength: 56) }
+            }
+            if !msg.isUser, !msg.text.isEmpty, let member = kundliMember(for: msg) {
+                Button {
+                    Haptics.tap()
+                    kundliPreview = member
+                } label: {
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Label(app.t("chat.action.seeKundli"), systemImage: "square.grid.3x3")
+                                .scaledFont(size: 14, weight: .semibold)
+                            Spacer()
+                            Image(systemName: "arrow.up.left.and.arrow.down.right")
+                        }
+                        .foregroundStyle(p.sindoor)
+                        if let chart = member.kundali {
+                            KundaliChartView(chart: chart).frame(maxWidth: 260)
+                        }
+                    }
+                    .padding(14)
+                    .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(p.bgElevated))
+                }
+                .buttonStyle(SpringPressStyle())
+                .accessibilityHint(app.t("chat.kundli.enlarge"))
             }
             if !msg.isUser, !msg.text.isEmpty, let actions = msg.actions, !actions.isEmpty {
                 actionRow(actions, message: msg)
             }
         }
+    }
+
+    private func kundliMember(for message: ChatMessage) -> FamilyMember? {
+        guard let id = message.actions?.first(where: { $0.kind == .seeKundli })?.memberID else { return nil }
+        return app.family.first(where: { $0.id == id && $0.kundali != nil })
     }
 
     private func actionRow(_ actions: [PanditAction], message: ChatMessage) -> some View {
@@ -471,6 +508,134 @@ struct ChatView: View {
 /// The model may use lightweight Markdown for emphasis. Convert it before
 /// SwiftUI renders the answer so users never see implementation markers such
 /// as `**text**`. Newlines are preserved for readable, structured replies.
+private struct PanditRichText: View {
+    @Environment(\.palette) private var p
+    let text: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            ForEach(Array(PanditMarkdown.blocks(text).enumerated()), id: \.offset) { _, block in
+                switch block {
+                case .heading(let value, let level):
+                    Text(PanditTextFormatter.attributed(value))
+                        .scaledFont(size: level == 1 ? 24 : 20, weight: .bold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                        .padding(.top, level == 1 ? 4 : 2)
+                case .paragraph(let value):
+                    Text(PanditTextFormatter.attributed(value))
+                        .scaledFont(size: 16, design: .serif)
+                        .foregroundStyle(p.inkPrimary.opacity(0.92))
+                        .lineSpacing(6)
+                case .list(let items, let numbered):
+                    VStack(alignment: .leading, spacing: 7) {
+                        ForEach(Array(items.enumerated()), id: \.offset) { index, item in
+                            HStack(alignment: .firstTextBaseline, spacing: 9) {
+                                Text(numbered ? "\(index + 1)." : "•")
+                                    .scaledFont(size: 15, weight: .bold)
+                                    .foregroundStyle(p.saffron)
+                                Text(PanditTextFormatter.attributed(item))
+                                    .scaledFont(size: 16, design: .serif)
+                                    .foregroundStyle(p.inkPrimary.opacity(0.92))
+                                    .lineSpacing(5)
+                            }
+                        }
+                    }
+                case .table(let rows):
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        Grid(horizontalSpacing: 0, verticalSpacing: 0) {
+                            ForEach(Array(rows.enumerated()), id: \.offset) { rowIndex, row in
+                                GridRow {
+                                    ForEach(Array(row.enumerated()), id: \.offset) { _, cell in
+                                        Text(PanditTextFormatter.attributed(cell))
+                                            .scaledFont(size: 14, weight: rowIndex == 0 ? .semibold : .regular)
+                                            .foregroundStyle(p.inkPrimary)
+                                            .padding(.horizontal, 12).padding(.vertical, 10)
+                                            .frame(minWidth: 110, maxWidth: 190, alignment: .leading)
+                                    }
+                                }
+                                .background(rowIndex == 0 ? p.marigold.opacity(0.18) : p.bgElevated)
+                            }
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(p.templeGold.opacity(0.25)))
+                    }
+                case .divider:
+                    Hairline()
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .textSelection(.enabled)
+    }
+}
+
+private enum PanditMarkdown {
+    enum Block { case heading(String, Int), paragraph(String), list([String], Bool), table([[String]]), divider }
+
+    static func blocks(_ text: String) -> [Block] {
+        let lines = text.components(separatedBy: .newlines)
+        var result: [Block] = [], paragraph: [String] = []
+        var index = 0
+        func flushParagraph() {
+            let value = paragraph.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+            if !value.isEmpty { result.append(.paragraph(value)) }
+            paragraph = []
+        }
+        while index < lines.count {
+            let line = lines[index].trimmingCharacters(in: .whitespaces)
+            if line.isEmpty { flushParagraph(); index += 1; continue }
+            if line == "---" || line == "***" { flushParagraph(); result.append(.divider); index += 1; continue }
+            if line.hasPrefix("### ") { flushParagraph(); result.append(.heading(String(line.dropFirst(4)), 3)); index += 1; continue }
+            if line.hasPrefix("## ") { flushParagraph(); result.append(.heading(String(line.dropFirst(3)), 2)); index += 1; continue }
+            if line.hasPrefix("# ") { flushParagraph(); result.append(.heading(String(line.dropFirst(2)), 1)); index += 1; continue }
+            if line.hasPrefix("**"), line.hasSuffix("**"), line.count > 4 {
+                flushParagraph(); result.append(.heading(String(line.dropFirst(2).dropLast(2)), 2)); index += 1; continue
+            }
+            if line.contains("|"), index + 1 < lines.count, isTableDivider(lines[index + 1]) {
+                flushParagraph()
+                var rows = [tableCells(line)]
+                index += 2
+                while index < lines.count, lines[index].contains("|"), !lines[index].trimmingCharacters(in: .whitespaces).isEmpty {
+                    rows.append(tableCells(lines[index])); index += 1
+                }
+                result.append(.table(rows)); continue
+            }
+            if isBullet(line) {
+                flushParagraph(); var items: [String] = []
+                while index < lines.count, isBullet(lines[index].trimmingCharacters(in: .whitespaces)) {
+                    items.append(String(lines[index].trimmingCharacters(in: .whitespaces).dropFirst(2))); index += 1
+                }
+                result.append(.list(items, false)); continue
+            }
+            if numberedItem(line) != nil {
+                flushParagraph(); var items: [String] = []
+                while index < lines.count, let item = numberedItem(lines[index].trimmingCharacters(in: .whitespaces)) {
+                    items.append(item); index += 1
+                }
+                result.append(.list(items, true)); continue
+            }
+            paragraph.append(line); index += 1
+        }
+        flushParagraph()
+        return result
+    }
+
+    private static func isBullet(_ line: String) -> Bool { line.hasPrefix("- ") || line.hasPrefix("* ") || line.hasPrefix("• ") }
+    private static func numberedItem(_ line: String) -> String? {
+        guard let dot = line.firstIndex(of: "."), dot < line.index(line.startIndex, offsetBy: min(3, line.count)),
+              line[..<dot].allSatisfy(\.isNumber) else { return nil }
+        return String(line[line.index(after: dot)...]).trimmingCharacters(in: .whitespaces)
+    }
+    private static func isTableDivider(_ line: String) -> Bool {
+        let clean = line.replacingOccurrences(of: "|", with: "").replacingOccurrences(of: ":", with: "").replacingOccurrences(of: "-", with: "")
+        return clean.trimmingCharacters(in: .whitespaces).isEmpty && line.contains("-")
+    }
+    private static func tableCells(_ line: String) -> [String] {
+        line.trimmingCharacters(in: CharacterSet(charactersIn: "| ")).split(separator: "|", omittingEmptySubsequences: false)
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+    }
+}
+
 enum PanditTextFormatter {
     static func attributed(_ text: String) -> AttributedString {
         let options = AttributedString.MarkdownParsingOptions(
@@ -491,6 +656,43 @@ enum PanditTextFormatter {
 
     static func plain(_ text: String) -> String {
         String(attributed(text).characters)
+    }
+}
+
+private struct KundliChatPreview: View {
+    @EnvironmentObject private var app: AppState
+    @Environment(\.palette) private var p
+    @Environment(\.dismiss) private var dismiss
+    let member: FamilyMember
+
+    var body: some View {
+        ZStack {
+            p.bgCanvas.ignoresSafeArea()
+            VStack(spacing: 18) {
+                HStack {
+                    Text(member.name)
+                        .scaledFont(size: 26, weight: .bold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                    Spacer()
+                    Button { dismiss() } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .scaledFont(size: 30)
+                            .foregroundStyle(p.inkSecondary)
+                            .frame(width: 48, height: 48)
+                    }
+                    .accessibilityLabel(app.t("common.close"))
+                }
+                if let chart = member.kundali {
+                    KundaliChartView(chart: chart)
+                        .padding(12)
+                        .background(RoundedRectangle(cornerRadius: 20).fill(p.bgElevated))
+                }
+                Text(app.t("chat.kundli.enlarge"))
+                    .scaledFont(size: 13)
+                    .foregroundStyle(p.inkSecondary)
+            }
+            .padding(24)
+        }
     }
 }
 

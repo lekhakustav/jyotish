@@ -118,7 +118,7 @@ struct RashifalView: View {
 
             Button {
                 Haptics.tap()
-                app.openPandit(prompt: r.panditPrompt)
+                app.openPandit(prompt: r.panditPrompt, sourceKey: rashifalChatKey)
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "bubble.left.and.bubble.right")
@@ -160,6 +160,11 @@ struct RashifalView: View {
 
         }
         .padding(.horizontal, LayoutMetrics.screenGutter)
+    }
+
+    private var rashifalChatKey: String {
+        let day = Calendar.current.startOfDay(for: Date()).formatted(.iso8601.year().month().day())
+        return "rashifal:\(day):\(period.rawValue):\(rashi.rawValue)"
     }
 }
 

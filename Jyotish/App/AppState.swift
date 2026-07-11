@@ -48,6 +48,8 @@ final class AppState: ObservableObject {
     private let remoteStore: RemoteDataStore?
     private let agent: AgentService?
     private var remotePersistTask: Task<Void, Never>?
+    private var assistantStreamBuffers: [UUID: String] = [:]
+    private var assistantStreamTasks: [UUID: Task<Void, Never>] = [:]
 
     init() {
         var restoredSupabaseAccount: UserAccount?
@@ -397,9 +399,18 @@ final class AppState: ObservableObject {
         DispatchQueue.main.async { self.requestedFamilyMemberID = id }
     }
 
-    func openPandit(prompt: String? = nil) {
-        if prompt != nil, !chat.isEmpty {
-            newChatConversation()
+    func openPandit(prompt: String? = nil, sourceKey: String? = nil) {
+        if let sourceKey,
+           let existing = chatConversations.first(where: { $0.sourceKey == sourceKey }) {
+            selectChatConversation(existing.id)
+        } else if prompt != nil, !chat.isEmpty {
+            newChatConversation(sourceKey: sourceKey)
+        } else if let sourceKey {
+            if selectedChatConversationID == nil {
+                newChatConversation(sourceKey: sourceKey)
+            } else {
+                setSelectedConversationSourceKey(sourceKey)
+            }
         }
         pendingPanditPrompt = prompt
         open(.pandit)
@@ -410,11 +421,18 @@ final class AppState: ObservableObject {
         return pendingPanditPrompt
     }
 
-    func newChatConversation() {
-        let conversation = ChatConversation(title: t("chat.newConversation"))
+    func newChatConversation(sourceKey: String? = nil) {
+        let conversation = ChatConversation(title: t("chat.newConversation"), sourceKey: sourceKey)
         chatConversations.insert(conversation, at: 0)
         selectedChatConversationID = conversation.id
         chat = []
+        persist()
+    }
+
+    private func setSelectedConversationSourceKey(_ sourceKey: String) {
+        guard let id = selectedChatConversationID,
+              let index = chatConversations.firstIndex(where: { $0.id == id }) else { return }
+        chatConversations[index].sourceKey = sourceKey
         persist()
     }
 
@@ -467,8 +485,9 @@ final class AppState: ObservableObject {
                 let remoteAnswer = try await agent.streamReply(to: trimmed, context: context) { delta in
                     self.appendAssistantDelta(delta, messageID: pendingID)
                 }
-                answer = PanditAnswerContract.isSatisfied(by: remoteAnswer, language: language)
-                    ? remoteAnswer : localAnswer
+                answer = PanditAnswerContract.completed(remoteAnswer,
+                                                        fallback: localAnswer,
+                                                        language: language)
             } else {
                 answer = localAnswer
                 await streamLocalFallback(localAnswer, messageID: pendingID)
@@ -490,22 +509,37 @@ final class AppState: ObservableObject {
     }
 
     private func appendAssistantDelta(_ delta: String, messageID: UUID) {
-        guard let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
-        chat[index].text += delta
+        assistantStreamBuffers[messageID, default: ""] += delta
+        guard assistantStreamTasks[messageID] == nil else { return }
+        assistantStreamTasks[messageID] = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 90_000_000)
+            flushAssistantStream(messageID)
+        }
+    }
+
+    private func flushAssistantStream(_ messageID: UUID) {
+        assistantStreamTasks[messageID] = nil
+        let buffered = assistantStreamBuffers.removeValue(forKey: messageID) ?? ""
+        guard !buffered.isEmpty,
+              let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
+        chat[index].text += buffered
     }
 
     private func replaceAssistantMessage(_ text: String,
                                          actions: [PanditAction]? = nil,
                                          messageID: UUID) {
+        assistantStreamTasks.removeValue(forKey: messageID)?.cancel()
+        flushAssistantStream(messageID)
         guard let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
         chat[index].text = text
         if let actions { chat[index].actions = actions }
     }
 
     private func streamLocalFallback(_ text: String, messageID: UUID) async {
-        for character in text {
-            appendAssistantDelta(String(character), messageID: messageID)
-            try? await Task.sleep(nanoseconds: 12_000_000)
+        let pieces = text.split(separator: " ", omittingEmptySubsequences: false)
+        for (index, piece) in pieces.enumerated() {
+            appendAssistantDelta((index == 0 ? "" : " ") + piece, messageID: messageID)
+            try? await Task.sleep(nanoseconds: 42_000_000)
         }
     }
 
@@ -535,8 +569,10 @@ final class AppState: ObservableObject {
         let title = Self.chatTitle(from: chat)
         let createdAt = chat.first?.timestamp ?? Date()
         let updatedAt = chat.last?.timestamp ?? Date()
+        let sourceKey = chatConversations.first(where: { $0.id == id })?.sourceKey
         let conversation = ChatConversation(id: id, title: title, messages: chat,
-                                            createdAt: createdAt, updatedAt: updatedAt)
+                                            createdAt: createdAt, updatedAt: updatedAt,
+                                            sourceKey: sourceKey)
         chatConversations.removeAll { $0.id == id }
         chatConversations.append(conversation)
         chatConversations.sort { $0.updatedAt > $1.updatedAt }

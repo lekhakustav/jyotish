@@ -155,6 +155,7 @@ struct ChatConversation: Codable, Identifiable, Equatable {
     var messages: [ChatMessage] = []
     var createdAt: Date = Date()
     var updatedAt: Date = Date()
+    var sourceKey: String?
 
     mutating func append(_ message: ChatMessage) {
         messages.append(message)

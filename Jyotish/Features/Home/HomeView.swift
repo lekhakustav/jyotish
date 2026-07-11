@@ -46,11 +46,6 @@ struct HomeView: View {
                 .scaledFont(size: 19, weight: .semibold, design: .serif)
                 .foregroundStyle(p.inkPrimary)
 
-            Text(app.t("home.panditTry"))
-                .scaledFont(size: 13, weight: .semibold)
-                .foregroundStyle(p.inkSecondary)
-                .padding(.top, 2)
-
             ScrollView(.vertical, showsIndicators: true) {
                 LazyVStack(spacing: 6) {
                     ForEach(PanditStarter.all) { starter in
