@@ -35,16 +35,15 @@ opens from Home/Rashifal as a modal chat. Settings remains reachable from Home (
   The same flow (prefixed with a relation step) is used for adding family members.
 
 ## 2. Home dashboard (the aarti thali)
-Order: small settings header → **Pandit AI discovery module** → **personal rashifal block**
+Order: small settings header → **personal rashifal block** → **Pandit AI discovery module**
 (unframed rashi mark + 2-line summary + star score + "read more" → Rashifal; dasha shown
 as one quiet text line) → **today's tithi block** + Temple of the Day → **family quick row**
 only when relatives exist → **upcoming events** only when events exist.
 
-The Pandit module combines a general “Ask anything” prompt with three plain-language,
-one-tap starters: today through the user's kundli, finding a shubh time, and family guidance.
-Each starter opens chat and immediately sends a richer deterministic-tool prompt. After three
-successful interactions, the teaching surface collapses to one rotating starter while the
-general prompt remains available.
+The Pandit module shows three high-interest starters at once—love life, career, and health—
+inside a vertically scrolling template shelf. Future outlook, family, daily guidance, and
+shubh time remain available below them. The fixed “Ask anything” action sits below the shelf
+and never scrolls away. Each starter opens a fresh chat and immediately sends its richer prompt.
 
 Temple of the Day should move from pure day-of-year rotation to the BS 2083 planning
 dataset in `docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md`: festival anchors win first, then
@@ -58,6 +57,10 @@ the detail sheet can preserve the fuller original composition.
   (the "grandmother checks the whole family's signs" use case).
 - Reading: rashi mark, generated text, domain score dots
   (career/family/health/wealth/love as star icons 1–5), lucky color/number/day, upaya line.
+- The engine also creates a restrained open-loop sentence, a specific Pandit CTA, and the
+  matching full chat prompt from the same strongest or weakest domain score. Cautious readings
+  invite the user to ask how to handle that exact area; supportive readings invite them to ask
+  how to use the opportunity. This keeps the conversion hook truthful to the generated reading.
 
 ## 4. Patro (Bikram Sambat calendar)
 - Month grid of BS month; each day cell: BS digit (Nepali numerals in NE), small tithi name
@@ -114,8 +117,10 @@ the detail sheet can preserve the fuller original composition.
   - **dasha/kundali/nakshatra/rashifal questions** → live engine calls,
   - profile-gated: if the needed member lacks birth data → politely ask to fill profile first,
   - fallback: warm general jyotish answer + offer of what he can do.
-- Chat history persists via DataStore. Voice input remains optional; spoken replies are
-  off by default so typed questions do not unexpectedly start audio.
+- Conversations persist through the offline DataStore and the existing Supabase household
+  payload. The shelf can create, restore, and delete distinct threads; legacy single-stream
+  history migrates into one titled conversation. Voice input remains optional; spoken replies
+  are off by default so typed questions do not unexpectedly start audio.
 
 ## 7. Settings
 Language (EN/नेपाली), theme (Light "Prabhat" / Dark "Ratri" / System), profile edit,

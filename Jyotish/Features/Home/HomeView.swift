@@ -17,8 +17,8 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 36) {
                     header.fadeRise()
-                    panditDiscovery.fadeRise(delay: 0.04)
-                    rashifalBlock.fadeRise(delay: 0.08)
+                    rashifalBlock.fadeRise(delay: 0.04)
+                    panditDiscovery.fadeRise(delay: 0.08)
                     VStack(alignment: .leading, spacing: 18) {
                         tithiHero
                         templeOfDay
@@ -37,14 +37,31 @@ struct HomeView: View {
         .sheet(isPresented: $showTemple) { TempleDetailSheet(temple: temple) }
     }
 
-    /// New users see three concrete ways to succeed with Pandit AI. Once they
-    /// have received a few answers, the module keeps the open prompt and one
-    /// rotating suggestion so Home returns to its quieter footprint.
+    /// Three high-interest questions are visible at once. More specific entry
+    /// points remain vertically discoverable, while the generic composer stays
+    /// fixed below the scrolling template area.
     private var panditDiscovery: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(app.t("home.panditAI"))
                 .scaledFont(size: 19, weight: .semibold, design: .serif)
                 .foregroundStyle(p.inkPrimary)
+
+            Text(app.t("home.panditTry"))
+                .scaledFont(size: 11, weight: .semibold)
+                .foregroundStyle(p.inkSecondary)
+                .padding(.top, 2)
+
+            ScrollView(.vertical, showsIndicators: true) {
+                LazyVStack(spacing: 6) {
+                    ForEach(PanditStarter.all) { starter in
+                        PanditStarterCard(starter: starter, quiet: true) {
+                            app.openPandit(prompt: starter.prompt(language: app.language))
+                        }
+                        .frame(minHeight: 58)
+                    }
+                }
+            }
+            .frame(height: 186)
 
             Button {
                 Haptics.tap()
@@ -52,43 +69,21 @@ struct HomeView: View {
             } label: {
                 HStack(spacing: 12) {
                     Image(systemName: "sparkles")
-                        .scaledFont(size: 19, weight: .medium)
-                        .foregroundStyle(p.saffron)
-                        .frame(width: 40, height: 40)
-                        .background(Circle().fill(p.bgCanvas))
+                        .scaledFont(size: 18, weight: .medium)
                     Text(app.t("home.panditAskAnything"))
-                        .scaledFont(size: 16, weight: .medium, design: .serif)
-                        .foregroundStyle(p.inkSecondary)
+                        .scaledFont(size: 16, weight: .semibold, design: .serif)
                     Spacer()
                     Image(systemName: "arrow.up.right")
                         .scaledFont(size: 13, weight: .semibold)
-                        .foregroundStyle(p.saffron)
                 }
-                .padding(.horizontal, 12)
-                .frame(height: 62)
-                .background(RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(p.bgSunken))
+                .foregroundStyle(Color(hex: 0x3B1F14))
+                .padding(.horizontal, 16)
+                .frame(height: 54)
+                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(p.saffron))
             }
             .buttonStyle(SpringPressStyle())
             .accessibilityLabel(app.t("home.askPandit"))
-
-            Text(app.t("home.panditTry"))
-                .scaledFont(size: 11, weight: .semibold)
-                .foregroundStyle(p.inkSecondary)
-                .padding(.top, 2)
-
-            ForEach(visiblePanditStarters) { starter in
-                PanditStarterCard(starter: starter, quiet: true) {
-                    app.openPandit(prompt: starter.prompt(language: app.language))
-                }
-            }
         }
-    }
-
-    private var visiblePanditStarters: [PanditStarter] {
-        guard app.panditInteractionCount >= 3 else { return PanditStarter.all }
-        let day = Calendar.nepali.ordinality(of: .day, in: .year, for: Date()) ?? 0
-        return [PanditStarter.all[day % PanditStarter.all.count]]
     }
 
     private var header: some View {

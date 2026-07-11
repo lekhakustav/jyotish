@@ -15,6 +15,12 @@ struct Rashifal {
     var luckyColor: String
     var luckyNumber: Int
     var luckyDay: String
+    /// A restrained open loop and its matching question are generated from the
+    /// same transit scores as the reading, so the Pandit invitation stays
+    /// specific without inventing a warning that the rashifal does not support.
+    var panditTeaser: String
+    var panditCTA: String
+    var panditPrompt: String
 }
 
 /// Generates rashifal from *real* gochar (transits) — deterministic per
@@ -174,14 +180,60 @@ enum RashifalEngine {
                "Feed green grass to a cow and seek an elder's blessing."]
         let upaya = upayaOptions[Int(rng.next() % UInt64(upayaOptions.count))]
         let colors = ne ? g.colorsNE : g.colorsEN
+        let panditInvitation = panditInvitation(scores: scores, period: period, ne: ne)
         let result = Rashifal(rashi: rashi, period: period,
                               text: lines.joined(separator: " "),
                               scores: scores, upaya: upaya,
                               luckyColor: colors[Int(rng.next() % UInt64(colors.count))],
                               luckyNumber: g.numbers[Int(rng.next() % UInt64(g.numbers.count))],
-                              luckyDay: ne ? g.dayNE : g.dayEN)
+                              luckyDay: ne ? g.dayNE : g.dayEN,
+                              panditTeaser: panditInvitation.teaser,
+                              panditCTA: panditInvitation.cta,
+                              panditPrompt: panditInvitation.prompt)
         store(result, for: key)
         return result
+    }
+
+    private static func panditInvitation(scores: [String: Int],
+                                          period: RashifalPeriod,
+                                          ne: Bool) -> (teaser: String, cta: String, prompt: String) {
+        let weakest = scores.min { lhs, rhs in
+            lhs.value == rhs.value ? lhs.key < rhs.key : lhs.value < rhs.value
+        } ?? ("rashifal.health", 3)
+        let strongest = scores.max { lhs, rhs in
+            lhs.value == rhs.value ? lhs.key < rhs.key : lhs.value < rhs.value
+        } ?? ("rashifal.career", 3)
+        let chosen = weakest.value <= 2 ? weakest : strongest
+        let domainEN: [String: String] = [
+            "rashifal.career": "career", "rashifal.family": "family",
+            "rashifal.health": "health", "rashifal.wealth": "money",
+            "rashifal.love": "love life",
+        ]
+        let domainNE: [String: String] = [
+            "rashifal.career": "पेशा", "rashifal.family": "परिवार",
+            "rashifal.health": "स्वास्थ्य", "rashifal.wealth": "धन",
+            "rashifal.love": "प्रेम जीवन",
+        ]
+        let area = ne ? (domainNE[chosen.key] ?? "जीवन") : (domainEN[chosen.key] ?? "life")
+        let cautious = weakest.value <= 2
+        if ne {
+            let teaser = cautious
+                ? "तपाईंको \(area) पक्षमा ध्यान दिनुपर्ने एउटा संकेत अझै बाँकी छ।"
+                : "तपाईंको \(area) पक्षमा उपयोग गर्न मिल्ने एउटा विशेष अवसर छ।"
+            let cta = cautious
+                ? "\(area) कसरी सम्हाल्ने भनेर पण्डितजीलाई सोध्नुहोस्"
+                : "\(area) को अवसरबारे पण्डितजीलाई सोध्नुहोस्"
+            let prompt = "मेरो \(period.rawValue) राशिफलमा \(area) को अंक \(L10n.digits(chosen.value, .ne))/५ छ। यसले मेरो कुण्डली र हालको दशासँग मिलेर के संकेत गर्छ, र मैले के गर्नुपर्छ?"
+            return (teaser, cta, prompt)
+        }
+        let teaser = cautious
+            ? "There is one signal in your \(area) outlook worth looking at more closely."
+            : "There is one useful opening in your \(area) outlook that the summary cannot fully show."
+        let cta = cautious
+            ? "Ask Pandit-ji how to handle your \(area) outlook"
+            : "Ask Pandit-ji about your \(area) opportunity"
+        let prompt = "My \(period.rawValue) rashifal gives \(area) \(chosen.value)/5. How does that connect with my kundli and current dasha, and what should I do?"
+        return (teaser, cta, prompt)
     }
 
     private static func cachedValue(for key: CacheKey) -> Rashifal? {

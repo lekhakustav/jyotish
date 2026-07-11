@@ -10,6 +10,26 @@ struct PanditStarter: Identifiable, Equatable {
     let promptKey: String
 
     static let all: [PanditStarter] = [
+        PanditStarter(id: "love",
+                      icon: "heart",
+                      titleKey: "pandit.starter.love.title",
+                      promptKey: "pandit.starter.love.prompt"),
+        PanditStarter(id: "career",
+                      icon: "briefcase",
+                      titleKey: "pandit.starter.career.title",
+                      promptKey: "pandit.starter.career.prompt"),
+        PanditStarter(id: "health",
+                      icon: "figure.mind.and.body",
+                      titleKey: "pandit.starter.health.title",
+                      promptKey: "pandit.starter.health.prompt"),
+        PanditStarter(id: "future",
+                      icon: "moon.stars",
+                      titleKey: "pandit.starter.future.title",
+                      promptKey: "pandit.starter.future.prompt"),
+        PanditStarter(id: "family",
+                      icon: "person.2",
+                      titleKey: "pandit.starter.family.title",
+                      promptKey: "pandit.starter.family.prompt"),
         PanditStarter(id: "today",
                       icon: "sun.max",
                       titleKey: "pandit.starter.today.title",
@@ -18,10 +38,6 @@ struct PanditStarter: Identifiable, Equatable {
                       icon: "calendar.badge.clock",
                       titleKey: "pandit.starter.muhurta.title",
                       promptKey: "pandit.starter.muhurta.prompt"),
-        PanditStarter(id: "family",
-                      icon: "person.2",
-                      titleKey: "pandit.starter.family.title",
-                      promptKey: "pandit.starter.family.prompt"),
     ]
 
     func title(language: Language) -> String { L10n.t(titleKey, language) }
@@ -63,8 +79,12 @@ struct PanditStarterCard: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(quiet ? p.bgCanvas : p.bgElevated))
-            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(p.templeGold.opacity(quiet ? 0.14 : 0.22), lineWidth: 1))
+            .overlay {
+                if !quiet {
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(p.templeGold.opacity(0.22), lineWidth: 1)
+                }
+            }
         }
         .buttonStyle(SpringPressStyle())
     }

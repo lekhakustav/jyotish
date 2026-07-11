@@ -110,6 +110,11 @@ struct RashifalView: View {
                 .foregroundStyle(p.inkPrimary.opacity(0.92))
                 .lineSpacing(6)
 
+            Text(r.panditTeaser)
+                .scaledFont(size: 15, weight: .medium, design: .serif)
+                .foregroundStyle(p.inkSecondary)
+                .lineSpacing(4)
+
             VStack(spacing: 10) {
                 ForEach(RashifalEngine.domains, id: \.self) { d in
                     HStack {
@@ -136,11 +141,11 @@ struct RashifalView: View {
 
             Button {
                 Haptics.tap()
-                app.open(.pandit)
+                app.openPandit(prompt: r.panditPrompt)
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "bubble.left.and.bubble.right")
-                    Text(app.t("home.askPandit"))
+                    Text(r.panditCTA)
                 }
                 .scaledFont(size: 15, weight: .medium)
                 .foregroundStyle(p.saffron)
