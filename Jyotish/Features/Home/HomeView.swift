@@ -5,7 +5,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
-    @State private var showSettings = false
+    @State private var showSettings = ProcessInfo.processInfo.arguments.contains("-settings")
     @State private var showTemple = false
 
     private var ne: Bool { app.language == .ne }
@@ -27,7 +27,7 @@ struct HomeView: View {
                     if hasRelatives { familyRow.fadeRise(delay: 0.2) }
                     if hasUpcoming { upcoming.fadeRise(delay: 0.25) }
                 }
-                .padding(.horizontal, 24)
+                .padding(.horizontal, LayoutMetrics.screenGutter)
                 .padding(.bottom, 24)
             }
         }
@@ -47,7 +47,7 @@ struct HomeView: View {
                 .foregroundStyle(p.inkPrimary)
 
             Text(app.t("home.panditTry"))
-                .scaledFont(size: 11, weight: .semibold)
+                .scaledFont(size: 13, weight: .semibold)
                 .foregroundStyle(p.inkSecondary)
                 .padding(.top, 2)
 
@@ -76,7 +76,7 @@ struct HomeView: View {
                     Image(systemName: "arrow.up.right")
                         .scaledFont(size: 13, weight: .semibold)
                 }
-                .foregroundStyle(Color(hex: 0x3B1F14))
+                .foregroundStyle(p.onAccent)
                 .padding(.horizontal, 16)
                 .frame(height: 54)
                 .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(p.saffron))
@@ -149,6 +149,7 @@ struct HomeView: View {
                         .scaledFont(size: 13, weight: .semibold)
                 }
                 .foregroundStyle(p.saffron)
+                .frame(minHeight: 44, alignment: .leading)
                 .contentShape(Rectangle())
             }
             .buttonStyle(SpringPressStyle())
@@ -264,7 +265,7 @@ struct HomeView: View {
                                     .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
                             }
                             Text(m.name)
-                                .scaledFont(size: 12)
+                                .scaledFont(size: 13)
                                 .foregroundStyle(p.inkSecondary)
                                 .lineLimit(1)
                         }
@@ -355,7 +356,7 @@ private struct TempleDetailSheet: View {
                     .lineSpacing(5)
                 Spacer(minLength: 24)
                 }
-                .padding(.horizontal, 24)
+                .padding(.horizontal, LayoutMetrics.sheetGutter)
                 .padding(.top, 44)
                 .padding(.bottom, 30)
             }

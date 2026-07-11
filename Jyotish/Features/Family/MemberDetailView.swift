@@ -142,7 +142,7 @@ struct MemberDetailView: View {
     private func triad(_ label: String, _ value: String) -> some View {
         VStack(spacing: 4) {
             Text(label.uppercased())
-                .scaledFont(size: 10, weight: .semibold)
+                .scaledFont(size: 13, weight: .semibold)
                 .foregroundStyle(p.inkSecondary)
             Text(value)
                 .scaledFont(size: 16, weight: .semibold, design: .serif)

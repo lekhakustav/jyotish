@@ -71,7 +71,7 @@ struct PanditStarterCard: View {
                     .lineLimit(2)
                 Spacer(minLength: 8)
                 Image(systemName: "chevron.right")
-                    .scaledFont(size: 12, weight: .semibold)
+                    .scaledFont(size: 13, weight: .semibold)
                     .foregroundStyle(p.inkSecondary)
             }
             .padding(.horizontal, 12)

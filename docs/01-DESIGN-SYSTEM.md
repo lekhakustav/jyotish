@@ -117,7 +117,7 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 - Corner radius is reserved for structural controls: **16** primary buttons, **14** choice
   controls, **12** text fields/calendar cells. No decorative card radius.
 - Borders and shadows are banned on ordinary content. Use `Hairline` for row separation.
-- Spacing scale: 4/8/12/16/24/32. Screen gutter 20.
+- Spacing scale: 4/8/12/16/24/32. Primary-screen gutter 24; compact sheet gutter 20.
 - Tap targets ≥ 48pt. Primary buttons: 56pt height, saffron fill, dark-umber serif label.
 
 ## 6. Motion — "reverent, never busy"

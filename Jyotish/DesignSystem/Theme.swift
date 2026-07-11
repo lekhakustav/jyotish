@@ -4,22 +4,28 @@ import SwiftUI
 // place raw hex values are allowed in the entire app.
 enum ThemeChoice: String, Codable, CaseIterable { case system, light, dark }
 
+enum LayoutMetrics {
+    static let screenGutter: CGFloat = 24
+    static let sheetGutter: CGFloat = 20
+}
+
 struct Palette {
     let bgCanvas, bgElevated, bgSunken: Color
     let inkPrimary, inkSecondary: Color
+    let onAccent: Color
     let saffron, marigold, sindoor, templeGold: Color
     let peepalGreen, lotusPink, nightBlue: Color
 
     static let prabhat = Palette( // light — plain sacred paper
         bgCanvas: Color(hex: 0xFCF7ED), bgElevated: Color(hex: 0xFFFDF7), bgSunken: Color(hex: 0xF4ECDD),
-        inkPrimary: Color(hex: 0x3B1F14), inkSecondary: Color(hex: 0x7A5C48),
+        inkPrimary: Color(hex: 0x3B1F14), inkSecondary: Color(hex: 0x7A5C48), onAccent: Color(hex: 0x3B1F14),
         saffron: Color(hex: 0xE8801A), marigold: Color(hex: 0xF2A93B), sindoor: Color(hex: 0xB9331F),
         templeGold: Color(hex: 0xB8860B), peepalGreen: Color(hex: 0x4F7942),
         lotusPink: Color(hex: 0xD96C8A), nightBlue: Color(hex: 0x27334D))
 
     static let ratri = Palette( // dark — plain night paper
         bgCanvas: Color(hex: 0x17120C), bgElevated: Color(hex: 0x1F1710), bgSunken: Color(hex: 0x100B06),
-        inkPrimary: Color(hex: 0xF4E7CE), inkSecondary: Color(hex: 0xC4A886),
+        inkPrimary: Color(hex: 0xF4E7CE), inkSecondary: Color(hex: 0xC4A886), onAccent: Color(hex: 0x3B1F14),
         saffron: Color(hex: 0xF49B3A), marigold: Color(hex: 0xFFC15E), sindoor: Color(hex: 0xE05A41),
         templeGold: Color(hex: 0xD9A93F), peepalGreen: Color(hex: 0x7FA86B),
         lotusPink: Color(hex: 0xE68BA4), nightBlue: Color(hex: 0x8FA3C8))

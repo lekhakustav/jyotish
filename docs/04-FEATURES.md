@@ -85,7 +85,8 @@ the detail sheet can preserve the fuller original composition.
 - Chat UI: modal with close button and history drawer. Pandit messages are bare serif
   prose on the canvas; user messages are the only tinted bubbles. Lightweight Markdown
   is rendered, never exposed as raw markers. The empty state greets the user by name and
-  reuses the three large Home starter cards. After a question, those starters give way to
+  shows three large starters at a time in a vertically scrolling template shelf. The generic
+  composer stays fixed below that shelf. After a question, those starters give way to
   two context-sensitive follow-ups derived from the current intent.
 - Home starter taps carry a one-shot prompt into chat and send it automatically. Friendly
   phrases such as “shubh time” are part of the deterministic Muhurta intent vocabulary, so

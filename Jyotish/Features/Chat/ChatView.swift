@@ -6,9 +6,10 @@ struct ChatView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @StateObject private var voice = VoiceAgent()
     @State private var draft = ""
-    @State private var showHistory = false
+    @State private var showHistory = ProcessInfo.processInfo.arguments.contains("-chatShelf")
     @State private var isSending = false
     @State private var pendingAction: PanditAction?
     @State private var showComparison = false
@@ -31,20 +32,20 @@ struct ChatView: View {
                                     .transition(.opacity.combined(with: .offset(y: 8)))
                             }
                         }
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, LayoutMetrics.screenGutter)
                         .padding(.bottom, 12)
                     }
-                    .animation(.spring(response: 0.4, dampingFraction: 0.9), value: app.chat.count)
+                    .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9), value: app.chat.count)
                     .onChange(of: app.chat.count) {
                         if let last = app.chat.last {
-                            withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
+                            withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9)) {
                                 proxy.scrollTo(last.id, anchor: .bottom)
                             }
                         }
                     }
                     .onChange(of: app.chatTypingMessageID) { _, typingID in
                         guard typingID == nil, let last = app.chat.last else { return }
-                        withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
+                        withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9)) {
                             proxy.scrollTo(last.id, anchor: .bottom)
                         }
                     }
@@ -85,7 +86,7 @@ struct ChatView: View {
         HStack(alignment: .center) {
             Button {
                 Haptics.tap()
-                withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = true }
+                withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.9)) { showHistory = true }
             } label: {
                 Image(systemName: "sidebar.left")
                     .scaledFont(size: 19, weight: .light)
@@ -119,7 +120,7 @@ struct ChatView: View {
             }
             .accessibilityLabel(app.t("common.close"))
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, LayoutMetrics.screenGutter)
         .padding(.top, 8)
         .padding(.bottom, 6)
     }
@@ -136,13 +137,17 @@ struct ChatView: View {
                     .foregroundStyle(p.inkSecondary)
                     .lineSpacing(3)
             }
-            VStack(spacing: 10) {
-                ForEach(PanditStarter.all) { starter in
-                    PanditStarterCard(starter: starter) {
-                        send(starter.prompt(language: app.language))
+            ScrollView(.vertical, showsIndicators: true) {
+                LazyVStack(spacing: 10) {
+                    ForEach(PanditStarter.all) { starter in
+                        PanditStarterCard(starter: starter) {
+                            send(starter.prompt(language: app.language))
+                        }
+                        .frame(minHeight: 72)
                     }
                 }
             }
+            .frame(height: 236)
         }
         .padding(.top, 12)
     }
@@ -203,10 +208,11 @@ struct ChatView: View {
 
     private func actionLabel(_ kind: PanditActionKind) -> some View {
         Label(app.t("chat.action.\(kind.rawValue)"), systemImage: actionIcon(kind))
-            .scaledFont(size: 12, weight: .medium)
+            .scaledFont(size: 13, weight: .medium)
             .foregroundStyle(p.sindoor)
             .padding(.horizontal, 12)
             .padding(.vertical, 9)
+            .frame(minHeight: 44)
             .background(Capsule().fill(p.bgElevated))
     }
 
@@ -282,10 +288,11 @@ struct ChatView: View {
                             .foregroundStyle(p.sindoor)
                             .padding(.horizontal, 14).padding(.vertical, 10)
                             .background(Capsule().fill(p.bgElevated))
+                            .frame(minHeight: 44)
                     }
                 }
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, LayoutMetrics.screenGutter)
         }
         .padding(.vertical, 8)
     }
@@ -330,7 +337,7 @@ struct ChatView: View {
                     .frame(width: 48, height: 48)
                     .background(Circle().fill(p.bgElevated))
                     .scaleEffect(voice.isListening ? 1.08 : 1)
-                    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: voice.isListening)
+                    .animation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.6), value: voice.isListening)
             }
             .disabled(voice.unavailable)
             .opacity(voice.unavailable ? 0.35 : 1)
@@ -351,7 +358,7 @@ struct ChatView: View {
                 .accessibilityLabel(app.t("common.send"))
             }
         }
-        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: draft.isEmpty)
+        .animation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.8), value: draft.isEmpty)
         .padding(.horizontal, 20)
         .padding(.bottom, 8)
     }
@@ -372,7 +379,7 @@ struct ChatView: View {
             Color.black.opacity(0.18)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
+                    withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
                 }
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
@@ -382,7 +389,7 @@ struct ChatView: View {
                     Spacer()
                     Button {
                         Haptics.tap()
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
+                        withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
                     } label: {
                         Image(systemName: "xmark")
                             .scaledFont(size: 16, weight: .medium)
@@ -394,11 +401,11 @@ struct ChatView: View {
                 Button {
                     Haptics.tap()
                     app.newChatConversation()
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
+                    withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
                 } label: {
                     Label(app.t("chat.newConversation"), systemImage: "square.and.pencil")
                         .scaledFont(size: 15, weight: .semibold)
-                        .foregroundStyle(Color(hex: 0x3B1F14))
+                        .foregroundStyle(p.onAccent)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .frame(height: 48)
                         .padding(.horizontal, 14)
@@ -412,7 +419,7 @@ struct ChatView: View {
                                 Button {
                                     Haptics.tap()
                                     app.selectChatConversation(conversation.id)
-                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
+                                    withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
                                 } label: {
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(conversation.title)
@@ -421,7 +428,7 @@ struct ChatView: View {
                                             .lineLimit(2)
                                             .multilineTextAlignment(.leading)
                                         Text(conversation.updatedAt.formatted(date: .abbreviated, time: .shortened))
-                                            .scaledFont(size: 12)
+                                            .scaledFont(size: 13)
                                             .foregroundStyle(p.inkSecondary)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)

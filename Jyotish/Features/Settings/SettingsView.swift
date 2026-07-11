@@ -4,6 +4,7 @@ struct SettingsView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var editingProfile = false
     @State private var notificationError: String?
 
@@ -87,7 +88,7 @@ struct SettingsView: View {
                             .frame(height: 50)
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, LayoutMetrics.sheetGutter)
                 .padding(.bottom, 40)
             }
         }
@@ -164,7 +165,7 @@ struct SettingsView: View {
                     .tint(p.saffron)
             }
         }
-        .animation(.spring(response: 0.4, dampingFraction: 0.9),
+        .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9),
                    value: app.engagementPreferences.enabled)
     }
 

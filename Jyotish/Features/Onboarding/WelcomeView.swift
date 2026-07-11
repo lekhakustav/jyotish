@@ -54,7 +54,7 @@ struct WelcomeView: View {
                                         .scaledFont(size: 15, weight: app.language == l ? .semibold : .regular)
                                         .foregroundStyle(app.language == l ? p.sindoor : p.inkSecondary)
                                         .frame(maxWidth: .infinity)
-                                        .frame(height: 40)
+                                        .frame(height: 48)
                                         .background(
                                             Capsule().fill(app.language == l ? p.marigold.opacity(0.25) : .clear))
                                 }

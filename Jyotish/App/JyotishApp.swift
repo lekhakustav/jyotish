@@ -30,6 +30,7 @@ enum AppRuntime {
 struct RootView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.colorScheme) private var systemScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var isDark: Bool {
         switch app.theme {
@@ -51,8 +52,8 @@ struct RootView: View {
         }
         .environment(\.palette, isDark ? .ratri : .prabhat)
         .preferredColorScheme(app.theme == .system ? nil : (isDark ? .dark : .light))
-        .animation(.spring(response: 0.45, dampingFraction: 0.85), value: app.isLoggedIn)
-        .animation(.spring(response: 0.45, dampingFraction: 0.85), value: app.hasBirthProfile)
+        .animation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.85), value: app.isLoggedIn)
+        .animation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.85), value: app.hasBirthProfile)
         .onReceive(NotificationCenter.default.publisher(for: .engagementNotificationTapped)) { note in
             guard app.isLoggedIn, let userInfo = note.object as? [AnyHashable: Any],
                   let raw = userInfo["destination"] as? String,

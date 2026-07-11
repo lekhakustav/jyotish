@@ -30,7 +30,7 @@ final class AppState: ObservableObject {
         return .home
     }()
     @Published var pushedDestination: AppDestination?
-    @Published var modalDestination: AppDestination?
+    @Published var modalDestination: AppDestination? = ProcessInfo.processInfo.arguments.contains("-pandit") ? .pandit : nil
     /// A one-shot deep link from Pandit chat into a person's Kundali.
     @Published var requestedFamilyMemberID: UUID?
     /// One-tap Home cards hand their natural-language prompt to the next chat
@@ -108,6 +108,10 @@ final class AppState: ObservableObject {
            let l = Language(rawValue: args[i + 1]) {
             language = l
         }
+        if args.contains("-tab"), let i = args.firstIndex(of: "-tab"), i + 1 < args.count,
+           let index = Int(args[i + 1]) {
+            selectedTab = AppTab.fromLaunchIndex(index)
+        }
         guard args.contains("-demoSeed"), account == nil else { return }
         account = UserAccount(displayName: "Sita Sharma", isDemo: true)
         var me = FamilyMember(name: "Sita Sharma", gender: .female, relation: .selfMember,
@@ -128,6 +132,24 @@ final class AppState: ObservableObject {
             PatroEvent(title: "Aarav's birthday", note: "Ashirwad + kheer", bsDate: NepaliDate(year: today.year, month: today.month, day: min(28, today.day + 3)), repeatsYearly: true),
             PatroEvent(title: "Satyanarayan Puja", note: "", bsDate: NepaliDate(year: today.year, month: today.month, day: min(30, today.day + 9))),
         ]
+        if args.contains("-chatSeed") {
+            let first = ChatConversation(
+                title: "What is ahead for my love life?",
+                messages: [
+                    ChatMessage(isUser: true, text: "What is ahead for my love life?"),
+                    ChatMessage(isUser: false, text: "Your Venus period favors honest conversation and patient choices."),
+                ], updatedAt: Date().addingTimeInterval(-900))
+            let second = ChatConversation(
+                title: "Career direction this year",
+                messages: [
+                    ChatMessage(isUser: true, text: "What career direction suits me this year?"),
+                    ChatMessage(isUser: false, text: "Your current dasha rewards focused responsibility over frequent changes."),
+                ], createdAt: Date().addingTimeInterval(-86_400),
+                updatedAt: Date().addingTimeInterval(-86_100))
+            chatConversations = [first, second]
+            selectedChatConversationID = first.id
+            chat = first.messages
+        }
         persist()
     }
 
