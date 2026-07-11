@@ -45,14 +45,25 @@ struct HomeView: View {
             app.open(.pandit)
         } label: {
             HStack(spacing: 14) {
-                Image(systemName: "bubble.left.and.bubble.right.fill")
-                    .scaledFont(size: 20, weight: .medium)
-                    .foregroundStyle(p.saffron)
-                    .frame(width: 42, height: 42)
-                    .background(Circle().fill(p.bgCanvas))
-                VStack(alignment: .leading, spacing: 2) {
+                ZStack(alignment: .topTrailing) {
+                    Image(systemName: "sparkles")
+                        .scaledFont(size: 21, weight: .medium)
+                        .foregroundStyle(p.saffron)
+                        .frame(width: 42, height: 42)
+                        .background(Circle().fill(p.bgCanvas))
+                    Circle()
+                        .fill(p.sindoor)
+                        .frame(width: 8, height: 8)
+                        .overlay(Circle().stroke(p.bgSunken, lineWidth: 2))
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(app.t("home.bajeEyebrow"))
+                        .scaledFont(size: 10, weight: .bold)
+                        .tracking(1.1)
+                        .foregroundStyle(p.sindoor)
                     Text(app.t("home.bajePrompt"))
-                        .scaledFont(size: 16, weight: .semibold, design: .serif)
+                        .scaledFont(size: 17, weight: .semibold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
                     Text(app.t("home.bajePromptHint"))
                         .scaledFont(size: 12)
                         .foregroundStyle(p.inkSecondary)
@@ -65,7 +76,7 @@ struct HomeView: View {
             }
             .foregroundStyle(p.inkPrimary)
             .padding(.horizontal, 12)
-            .frame(height: 66)
+            .padding(.vertical, 11)
             .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(p.bgSunken))
         }
         .accessibilityLabel(app.t("home.askPandit"))
