@@ -115,7 +115,7 @@ final class PanditToolsTests: XCTestCase {
                                           language: .en,
                                           now: Date(timeIntervalSince1970: 1_783_440_000))
 
-        XCTAssertEqual(PanditStarter.all.count, 3)
+        XCTAssertEqual(PanditStarter.all.last?.id, "muhurta")
         XCTAssertEqual(plan.intent, .muhurta)
         XCTAssertEqual(plan.evidence.first?.tool, "find_muhurta.requirements")
         XCTAssertFalse(plan.actions.contains { $0.kind == .addToPatro })
