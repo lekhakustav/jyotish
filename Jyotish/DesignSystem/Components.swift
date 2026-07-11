@@ -99,31 +99,6 @@ struct SheetCloseButton: View {
     }
 }
 
-/// Screen header with the Devanagari echo line (docs/01 §3).
-struct SacredHeader: View {
-    @Environment(\.palette) private var p
-    let devanagari: String
-    let title: String
-    var trailing: AnyView? = nil
-
-    var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(devanagari)
-                    .scaledFont(size: 15, design: .serif)
-                    .foregroundStyle(p.templeGold)
-                    .accessibilityHidden(true)
-                Text(title)
-                    .scaledFont(size: 34, weight: .bold, design: .serif)
-                    .foregroundStyle(p.inkPrimary)
-            }
-            Spacer()
-            trailing
-        }
-        .padding(.horizontal, 20)
-    }
-}
-
 /// 56pt saffron primary button, cream serif label.
 struct PrimaryButton: View {
     @Environment(\.palette) private var p
