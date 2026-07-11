@@ -85,10 +85,8 @@ enum L10n {
         "home.mahadasha": ("Mahadasha", "महादशा"),
         "home.antardasha": ("Antardasha", "अन्तर्दशा"),
         "home.openPatro": ("Open Patro", "पात्रो खोल्नुहोस्"),
-        "home.askPandit": ("Ask Pandit-ji", "पण्डितजीलाई सोध्नुहोस्"),
-        "home.bajeEyebrow": ("NEW · PANDIT AI", "नयाँ · पण्डित एआई"),
-        "home.bajePrompt": ("Meet your AI Pandit", "तपाईंको एआई पण्डितसँग भेट्नुहोस्"),
-        "home.bajePromptHint": ("Ask anything. Get a clear next step.", "जे पनि सोध्नुहोस्। स्पष्ट अर्को कदम पाउनुहोस्।"),
+        "home.askPandit": ("Ask Pandit AI", "पण्डित एआईलाई सोध्नुहोस्"),
+        "home.bajePrompt": ("Ask Pandit AI", "पण्डित एआईलाई सोध्नुहोस्"),
         "home.chat": ("Pandit Chat", "पण्डित च्याट"),
         "home.templeOfDay": ("Temple of the Day", "आजको मन्दिर"),
         // Rashifal

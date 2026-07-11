@@ -39,9 +39,8 @@ Order: small settings header → **today's tithi block** (BS day/month large + t
 paksha, nakshatra on separate lines + Open Patro action) → **personal rashifal block**
 (unframed rashi mark + 2-line summary + star score + "read more" → Rashifal; dasha shown
 as one quiet text line) → **family quick row** only when relatives exist → **upcoming
-events** only when events exist. The Pandit entry is an inline, full-width discovery row with
-a small “new” signal and a clear AI-Pandit invitation, so the feature feels available without
-covering Home content.
+events** only when events exist. The Pandit entry is an inline, full-width, single-line AI
+invitation, so the general feature feels available without adding explanation or covering Home content.
 
 Temple of the Day should move from pure day-of-year rotation to the BS 2083 planning
 dataset in `docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md`: festival anchors win first, then
