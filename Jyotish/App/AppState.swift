@@ -30,6 +30,13 @@ final class AppState: ObservableObject {
     @Published var modalDestination: AppDestination?
     /// A one-shot deep link from Pandit chat into a person's Kundali.
     @Published var requestedFamilyMemberID: UUID?
+    /// One-tap Home cards hand their natural-language prompt to the next chat
+    /// presentation. This is transient and never enters household persistence.
+    @Published private(set) var pendingPanditPrompt: String?
+    /// After a few successful answers, Home can reduce the teaching surface to
+    /// one rotating suggestion while keeping the generic prompt available.
+    @Published private(set) var panditInteractionCount = UserDefaults.standard.integer(
+        forKey: "jyotish.pandit.successfulInteractions")
 
     // Service seam. Supabase is used when configured; otherwise the app remains local-first.
     let auth: AuthService
@@ -330,6 +337,16 @@ final class AppState: ObservableObject {
         DispatchQueue.main.async { self.requestedFamilyMemberID = id }
     }
 
+    func openPandit(prompt: String? = nil) {
+        pendingPanditPrompt = prompt
+        open(.pandit)
+    }
+
+    func consumePendingPanditPrompt() -> String? {
+        defer { pendingPanditPrompt = nil }
+        return pendingPanditPrompt
+    }
+
     func sendChat(_ text: String) async -> ChatMessage? {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return nil }
@@ -374,6 +391,9 @@ final class AppState: ObservableObject {
         let reply = ChatMessage(id: pendingID, isUser: false, text: answer, actions: plan.actions)
         replaceAssistantMessage(answer, actions: plan.actions, messageID: pendingID)
         chatTypingMessageID = nil
+        panditInteractionCount += 1
+        UserDefaults.standard.set(panditInteractionCount,
+                                  forKey: "jyotish.pandit.successfulInteractions")
         persist()
         return reply
     }

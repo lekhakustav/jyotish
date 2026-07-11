@@ -50,6 +50,7 @@
 		BE7CB82D1A359417E872EA22 /* BikramSambat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB564A0D2D0D03EB2CA6E865 /* BikramSambat.swift */; };
 		BFE7737B8492C21CD7A0FEE8 /* AgentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A2B609F60974ACC59E2E /* AgentService.swift */; };
 		C311C6BFE5D07B045C3C5C69 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */; };
+		C37BDE9ACE20A70A75138D69 /* PanditDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = A775D2DBF86F5019E82312CD /* PanditDiscovery.swift */; };
 		C79CCBB82D3200337E6AB918 /* Fraunces-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5B51DC2C722AF9CF78EC0D2 /* Fraunces-Light.ttf */; };
 		CCC6A0BF1539CA238DD5CAFA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D4CFB496D533A622FAE8A9 /* Models.swift */; };
 		CDEB601E28C6202765C6DD99 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7523A559BF6D4E01C9C9FB04 /* L10n.swift */; };
@@ -106,6 +107,7 @@
 		9F8584733B44A9AC9D0B723D /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
 		A36C5B8B4B2381749BF0F88E /* RashifalEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RashifalEngine.swift; sourceTree = "<group>"; };
 		A6EAF520AA82A3822747D8BB /* Kundali.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kundali.swift; sourceTree = "<group>"; };
+		A775D2DBF86F5019E82312CD /* PanditDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanditDiscovery.swift; sourceTree = "<group>"; };
 		AA99C1DA668D5C3A056D6744 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		B5A582A58746E5941C82D0D1 /* FamilyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyView.swift; sourceTree = "<group>"; };
 		BAE8C25232BB28C6E6BBD5E2 /* Ephemeris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ephemeris.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				E7A13E79110A9ABA9098701B /* ChatView.swift */,
+				A775D2DBF86F5019E82312CD /* PanditDiscovery.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				342595E8504959599F44F45F /* Ornaments.swift in Sources */,
 				8115908D22258F108C6A9121 /* Panchanga.swift in Sources */,
 				A8B849ACC8381CFCCB55CE69 /* PanditBrain.swift in Sources */,
+				C37BDE9ACE20A70A75138D69 /* PanditDiscovery.swift in Sources */,
 				53F58617AC1B1D52096419B7 /* PanditTools.swift in Sources */,
 				B1F4DCC228EC5921A8084668 /* PatroView.swift in Sources */,
 				A489B76D7C351579A19984D6 /* ProfileSetupView.swift in Sources */,
