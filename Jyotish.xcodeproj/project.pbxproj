@@ -41,6 +41,7 @@
 		8FE111208CFF43FE76497CD6 /* Fraunces-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08215CE0B480D62A0FC91506 /* Fraunces-Regular.ttf */; };
 		9A515675446E7C017D3B9CCC /* Dasha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A1DEF7A570615F8F915AD /* Dasha.swift */; };
 		9AA1E37596728B344301945C /* EmailAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDAEF38565EB3485A2BB6DE /* EmailAuthView.swift */; };
+		9F731CDF9A1576A51032B444 /* ChatConversationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D118583482854147800D7438 /* ChatConversationTests.swift */; };
 		A38B8453A71ED87233B14BD6 /* RashifalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD68A4D028F36F482D9FA402 /* RashifalView.swift */; };
 		A489B76D7C351579A19984D6 /* ProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA021C568E8EF24299EF59 /* ProfileSetupView.swift */; };
 		A8B849ACC8381CFCCB55CE69 /* PanditBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9777A86C8ACCA10A6FEF6B69 /* PanditBrain.swift */; };
@@ -116,6 +117,7 @@
 		C5B51DC2C722AF9CF78EC0D2 /* Fraunces-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Light.ttf"; sourceTree = "<group>"; };
 		C750A635F7E6158991FCC527 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
 		CCE8FC0FA8B659775C2DB8D1 /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
+		D118583482854147800D7438 /* ChatConversationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConversationTests.swift; sourceTree = "<group>"; };
 		DB6708A30C224E4C16DD41D5 /* Panchanga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panchanga.swift; sourceTree = "<group>"; };
 		E0C5768710846A9B19385D5D /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		E1EDE8C06A4966A678575C68 /* PatroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatroView.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				F9FA4FEB1504A4A8AB30ED72 /* AppNavigationTests.swift */,
+				D118583482854147800D7438 /* ChatConversationTests.swift */,
 				67C9BC03BBE18FFC36DAB4A0 /* PanditToolsTests.swift */,
 				3926239D658BA52D7F5CB4CC /* PerformanceOptimizationTests.swift */,
 			);
@@ -459,6 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E65954A10FC5B50AFE19DFBB /* AppNavigationTests.swift in Sources */,
+				9F731CDF9A1576A51032B444 /* ChatConversationTests.swift in Sources */,
 				1F22A280B839C2159A20306A /* PanditToolsTests.swift in Sources */,
 				79154E43AF83DE0E6F8AADBA /* PerformanceOptimizationTests.swift in Sources */,
 			);

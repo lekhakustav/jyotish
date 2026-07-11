@@ -11,6 +11,8 @@ final class AppState: ObservableObject {
     @Published var family: [FamilyMember] = []
     @Published var events: [PatroEvent] = []
     @Published var chat: [ChatMessage] = []
+    @Published private(set) var chatConversations: [ChatConversation] = []
+    @Published private(set) var selectedChatConversationID: UUID?
     @Published var chatTypingMessageID: UUID?
     @Published var language: Language = .en
     @Published var theme: ThemeChoice = .system
@@ -64,7 +66,7 @@ final class AppState: ObservableObject {
             account = saved.account
             family = saved.family
             events = saved.events
-            chat = saved.chat
+            restoreChats(from: saved)
             language = saved.language
             theme = saved.theme
         }
@@ -134,8 +136,10 @@ final class AppState: ObservableObject {
     var locale: Locale { Locale(identifier: language == .ne ? "ne_NP" : "en_US") }
 
     private func persist() {
+        syncCurrentConversation()
         let household = Household(account: account, family: family, events: events,
-                                  chat: chat, language: language, theme: theme)
+                                  chat: chat, conversations: chatConversations,
+                                  language: language, theme: theme)
         store.save(household)
         guard let account, let remoteStore else { return }
         remotePersistTask?.cancel()
@@ -222,6 +226,8 @@ final class AppState: ObservableObject {
         family = []
         events = []
         chat = []
+        chatConversations = []
+        selectedChatConversationID = nil
         persist()
     }
 
@@ -239,7 +245,7 @@ final class AppState: ObservableObject {
                 account = remote.account ?? acct
                 family = remote.family
                 events = remote.events
-                chat = remote.chat
+                restoreChats(from: remote)
                 language = remote.language
                 theme = remote.theme
                 store.save(remote)
@@ -261,7 +267,7 @@ final class AppState: ObservableObject {
                 self.account = remote.account ?? account
                 family = remote.family
                 events = remote.events
-                chat = remote.chat
+                restoreChats(from: remote)
                 language = remote.language
                 theme = remote.theme
                 store.save(remote)
@@ -338,6 +344,9 @@ final class AppState: ObservableObject {
     }
 
     func openPandit(prompt: String? = nil) {
+        if prompt != nil, !chat.isEmpty {
+            newChatConversation()
+        }
         pendingPanditPrompt = prompt
         open(.pandit)
     }
@@ -345,6 +354,34 @@ final class AppState: ObservableObject {
     func consumePendingPanditPrompt() -> String? {
         defer { pendingPanditPrompt = nil }
         return pendingPanditPrompt
+    }
+
+    func newChatConversation() {
+        let conversation = ChatConversation(title: t("chat.newConversation"))
+        chatConversations.insert(conversation, at: 0)
+        selectedChatConversationID = conversation.id
+        chat = []
+        persist()
+    }
+
+    func selectChatConversation(_ id: UUID) {
+        guard let conversation = chatConversations.first(where: { $0.id == id }) else { return }
+        selectedChatConversationID = id
+        chat = conversation.messages
+    }
+
+    func deleteChatConversation(_ id: UUID) {
+        chatConversations.removeAll { $0.id == id }
+        if selectedChatConversationID == id {
+            if let next = chatConversations.first {
+                selectedChatConversationID = next.id
+                chat = next.messages
+            } else {
+                selectedChatConversationID = nil
+                chat = []
+            }
+        }
+        persist()
     }
 
     func sendChat(_ text: String) async -> ChatMessage? {
@@ -416,6 +453,49 @@ final class AppState: ObservableObject {
             appendAssistantDelta(String(character), messageID: messageID)
             try? await Task.sleep(nanoseconds: 12_000_000)
         }
+    }
+
+    private func restoreChats(from household: Household) {
+        if let saved = household.conversations, !saved.isEmpty {
+            chatConversations = saved.sorted { $0.updatedAt > $1.updatedAt }
+            selectedChatConversationID = chatConversations.first?.id
+            chat = chatConversations.first?.messages ?? []
+        } else if !household.chat.isEmpty {
+            let migrated = ChatConversation(title: Self.chatTitle(from: household.chat),
+                                            messages: household.chat,
+                                            createdAt: household.chat.first?.timestamp ?? Date(),
+                                            updatedAt: household.chat.last?.timestamp ?? Date())
+            chatConversations = [migrated]
+            selectedChatConversationID = migrated.id
+            chat = migrated.messages
+        } else {
+            chatConversations = []
+            selectedChatConversationID = nil
+            chat = []
+        }
+    }
+
+    private func syncCurrentConversation() {
+        guard !chat.isEmpty else { return }
+        let id = selectedChatConversationID ?? UUID()
+        let title = Self.chatTitle(from: chat)
+        let createdAt = chat.first?.timestamp ?? Date()
+        let updatedAt = chat.last?.timestamp ?? Date()
+        let conversation = ChatConversation(id: id, title: title, messages: chat,
+                                            createdAt: createdAt, updatedAt: updatedAt)
+        chatConversations.removeAll { $0.id == id }
+        chatConversations.append(conversation)
+        chatConversations.sort { $0.updatedAt > $1.updatedAt }
+        selectedChatConversationID = id
+    }
+
+    private static func chatTitle(from messages: [ChatMessage]) -> String {
+        let firstQuestion = messages.first(where: \.isUser)?.text
+            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        guard !firstQuestion.isEmpty else { return "Pandit AI" }
+        let words = firstQuestion.split(whereSeparator: \.isWhitespace)
+        let concise = words.prefix(7).joined(separator: " ")
+        return words.count > 7 ? concise + "…" : concise
     }
 
     func setLanguage(_ l: Language) { language = l; persist() }

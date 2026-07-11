@@ -146,6 +146,22 @@ struct ChatMessage: Codable, Identifiable, Equatable {
     var actions: [PanditAction]?
 }
 
+/// A restorable Pandit AI thread. Conversations are kept inside the household
+/// aggregate, so the same shelf works offline and follows the user through the
+/// existing Supabase sync path.
+struct ChatConversation: Codable, Identifiable, Equatable {
+    var id: UUID = UUID()
+    var title: String
+    var messages: [ChatMessage] = []
+    var createdAt: Date = Date()
+    var updatedAt: Date = Date()
+
+    mutating func append(_ message: ChatMessage) {
+        messages.append(message)
+        updatedAt = message.timestamp
+    }
+}
+
 enum PanditActionKind: String, Codable, Equatable {
     case openPatro, addToPatro, remind, compare, listen, seeKundli, share
 }
@@ -160,11 +176,13 @@ struct PanditAction: Codable, Identifiable, Equatable {
 
 /// Everything one account owns; synced as one user-owned Supabase household row.
 struct Household: Codable {
-    var schemaVersion: Int = 1
+    var schemaVersion: Int = 2
     var account: UserAccount?
     var family: [FamilyMember] = []
     var events: [PatroEvent] = []
     var chat: [ChatMessage] = []
+    /// Optional for backwards-compatible decoding of schema-v1 payloads.
+    var conversations: [ChatConversation]?
     var language: Language = .en
     var theme: ThemeChoice = .system
 }

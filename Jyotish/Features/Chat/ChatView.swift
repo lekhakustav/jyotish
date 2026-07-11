@@ -100,6 +100,16 @@ struct ChatView: View {
             Spacer()
             Button {
                 Haptics.tap()
+                app.newChatConversation()
+            } label: {
+                Image(systemName: "square.and.pencil")
+                    .scaledFont(size: 18, weight: .light)
+                    .foregroundStyle(p.inkSecondary)
+                    .frame(width: 44, height: 48)
+            }
+            .accessibilityLabel(app.t("chat.newConversation"))
+            Button {
+                Haptics.tap()
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
@@ -364,7 +374,7 @@ struct ChatView: View {
                 .onTapGesture {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
                 }
-            VStack(alignment: .leading, spacing: 18) {
+            VStack(alignment: .leading, spacing: 12) {
                 HStack {
                     Text(app.t("chat.history"))
                         .scaledFont(size: 24, weight: .bold, design: .serif)
@@ -381,18 +391,57 @@ struct ChatView: View {
                     }
                     .accessibilityLabel(app.t("common.close"))
                 }
+                Button {
+                    Haptics.tap()
+                    app.newChatConversation()
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
+                } label: {
+                    Label(app.t("chat.newConversation"), systemImage: "square.and.pencil")
+                        .scaledFont(size: 15, weight: .semibold)
+                        .foregroundStyle(Color(hex: 0x3B1F14))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(height: 48)
+                        .padding(.horizontal, 14)
+                        .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(p.saffron))
+                }
+                .buttonStyle(SpringPressStyle())
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(app.chat.filter(\.isUser).suffix(20).reversed()) { msg in
-                            Text(msg.text)
-                                .scaledFont(size: 15)
-                                .foregroundStyle(p.inkPrimary)
-                                .lineLimit(2)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.vertical, 12)
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        ForEach(app.chatConversations) { conversation in
+                            HStack(spacing: 8) {
+                                Button {
+                                    Haptics.tap()
+                                    app.selectChatConversation(conversation.id)
+                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) { showHistory = false }
+                                } label: {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(conversation.title)
+                                            .scaledFont(size: 15, weight: conversation.id == app.selectedChatConversationID ? .semibold : .regular)
+                                            .foregroundStyle(p.inkPrimary)
+                                            .lineLimit(2)
+                                            .multilineTextAlignment(.leading)
+                                        Text(conversation.updatedAt.formatted(date: .abbreviated, time: .shortened))
+                                            .scaledFont(size: 12)
+                                            .foregroundStyle(p.inkSecondary)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.vertical, 12)
+                                    .contentShape(Rectangle())
+                                }
+                                Button {
+                                    Haptics.tap()
+                                    app.deleteChatConversation(conversation.id)
+                                } label: {
+                                    Image(systemName: "trash")
+                                        .scaledFont(size: 14)
+                                        .foregroundStyle(p.inkSecondary)
+                                        .frame(width: 44, height: 44)
+                                }
+                                .accessibilityLabel(app.t("chat.deleteConversation"))
+                            }
                             Hairline()
                         }
-                        if app.chat.filter(\.isUser).isEmpty {
+                        if app.chatConversations.isEmpty {
                             Text(app.t("chat.noHistory"))
                                 .scaledFont(size: 15)
                                 .foregroundStyle(p.inkSecondary)
@@ -404,7 +453,7 @@ struct ChatView: View {
             }
             .padding(.horizontal, 20)
             .padding(.top, 24)
-            .frame(width: 300)
+            .frame(width: 326)
             .frame(maxHeight: .infinity)
             .background(p.bgElevated)
             .transition(.move(edge: .leading).combined(with: .opacity))

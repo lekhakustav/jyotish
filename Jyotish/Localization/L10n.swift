@@ -141,6 +141,8 @@ enum L10n {
         "family.lord": ("Ruling planet", "स्वामी ग्रह"),
         // Chat
         "chat.title": ("Pandit AI", "पण्डित एआई"),
+        "chat.newConversation": ("New conversation", "नयाँ कुराकानी"),
+        "chat.deleteConversation": ("Delete conversation", "कुराकानी मेटाउनुहोस्"),
         "chat.placeholder": ("Ask Pandit-ji…", "पण्डितजीलाई सोध्नुहोस्…"),
         "chat.welcome": ("Namaste, %@. What would you like guidance on today?", "नमस्ते %@जी। आज के विषयमा मार्गदर्शन चाहिन्छ?"),
         "chat.welcome.generic": ("Namaste. What would you like guidance on today?", "नमस्ते। आज के विषयमा मार्गदर्शन चाहिन्छ?"),
