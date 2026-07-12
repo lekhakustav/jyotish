@@ -180,48 +180,90 @@ function HomeScreen() {
   const rashi = self?.kundali?.moonRashi ?? "mesh";
   const reading = generateRashifal(rashi, "daily", app.language);
   const panchanga = panchangaFor(new Date(), app.language);
+  const bs = todayBS();
+  const relatives = app.family.filter((member) => member.relation !== "selfMember");
+  const starters = app.language === "ne"
+    ? ["मेरो आजको दिन कस्तो छ?", "शुभ समय कहिले छ?", "परिवारको कुण्डली हेर्नुहोस्"]
+    : ["How does today look for me?", "When is my auspicious time?", "Read my family's charts"];
   return (
     <Screen bottomInset={112}>
-      <Header title={greeting(app.language)} action="⚙" onAction={() => app.openModal("settings")} />
-      <View style={{ gap: 22 }}>
-        <View style={{ gap: 16 }}>
-          <SectionLabel>{t("home.templeOfDay", app.language)}</SectionLabel>
-          <Image source={require("../assets/expo/images/temple-pashupatinath.png")} resizeMode="cover" style={{ width: "100%", height: 178, borderRadius: 8 }} />
-          <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 25 }}>Pashupatinath</SerifText>
-          <AppText style={{ color: palette.inkSecondary, lineHeight: 23 }}>A quiet morning darshan for steadiness, family protection, and right timing.</AppText>
+      <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between" }}>
+        <View style={{ gap: 2 }}>
+          <SerifText style={{ color: palette.templeGold, fontSize: 16 }}>{greeting(app.language)}</SerifText>
+          <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 26 }}>{self?.name}</SerifText>
         </View>
-        <ActionRow>
-          <PrimaryButton title={t("home.askPandit", app.language)} icon="✦" onPress={() => app.openModal("chat")} />
-          <GhostButton title={t("home.openPatro", app.language)} icon="◷" onPress={() => app.openModal("patro")} />
-        </ActionRow>
-        <Panel>
-          <SectionLabel>{t("rashifal.title", app.language)}</SectionLabel>
-          <View style={{ flexDirection: "row", gap: 16, alignItems: "center" }}>
-            <RashiBadge rashi={rashi} />
-            <View style={{ flex: 1, gap: 6 }}>
-              <AppText style={{ fontFamily: "Inter-Bold", fontSize: 18 }}>{rashiName(rashi, app.language)}</AppText>
-              <AppText style={{ color: palette.inkSecondary, lineHeight: 22 }}>{reading.text}</AppText>
-            </View>
-          </View>
-        </Panel>
-        <Panel>
-          <SectionLabel>{t("patro.panchanga", app.language)}</SectionLabel>
-          <InfoRow label="Tithi" value={panchanga.tithi} />
-          <InfoRow label="Nakshatra" value={panchanga.nakshatra} />
-          <InfoRow label="Yoga" value={panchanga.yoga} />
-          <InfoRow label="Karana" value={panchanga.karana} />
-        </Panel>
-        <Panel>
-          <SectionLabel>{t("home.upcoming", app.language)}</SectionLabel>
-          {app.events.length === 0 ? (
-            <AppText style={{ color: palette.inkSecondary }}>{t("home.noEvents", app.language)}</AppText>
-          ) : (
-            app.events.slice(0, 3).map((event) => <EventRow key={event.id} event={event} />)
-          )}
-        </Panel>
+        <PressableScale accessibilityLabel={t("settings.title", app.language)} onPress={() => app.openModal("settings")} style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}>
+          <AppText style={{ color: palette.inkSecondary, fontSize: 22 }}>⚙</AppText>
+        </PressableScale>
       </View>
+
+      <PressableScale onPress={() => app.setSelectedTab("rashifal")} style={{ gap: 14 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
+          <RashiBadge rashi={rashi} size={52} />
+          <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 22, flex: 1 }}>{rashiName(rashi, app.language)}</SerifText>
+          <AppText style={{ color: palette.templeGold, fontFamily: "Inter-SemiBold" }}>✦ ✦ ✦</AppText>
+        </View>
+        <SerifText style={{ fontSize: 18, lineHeight: 28 }} numberOfLines={3}>{firstSentence(reading.text)}</SerifText>
+        <AppText style={{ color: palette.sindoor, fontFamily: "Inter-SemiBold" }}>{app.language === "ne" ? "थप पढ्नुहोस्  ›" : "Read more  ›"}</AppText>
+      </PressableScale>
+
+      <View style={{ gap: 10 }}>
+        <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 19 }}>{app.language === "ne" ? "ज्योतिष बाजे" : "Jyotish Baje"}</SerifText>
+        {starters.map((starter) => (
+          <PressableScale key={starter} onPress={() => app.openModal("chat")} style={{ minHeight: 58, justifyContent: "center", borderBottomWidth: 1, borderBottomColor: palette.hairline }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+              <AppText style={{ color: palette.saffron }}>✦</AppText>
+              <SerifText style={{ fontSize: 16, flex: 1 }}>{starter}</SerifText>
+              <AppText style={{ color: palette.inkSecondary }}>›</AppText>
+            </View>
+          </PressableScale>
+        ))}
+        <PrimaryButton title={app.language === "ne" ? "जे पनि सोध्नुहोस्" : "Ask anything"} icon="✦" onPress={() => app.openModal("chat")} />
+      </View>
+
+      <View style={{ gap: 12 }}>
+        <View style={{ flexDirection: "row", alignItems: "baseline", gap: 8 }}>
+          <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 20 }}>{`${digits(bs.day, app.language)} / ${digits(bs.month, app.language)}`}</SerifText>
+          <AppText style={{ color: palette.inkSecondary }}>·</AppText>
+          <SerifText style={{ color: palette.inkSecondary, fontSize: 14, flex: 1 }}>{panchanga.tithi}</SerifText>
+        </View>
+        <PressableScale onPress={() => app.openModal("patro")} style={{ minHeight: 44, justifyContent: "center" }}>
+          <AppText style={{ color: palette.saffron, fontFamily: "Inter-SemiBold" }}>{t("home.openPatro", app.language)}  ›</AppText>
+        </PressableScale>
+        <Image source={require("../assets/expo/images/temple-pashupatinath.png")} resizeMode="cover" style={{ width: "100%", aspectRatio: 4 / 3, borderRadius: 20 }} />
+        <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 21 }}>Pashupatinath</SerifText>
+        <SerifText style={{ color: palette.inkSecondary, fontSize: 14, lineHeight: 22 }} numberOfLines={4}>A quiet morning darshan for steadiness, family protection, and right timing.</SerifText>
+      </View>
+
+      {relatives.length ? (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
+          {relatives.map((member) => (
+            <PressableScale key={member.id} onPress={() => app.setSelectedTab("family")} style={{ width: 66, alignItems: "center", gap: 5 }}>
+              {member.kundali ? <RashiBadge rashi={member.kundali.moonRashi} size={50} /> : null}
+              <AppText numberOfLines={1} style={{ color: palette.inkSecondary, fontSize: 13 }}>{member.name}</AppText>
+            </PressableScale>
+          ))}
+        </ScrollView>
+      ) : null}
+
+      {app.events.length ? (
+        <View style={{ gap: 0 }}>
+          <SectionLabel>{t("home.upcoming", app.language)}</SectionLabel>
+          {app.events.slice(0, 3).map((event, index) => (
+            <View key={event.id} style={{ flexDirection: "row", gap: 14, paddingVertical: 12, borderBottomWidth: index < Math.min(3, app.events.length) - 1 ? 1 : 0, borderBottomColor: palette.hairline }}>
+              <SerifText style={{ color: palette.sindoor, fontFamily: "Fraunces-Bold", width: 92 }}>{`${digits(event.bsDate.day, app.language)}/${digits(event.bsDate.month, app.language)}`}</SerifText>
+              <SerifText style={{ flex: 1 }}>{event.title}</SerifText>
+            </View>
+          ))}
+        </View>
+      ) : null}
     </Screen>
   );
+}
+
+function firstSentence(text: string) {
+  const match = text.match(/^.*?[.!।](?:\s|$)/);
+  return match?.[0]?.trim() || text;
 }
 
 function RashifalScreen() {
@@ -245,49 +287,78 @@ function RashifalScreen() {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingVertical: 4 }}>
         {rashiOrder.map((item) => <RashiChip key={item} rashi={item} selected={item === rashi} onPress={() => setRashi(item)} />)}
       </ScrollView>
-      <Panel>
-        <View style={{ alignItems: "center", gap: 12 }}>
-          <RashiBadge rashi={rashi} size={82} />
-          <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 31, textAlign: "center" }}>{rashiName(rashi, app.language)}</SerifText>
-          <AppText style={{ color: palette.inkSecondary, lineHeight: 24, textAlign: "center" }}>{reading.text}</AppText>
+      <View style={{ gap: 24 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
+          <RashiBadge rashi={rashi} size={58} />
+          <View style={{ gap: 2 }}>
+            <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 26 }}>{rashiName(rashi, app.language)}</SerifText>
+            <AppText style={{ color: palette.templeGold }}>{t(`rashifal.${period}`, app.language)}</AppText>
+          </View>
         </View>
-        <Hairline />
+        <SerifText style={{ fontSize: 17, lineHeight: 28 }}>{reading.text}</SerifText>
+        <SerifText style={{ color: palette.inkSecondary, fontSize: 15, lineHeight: 23 }}>Jyotish Baje can connect this reading with your current dasha and family chart.</SerifText>
+        <PrimaryButton title={t("home.askPandit", app.language)} icon="✦" onPress={() => app.openModal("chat")} />
         <View style={{ gap: 10 }}>
           {Object.entries(reading.scores).map(([key, value]) => <ScoreRow key={key} label={key} value={value} />)}
         </View>
+        <View style={{ flexDirection: "row", gap: 16 }}>
+          <LuckyFact label="Lucky color" value={reading.luckyColor} />
+          <LuckyFact label="Lucky number" value={digits(reading.luckyNumber, app.language)} />
+          <LuckyFact label="Lucky day" value={period === "daily" ? "Today" : "Thursday"} />
+        </View>
         <Hairline />
-        <InfoRow label="Lucky color" value={reading.luckyColor} />
-        <InfoRow label="Lucky number" value={digits(reading.luckyNumber, app.language)} />
-        <InfoRow label={t("rashifal.upaya", app.language)} value={reading.upaya} />
-      </Panel>
-      <PrimaryButton title={t("home.askPandit", app.language)} icon="✦" onPress={() => app.openModal("chat")} />
+        <SerifText style={{ fontStyle: "italic", lineHeight: 24 }}>{reading.upaya}</SerifText>
+      </View>
     </Screen>
+  );
+}
+
+function LuckyFact({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={{ flex: 1, gap: 6 }}>
+      <AppText numberOfLines={1} style={{ color: palette.inkSecondary, fontSize: 13 }}>{label}</AppText>
+      <SerifText numberOfLines={2} style={{ fontFamily: "Fraunces-Bold", fontSize: 15 }}>{value}</SerifText>
+    </View>
   );
 }
 
 function FamilyScreen() {
   const app = useAppState();
+  const self = app.family.find((member) => member.relation === "selfMember");
+  const relatives = app.family.filter((member) => member.relation !== "selfMember");
   return (
     <Screen bottomInset={112}>
       <Header title={t("family.title", app.language)} action="+" onAction={() => app.openModal("profile")} />
-      <View style={{ gap: 14 }}>
-        {app.family.map((member) => <MemberPanel key={member.id} member={member} />)}
+      {relatives.length ? (
+        <View style={{ alignItems: "center", gap: 10, paddingVertical: 4 }}>
+          {self ? <FamilyNode member={self} relation={app.language === "ne" ? "तपाईं" : "You"} large /> : null}
+          <View style={{ width: 1, height: 30, backgroundColor: palette.hairline }} />
+          <View style={{ flexDirection: "row", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
+            {relatives.map((member) => <FamilyNode key={member.id} member={member} relation={member.relation} />)}
+          </View>
+        </View>
+      ) : null}
+      <View style={{ gap: 0 }}>
+        {app.family.map((member, index) => (
+          <View key={member.id} style={{ borderBottomWidth: index < app.family.length - 1 ? 1 : 0, borderBottomColor: palette.hairline }}>
+            <MemberPanel member={member} />
+          </View>
+        ))}
       </View>
-      <PrimaryButton
-        title={t("family.add", app.language)}
-        icon="+"
-        onPress={() => {
-          const member: FamilyMember = {
-            id: uuid(),
-            name: `Family ${app.family.length + 1}`,
-            gender: "other",
-            relation: "cousin",
-            birth: { year: 1995, month: 1, day: 1, hour: 6, minute: 0, timeKnown: false, place: { name: "Kathmandu", nameNE: "काठमाडौं", latitude: 27.7172, longitude: 85.324, utcOffsetHours: 5.75 } }
-          };
-          app.addMember(member);
-        }}
-      />
     </Screen>
+  );
+}
+
+function FamilyNode({ member, relation, large = false }: { member: FamilyMember; relation: string; large?: boolean }) {
+  const size = large ? 72 : 60;
+  return (
+    <View style={{ width: size + 34, alignItems: "center", gap: 5 }}>
+      <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: palette.bgSunken, alignItems: "center", justifyContent: "center" }}>
+        <AppText style={{ color: palette.saffron, fontSize: size * 0.34 }}>♙</AppText>
+      </View>
+      <SerifText numberOfLines={1} style={{ fontFamily: "Fraunces-Bold", fontSize: 13 }}>{member.name}</SerifText>
+      <AppText numberOfLines={1} style={{ color: palette.inkSecondary, fontSize: 13 }}>{relation}</AppText>
+    </View>
   );
 }
 
@@ -514,14 +585,9 @@ function RashiChip({ rashi, selected, onPress }: { rashi: RashiKey; selected: bo
 
 function ScoreRow({ label, value }: { label: string; value: number }) {
   return (
-    <View style={{ gap: 6 }}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <AppText style={{ color: palette.inkSecondary, textTransform: "capitalize" }}>{label}</AppText>
-        <AppText style={{ fontFamily: "Inter-Bold", fontVariant: ["tabular-nums"] }}>{value}</AppText>
-      </View>
-      <View style={{ height: 7, borderRadius: 4, backgroundColor: palette.bgSunken, overflow: "hidden" }}>
-        <View style={{ height: 7, width: `${value}%`, backgroundColor: palette.marigold }} />
-      </View>
+    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+      <AppText style={{ color: palette.inkSecondary, textTransform: "capitalize" }}>{label}</AppText>
+      <AppText style={{ color: palette.templeGold, letterSpacing: 3 }}>{Array.from({ length: 5 }, (_, index) => index < Math.max(1, Math.min(5, value)) ? "◆" : "◇").join("")}</AppText>
     </View>
   );
 }
@@ -530,19 +596,16 @@ function MemberPanel({ member }: { member: FamilyMember }) {
   const app = useAppState();
   const kundali = member.kundali ?? computeKundali(member.birth ?? { year: 1990, month: 1, day: 1, hour: 6, minute: 0, timeKnown: false, place: { name: "Kathmandu", nameNE: "काठमाडौं", latitude: 27.7172, longitude: 85.324, utcOffsetHours: 5.75 } });
   return (
-    <Panel>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
-        <RashiBadge rashi={kundali.moonRashi} />
-        <View style={{ flex: 1, gap: 4 }}>
-          <AppText style={{ fontFamily: "Inter-Bold", fontSize: 18 }}>{member.name}</AppText>
+    <PressableScale onPress={() => undefined} style={{ minHeight: 72, flexDirection: "row", alignItems: "center", gap: 14, paddingVertical: 10 }}>
+        <RashiBadge rashi={kundali.moonRashi} size={46} />
+        <View style={{ flex: 1, gap: 2 }}>
+          <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 18 }}>{member.name}</SerifText>
           <AppText style={{ color: palette.inkSecondary }}>{member.relation}</AppText>
         </View>
-      </View>
-      <InfoRow label={t("family.lagna", app.language)} value={rashiName(kundali.lagna, app.language)} />
-      <InfoRow label={t("family.rashi", app.language)} value={rashiName(kundali.moonRashi, app.language)} />
-      <InfoRow label={t("family.nakshatra", app.language)} value={app.language === "ne" ? nakshatrasNE[kundali.moonNakshatraIndex] : nakshatrasEN[kundali.moonNakshatraIndex]} />
-      <Hairline />
-    </Panel>
+        <View style={{ minHeight: 40, borderRadius: 20, backgroundColor: palette.bgSunken, paddingHorizontal: 11, alignItems: "center", justifyContent: "center" }}>
+          <AppText style={{ color: palette.sindoor, fontFamily: "Inter-SemiBold", fontSize: 13 }}>{app.language === "ne" ? "कुण्डली" : "See Kundli"}</AppText>
+        </View>
+    </PressableScale>
   );
 }
 

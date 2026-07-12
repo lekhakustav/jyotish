@@ -1,4 +1,19 @@
-export const palette = {
+export type AppPalette = {
+  bgCanvas: string;
+  bgElevated: string;
+  bgSunken: string;
+  inkPrimary: string;
+  inkSecondary: string;
+  saffron: string;
+  marigold: string;
+  sindoor: string;
+  templeGold: string;
+  peepalGreen: string;
+  lotusPink: string;
+  hairline: string;
+};
+
+export const palette: AppPalette = {
   bgCanvas: "#FCF7ED",
   bgElevated: "#FFFDF7",
   bgSunken: "#F4ECDD",
@@ -27,3 +42,14 @@ export const darkPalette = {
   lotusPink: "#E68BA4",
   hairline: "rgba(217, 169, 63, 0.28)"
 };
+
+/**
+ * React Native components consume one semantic palette object, matching the
+ * SwiftUI Environment palette. Mutating the stable object keeps existing
+ * imports live while the app-state update triggers the render using it.
+ */
+export function applyPalette(isDark: boolean) {
+  Object.assign(palette, isDark ? darkPalette : lightPalette);
+}
+
+const lightPalette = { ...palette };

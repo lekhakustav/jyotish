@@ -1,8 +1,10 @@
 import * as SecureStore from "expo-secure-store";
 import React from "react";
+import { useColorScheme } from "react-native";
 import { demoEvents, demoFamily, localPanditReply, recomputeMember, uuid } from "@/astro";
 import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase, supabase } from "@/supabase";
 import type { AppModal, AppTab, ChatMessage, FamilyMember, Household, Language, PatroEvent, ThemeChoice, UserAccount } from "@/types";
+import { applyPalette } from "@/theme";
 
 type AppContextValue = {
   account?: UserAccount;
@@ -40,12 +42,16 @@ function initialHousehold(): Household {
 }
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
+  const systemScheme = useColorScheme();
   const [household, setHousehold] = React.useState<Household>(initialHousehold);
   const [selectedTab, setSelectedTab] = React.useState<AppTab>("home");
   const [modal, setModal] = React.useState<AppModal>(null);
   const [isReady, setIsReady] = React.useState(false);
   const [isTyping, setIsTyping] = React.useState(false);
   const [syncStatus, setSyncStatus] = React.useState<string | undefined>();
+
+  const isDark = household.theme === "dark" || (household.theme === "system" && systemScheme === "dark");
+  applyPalette(isDark);
 
   React.useEffect(() => {
     SecureStore.getItemAsync(storageKey)
