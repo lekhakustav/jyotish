@@ -489,12 +489,12 @@ final class AppState: ObservableObject {
                                                         fallback: localAnswer,
                                                         language: language)
             } else {
-                answer = localAnswer
-                await streamLocalFallback(localAnswer, messageID: pendingID)
+                answer = PanditAnswerContract.completed(localAnswer, fallback: localAnswer, language: language)
+                await streamLocalFallback(answer, messageID: pendingID)
             }
             syncStatus = nil
         } catch {
-            answer = localAnswer
+            answer = PanditAnswerContract.completed(localAnswer, fallback: localAnswer, language: language)
             syncStatus = "Pandit backend unavailable; using local reading."
             replaceAssistantMessage(answer, actions: plan.actions, messageID: pendingID)
         }

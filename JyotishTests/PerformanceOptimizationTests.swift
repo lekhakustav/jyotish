@@ -30,6 +30,17 @@ final class PerformanceOptimizationTests: XCTestCase {
         }
     }
 
+    func testRashifalPeriodsUseDifferentTimeHorizonsAndReadingLeads() {
+        RashifalEngine.resetCacheForTesting()
+        let date = Date(timeIntervalSince1970: 1_783_440_000)
+        let readings = RashifalPeriod.allCases.map {
+            RashifalEngine.generate(rashi: .mesh, period: $0, date: date, lang: .en)
+        }
+
+        XCTAssertEqual(Set(readings.map(\.timeline)), Set(["Today", "This week", "This month", "This year"]))
+        XCTAssertEqual(Set(readings.map(\.text)).count, RashifalPeriod.allCases.count)
+    }
+
     func testPanchangaDayResultsAreCached() {
         Panchanga.resetCacheForTesting()
         let date = Date(timeIntervalSince1970: 1_783_440_000)

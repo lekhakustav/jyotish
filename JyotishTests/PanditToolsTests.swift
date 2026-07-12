@@ -2,15 +2,14 @@ import XCTest
 @testable import Jyotish
 
 final class PanditToolsTests: XCTestCase {
-    func testAnswerContractRejectsStaleUnstructuredBackendReplies() {
-        XCTAssertFalse(PanditAnswerContract.isSatisfied(
+    func testAnswerContractKeepsBriefRepliesAndAddsAnOptInQuestion() {
+        XCTAssertTrue(PanditAnswerContract.isSatisfied(
             by: "A good date is Monday. Light a lamp.", language: .en))
-        XCTAssertTrue(PanditAnswerContract.isSatisfied(
-            by: "Direct answer\nYes\nWhy Baje says this\nEvidence\nWhat to do\nPlan\nOptional practice\nA lamp",
-            language: .en))
-        XCTAssertTrue(PanditAnswerContract.isSatisfied(
-            by: "सीधा उत्तर\nहुन्छ\nबाजेले यसो भन्नुको कारण\nआधार\nअब के गर्ने\nकाम\nवैकल्पिक साधना\nदीप",
-            language: .ne))
+        XCTAssertEqual(
+            PanditAnswerContract.completed("A good date is Monday.", fallback: "Fallback", language: .en),
+            "A good date is Monday.\n\nWould you like me to connect this with your dasha or an auspicious time?")
+        XCTAssertTrue(PanditAnswerContract.completed("हुन्छ।", fallback: "Fallback", language: .ne)
+            .contains("के तपाईं"))
     }
     func testAgentActionConvertsConfirmedDateAndAvoidsImmediateReminder() {
         let date = Calendar.current.date(from: DateComponents(year: 2026, month: 8, day: 15))!

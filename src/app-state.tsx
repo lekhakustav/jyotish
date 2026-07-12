@@ -79,9 +79,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const streamAssistantMessage = React.useCallback((id: string, answer: string) => {
     setIsTyping(true);
     let index = 0;
-    // Cap UI commits rather than rendering every single character. Long replies
-    // remain visibly streamed while avoiding hundreds of JS/layout passes.
-    const charactersPerCommit = Math.max(1, Math.ceil(answer.length / 72));
+    // A calm 30fps cadence avoids the jagged one-character jumps while keeping
+    // long answers bounded to a small number of React/layout commits.
+    const charactersPerCommit = Math.max(2, Math.ceil(answer.length / 48));
     return new Promise<void>((resolve) => {
       const timer = setInterval(() => {
         index = Math.min(answer.length, index + charactersPerCommit);
@@ -94,7 +94,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           setIsTyping(false);
           resolve();
         }
-      }, 24);
+      }, 33);
     });
   }, []);
 

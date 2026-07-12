@@ -311,7 +311,7 @@ function RashifalScreen() {
           <RashiBadge rashi={rashi} size={58} />
           <View style={{ gap: 2 }}>
             <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 26 }}>{rashiName(rashi, app.language)}</SerifText>
-            <AppText style={{ color: palette.templeGold }}>{t(`rashifal.${period}`, app.language)}</AppText>
+            <AppText style={{ color: palette.templeGold }}>{reading.timeline}</AppText>
           </View>
         </View>
         <SerifText style={{ fontSize: 17, lineHeight: 28 }}>{reading.text}</SerifText>
@@ -418,6 +418,7 @@ function ChatScreen() {
   const [text, setText] = React.useState("");
   const [speak, setSpeak] = React.useState(false);
   const latestAssistant = [...app.chat].reverse().find((message) => !message.isUser && message.text);
+  const suggestions = chatSuggestions(latestAssistant?.text, app.language);
   React.useEffect(() => {
     if (speak && latestAssistant?.text) Speech.speak(latestAssistant.text, { language: app.language === "ne" ? "ne-NP" : "en-US" });
   }, [latestAssistant?.id]);
@@ -436,6 +437,20 @@ function ChatScreen() {
           {app.isTyping ? <TypingIndicator /> : null}
         </View>
         {app.syncStatus ? <AppText style={{ color: palette.sindoor }}>{app.syncStatus}</AppText> : null}
+        {app.chat.length ? (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingVertical: 4 }}>
+            {suggestions.map((suggestion) => (
+              <PressableScale
+                key={suggestion}
+                disabled={app.isTyping}
+                onPress={() => { void app.sendChat(suggestion); }}
+                style={{ minHeight: 42, borderRadius: 21, backgroundColor: palette.bgElevated, borderWidth: 1, borderColor: palette.hairline, justifyContent: "center", paddingHorizontal: 14 }}
+              >
+                <AppText numberOfLines={1} style={{ color: palette.sindoor, fontFamily: "Inter-SemiBold", fontSize: 13 }}>{suggestion}</AppText>
+              </PressableScale>
+            ))}
+          </ScrollView>
+        ) : null}
         <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
           <TextInput
             value={text}
@@ -630,10 +645,19 @@ function MemberPanel({ member }: { member: FamilyMember }) {
 
 function ChatBubble({ message }: { message: { isUser: boolean; text: string } }) {
   return (
-    <View style={{ alignSelf: message.isUser ? "flex-end" : "flex-start", maxWidth: "88%", backgroundColor: message.isUser ? palette.saffron : palette.bgSunken, borderRadius: 18, borderCurve: "continuous", paddingHorizontal: 14, paddingVertical: 11 }}>
-      <AppText style={{ color: palette.inkPrimary, lineHeight: 22 }}>{message.text}</AppText>
+    <View style={{ alignSelf: message.isUser ? "flex-end" : "flex-start", maxWidth: "88%", backgroundColor: message.isUser ? "rgba(242, 169, 59, 0.20)" : "transparent", borderRadius: 20, borderCurve: "continuous", paddingHorizontal: message.isUser ? 16 : 0, paddingVertical: message.isUser ? 10 : 2 }}>
+      <SerifText style={{ color: palette.inkPrimary, fontSize: 16, lineHeight: 25 }}>{message.text}</SerifText>
     </View>
   );
+}
+
+function chatSuggestions(answer: string | undefined, language: "en" | "ne") {
+  const question = answer?.split(/(?<=[?।])\s+/).map((part) => part.trim()).reverse()
+    .find((part) => part.includes("?") || part.startsWith("के तपाईं"));
+  const base = language === "ne"
+    ? ["यसलाई अझ सरल भन्नुहोस्", "अब मैले के गर्ने?"]
+    : ["Explain this more simply", "What should I do next?"];
+  return question ? [question, ...base.filter((item) => item !== question).slice(0, 2)] : base;
 }
 
 function EventRow({ event }: { event: PatroEvent }) {

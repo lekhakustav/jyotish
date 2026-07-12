@@ -15,6 +15,8 @@ struct Rashifal {
     var luckyColor: String
     var luckyNumber: Int
     var luckyDay: String
+    /// Makes the period's time horizon explicit in the rendered reading.
+    var timeline: String
     /// A restrained open loop and its matching question are generated from the
     /// same transit scores as the reading, so the Pandit invitation stays
     /// specific without inventing a warning that the rashifal does not support.
@@ -77,7 +79,17 @@ enum RashifalEngine {
         var rng = Seeded(UInt64(periodStamp) &* 12 &+ UInt64(rashi.rawValue))
 
         // ── Real transits ────────────────────────────────────────────────────
-        let jd = suppliedJD ?? Ephemeris.julianDay(date)
+        // Each tab has a distinct observation horizon. Daily reads the present
+        // lunar day; longer periods use a stable representative point inside
+        // their own window instead of rephrasing today's transit four times.
+        let horizonDate: Date
+        switch period {
+        case .daily: horizonDate = date
+        case .weekly: horizonDate = Calendar.nepali.date(byAdding: .day, value: 3, to: date) ?? date
+        case .monthly: horizonDate = Calendar.nepali.date(byAdding: .day, value: 15, to: date) ?? date
+        case .yearly: horizonDate = Calendar.nepali.date(byAdding: .month, value: 6, to: date) ?? date
+        }
+        let jd = suppliedJD ?? Ephemeris.julianDay(horizonDate)
         let moonNow = Ephemeris.rashi(of: Ephemeris.sidereal(.moon, jd: jd))
         func transitHouse(_ planet: Planet) -> Int {
             (Ephemeris.rashi(of: Ephemeris.sidereal(planet, jd: jd)).rawValue - rashi.rawValue + 12) % 12 + 1
@@ -151,6 +163,7 @@ enum RashifalEngine {
         // ── Sentences ────────────────────────────────────────────────────────
         let ne = lang == .ne
         var lines: [String] = []
+        lines.append(periodLead(period: period, ne: ne))
         lines.append(opening(chandra: chandra, ne: ne, rng: &rng))
         if jupiterBoost > 0 {
             lines.append(ne
@@ -186,12 +199,40 @@ enum RashifalEngine {
                               scores: scores, upaya: upaya,
                               luckyColor: colors[Int(rng.next() % UInt64(colors.count))],
                               luckyNumber: g.numbers[Int(rng.next() % UInt64(g.numbers.count))],
-                              luckyDay: ne ? g.dayNE : g.dayEN,
+                              luckyDay: periodLuckyTiming(period: period, date: date, ne: ne, natalDay: ne ? g.dayNE : g.dayEN),
+                              timeline: periodTimeline(period: period, date: date, ne: ne),
                               panditTeaser: panditInvitation.teaser,
                               panditCTA: panditInvitation.cta,
                               panditPrompt: panditInvitation.prompt)
         store(result, for: key)
         return result
+    }
+
+    private static func periodLead(period: RashifalPeriod, ne: Bool) -> String {
+        switch period {
+        case .daily: return ne ? "आजको चन्द्रगतिले छोटो निर्णय र दैनिक ताललाई संकेत गर्छ।" : "Today’s lunar movement speaks to immediate choices and rhythm."
+        case .weekly: return ne ? "यो साताको प्रवाहले क्रम, संवाद र साना प्रगतिलाई हेर्छ।" : "This week’s flow looks at momentum, conversations, and small progress."
+        case .monthly: return ne ? "यो महिनाको संकेतले बानी, योजना र सम्बन्धको दिशा देखाउँछ।" : "This month’s outlook focuses on habits, plans, and relationship direction."
+        case .yearly: return ne ? "यो वर्षको संकेतले दीर्घ लक्ष्य, जिम्मेवारी र स्थिर परिवर्तनलाई हेर्छ।" : "This year’s outlook concerns long goals, responsibility, and lasting change."
+        }
+    }
+
+    private static func periodTimeline(period: RashifalPeriod, date: Date, ne: Bool) -> String {
+        switch period {
+        case .daily: return ne ? "आज" : "Today"
+        case .weekly: return ne ? "यस साताभरि" : "This week"
+        case .monthly: return ne ? "यस महिनाभरि" : "This month"
+        case .yearly: return ne ? "यस वर्षभरि" : "This year"
+        }
+    }
+
+    private static func periodLuckyTiming(period: RashifalPeriod, date: Date, ne: Bool, natalDay: String) -> String {
+        switch period {
+        case .daily: return ne ? "आज" : "Today"
+        case .weekly: return natalDay
+        case .monthly: return ne ? "महिनाको दोस्रो भाग" : "The month’s second half"
+        case .yearly: return ne ? "वर्षको मध्य भाग" : "Mid-year"
+        }
     }
 
     private static func panditInvitation(scores: [String: Int],

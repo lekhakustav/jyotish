@@ -325,12 +325,12 @@ struct ChatView: View {
     private var followUpsRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                ForEach(followUpKeys, id: \.self) { key in
+                ForEach(followUpPrompts, id: \.self) { prompt in
                     Button {
                         Haptics.tap()
-                        send(app.t(key))
+                        send(prompt)
                     } label: {
-                        Text(app.t(key))
+                        Text(prompt)
                             .scaledFont(size: 13)
                             .foregroundStyle(p.sindoor)
                             .padding(.horizontal, 14).padding(.vertical, 10)
@@ -342,6 +342,22 @@ struct ChatView: View {
             .padding(.horizontal, LayoutMetrics.screenGutter)
         }
         .padding(.vertical, 8)
+    }
+
+    private var followUpPrompts: [String] {
+        let base = followUpKeys.map(app.t)
+        guard let answer = app.chat.last(where: { !$0.isUser })?.text,
+              let normalized = finalQuestion(in: answer) else { return base }
+        return [normalized] + Array(base.filter { $0 != normalized }.prefix(2))
+    }
+
+    private func finalQuestion(in answer: String) -> String? {
+        guard let end = answer.lastIndex(of: "?") else { return nil }
+        let before = answer[..<end]
+        let start = before.lastIndex(where: { $0 == "." || $0 == "!" || $0 == "\n" })
+            .map { answer.index(after: $0) } ?? answer.startIndex
+        let question = answer[start...end].trimmingCharacters(in: .whitespacesAndNewlines)
+        return question.count <= 120 ? question : nil
     }
 
     private var followUpKeys: [String] {

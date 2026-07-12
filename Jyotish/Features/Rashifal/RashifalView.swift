@@ -99,7 +99,7 @@ struct RashifalView: View {
                     Text(ne ? rashi.nameNE : rashi.shortEN)
                         .scaledFont(size: 26, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
-                    Text(app.t(period.l10nKey))
+                    Text(r.timeline)
                         .scaledFont(size: 14)
                         .foregroundStyle(p.templeGold)
                 }

@@ -1,6 +1,14 @@
 # Chat and Kundli UX contract
 
 This document describes the native iOS chat behavior implemented in `ChatView`.
+
+## Brief answers and responsive suggestions
+
+Jyotish Baje defaults to two to four short sentences. Every completed answer ends
+with one practical opt-in question (for example, whether to connect the reading to
+a dasha or auspicious time). The chat renders that exact final question as the
+first chip above the composer, followed by two contextual fallbacks. Android follows
+the same contract, so a person can continue without retyping the offered choice.
 Keep it aligned with the code when changing response rendering, assistant naming,
 or chart navigation.
 

@@ -101,6 +101,14 @@ derives the text from the same displayed tithi; Swift prefers the curated manife
 This preserves the ritual meaning of the daily selection rather than presenting the
 temple as a generic illustration.
 
+## Rashifal and chat parity
+
+Daily, weekly, monthly, and yearly readings must each state and calculate for their
+own horizon; they are not alternative labels for a daily reading. Chat uses the
+same brief-answer and final opt-in-question contract as SwiftUI. Its first suggestion
+chip mirrors the answer's final question, and assistant prose stays unboxed while
+user messages use the same restrained marigold tint as iOS.
+
 ## Verification
 
 Before pushing Android changes, run:

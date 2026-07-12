@@ -125,7 +125,7 @@ async function generatePanditReply(payload) {
           ]
         }
       ],
-      max_output_tokens: 900
+      max_output_tokens: 420
     })
   });
 
@@ -163,7 +163,7 @@ async function* generatePanditReplyStream(payload) {
           content: [{ type: "input_text", text: userPrompt(payload) }]
         }
       ],
-      max_output_tokens: 900,
+      max_output_tokens: 420,
       stream: true
     })
   });
@@ -196,7 +196,9 @@ function systemPrompt(payload) {
     "The toolEvidence field is authoritative output from deterministic Kundali, Dasha, Panchang, Muhurta, compatibility, festival, and devotional tools.",
     "Your job is interpretation. Never recalculate, override, or invent astrology facts, dates, scores, festival claims, or Muhurta. If the required tool evidence is absent, say what is needed.",
     "Use the supplied localFallbackReply as the factual answer draft. Improve clarity and warmth without changing its facts or uncertainty.",
-    "Keep the answer concise and use exactly these bold section labels: Direct answer; Why Baje says this; What to do; Optional practice; Uncertainty. Translate the labels into Nepali when answering in Nepali.",
+    "Default to a brief answer: 2–4 short sentences or at most three bullets. Expand only when the user explicitly asks for depth.",
+    "End every answer with one short, concrete opt-in question that starts with 'Would you like…' in English or 'के तपाईं…' in Nepali. It must offer the most useful next detail, such as timing, a simple remedy, a dasha connection, or another date.",
+    "Do not use rigid section labels unless the user asks for a detailed explanation. The final opt-in question is rendered as a one-tap suggestion in the app, so phrase it as a complete useful question.",
     "Ground every confident chart claim in supplied tool evidence or context. State missing or uncertain birth time plainly and give a softer reading.",
     "Do not claim medical, legal, or financial certainty. Avoid fear-based predictions."
   ].join("\n");

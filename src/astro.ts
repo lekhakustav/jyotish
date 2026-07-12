@@ -97,30 +97,50 @@ function seeded(seed: number): () => number {
 
 export function generateRashifal(rashi: RashiKey, period: "daily" | "weekly" | "monthly" | "yearly", language: Language) {
   const now = new Date();
+  const focusDate = new Date(now);
+  if (period === "weekly") focusDate.setDate(now.getDate() + 3);
+  if (period === "monthly") focusDate.setDate(now.getDate() + 15);
+  if (period === "yearly") focusDate.setMonth(now.getMonth() + 6);
+  const isoWeek = Math.ceil((((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(now.getFullYear(), 0, 1)) / 86400000) + new Date(now.getFullYear(), 0, 1).getUTCDay() + 1) / 7);
   const stamp = period === "daily"
     ? now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate()
-    : period === "weekly"
-      ? now.getFullYear() * 100 + Math.ceil(now.getDate() / 7)
-      : period === "monthly"
-        ? now.getFullYear() * 100 + now.getMonth() + 1
+    : period === "weekly" ? now.getFullYear() * 100 + isoWeek
+      : period === "monthly" ? now.getFullYear() * 100 + now.getMonth() + 1
         : now.getFullYear();
   const rand = seeded(stamp + rashiOrder.indexOf(rashi) * 97);
   const ne = language === "ne";
   const domains = ["career", "family", "health", "wealth", "love"];
   const scores = Object.fromEntries(domains.map((domain) => [domain, 58 + Math.floor(rand() * 38)]));
-  const openings = ne
-    ? ["आज निर्णयहरू शान्त मनले लिनु राम्रो छ।", "परिवारको कुरा सुन्दा लाभ हुन्छ।", "धन र काममा सानो तर स्थिर सुधार देखिन्छ।"]
-    : ["Today rewards calm decisions and steady timing.", "Family signals are supportive if you listen before acting.", "Work and money improve through small disciplined steps."];
-  const advice = ne
-    ? "पहेंलो वा सुनौलो रंग शुभ छ; बिहान छोटो प्रार्थना गरेर काम सुरु गर्नुहोस्।"
-    : "Yellow or warm gold is favorable; begin important work after a short morning prayer.";
+  const copy = {
+    daily: ne
+      ? ["आजको चन्द्रगतिले छोटो निर्णयमा धैर्य माग्छ।", "आज परिवारको कुरा सुन्दा लाभ हुन्छ।", "आज सानो तर स्थिर काममा ध्यान दिनुहोस्।"]
+      : ["Today rewards calm decisions and steady timing.", "Today, family signals are supportive if you listen first.", "Today favors one small, disciplined task."],
+    weekly: ne
+      ? ["यो साता संवाद र अधुरा काम मिलाउने समय हो।", "यो साता परिवारसँग तालमेल बढाउन सकिन्छ।", "यो साताको प्रगतिका लागि नियमितता रोज्नुहोस्।"]
+      : ["This week favors clearing conversations and unfinished work.", "This week supports steadier family coordination.", "Build momentum this week through a simple routine."],
+    monthly: ne
+      ? ["यो महिना बानी र योजना सुधार्ने समय हो।", "यो महिना खर्च र सम्बन्धमा क्रम चाहिन्छ।", "यो महिना एउटा दीर्घ लक्ष्यलाई निरन्तरता दिनुहोस्।"]
+      : ["This month is for improving habits and plans.", "This month asks for order in spending and relationships.", "Give one longer goal steady attention this month."],
+    yearly: ne
+      ? ["यो वर्ष जिम्मेवारी र दीर्घ दिशालाई बल दिने समय हो।", "यो वर्ष धैर्यले सम्बन्ध र काममा स्थिर लाभ दिन्छ।", "यो वर्ष क्रमिक परिवर्तनलाई प्राथमिकता दिनुहोस्।"]
+      : ["This year favors responsibility and long direction.", "Patience can bring steadier gains in work and relationships this year.", "Choose gradual, lasting change this year."]
+  } as const;
+  const advice = period === "daily"
+    ? (ne ? "बिहान छोटो प्रार्थना गरेर काम सुरु गर्नुहोस्।" : "Begin important work after a short morning prayer.")
+    : period === "weekly"
+      ? (ne ? "एक प्राथमिकता छानेर साताभरि त्यसमा टिक्नुहोस्।" : "Choose one priority and stay with it through the week.")
+      : period === "monthly"
+        ? (ne ? "महिनाको योजना लेखेर खर्च र समय जाँच्नुहोस्।" : "Write a monthly plan and review time and spending.")
+        : (ne ? "दीर्घ लक्ष्यलाई साना चरणमा बाँड्नुहोस्।" : "Break a long goal into smaller, steady steps.");
   return {
-    text: `${openings[Math.floor(rand() * openings.length)]} ${advice}`,
+    text: `${copy[period][Math.floor(rand() * copy[period].length)]} ${advice}`,
     scores: scores as Record<string, number>,
     upaya: ne ? "गुरु वा बुबाआमाको आशीर्वाद लिनुहोस्।" : "Seek an elder's blessing and offer a small act of service.",
     luckyColor: ne ? "सुनौलो" : "Gold",
     luckyNumber: 1 + Math.floor(rand() * 9),
-    luckyDay: ne ? "बिहीबार" : "Thursday"
+    luckyDay: period === "daily" ? (ne ? "आज" : "Today") : period === "weekly" ? (ne ? "बिहीबार" : "Thursday") : period === "monthly" ? (ne ? "महिनाको दोस्रो भाग" : "Second half") : (ne ? "वर्षको मध्य भाग" : "Mid-year"),
+    timeline: period === "daily" ? (ne ? "आज" : "Today") : period === "weekly" ? (ne ? "यस साताभरि" : "This week") : period === "monthly" ? (ne ? "यस महिनाभरि" : "This month") : (ne ? "यस वर्षभरि" : "This year"),
+    focusDate
   };
 }
 
@@ -186,7 +206,7 @@ export function localPanditReply(message: string, family: FamilyMember[], langua
   const rashi = self?.kundali?.moonRashi ?? "mesh";
   const reading = generateRashifal(rashi, "daily", language);
   if (language === "ne") {
-    return `तपाईंको ${rashiMeta[rashi].ne} राशिका आधारमा ${reading.text} ${reading.upaya}`;
+    return `तपाईंको ${rashiMeta[rashi].ne} राशिका आधारमा ${reading.text} ${reading.upaya} के तपाईं यसको शुभ समय वा दशासँगको सम्बन्ध पनि जान्न चाहनुहुन्छ?`;
   }
-  return `For your ${rashiMeta[rashi].short} moon sign: ${reading.text} ${reading.upaya}`;
+  return `For your ${rashiMeta[rashi].short} moon sign: ${reading.text} ${reading.upaya} Would you like me to connect this with your dasha or an auspicious time?`;
 }

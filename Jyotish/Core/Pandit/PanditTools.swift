@@ -384,22 +384,26 @@ struct PanditToolPlan: Equatable {
 }
 
 enum PanditAnswerContract {
-    /// A stale or misconfigured remote model must never remove the clear shape
-    /// promised by the app. The local deterministic answer is used whenever a
-    /// remote response omits one of these user-facing sections.
+    /// The model is intentionally brief. A useful next question keeps the
+    /// conversation open and can be surfaced as a one-tap chip by the clients.
     static func isSatisfied(by answer: String, language: Language) -> Bool {
-        let required = language == .ne
-            ? ["सीधा उत्तर", "बाजेले यसो भन्नुको कारण", "अब के गर्ने", "वैकल्पिक साधना"]
-            : ["Direct answer", "Why Baje says this", "What to do", "Optional practice"]
-        return required.allSatisfy(answer.localizedCaseInsensitiveContains)
+        !answer.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     static func completed(_ answer: String, fallback: String, language: Language) -> String {
         let trimmed = answer.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return fallback }
-        guard !isSatisfied(by: trimmed, language: language) else { return trimmed }
-        let heading = language == .ne ? "## प्रमाणित एप मार्गदर्शन" : "## Verified app guidance"
-        return "\(trimmed)\n\n\(heading)\n\(fallback)"
+        guard isSatisfied(by: trimmed, language: language) else { return withFollowUp(fallback, language: language) }
+        return withFollowUp(trimmed, language: language)
+    }
+
+    private static func withFollowUp(_ answer: String, language: Language) -> String {
+        let trimmed = answer.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.contains("?") else { return trimmed }
+        let question = language == .ne
+            ? "के तपाईं यसलाई आफ्नो दशा वा शुभ समयसँग जोडेर थप जान्न चाहनुहुन्छ?"
+            : "Would you like me to connect this with your dasha or an auspicious time?"
+        return "\(trimmed)\n\n\(question)"
     }
 }
 
