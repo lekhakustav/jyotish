@@ -35,7 +35,7 @@ opens from Home/Rashifal as a modal chat. Settings remains reachable from Home (
   The same flow (prefixed with a relation step) is used for adding family members.
 
 ## 2. Home dashboard (the aarti thali)
-Order: small settings header → **personal rashifal block** → **Pandit AI discovery module**
+Order: small settings header → **personal rashifal block** → **Jyotish Baje discovery module**
 (unframed rashi mark + 2-line summary + star score + "read more" → Rashifal; dasha shown
 as one quiet text line) → **today's tithi block** + Temple of the Day → **family quick row**
 only when relatives exist → **upcoming events** only when events exist.
@@ -129,7 +129,7 @@ sign-out (returns to Welcome; data kept), and notification controls. Daily guida
 opt-in and exposes wake time, 2–4 moments per day, family insights, and Patro reminders.
 The app maintains a rolling seven-day plan with stable identifiers: refreshing replaces
 old requests instead of duplicating them, keeps no more than 56 engagement alerts pending,
-and deep-links each alert to Rashifal, Pandit AI, or Patro. The default four moments are a
+and deep-links each alert to Rashifal, Jyotish Baje, or Patro. The default four moments are a
 morning personal rashifal, high-interest midday Pandit question, family-specific guidance
 when a relative has a kundli, and a quiet evening open loop. Preferences sync in the
 Supabase household payload and pending alerts are removed on opt-out/sign-out.

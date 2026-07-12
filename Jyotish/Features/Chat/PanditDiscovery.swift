@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Human goals shown before astrology terminology. The visible title teaches
-/// users what Pandit AI can help with; the richer prompt gives the planner the
+/// users what Jyotish Baje can help with; the richer prompt gives the planner the
 /// context it needs to create an immediate personalised result.
 struct PanditStarter: Identifiable, Equatable {
     let id: String

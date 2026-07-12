@@ -57,7 +57,7 @@ We use the information we collect for the following purposes:
 
 1. **Astrological Computations:** Your birth details are used to compute your Vedic kundali, planetary positions, dasha cycles, panchanga, and rashifal — all calculated on your device using genuine sidereal astronomical algorithms.
 
-2. **AI-Powered Guidance:** When you ask Pandit-ji a question, your query, relevant family birth data, computed kundali, current dasha, daily rashifal, saved calendar events, and recent chat history (up to the last 16 messages) are sent to our server-side backend to generate a personalized response.
+2. **AI-Powered Guidance:** When you ask Jyotish Baje a question, your query, relevant family birth data, computed kundali, current dasha, daily rashifal, saved calendar events, and recent chat history (up to the last 16 messages) are sent to our server-side backend to generate a personalized response.
 
 3. **Family Astrology:** Family member profiles you add are used to generate kundalis and readings for your entire family, enabling family-centric astrological features.
 
@@ -87,7 +87,7 @@ Jyotish baje offers an optional voice input feature that lets you speak question
 
 ### 3.1 Local Notifications
 
-Notification scheduling uses Apple's local notification system. Jyotish baje asks for iOS notification permission only after you enable Daily Guidance in Settings. Pending notification content stays on your device; enabling this feature does not register a push token or send notification content to a third-party messaging provider. Tapping a notification opens the relevant Rashifal, Pandit AI, or Patro screen.
+Notification scheduling uses Apple's local notification system. Jyotish baje asks for iOS notification permission only after you enable Daily Guidance in Settings. Pending notification content stays on your device; enabling this feature does not register a push token or send notification content to a third-party messaging provider. Tapping a notification opens the relevant Rashifal, Jyotish Baje, or Patro screen.
 
 ---
 

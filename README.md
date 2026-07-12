@@ -2,7 +2,7 @@
 
 A SwiftUI iOS app that is your family's Jyotish baje: real Vedic astrology (kundali, dasha,
 panchanga), generated rashifal, a Bikram Sambat patro with events, a family tree of
-kundalis, and a bilingual (EN/नेपाली) Pandit-ji chatbot. Local-first with optional
+kundalis, and a bilingual (EN/नेपाली) Jyotish Baje chatbot. Local-first with optional
 Supabase sync for real user profiles, family data, events, settings, and chat history.
 
 ## Run it
@@ -13,7 +13,7 @@ xcodebuild -project Jyotish.xcodeproj -scheme Jyotish \
 # then install/launch the built .app with `xcrun simctl`
 ```
 
-## Run the Pandit-ji backend
+## Run the Jyotish Baje backend
 Copy `OPENAI_API_KEY` into ignored `.env.local` first, then:
 
 ```sh
@@ -40,4 +40,4 @@ For production without a dedicated server, deploy `supabase/functions/jyotish-ag
 - [docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md](docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md) — temple-of-day schedule
 - [docs/11-TEMPLE-ART-ASSETS.md](docs/11-TEMPLE-ART-ASSETS.md) — temple art storage contract
 - [docs/12-BRAND-ASSETS.md](docs/12-BRAND-ASSETS.md) — logo, app icon, and Supabase brand asset notes
-- [docs/14-PRODUCT-UX-INTENT-REVIEW.md](docs/14-PRODUCT-UX-INTENT-REVIEW.md) — current UI/UX audit, market feature landscape, user-intent model, and Pandit Baje agent direction
+- [docs/14-PRODUCT-UX-INTENT-REVIEW.md](docs/14-PRODUCT-UX-INTENT-REVIEW.md) — current UI/UX audit, market feature landscape, user-intent model, and Jyotish Baje agent direction

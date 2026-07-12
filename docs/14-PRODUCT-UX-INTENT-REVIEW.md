@@ -11,7 +11,7 @@ clearest product moat. This is not a generic horoscope template.
 
 The current weakness is that the app still asks people to understand its feature map.
 Users have to decide whether their concern belongs in Rashifal, Patro, Family, a member's
-Kundali, or Pandit chat. Real people do not arrive with feature-shaped intentions. They
+Kundali, or Jyotish Baje chat. Real people do not arrive with feature-shaped intentions. They
 arrive with questions:
 
 - Is today good for this work?
@@ -21,14 +21,14 @@ arrive with questions:
 - What should I do about this difficult period?
 - What does today's tithi or vrat mean for my family?
 
-The product should therefore become **Pandit Baje with trusted tools**, not a collection
+The product should therefore become **Jyotish Baje with trusted tools**, not a collection
 of astrology pages with a chatbot attached. The agent should be the front door. Patro,
 Kundali, Dasha, family profiles, Rashifal, Vastu, and future ritual content should become
 the tools and evidence behind the answer.
 
 This is the key product decision:
 
-> If Pandit Baje is the product, it cannot remain a large floating button that opens a
+> If Jyotish Baje is the product, it cannot remain a large floating button that opens a
 > separate chat room. It should be the primary Home experience, with the rest of the app
 > acting as inspectable detail, proof, and direct-access utilities.
 
@@ -72,7 +72,7 @@ Jyotish is actually used in Hindu households: parents ask about children, grandp
 check family timing, and marriage or naming questions involve more than one chart.
 
 The family tree is not yet the most efficient screen, but the underlying product model is
-excellent. It gives Pandit Baje a durable memory and a reason to become more valuable over
+excellent. It gives Jyotish Baje a durable memory and a reason to become more valuable over
 time without resorting to manipulative streaks.
 
 ### 3. The calculation layer gives the agent something trustworthy to stand on
@@ -125,7 +125,7 @@ answers easier for older users to scan.
 
 #### P0 — The Home chat control covers content
 
-The orange "Pandit chat" capsule is visually heavier than the daily reading and overlaps
+The orange "Jyotish Baje chat" capsule is visually heavier than the daily reading and overlaps
 the Temple of the Day description. It also competes with the large floating tab bar. This
 is not only a spacing bug; it reveals that Pandit is bolted onto Home instead of being the
 organising experience.
@@ -137,7 +137,7 @@ Home currently presents:
 1. Personal Rashifal.
 2. BS date and Patro entry.
 3. Temple of the Day.
-4. Pandit chat.
+4. Jyotish Baje chat.
 
 All are potentially valuable, but none clearly owns the page. The large image makes the
 temple story feel like the product, while the floating orange button insists chat is the
@@ -201,7 +201,7 @@ piece is not another layout refinement; it is a family question surface:
 - See this month's family dates
 - Add a birth detail
 
-The family list should become a fast person selector for Pandit Baje as well as a chart
+The family list should become a fast person selector for Jyotish Baje as well as a chart
 browser.
 
 ### Onboarding review
@@ -395,7 +395,7 @@ product:
 | 10 | Human Pandit escalation | Trust for complex or ceremonial needs | Missing |
 | 11 | Puja/offerings/store | Monetisation and fulfilment | Do not prioritise before trust and guidance quality |
 
-## Recommended product: Pandit Baje as the single trusted front door
+## Recommended product: Jyotish Baje as the single trusted front door
 
 ### Recommended information architecture
 
@@ -411,7 +411,7 @@ in the profile/gear entry.
 
 This is intentionally different from the current contract. Keeping Pandit contextual was
 a good simplification when the product was feature-led. A single-point agent direction
-changes the premise: Pandit Baje becomes Home itself, not another tab or modal.
+changes the premise: Jyotish Baje becomes Home itself, not another tab or modal.
 
 ### The new Home
 
@@ -613,7 +613,7 @@ screens:
 ## Final recommendation
 
 Do not win by having the most features. Win by making a Hindu household feel that one
-patient, familiar, careful Pandit Baje already knows the family, understands the calendar,
+patient, familiar, careful Jyotish Baje already knows the family, understands the calendar,
 shows his reasoning, and can quietly take the next useful action.
 
 The current app already owns most of the hard primitives. The next step is not a broad

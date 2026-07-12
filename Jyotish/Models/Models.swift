@@ -146,7 +146,7 @@ struct ChatMessage: Codable, Identifiable, Equatable {
     var actions: [PanditAction]?
 }
 
-/// A restorable Pandit AI thread. Conversations are kept inside the household
+/// A restorable Jyotish Baje thread. Conversations are kept inside the household
 /// aggregate, so the same shelf works offline and follows the user through the
 /// existing Supabase sync path.
 struct ChatConversation: Codable, Identifiable, Equatable {

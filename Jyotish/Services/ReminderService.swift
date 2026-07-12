@@ -18,7 +18,7 @@ enum ReminderServiceError: LocalizedError {
 enum PanditActionResolver {
     static func event(title: String, date: Date) -> PatroEvent {
         PatroEvent(title: title.trimmingCharacters(in: .whitespacesAndNewlines),
-                   note: "Added with Pandit-ji",
+            note: "Added with Jyotish Baje",
                    bsDate: BikramSambat.toBS(date))
     }
 
@@ -44,7 +44,7 @@ enum ReminderService {
         content.title = title
         content.body = language == .ne
             ? "पण्डितजीले सम्झाउनुभएको समय नजिकिँदै छ।"
-            : "The time Pandit-ji helped you plan is approaching."
+            : "The time Jyotish Baje helped you plan is approaching."
         content.sound = .default
 
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute],

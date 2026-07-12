@@ -42,7 +42,7 @@ export function ProfileScreen() {
         <Logo size={92} />
         <View style={{ gap: 8 }}>
           <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 36 }}>{t("profile.title", app.language)}</SerifText>
-          <AppText style={{ color: palette.inkSecondary, lineHeight: 24 }}>Pandit-ji needs these to draw the kundali.</AppText>
+              <AppText style={{ color: palette.inkSecondary, lineHeight: 24 }}>Jyotish Baje needs these to draw the kundali.</AppText>
         </View>
         <Field value={name} onChangeText={setName} placeholder="Full name" />
         <PrimaryButton

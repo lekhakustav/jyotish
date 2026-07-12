@@ -103,7 +103,7 @@ final class VoiceAgent: NSObject, ObservableObject {
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, options: [])
     }
 
-    /// Speak a Pandit reply. Nepali TTS voice isn't shipped; the Hindi voice
+    /// Speak a Jyotish Baje reply. Nepali TTS voice isn't shipped; the Hindi voice
     /// reads Devanagari naturally and is the accepted fallback.
     func speak(_ text: String, lang: Language) {
         guard speaksReplies else { return }

@@ -230,8 +230,8 @@ enum RashifalEngine {
             ? "There is one signal in your \(area) outlook worth looking at more closely."
             : "There is one useful opening in your \(area) outlook that the summary cannot fully show."
         let cta = cautious
-            ? "Ask Pandit-ji how to handle your \(area) outlook"
-            : "Ask Pandit-ji about your \(area) opportunity"
+            ? "Ask Jyotish Baje how to handle your \(area) outlook"
+            : "Ask Jyotish Baje about your \(area) opportunity"
         let prompt = "My \(period.rawValue) rashifal gives \(area) \(chosen.value)/5. How does that connect with my kundli and current dasha, and what should I do?"
         return (teaser, cta, prompt)
     }

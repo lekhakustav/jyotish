@@ -31,7 +31,7 @@ final class AppState: ObservableObject {
     }()
     @Published var pushedDestination: AppDestination?
     @Published var modalDestination: AppDestination? = ProcessInfo.processInfo.arguments.contains("-pandit") ? .pandit : nil
-    /// A one-shot deep link from Pandit chat into a person's Kundali.
+    /// A one-shot deep link from Jyotish Baje chat into a person's Kundali.
     @Published var requestedFamilyMemberID: UUID?
     /// One-tap Home cards hand their natural-language prompt to the next chat
     /// presentation. This is transient and never enters household persistence.
@@ -582,7 +582,7 @@ final class AppState: ObservableObject {
     private static func chatTitle(from messages: [ChatMessage]) -> String {
         let firstQuestion = messages.first(where: \.isUser)?.text
             .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        guard !firstQuestion.isEmpty else { return "Pandit AI" }
+        guard !firstQuestion.isEmpty else { return "Jyotish Baje" }
         let words = firstQuestion.split(whereSeparator: \.isWhitespace)
         let concise = words.prefix(7).joined(separator: " ")
         return words.count > 7 ? concise + "…" : concise

@@ -209,10 +209,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           answer = data.reply?.trim() || localAnswer;
           setSyncStatus(undefined);
         } else {
-          setSyncStatus("Pandit backend unavailable; using local reading.");
+          setSyncStatus("Jyotish Baje backend unavailable; using local reading.");
         }
       } catch {
-        setSyncStatus("Pandit backend unavailable; using local reading.");
+        setSyncStatus("Jyotish Baje backend unavailable; using local reading.");
       }
     }
     await streamAssistantMessage(assistantID, answer);

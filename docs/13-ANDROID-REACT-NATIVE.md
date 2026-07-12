@@ -2,7 +2,7 @@
 
 The Android app is an Expo/React Native port that lives beside the native SwiftUI iOS
 app. The goal is product parity: the same Jyotish baje brand, Home/Rashifal/Family
-main tabs, Patro as a secondary surface, Pandit-ji as modal chat, local-first household
+main tabs, Patro as a secondary surface, Jyotish Baje as modal chat, local-first household
 state, and the same server-side agent contract.
 
 ## Run
@@ -48,7 +48,7 @@ npm run android:prebuild -- --no-install
 ## Current Parity Notes
 
 - The Android app has the same onboarding, main tabs, Patro, Family, Rashifal, settings,
-  and Pandit chat surfaces.
+  and Jyotish Baje chat surfaces.
 - The chat UI shows a typing indicator and streams local fallback replies character by
   character. If `EXPO_PUBLIC_JYOTISH_AGENT_ENDPOINT_URL` is present, it attempts the
   backend agent first and falls back locally on failure.

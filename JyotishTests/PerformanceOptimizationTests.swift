@@ -116,6 +116,12 @@ final class PerformanceOptimizationTests: XCTestCase {
         XCTAssertEqual(L10n.t("common.back", .ne), "पछाडि")
         XCTAssertEqual(L10n.t("common.send", .ne), "पठाउनुहोस्")
         XCTAssertEqual(L10n.t("chat.askByVoice", .ne), "आवाजबाट सोध्नुहोस्")
-        XCTAssertEqual(L10n.t("chat.typing", .ne), "पण्डितजी उत्तर लेख्दै हुनुहुन्छ")
+        XCTAssertEqual(L10n.t("chat.typing", .ne), "ज्योतिष बाजे उत्तर लेख्दै हुनुहुन्छ")
+    }
+
+    func testAssistantBrandIsJyotishBaje() {
+        XCTAssertEqual(L10n.t("home.askPandit", .en), "Ask Jyotish Baje")
+        XCTAssertEqual(L10n.t("chat.title", .en), "Jyotish Baje")
+        XCTAssertEqual(L10n.t("chat.placeholder", .en), "Ask Jyotish Baje…")
     }
 }
