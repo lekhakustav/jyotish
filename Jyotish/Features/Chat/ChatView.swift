@@ -13,49 +13,60 @@ struct ChatView: View {
     @State private var isSending = false
     @State private var pendingAction: PanditAction?
     @State private var showComparison = false
-    @State private var kundliPreview: FamilyMember?
+    @State private var kundliPath: [UUID] = []
     @State private var notice: String?
     @FocusState private var focused: Bool
 
     var body: some View {
-        ZStack(alignment: .leading) {
-            p.bgCanvas.ignoresSafeArea()
-            VStack(spacing: 0) {
-                header
+        NavigationStack(path: $kundliPath) {
+            ZStack(alignment: .leading) {
+                p.bgCanvas.ignoresSafeArea()
+                VStack(spacing: 0) {
+                    header
 
-                ScrollViewReader { proxy in
-                    ScrollView {
-                        VStack(spacing: 20) {
-                            if app.chat.isEmpty { welcome }
-                            ForEach(app.chat) { msg in
-                                bubble(msg)
-                                    .id(msg.id)
-                                    .transition(.opacity.combined(with: .offset(y: 8)))
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            VStack(spacing: 20) {
+                                if app.chat.isEmpty { welcome }
+                                ForEach(app.chat) { msg in
+                                    bubble(msg)
+                                        .id(msg.id)
+                                        .transition(.opacity.combined(with: .offset(y: 8)))
+                                }
+                            }
+                            .padding(.horizontal, LayoutMetrics.screenGutter)
+                            .padding(.bottom, 12)
+                        }
+                        .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9), value: app.chat.count)
+                        .onChange(of: app.chat.count) {
+                            if let last = app.chat.last {
+                                withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9)) {
+                                    proxy.scrollTo(last.id, anchor: .bottom)
+                                }
                             }
                         }
-                        .padding(.horizontal, LayoutMetrics.screenGutter)
-                        .padding(.bottom, 12)
-                    }
-                    .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9), value: app.chat.count)
-                    .onChange(of: app.chat.count) {
-                        if let last = app.chat.last {
+                        .onChange(of: app.chatTypingMessageID) { _, typingID in
+                            guard typingID == nil, let last = app.chat.last else { return }
                             withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9)) {
                                 proxy.scrollTo(last.id, anchor: .bottom)
                             }
                         }
-                    }
-                    .onChange(of: app.chatTypingMessageID) { _, typingID in
-                        guard typingID == nil, let last = app.chat.last else { return }
-                        withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9)) {
+                        .onChange(of: app.chat.last?.text) { _, _ in
+                            guard app.chatTypingMessageID != nil, let last = app.chat.last else { return }
                             proxy.scrollTo(last.id, anchor: .bottom)
                         }
                     }
-                }
 
-                if !app.chat.isEmpty { followUpsRow }
-                inputBar
+                    if !app.chat.isEmpty { followUpsRow }
+                    inputBar
+                }
+                if showHistory { historyDrawer }
             }
-            if showHistory { historyDrawer }
+            .navigationDestination(for: UUID.self) { id in
+                MemberDetailView(memberID: id)
+                    .environmentObject(app)
+            }
+            .toolbar(.hidden, for: .navigationBar)
         }
         .statusBarFade()
         .onDisappear { voice.stopSpeaking() }
@@ -74,10 +85,6 @@ struct ChatView: View {
                 showComparison = false
                 send("Compare \(first.name) and \(second.name) compatibility")
             }
-        }
-        .fullScreenCover(item: $kundliPreview) { member in
-            KundliChatPreview(member: member)
-                .environmentObject(app)
         }
         .alert(app.t("chat.action.result"),
                isPresented: Binding(get: { notice != nil }, set: { if !$0 { notice = nil } })) {
@@ -181,10 +188,7 @@ struct ChatView: View {
                             .padding(.vertical, 6)
                     } else if app.chatTypingMessageID == msg.id {
                         HStack(alignment: .bottom, spacing: 5) {
-                            Text(PanditTextFormatter.plain(msg.text))
-                                .scaledFont(size: 16, design: .serif)
-                                .foregroundStyle(p.inkPrimary.opacity(0.92))
-                                .lineSpacing(6)
+                            PanditRichText(text: msg.text)
                             Circle().fill(p.saffron.opacity(0.7)).frame(width: 5, height: 5)
                         }
                     } else {
@@ -196,7 +200,7 @@ struct ChatView: View {
             if !msg.isUser, !msg.text.isEmpty, let member = kundliMember(for: msg) {
                 Button {
                     Haptics.tap()
-                    kundliPreview = member
+                    openKundli(member.id)
                 } label: {
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
@@ -214,7 +218,7 @@ struct ChatView: View {
                     .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(p.bgElevated))
                 }
                 .buttonStyle(SpringPressStyle())
-                .accessibilityHint(app.t("chat.kundli.enlarge"))
+                .accessibilityLabel(app.t("chat.action.seeKundli"))
             }
             if !msg.isUser, !msg.text.isEmpty, let actions = msg.actions, !actions.isEmpty {
                 actionRow(actions, message: msg)
@@ -273,7 +277,7 @@ struct ChatView: View {
         case .openPatro:
             leaveChat { app.open(.patro) }
         case .seeKundli:
-            leaveChat { app.openFamilyMember(action.memberID) }
+            openKundli(action.memberID)
         case .compare:
             guard app.family.count >= 2 else {
                 notice = app.t("chat.compare.needTwo")
@@ -285,6 +289,12 @@ struct ChatView: View {
         case .share:
             break
         }
+    }
+
+    private func openKundli(_ memberID: UUID?) {
+        guard let memberID,
+              app.family.contains(where: { $0.id == memberID && $0.kundali != nil }) else { return }
+        kundliPath = [memberID]
     }
 
     private func confirm(_ action: PanditAction, title: String, date: Date) {
@@ -656,43 +666,6 @@ enum PanditTextFormatter {
 
     static func plain(_ text: String) -> String {
         String(attributed(text).characters)
-    }
-}
-
-private struct KundliChatPreview: View {
-    @EnvironmentObject private var app: AppState
-    @Environment(\.palette) private var p
-    @Environment(\.dismiss) private var dismiss
-    let member: FamilyMember
-
-    var body: some View {
-        ZStack {
-            p.bgCanvas.ignoresSafeArea()
-            VStack(spacing: 18) {
-                HStack {
-                    Text(member.name)
-                        .scaledFont(size: 26, weight: .bold, design: .serif)
-                        .foregroundStyle(p.inkPrimary)
-                    Spacer()
-                    Button { dismiss() } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .scaledFont(size: 30)
-                            .foregroundStyle(p.inkSecondary)
-                            .frame(width: 48, height: 48)
-                    }
-                    .accessibilityLabel(app.t("common.close"))
-                }
-                if let chart = member.kundali {
-                    KundaliChartView(chart: chart)
-                        .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 20).fill(p.bgElevated))
-                }
-                Text(app.t("chat.kundli.enlarge"))
-                    .scaledFont(size: 13)
-                    .foregroundStyle(p.inkSecondary)
-            }
-            .padding(24)
-        }
     }
 }
 
