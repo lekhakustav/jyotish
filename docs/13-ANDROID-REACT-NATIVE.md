@@ -59,6 +59,28 @@ npm run android:prebuild -- --no-install
   for Android, but full ElevenLabs voice-agent recording should be completed in the next
   native QA pass.
 
+## SwiftUI parity contract
+
+SwiftUI is the product and visual source of truth. Android must preserve the same content
+hierarchy even when native platform chrome differs:
+
+| Surface | Shared contract |
+| --- | --- |
+| App shell | Home, Rashifal, and Family are the only primary tabs. Patro is secondary and Jyotish Baje is modal. |
+| Home | Greeting/name, personal rashifal hook, three Jyotish Baje starters plus ask-anything CTA, tithi/Patro link, temple, relatives, then upcoming events. |
+| Rashifal | Period selector, horizontal rashi selector, rashi/period heading, reading and Baje CTA, five-point domain scores, lucky facts, then upaya. |
+| Family | Optional family tree followed by flat member rows and a Kundli affordance. The add action belongs in the header. |
+| Visual system | Plain warm canvas, Fraunces display type, Inter body type, 24dp primary gutters, 40dp section rhythm, semantic palette only, and no decorative content cards. |
+| Appearance | Light, dark, and system settings use the same semantic colors as SwiftUI. |
+
+Android may use its own system status/navigation bars and tab implementation. iOS Liquid
+Glass is deliberately not copied. Content order, copy, information density, colors,
+typography roles, and interaction destinations must otherwise remain aligned.
+
+When SwiftUI screen structure changes, update this table and the corresponding Android
+screen in the same change. Treat a successful bundle as necessary but not sufficient:
+compare both apps on similarly sized emulators before release.
+
 ## Verification
 
 Before pushing Android changes, run:
@@ -67,6 +89,15 @@ Before pushing Android changes, run:
 npm run typecheck
 npm run android:export
 cd android && ./gradlew assembleDebug
+```
+
+If a dependency refresh leaves Reanimated pointing at an obsolete Worklets CMake output,
+regenerate the native cache before retrying:
+
+```sh
+cd android
+./gradlew :react-native-reanimated:externalNativeBuildCleanDebug
+./gradlew assembleDebug
 ```
 
 On a fresh Mac, Gradle also needs an Android SDK. This machine uses an ignored

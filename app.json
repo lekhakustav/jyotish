@@ -7,7 +7,6 @@
     "orientation": "portrait",
     "icon": "./assets/expo/images/icon.png",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "assetBundlePatterns": [
       "assets/expo/**/*"
     ],
