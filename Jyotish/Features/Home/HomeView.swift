@@ -9,7 +9,7 @@ struct HomeView: View {
     @State private var showTemple = false
 
     private var ne: Bool { app.language == .ne }
-    private let temple = Temple.ofToday()
+    @State private var temple = Temple.ofToday()
 
     var body: some View {
         ZStack {
@@ -35,6 +35,7 @@ struct HomeView: View {
         .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .sheet(isPresented: $showTemple) { TempleDetailSheet(temple: temple) }
+        .task { temple = await Temple.fetchToday() }
     }
 
     /// Three high-interest questions are visible at once. More specific entry

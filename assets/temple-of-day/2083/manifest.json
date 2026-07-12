@@ -1,6 +1,6 @@
 {
   "bucket": "temple-of-day",
-  "generatedAt": "2026-07-06",
+  "generatedAt": "2026-07-12",
   "style": "16-bit pixel art, square PNG, Nepal temple with relevant natural or sacred background",
   "status": "uploaded-to-supabase",
   "items": [
@@ -63,8 +63,80 @@
       "storagePath": "2083/2026-07-11_budhanilkantha-yogini-ekadashi.png",
       "sourceScheduleReason": "Ekadashi is a Vishnu vrata, so Budhanilkantha is the default Nepal Narayana anchor.",
       "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-11_budhanilkantha-yogini-ekadashi.png"
+    },
+    {
+      "adDate": "2026-07-12",
+      "bsDate": "2083-03-28",
+      "tithi": "Krishna Trayodashi",
+      "deity": "Shiva",
+      "templeId": "pashupatinath",
+      "templeName": "Pashupatinath Temple",
+      "file": "2026-07-12_pashupatinath-pradosh.png",
+      "storagePath": "2083/2026-07-12_pashupatinath-pradosh.png",
+      "sourceScheduleReason": "Pradosh is a Shiva vrata observed around Trayodashi; Pashupatinath is the Nepal Shiva anchor.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-12_pashupatinath-pradosh.png"
+    },
+    {
+      "adDate": "2026-07-13",
+      "bsDate": "2083-03-29",
+      "tithi": "Krishna Chaturdashi",
+      "deity": "Shiva",
+      "templeId": "pashupatinath",
+      "templeName": "Pashupatinath Temple",
+      "file": "2026-07-13_pashupatinath-bhanu-jayanti.png",
+      "storagePath": "2083/2026-07-13_pashupatinath-bhanu-jayanti.png",
+      "sourceScheduleReason": "Monday is the weekly Shiva day, so Pashupatinath anchors the Chaturdashi day.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-13_pashupatinath-bhanu-jayanti.png"
+    },
+    {
+      "adDate": "2026-07-14",
+      "bsDate": "2083-03-30",
+      "tithi": "Krishna Aunsi",
+      "deity": "Shiva and ancestors",
+      "templeId": "gokarneshwar",
+      "templeName": "Gokarneshwar Mahadev Temple",
+      "file": "2026-07-14_gokarneshwar-aunsi.png",
+      "storagePath": "2083/2026-07-14_gokarneshwar-aunsi.png",
+      "sourceScheduleReason": "Aunsi is a dark-moon ancestor and Shiva-remembrance day, anchored at Gokarneshwar.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-14_gokarneshwar-aunsi.png"
+    },
+    {
+      "adDate": "2026-07-15",
+      "bsDate": "2083-03-31",
+      "tithi": "Shukla Pratipada",
+      "deity": "Vishnu",
+      "templeId": "changu_narayan",
+      "templeName": "Changu Narayan Temple",
+      "file": "2026-07-15_changu-narayan-pratipada.png",
+      "storagePath": "2083/2026-07-15_changu-narayan-pratipada.png",
+      "sourceScheduleReason": "Pratipada opens a fresh lunar phase, anchored by Changu Narayan for auspicious continuity.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-15_changu-narayan-pratipada.png"
+    },
+    {
+      "adDate": "2026-07-16",
+      "bsDate": "2083-03-32",
+      "tithi": "Shukla Dwitiya",
+      "deity": "Bhagwati",
+      "templeId": "manakamana",
+      "templeName": "Manakamana Temple",
+      "file": "2026-07-16_manakamana-dwitiya.png",
+      "storagePath": "2083/2026-07-16_manakamana-dwitiya.png",
+      "sourceScheduleReason": "Dwitiya is a quieter household-sankalpa day, so Manakamana fits the wish and prayer logic.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-16_manakamana-dwitiya.png"
+    },
+    {
+      "adDate": "2026-07-17",
+      "bsDate": "2083-04-01",
+      "tithi": "Shukla Tritiya",
+      "deity": "Shakti and Parvati",
+      "templeId": "guhyeshwari",
+      "templeName": "Guhyeshwari Shakti Peeth",
+      "file": "2026-07-17_guhyeshwari-tritiya.png",
+      "storagePath": "2083/2026-07-17_guhyeshwari-tritiya.png",
+      "sourceScheduleReason": "Tritiya leans toward Gauri and Devi vrata logic; Guhyeshwari is the Shakti anchor.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-17_guhyeshwari-tritiya.png"
     }
   ],
-  "uploadedAt": "2026-07-06",
+  "uploadedAt": "2026-07-12",
   "manifestPublicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/manifest.json"
 }

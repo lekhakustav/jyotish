@@ -39,5 +39,6 @@ For production without a dedicated server, deploy `supabase/functions/jyotish-ag
 - [docs/09-TRANSCRIPT-GOALS.md](docs/09-TRANSCRIPT-GOALS.md) — critique-derived product goals and implementation status
 - [docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md](docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md) — temple-of-day schedule
 - [docs/11-TEMPLE-ART-ASSETS.md](docs/11-TEMPLE-ART-ASSETS.md) — temple art storage contract
+- [docs/16-TEMPLE-OF-DAY-MAINTAINER.md](docs/16-TEMPLE-OF-DAY-MAINTAINER.md) — daily tithi-matched art generation and buffer runbook
 - [docs/12-BRAND-ASSETS.md](docs/12-BRAND-ASSETS.md) — logo, app icon, and Supabase brand asset notes
 - [docs/14-PRODUCT-UX-INTENT-REVIEW.md](docs/14-PRODUCT-UX-INTENT-REVIEW.md) — current UI/UX audit, market feature landscape, user-intent model, and Jyotish Baje agent direction
