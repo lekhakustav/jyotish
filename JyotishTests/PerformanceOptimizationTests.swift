@@ -99,6 +99,14 @@ final class PerformanceOptimizationTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(URLCache.shared.diskCapacity, 256 * 1024 * 1024)
     }
 
+    func testTempleExplainsItsTithiConnectionWhenNoCuratedReasonExists() {
+        let temple = Temple(id: "pashupatinath", nameEN: "Pashupatinath", nameNE: "पशुपतिनाथ",
+                            blurbEN: "", blurbNE: "")
+        let trayodashi = Date(timeIntervalSince1970: 1_783_440_000)
+
+        XCTAssertTrue(temple.selectionReason(on: trayodashi, ne: false).contains("tithi"))
+    }
+
     func testPanditMarkdownFormattingRemovesRawEmphasisMarkers() {
         let formatted = PanditTextFormatter.attributed(
             "**Direct answer:** हल्का हरियो शुभ छ।\n- Choose **July 12, 2026"

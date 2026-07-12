@@ -231,6 +231,11 @@ struct HomeView: View {
                     .background(p.bgSunken)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 }
+                Text(temple.selectionReason(ne: ne))
+                    .scaledFont(size: 14, weight: .medium, design: .serif)
+                    .foregroundStyle(p.templeGold)
+                    .lineSpacing(3)
+                    .multilineTextAlignment(.leading)
                 Text(ne ? temple.nameNE : temple.nameEN)
                     .scaledFont(size: 21, weight: .semibold, design: .serif)
                     .foregroundStyle(p.inkPrimary)

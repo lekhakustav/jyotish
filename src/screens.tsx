@@ -230,7 +230,10 @@ function HomeScreen() {
         <PressableScale onPress={() => app.openModal("patro")} style={{ minHeight: 44, justifyContent: "center" }}>
           <AppText style={{ color: palette.saffron, fontFamily: "Inter-SemiBold" }}>{t("home.openPatro", app.language)}  ›</AppText>
         </PressableScale>
-        <Image source={require("../assets/expo/images/temple-pashupatinath.png")} resizeMode="cover" style={{ width: "100%", aspectRatio: 4 / 3, borderRadius: 20 }} />
+        <Image source={require("../assets/expo/images/temple-pashupatinath-card.jpg")} resizeMode="cover" resizeMethod="resize" fadeDuration={0} style={{ width: "100%", aspectRatio: 4 / 3, borderRadius: 20 }} />
+        <SerifText style={{ color: palette.templeGold, fontSize: 14, lineHeight: 22 }}>
+          {templeTithiConnection(panchanga.tithi, panchanga.tithiNumber, app.language)}
+        </SerifText>
         <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 21 }}>Pashupatinath</SerifText>
         <SerifText style={{ color: palette.inkSecondary, fontSize: 14, lineHeight: 22 }} numberOfLines={4}>A quiet morning darshan for steadiness, family protection, and right timing.</SerifText>
       </View>
@@ -264,6 +267,22 @@ function HomeScreen() {
 function firstSentence(text: string) {
   const match = text.match(/^.*?[.!।](?:\s|$)/);
   return match?.[0]?.trim() || text;
+}
+
+function templeTithiConnection(tithi: string, number: number, language: "en" | "ne") {
+  const practice = (() => {
+    switch (((number - 1) % 15) + 1) {
+      case 4: return language === "ne" ? "गणेश आराधना" : "Ganesh worship";
+      case 8: case 9: case 10: return language === "ne" ? "देवी र शक्तिको आराधना" : "Devi and Shakti worship";
+      case 11: case 12: return language === "ne" ? "विष्णु व्रत र संयम" : "Vishnu vrata and reflection";
+      case 13: case 14: return language === "ne" ? "शिव साधना र प्रदोष परम्परा" : "Shiva sadhana and Pradosh tradition";
+      case 15: return language === "ne" ? "पूर्णिमा वा औँसीको विशेष स्मरण" : "the full- or new-moon observance";
+      default: return language === "ne" ? "आजको चन्द्र पक्षअनुसारको श्रद्धा" : "today's lunar observance";
+    }
+  })();
+  return language === "ne"
+    ? `आजको ${tithi} को ${practice}सँग जोडेर पशुपतिनाथ रोजिएको हो।`
+    : `Pashupatinath is paired with today's ${tithi} through ${practice}.`;
 }
 
 function RashifalScreen() {

@@ -129,6 +129,7 @@ export function panchangaFor(date = new Date(), language: Language = "en") {
   const tithi = Math.floor(norm360(pseudoLongitude(jd, 12.19, 40) - pseudoLongitude(jd, 0.985647, 280)) / 12) + 1;
   const nak = Math.floor(norm360(pseudoLongitude(jd, 13.176358, 218)) / (360 / 27));
   return {
+    tithiNumber: tithi,
     tithi: language === "ne" ? `${tithi} तिथि` : `Tithi ${tithi}`,
     nakshatra: language === "ne" ? nakshatrasNE[nak] : nakshatrasEN[nak],
     yoga: language === "ne" ? "शुभ" : "Shubha",

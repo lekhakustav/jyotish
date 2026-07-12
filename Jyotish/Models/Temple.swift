@@ -9,7 +9,39 @@ struct Temple: Identifiable {
     let nameNE: String
     let blurbEN: String
     let blurbNE: String
+    /// Why this sacred site is paired with the day's tithi or festival.
+    /// Delivered by the rolling manifest when a curator has supplied it.
+    var selectionReasonEN: String? = nil
+    var selectionReasonNE: String? = nil
     var imageURL: URL? = nil
+
+    func selectionReason(on date: Date = Date(), ne: Bool) -> String {
+        if ne, let selectionReasonNE, !selectionReasonNE.isEmpty { return selectionReasonNE }
+        if !ne, let selectionReasonEN, !selectionReasonEN.isEmpty { return selectionReasonEN }
+
+        let panchanga = Panchanga.forDay(date)
+        let tithi = panchanga.tithiName(ne: ne)
+        let connection: String
+        switch panchanga.tithiInPaksha {
+        case 4:
+            connection = ne ? "गणेश आराधना" : "Ganesh worship"
+        case 8, 9, 10:
+            connection = ne ? "देवी र शक्तिको आराधना" : "Devi and Shakti worship"
+        case 11, 12:
+            connection = ne ? "विष्णु व्रत र संयम" : "Vishnu vrata and reflection"
+        case 13, 14:
+            connection = ne ? "शिव साधना र प्रदोष परम्परा" : "Shiva sadhana and Pradosh tradition"
+        case 15:
+            connection = panchanga.isShukla
+                ? (ne ? "पूर्णिमाको तीर्थ र उज्यालो" : "the full-moon pilgrimage tradition")
+                : (ne ? "औँसीको पितृस्मरण र शिव आराधना" : "new-moon ancestor remembrance and Shiva worship")
+        default:
+            connection = ne ? "आजको चन्द्र पक्षअनुसारको श्रद्धा" : "today's lunar observance"
+        }
+        return ne
+            ? "आजको \(tithi) तिथिको \(connection)सँग जोडेर यो धाम रोजिएको हो।"
+            : "Chosen for today's \(tithi) tithi and its tradition of \(connection)."
+    }
 
     static let all: [Temple] = [
         Temple(id: "pashupatinath", nameEN: "Pashupatinath Temple", nameNE: "पशुपतिनाथ मन्दिर",
@@ -123,8 +155,11 @@ struct Temple: Identifiable {
     /// network failures.
     static func fetchToday() async -> Temple {
         let fallback = ofToday()
-        guard let publicManifestURL,
-              let (data, _) = try? await URLSession.shared.data(from: publicManifestURL),
+        guard let publicManifestURL else { return fallback }
+        var request = URLRequest(url: publicManifestURL)
+        request.cachePolicy = .returnCacheDataElseLoad
+        request.timeoutInterval = 8
+        guard let (data, _) = try? await URLSession.shared.data(for: request),
               let manifest = try? JSONDecoder().decode(TempleManifest.self, from: data),
               let item = manifest.items.first(where: { $0.adDate == scheduleFormatter.string(from: Date()) }) else {
             return fallback
@@ -135,6 +170,7 @@ struct Temple: Identifiable {
                       nameNE: item.nameNE ?? catalog.nameNE,
                       blurbEN: item.blurbEN ?? catalog.blurbEN,
                       blurbNE: item.blurbNE ?? catalog.blurbNE,
+                      selectionReasonEN: item.sourceScheduleReason,
                       imageURL: item.publicURL ?? catalog.imageURL)
     }
 }
@@ -152,6 +188,7 @@ private struct TempleManifestItem: Decodable {
     let blurbEN: String?
     let blurbNE: String?
     let publicURL: URL?
+    let sourceScheduleReason: String?
 
     enum CodingKeys: String, CodingKey {
         case adDate
@@ -162,5 +199,6 @@ private struct TempleManifestItem: Decodable {
         case blurbEN
         case blurbNE
         case publicURL = "publicUrl"
+        case sourceScheduleReason
     }
 }

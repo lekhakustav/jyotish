@@ -79,9 +79,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const streamAssistantMessage = React.useCallback((id: string, answer: string) => {
     setIsTyping(true);
     let index = 0;
+    // Cap UI commits rather than rendering every single character. Long replies
+    // remain visibly streamed while avoiding hundreds of JS/layout passes.
+    const charactersPerCommit = Math.max(1, Math.ceil(answer.length / 72));
     return new Promise<void>((resolve) => {
       const timer = setInterval(() => {
-        index += 1;
+        index = Math.min(answer.length, index + charactersPerCommit);
         setHousehold((current) => ({
           ...current,
           chat: current.chat.map((message) => (message.id === id ? { ...message, text: answer.slice(0, index) } : message))
@@ -91,7 +94,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           setIsTyping(false);
           resolve();
         }
-      }, 12);
+      }, 24);
     });
   }, []);
 

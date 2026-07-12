@@ -81,6 +81,26 @@ When SwiftUI screen structure changes, update this table and the corresponding A
 screen in the same change. Treat a successful bundle as necessary but not sufficient:
 compare both apps on similarly sized emulators before release.
 
+## Runtime performance guardrails
+
+- The home temple asset is sized for its 4:3 card and uses Android's native resize
+  path, avoiding a full-resolution bitmap upload for a small on-screen surface.
+- Local chat streaming batches characters into at most 72 UI commits, rather than
+  forcing one JavaScript render for every character.
+- Release builds enable R8 minification and unused-resource shrinking; keep that
+  release-only so debug traces and development iteration remain reliable.
+- Do not add timers, animated loops, or full-screen image preloading to Home. The
+  SwiftUI and Android implementations should keep one temple image resident and
+  load other visuals only on demand.
+
+## Temple-of-the-day context
+
+The temple card must explain its calendar pairing immediately below the image. Android
+derives the text from the same displayed tithi; Swift prefers the curated manifest's
+`sourceScheduleReason` and falls back to the same tithi tradition categories offline.
+This preserves the ritual meaning of the daily selection rather than presenting the
+temple as a generic illustration.
+
 ## Verification
 
 Before pushing Android changes, run:
