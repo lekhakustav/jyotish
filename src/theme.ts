@@ -28,6 +28,34 @@ export const palette: AppPalette = {
   hairline: "rgba(184, 134, 11, 0.22)"
 };
 
+/** Shared geometry mirrors Jyotish/DesignSystem/DesignTokens.swift. */
+export const spacing = {
+  xxs: 4,
+  xs: 8,
+  sm: 12,
+  md: 16,
+  lg: 24,
+  xl: 32,
+  section: 40
+} as const;
+
+export const layoutMetrics = {
+  screenGutter: 24,
+  sheetGutter: 20,
+  minimumTouchTarget: 48,
+  primaryButtonHeight: 56,
+  primaryButtonRadius: 16,
+  bottomShellWidth: 278,
+  bottomShellHeight: 68,
+  bottomShellMargin: 12
+} as const;
+
+export const motion = {
+  springDuration: 450,
+  springDamping: 0.85,
+  pressedScale: 0.97
+} as const;
+
 export const darkPalette = {
   bgCanvas: "#17120C",
   bgElevated: "#1F1710",
