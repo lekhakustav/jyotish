@@ -2,6 +2,22 @@ import XCTest
 @testable import Jyotish
 
 final class EngagementNotificationTests: XCTestCase {
+    func testQuestionNotificationsRotateNewJyotishFeatures() {
+        let preferences = EngagementPreferences(enabled: true, wakeHour: 7, dailyCount: 2,
+                                                familyInsights: true, calendarReminders: true)
+        let plan = EngagementNotificationPlanner.make(family: [], events: [], preferences: preferences,
+                                                      language: .en,
+                                                      start: Date(timeIntervalSince1970: 1_783_440_000),
+                                                      days: 8)
+        let prompts = plan.compactMap(\.prompt).joined(separator: " ").lowercased()
+
+        XCTAssertTrue(prompts.contains("shubh time"))
+        XCTAssertTrue(prompts.contains("dosha"))
+        XCTAssertTrue(prompts.contains("upaya"))
+        XCTAssertTrue(prompts.contains("ashtakoota"))
+        XCTAssertTrue(prompts.contains("mahadasha"))
+    }
+
     private var calendar: Calendar {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!

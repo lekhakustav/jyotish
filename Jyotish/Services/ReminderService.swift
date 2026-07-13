@@ -131,7 +131,11 @@ enum EngagementNotificationPlanner {
             return (ne ? "आजको राशिफल तयार छ" : "Your morning rashifal is ready",
                     firstSentence(reading.text, nepali: ne), .rashifal, nil)
         case 1:
-            let starters = Array(PanditStarter.all.prefix(4))
+            let notificationStarterIDs = ["love", "career", "health", "lifePhase",
+                                          "muhurta", "dosha", "remedies", "matching"]
+            let starters = notificationStarterIDs.compactMap { id in
+                PanditStarter.all.first { $0.id == id }
+            }
             let starter = starters[dayOffset % starters.count]
             let rashiName = ne ? selfRashi.nameNE : selfRashi.shortEN
             return (starter.title(language: language),
