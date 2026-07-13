@@ -84,13 +84,14 @@ Family, and four-horizon Rashifal states. It is intentionally ignored by Git.
 
 ```text
 npm run typecheck                                  PASS
-npm run android:export                             PASS (1,801 modules)
+npm run android:export                             PASS (2,019 modules)
+npm run android:prebuild -- --no-install           PASS (camera + speech linked)
 ./gradlew assembleDebug                            PASS
 ./gradlew assembleRelease                          PASS
-xcodebuild ... test -only-testing:JyotishTests     PASS (29 tests, 0 failures)
+xcodebuild ... test -only-testing:JyotishTests     PASS (38 tests, 0 failures)
 Android release install and launch                 PASS
 iOS simulator install and launch                   PASS
 ```
 
-No SwiftUI product source was modified during this parity pass. Both simulators were
-reinstalled/relaunched from verified builds after implementation.
+The primary SwiftUI feature catalog was updated in the same change so Dashas & Life Phase
+occupies the same Home position on both platforms.
