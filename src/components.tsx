@@ -13,7 +13,7 @@ export function SerifText({ style, ...props }: TextProps) {
   return <Text style={[{ color: palette.inkPrimary, fontFamily: "Fraunces-Regular", letterSpacing: 0 }, style]} {...props} />;
 }
 
-export function PrimaryButton({ title, icon, onPress, disabled }: { title: string; icon?: string; onPress: () => void; disabled?: boolean }) {
+export function PrimaryButton({ title, icon, onPress, disabled }: { title: string; icon?: AppIconName; onPress: () => void; disabled?: boolean }) {
   return (
     <PressableScale
       disabled={disabled}
@@ -36,7 +36,7 @@ export function PrimaryButton({ title, icon, onPress, disabled }: { title: strin
   );
 }
 
-export function GhostButton({ title, icon, onPress, selected }: { title: string; icon?: string; onPress: () => void; selected?: boolean }) {
+export function GhostButton({ title, icon, onPress, selected }: { title: string; icon?: AppIconName; onPress: () => void; selected?: boolean }) {
   return (
     <PressableScale
       onPress={onPress}
@@ -142,26 +142,7 @@ export function TypingIndicator() {
   );
 }
 
-const semanticIconNames = new Set<AppIconName>([
-  "home", "sun", "family", "settings", "calendar", "history", "close", "plus",
-  "chevron-left", "chevron-right", "arrow-right", "send", "microphone", "volume",
-  "profile", "sparkle", "clock", "edit", "trash", "message", "globe", "moon"
-]);
-
-function iconName(icon: string): AppIconName | undefined {
-  if (semanticIconNames.has(icon as AppIconName)) return icon as AppIconName;
-  return ({
-    "◉": "profile",
-    "✦": "sparkle",
-    "●": "volume",
-    "○": "volume",
-    "×": "close",
-    "→": "arrow-right"
-  } as Record<string, AppIconName>)[icon];
-}
-
-function ButtonIcon({ icon, color }: { icon?: string; color: string }) {
+function ButtonIcon({ icon, color }: { icon?: AppIconName; color: string }) {
   if (!icon) return null;
-  const name = iconName(icon);
-  return name ? <AppIcon name={name} size={19} color={color} strokeWidth={2} /> : null;
+  return <AppIcon name={icon} size={19} color={color} strokeWidth={2} />;
 }

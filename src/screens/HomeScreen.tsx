@@ -58,7 +58,7 @@ export function HomeScreen() {
   const relatives = app.family.filter((member) => member.relation !== "selfMember");
   const scoreValues = Object.values(reading.scores);
   const calculatedScore = scoreValues.length
-    ? Math.round(scoreValues.map((value) => scoreFromPercent(value, scoreValues)).reduce((sum, value) => sum + value, 0) / scoreValues.length)
+    ? Math.max(1, Math.min(5, Math.round(scoreValues.reduce((sum, value) => sum + value, 0) / scoreValues.length)))
     : 3;
 
   const openPandit = (prompt?: string, sourceKey?: string) => {
@@ -123,18 +123,22 @@ export function HomeScreen() {
         <SerifText style={{ fontFamily: "Fraunces-SemiBold", fontSize: 19 }}>
           {app.language === "ne" ? "ज्योतिष बाजे" : "Jyotish Baje"}
         </SerifText>
-        <ScrollView
-          nestedScrollEnabled
-          showsVerticalScrollIndicator
-          style={{ height: 186 }}
-          contentContainerStyle={{ gap: 6 }}
-        >
-          {starters.map((starter) => (
+        <View>
+          {starters.map((starter, index) => (
             <PressableScale
               key={starter.id}
               accessibilityLabel={starter.title[app.language]}
               onPress={() => openPandit(starter.prompt[app.language], `starter:${starter.id}`)}
-              style={{ minHeight: 58, flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 12, paddingVertical: 9 }}
+              style={{
+                minHeight: 58,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 12,
+                paddingHorizontal: 12,
+                paddingVertical: 9,
+                borderBottomWidth: index < starters.length - 1 ? 1 : 0,
+                borderBottomColor: palette.hairline
+              }}
             >
               <View style={{ width: 38, height: 38, alignItems: "center", justifyContent: "center" }}>
                 <StarterIcon kind={starter.id} />
@@ -145,7 +149,7 @@ export function HomeScreen() {
               <ChevronIcon color={palette.inkSecondary} />
             </PressableScale>
           ))}
-        </ScrollView>
+        </View>
         <PrimaryButton title={app.language === "ne" ? "जे पनि सोध्नुहोस्" : "Ask anything"} onPress={() => openPandit()} />
       </View>
 
@@ -276,13 +280,6 @@ function localizedTithi(number: number, language: Language) {
   const shukla = number <= 15;
   const name = inPaksha === 15 && !shukla ? (language === "ne" ? "औंसी" : "Aunsi") : tithiNames[language][inPaksha - 1];
   return { name, paksha: shukla ? (language === "ne" ? "शुक्ल पक्ष" : "Shukla Paksha") : (language === "ne" ? "कृष्ण पक्ष" : "Krishna Paksha") };
-}
-
-function scoreFromPercent(value: number, allValues: number[]) {
-  const min = Math.min(...allValues);
-  const max = Math.max(...allValues);
-  if (max === min) return 3;
-  return Math.max(1, Math.min(5, 2 + Math.round(((value - min) / (max - min)) * 3)));
 }
 
 function templeTithiConnection(tithi: string, number: number, language: Language) {

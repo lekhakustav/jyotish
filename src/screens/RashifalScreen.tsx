@@ -31,9 +31,8 @@ export function RashifalScreen() {
     app.family.find((member) => member.relation === "selfMember")?.kundali?.moonRashi ?? "mesh"
   );
   const reading = generateRashifal(rashi, period, app.language);
-  const rawValues = domains.map((domain) => reading.scores[domain] ?? 70);
   const scores = Object.fromEntries(
-    domains.map((domain, index) => [domain, scoreFromPercent(reading.scores[domain] ?? 70, rawValues, index)])
+    domains.map((domain) => [domain, Math.max(1, Math.min(5, Math.round(reading.scores[domain] ?? 3)))])
   ) as Record<(typeof domains)[number], number>;
   const weakest = domains.reduce((current, domain) => scores[domain] < scores[current] ? domain : current, domains[0]);
   const cta = contextualCTA(weakest, period, app.language);
@@ -210,13 +209,6 @@ function LuckyFact({ label, value }: { label: string; value: string }) {
 
 function rashiName(rashi: RashiKey, language: Language) {
   return language === "ne" ? rashiMeta[rashi].ne : rashiMeta[rashi].short;
-}
-
-function scoreFromPercent(value: number, allValues: number[], index: number) {
-  const min = Math.min(...allValues);
-  const max = Math.max(...allValues);
-  if (max === min) return [4, 3, 4, 5, 3][index] ?? 3;
-  return Math.max(1, Math.min(5, 2 + Math.round(((value - min) / (max - min)) * 3)));
 }
 
 function contextualCTA(domain: (typeof domains)[number], period: Period, language: Language) {
