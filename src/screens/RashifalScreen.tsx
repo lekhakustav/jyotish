@@ -180,7 +180,7 @@ export function RashifalScreen() {
             value={digits(reading.luckyNumber, app.language)}
           />
           <LuckyFact
-            label={app.language === "ne" ? "शुभ दिन" : "Lucky day"}
+            label={shubhTimingLabel(period, app.language)}
             value={reading.luckyDay}
           />
         </View>
@@ -197,6 +197,12 @@ export function RashifalScreen() {
       </View>
     </ScrollScreen>
   );
+}
+
+function shubhTimingLabel(period: "daily" | "weekly" | "monthly" | "yearly", language: "en" | "ne"): string {
+  if (period === "daily") return language === "ne" ? "शुभ समय" : "Shubh time";
+  if (period === "weekly") return language === "ne" ? "शुभ वार" : "Shubh day";
+  return language === "ne" ? "शुभ अवधि" : "Shubh period";
 }
 
 function GuidanceList({ title, items }: { title: string; items: string[] }) {

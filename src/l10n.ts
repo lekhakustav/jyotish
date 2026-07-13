@@ -69,3 +69,35 @@ export function digits(value: number, language: Language): string {
     })
     .join("");
 }
+
+const knownNepaliNames: Record<string, string> = {
+  aarav: "आरव", priya: "प्रिया", sita: "सीता", sharma: "शर्मा", maya: "माया",
+  ram: "राम", rama: "रमा", gita: "गीता", geeta: "गीता", krishna: "कृष्ण",
+  hari: "हरि", laxmi: "लक्ष्मी", lakshmi: "लक्ष्मी", sarita: "सरिता",
+  sunita: "सुनिता", anita: "अनिता", roshan: "रोशन", suman: "सुमन",
+  bikash: "विकास", vikas: "विकास", dipak: "दीपक", deepak: "दीपक",
+  rajesh: "राजेश", ramesh: "रमेश", suresh: "सुरेश", mahesh: "महेश",
+  ganesh: "गणेश", dinesh: "दिनेश", anil: "अनिल", sunil: "सुनील",
+  manish: "मनीष", nisha: "निशा", asha: "आशा", usha: "उषा",
+  pooja: "पूजा", puja: "पूजा", anjali: "अञ्जली", sanjay: "सञ्जय",
+  bijay: "विजय", vijay: "विजय"
+};
+
+const fallbackLetters: Record<string, string> = {
+  a: "अ", b: "ब", c: "क", d: "द", e: "ए", f: "फ", g: "ग", h: "ह", i: "इ",
+  j: "ज", k: "क", l: "ल", m: "म", n: "न", o: "ओ", p: "प", q: "क", r: "र",
+  s: "स", t: "त", u: "उ", v: "व", w: "व", x: "क्स", y: "य", z: "ज"
+};
+
+/** Keeps stored names untouched while preventing Latin text in Nepali UI. */
+export function displayName(value: string, language: Language): string {
+  if (language !== "ne" || !/[A-Za-z]/.test(value)) return value;
+  return value.split(/(\s+)/).map((part) => {
+    if (/^\s+$/.test(part)) return part;
+    const leading = part.match(/^\P{L}*/u)?.[0] || "";
+    const trailing = part.match(/\P{L}*$/u)?.[0] || "";
+    const word = part.slice(leading.length, part.length - trailing.length).toLowerCase();
+    const translated = knownNepaliNames[word] || [...word].map((letter) => fallbackLetters[letter] || "").join("");
+    return `${leading}${translated || "नाम"}${trailing}`;
+  }).join("");
+}

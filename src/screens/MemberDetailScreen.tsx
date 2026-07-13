@@ -8,6 +8,7 @@ import { useAppState } from "../app-state";
 import { nakshatrasEN, nakshatrasNE, rashiMeta, rashiOrder } from "../astro";
 import { layoutMetrics, palette, spacing } from "../theme";
 import type { Kundali, Language, Relation } from "../types";
+import { displayName } from "../l10n";
 
 export function MemberDetailScreen({ memberId, onBack }: { memberId: string; onBack: () => void }) {
   const app = useAppState();
@@ -24,7 +25,7 @@ export function MemberDetailScreen({ memberId, onBack }: { memberId: string; onB
   if (!member.kundali) {
     return (
       <ScrollScreen topInset={8} contentGap={spacing.lg}>
-        <DetailHeader title={member.name} onBack={onBack} />
+        <DetailHeader title={displayName(member.name, app.language)} onBack={onBack} />
         <View style={{ alignItems: "center", gap: spacing.md, paddingTop: 72 }}>
           <AppIcon name="profile" size={52} color={palette.templeGold} />
           <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 24, textAlign: "center" }}>
@@ -48,7 +49,7 @@ export function MemberDetailScreen({ memberId, onBack }: { memberId: string; onB
 
       <View style={{ alignItems: "center", gap: 7, paddingTop: 4 }}>
         <RashiMark rashi={kundali.moonRashi} size={84} />
-        <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 30, textAlign: "center" }}>{member.name}</SerifText>
+        <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 30, textAlign: "center" }}>{displayName(member.name, app.language)}</SerifText>
         <AppText style={{ color: palette.templeGold, fontSize: 15 }}>{relationLabel(member.relation, app.language)}</AppText>
       </View>
 

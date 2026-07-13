@@ -206,7 +206,13 @@ export function generateRashifal(rashi: RashiKey, period: RashifalPeriod, langua
     donts,
     luckyColor: ne ? "सुनौलो" : "Gold",
     luckyNumber: 1 + Math.floor(rand() * 9),
-    luckyDay: period === "daily" ? (ne ? "आज" : "Today") : period === "weekly" ? (ne ? "बिहीबार" : "Thursday") : period === "monthly" ? (ne ? "तेस्रो साता" : "Third week") : (ne ? "असोज–मंसिर" : "September–November"),
+    luckyDay: period === "daily"
+      ? (ne ? "बिहान ७:००–८:३०" : "7:00–8:30 AM")
+      : period === "weekly"
+        ? (ne ? "बिहीबार" : "Thursday")
+        : period === "monthly"
+          ? (ne ? "महिनाको मध्य भाग" : "Middle of the month")
+          : (ne ? "वर्षको अन्तिम भाग" : "Closing months of the year"),
     timeline: formatRashifalTimeline(period, window.start, window.end, language),
     periodStart: window.start,
     periodEnd: window.end,

@@ -4,6 +4,7 @@ import { Image, Pressable, Text, TextInput, View, type PressableProps, type Text
 import { AppIcon, type AppIconName } from "@/ornaments";
 import { useReduceMotion } from "@/layout";
 import { layoutMetrics, motion, palette } from "@/theme";
+import { track } from "@/analytics";
 
 export function AppText({ style, ...props }: TextProps) {
   return <Text style={[{ color: palette.inkPrimary, fontFamily: "Inter-Regular", letterSpacing: 0 }, style]} {...props} />;
@@ -16,6 +17,7 @@ export function SerifText({ style, ...props }: TextProps) {
 export function PrimaryButton({ title, icon, onPress, disabled }: { title: string; icon?: AppIconName; onPress: () => void; disabled?: boolean }) {
   return (
     <PressableScale
+      accessibilityLabel={title}
       disabled={disabled}
       onPress={onPress}
       style={{
@@ -39,6 +41,7 @@ export function PrimaryButton({ title, icon, onPress, disabled }: { title: strin
 export function GhostButton({ title, icon, onPress, selected }: { title: string; icon?: AppIconName; onPress: () => void; selected?: boolean }) {
   return (
     <PressableScale
+      accessibilityLabel={title}
       onPress={onPress}
       style={{
         minHeight: 44,
@@ -67,6 +70,7 @@ export function PressableScale({ children, onPress, style, disabled, ...props }:
       hitSlop={8}
       onPress={(event) => {
         Haptics.selectionAsync().catch(() => undefined);
+        track("ui_tap", { target: String(props.accessibilityLabel || props.testID || "unlabeled") });
         onPress?.(event);
       }}
       style={({ pressed }) => [style, { opacity: disabled ? 0.58 : pressed ? 0.72 : 1, transform: [{ scale: pressed && !reduceMotion ? motion.pressedScale : 1 }] }]}

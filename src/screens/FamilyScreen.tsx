@@ -7,6 +7,7 @@ import { AppIcon, RashiMark } from "../ornaments";
 import { useAppState } from "../app-state";
 import { layoutMetrics, palette, spacing } from "../theme";
 import type { FamilyMember, Language, Relation } from "../types";
+import { displayName } from "../l10n";
 import { MemberDetailScreen } from "./MemberDetailScreen";
 
 type FamilyScreenProps = {
@@ -182,14 +183,14 @@ function FamilyNode({ member, language, size, onPress }: {
     <PressableScale
       disabled={!onPress}
       onPress={onPress}
-      accessibilityLabel={member ? `${member.name}, ${relationLabel(member.relation, language)}` : relationLabel("selfMember", language)}
+      accessibilityLabel={member ? `${displayName(member.name, language)}, ${relationLabel(member.relation, language)}` : relationLabel("selfMember", language)}
       style={{ width: size + 34, alignItems: "center", gap: 5 }}
     >
       <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: palette.bgSunken, alignItems: "center", justifyContent: "center" }}>
         <AppIcon name={member?.relation === "husband" || member?.relation === "wife" ? "family" : "profile"} size={size * 0.34} color={palette.saffron} strokeWidth={1.7} />
       </View>
       <SerifText numberOfLines={1} style={{ fontFamily: "Fraunces-Bold", fontSize: 13, textAlign: "center" }}>
-        {member?.name ?? relationLabel("selfMember", language)}
+        {member ? displayName(member.name, language) : relationLabel("selfMember", language)}
       </SerifText>
       <AppText numberOfLines={1} style={{ color: palette.inkSecondary, fontSize: 13, textAlign: "center" }}>
         {member ? relationLabel(member.relation, language) : relationLabel("selfMember", language)}
@@ -202,7 +203,7 @@ function MemberRow({ member, language, onPress }: { member: FamilyMember; langua
   return (
     <PressableScale
       onPress={onPress}
-      accessibilityLabel={`${member.name}, ${relationLabel(member.relation, language)}`}
+      accessibilityLabel={`${displayName(member.name, language)}, ${relationLabel(member.relation, language)}`}
       style={styles.memberRow}
     >
       {member.kundali ? (
@@ -211,7 +212,7 @@ function MemberRow({ member, language, onPress }: { member: FamilyMember; langua
         <View style={styles.emptySeal}><AppIcon name="profile" size={21} color={palette.inkSecondary} /></View>
       )}
       <View style={{ flex: 1, gap: 2 }}>
-        <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 18 }}>{member.name}</SerifText>
+        <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 18 }}>{displayName(member.name, language)}</SerifText>
         <AppText style={{ color: palette.inkSecondary, fontSize: 13 }}>{relationLabel(member.relation, language)}</AppText>
       </View>
       {member.kundali ? (

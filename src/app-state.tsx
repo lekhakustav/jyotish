@@ -5,6 +5,7 @@ import { demoEvents, demoFamily, localPanditReply, recomputeMember, uuid } from 
 import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase } from "@/supabase";
 import type { AppModal, AppTab, BirthData, ChatConversation, ChatMessage, FamilyMember, Household, Language, PatroEvent, ThemeChoice, UserAccount } from "@/types";
 import { applyPalette } from "@/theme";
+import { track } from "@/analytics";
 
 type AppContextValue = {
   account?: UserAccount;
@@ -175,6 +176,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signInDemo = React.useCallback(() => {
+    track("auth_completed", { provider: "demo" });
     updateHousehold((current) => {
       const family = demoFamily();
       return {
@@ -190,6 +192,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const signInGoogle = React.useCallback(async () => {
     const session = await signInWithGoogle();
     if (session) {
+      track("auth_completed", { provider: "google" });
       updateHousehold((current) => ({
         ...current,
         account: current.account ? { ...current.account, authProvider: "google", supabaseUserId: session.user.id } : { id: uuid(), displayName: session.user.email?.split("@")[0] || "User", isDemo: false, authProvider: "google", supabaseUserId: session.user.id }
@@ -200,6 +203,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const signInEmail = React.useCallback(async (email: string, password: string) => {
     const session = await signInWithEmail(email, password);
     if (session) {
+      track("auth_completed", { provider: "email" });
       updateHousehold((current) => ({
         ...current,
         account: current.account ? { ...current.account, authProvider: "email", supabaseUserId: session.user.id } : { id: uuid(), displayName: session.user.email?.split("@")[0] || "User", isDemo: false, authProvider: "email", supabaseUserId: session.user.id }
@@ -211,6 +215,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     const data = await signUpWithEmail(email, password);
     const user = data.user;
     if (user) {
+      track("auth_completed", { provider: "email_signup" });
       updateHousehold((current) => ({
         ...current,
         account: current.account ? { ...current.account, authProvider: "email", supabaseUserId: user.id } : { id: uuid(), displayName: user.email?.split("@")[0] || "User", isDemo: false, authProvider: "email", supabaseUserId: user.id }
@@ -219,6 +224,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   }, [updateHousehold]);
 
   const skipAuth = React.useCallback(() => {
+    track("auth_skipped");
     updateHousehold((current) => ({
       ...current,
       account: current.account ? { ...current.account, authProvider: "demo" } : { id: uuid(), displayName: "User", isDemo: true, authProvider: "demo" }
@@ -226,6 +232,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   }, [updateHousehold]);
 
   const signOut = React.useCallback(() => {
+    track("auth_signed_out");
     signOutSupabase().catch(() => undefined);
     setHousehold(initialHousehold());
     setSelectedTab("home");
@@ -233,14 +240,17 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setLanguage = React.useCallback((language: Language) => {
+    track("preference_changed", { preference: "language", value: language });
     updateHousehold((current) => ({ ...current, language }));
   }, [updateHousehold]);
 
   const setTheme = React.useCallback((theme: ThemeChoice) => {
+    track("preference_changed", { preference: "theme", value: theme });
     updateHousehold((current) => ({ ...current, theme }));
   }, [updateHousehold]);
 
   const saveSelf = React.useCallback((name: string, birth?: BirthData) => {
+    track("profile_saved", { has_birth_data: Boolean(birth) });
     updateHousehold((current) => {
       const existing = current.family.find((member) => member.relation === "selfMember");
       const normalizedName = name.trim() || existing?.name || "User";
@@ -260,15 +270,18 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   }, [updateHousehold]);
 
   const addMember = React.useCallback((member: FamilyMember) => {
+    track("family_member_added", { relation: member.relation, has_birth_data: Boolean(member.birth) });
     updateHousehold((current) => ({ ...current, family: [...current.family, recomputeMember(member)] }));
   }, [updateHousehold]);
 
-  const openPandit = React.useCallback((prompt?: string) => {
+  const openPandit = React.useCallback((prompt?: string, sourceKey?: string) => {
+    track("pandit_opened", { source: sourceKey || (prompt?.trim() ? "preloaded" : "manual") });
     if (prompt?.trim()) setPendingChatPrompt(prompt.trim());
     setModal("chat");
   }, []);
 
   const selectMember = React.useCallback((memberId?: string) => {
+    track("family_member_opened", { has_member: Boolean(memberId) });
     updateHousehold((current) => ({
       ...current,
       selectedMemberId: memberId && current.family.some((member) => member.id === memberId) ? memberId : undefined
@@ -276,10 +289,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   }, [updateHousehold]);
 
   const addEvent = React.useCallback((event: PatroEvent) => {
+    track("patro_event_added", { repeats_yearly: event.repeatsYearly });
     updateHousehold((current) => ({ ...current, events: [...current.events, event] }));
   }, [updateHousehold]);
 
   const newConversation = React.useCallback(() => {
+    track("chat_conversation_created");
     const id = uuid();
     const now = new Date().toISOString();
     updateHousehold((current) => ({
@@ -292,6 +307,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   }, [updateHousehold]);
 
   const selectConversation = React.useCallback((conversationId: string) => {
+    track("chat_conversation_selected");
     updateHousehold((current) => {
       const conversation = current.conversations.find((candidate) => candidate.id === conversationId);
       if (!conversation) return current;
@@ -300,6 +316,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   }, [updateHousehold]);
 
   const deleteConversation = React.useCallback((conversationId: string) => {
+    track("chat_conversation_deleted");
     updateHousehold((current) => {
       const conversations = current.conversations.filter((conversation) => conversation.id !== conversationId);
       if (conversations.length === current.conversations.length) return current;
@@ -312,6 +329,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const sendChat = React.useCallback(async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || isTyping) return;
+    const startedAt = Date.now();
+    track("chat_question_sent", { character_count: trimmed.length, language: household.language });
     const sentAt = new Date().toISOString();
     const userMessage: ChatMessage = { id: uuid(), isUser: true, text: trimmed, timestamp: sentAt };
     const assistantID = uuid();
@@ -341,6 +360,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     const localAnswer = localPanditReply(trimmed, familySnapshot, languageSnapshot);
     const endpoint = process.env.EXPO_PUBLIC_JYOTISH_AGENT_ENDPOINT_URL || process.env.JYOTISH_AGENT_ENDPOINT_URL;
     let answer = localAnswer;
+    let source = "local";
     if (endpoint) {
       try {
         const response = await fetch(endpoint, {
@@ -357,16 +377,30 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         if (response.ok) {
           const data = (await response.json()) as { reply?: string };
           answer = data.reply?.trim() || localAnswer;
+          source = data.reply?.trim() ? "remote" : "local";
           setSyncStatus(undefined);
         } else {
+          track("chat_backend_failed", { reason: "http" });
           setSyncStatus("Jyotish Baje backend unavailable; using local reading.");
         }
       } catch {
+        track("chat_backend_failed", { reason: "network" });
         setSyncStatus("Jyotish Baje backend unavailable; using local reading.");
       }
     }
     await streamAssistantMessage(conversationId, assistantID, answer);
+    track("chat_answer_completed", { source, character_count: answer.length, duration_ms: Date.now() - startedAt });
   }, [household, isTyping, streamAssistantMessage]);
+
+  const selectTab = React.useCallback((tab: AppTab) => {
+    track("screen_viewed", { screen: tab });
+    setSelectedTab(tab);
+  }, []);
+
+  const showModal = React.useCallback((nextModal: AppModal) => {
+    if (nextModal) track("modal_opened", { modal: nextModal });
+    setModal(nextModal);
+  }, []);
 
   const activeChat = household.conversations.find((conversation) => conversation.id === household.activeConversationId)?.messages ?? household.chat;
   const selectedMember = household.family.find((member) => member.id === household.selectedMemberId);
@@ -395,8 +429,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     signOut,
     setLanguage,
     setTheme,
-    setSelectedTab,
-    openModal: setModal,
+    setSelectedTab: selectTab,
+    openModal: showModal,
     openPandit,
     consumePendingChatPrompt: () => setPendingChatPrompt(undefined),
     closeModal: () => setModal(null),
@@ -408,7 +442,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     selectConversation,
     deleteConversation,
     sendChat
-  }), [household, activeChat, selectedMember, selectedTab, modal, isTyping, syncStatus, pendingChatPrompt, signInDemo, signInGoogle, signInEmail, signUpEmail, skipAuth, signOut, setLanguage, setTheme, saveSelf, addMember, openPandit, selectMember, addEvent, newConversation, selectConversation, deleteConversation, sendChat]);
+  }), [household, activeChat, selectedMember, selectedTab, modal, isTyping, syncStatus, pendingChatPrompt, signInDemo, signInGoogle, signInEmail, signUpEmail, skipAuth, signOut, setLanguage, setTheme, selectTab, showModal, saveSelf, addMember, openPandit, selectMember, addEvent, newConversation, selectConversation, deleteConversation, sendChat]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

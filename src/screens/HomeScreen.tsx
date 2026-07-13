@@ -6,7 +6,7 @@ import { useAppState } from "../app-state";
 import { AppText, PressableScale, SectionLabel, SerifText } from "../components";
 import { ScrollScreen } from "../layout";
 import { AppIcon, RashiMark, YantraScore } from "../ornaments";
-import { digits, t } from "../l10n";
+import { digits, displayName, t } from "../l10n";
 import { palette } from "../theme";
 import type { Kundali, Language, RashiKey } from "../types";
 import { adToBs } from "./PatroScreen";
@@ -79,7 +79,7 @@ export function HomeScreen() {
           </SerifText>
           {self?.name ? (
             <SerifText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75} style={{ fontFamily: "Fraunces-Bold", fontSize: 26 }}>
-              {self.name}
+              {displayName(self.name, app.language)}
             </SerifText>
           ) : null}
         </View>
@@ -225,13 +225,13 @@ export function HomeScreen() {
           {relatives.map((member) => (
             <PressableScale
               key={member.id}
-              accessibilityLabel={member.name}
+              accessibilityLabel={displayName(member.name, app.language)}
               onPress={() => app.setSelectedTab("family")}
               style={{ width: 62, alignItems: "center", gap: 5 }}
             >
               {member.kundali ? <RashiMark rashi={member.kundali.moonRashi} size={50} /> : <EmptyRashiMark />}
               <AppText numberOfLines={1} style={{ color: palette.inkSecondary, fontSize: 13 }}>
-                {member.name}
+                {displayName(member.name, app.language)}
               </AppText>
             </PressableScale>
           ))}
