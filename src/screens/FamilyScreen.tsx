@@ -9,6 +9,7 @@ import { layoutMetrics, palette, spacing } from "../theme";
 import type { FamilyMember, Language, Relation } from "../types";
 import { displayName } from "../l10n";
 import { MemberDetailScreen } from "./MemberDetailScreen";
+import { FamilyQRModal, type FamilyQRMode } from "./FamilyQRModal";
 
 type FamilyScreenProps = {
   onAddMember?: () => void;
@@ -49,6 +50,7 @@ export function FamilyScreen({ onAddMember, onOpenMember }: FamilyScreenProps = 
   const app = useAppState();
   const [openedMemberId, setOpenedMemberId] = React.useState<string>();
   const [treeWidth, setTreeWidth] = React.useState(0);
+  const [qrMode, setQRMode] = React.useState<FamilyQRMode>();
 
   const openMember = React.useCallback((memberId: string) => {
     app.selectMember(memberId);
@@ -87,6 +89,19 @@ export function FamilyScreen({ onAddMember, onOpenMember }: FamilyScreenProps = 
         </PressableScale>
       </View>
 
+      <View style={{ flexDirection: "row", gap: 10 }}>
+        <QRAction
+          icon="scan"
+          label={app.language === "ne" ? "QR स्क्यान" : "Scan QR"}
+          onPress={() => setQRMode("scan")}
+        />
+        <QRAction
+          icon="qr-code"
+          label={app.language === "ne" ? "मेरो QR" : "My QR"}
+          onPress={() => setQRMode("my")}
+        />
+      </View>
+
       {hasTree ? (
         <View
           accessibilityLabel={app.language === "ne" ? "परिवार वृक्ष" : "Family tree"}
@@ -118,7 +133,7 @@ export function FamilyScreen({ onAddMember, onOpenMember }: FamilyScreenProps = 
       ) : null}
 
       <View>
-        {app.family.length === 0 ? (
+      {app.family.length === 0 ? (
           <View style={{ alignItems: "center", gap: 10, paddingVertical: spacing.xl }}>
             <AppIcon name="family" size={36} color={palette.templeGold} />
             <SerifText style={{ fontSize: 20, textAlign: "center" }}>
@@ -132,7 +147,24 @@ export function FamilyScreen({ onAddMember, onOpenMember }: FamilyScreenProps = 
           </React.Fragment>
         ))}
       </View>
+
+      <FamilyQRModal
+        mode={qrMode}
+        language={app.language}
+        family={app.family}
+        onAdd={app.addMember}
+        onClose={() => setQRMode(undefined)}
+      />
     </ScrollScreen>
+  );
+}
+
+function QRAction({ icon, label, onPress }: { icon: "scan" | "qr-code"; label: string; onPress: () => void }) {
+  return (
+    <PressableScale accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={{ flex: 1, minHeight: 54, borderRadius: 17, backgroundColor: palette.bgSunken, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 9, paddingHorizontal: 12 }}>
+      <AppIcon name={icon} size={20} color={palette.saffron} strokeWidth={1.9} />
+      <AppText style={{ color: palette.sindoor, fontFamily: "Inter-SemiBold" }}>{label}</AppText>
+    </PressableScale>
   );
 }
 

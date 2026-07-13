@@ -27,7 +27,9 @@ export type AppIconName =
   | "trash"
   | "message"
   | "globe"
-  | "moon";
+  | "moon"
+  | "qr-code"
+  | "scan";
 
 export function AppIcon({ name, size = 24, color = palette.inkPrimary, strokeWidth = 1.8 }: {
   name: AppIconName;
@@ -106,6 +108,12 @@ export function AppIcon({ name, size = 24, color = palette.inkPrimary, strokeWid
       break;
     case "moon":
       mark = <Path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a8.5 8.5 0 1 0 11.2 11.2Z" {...common} />;
+      break;
+    case "qr-code":
+      mark = <><Rect x="3" y="3" width="7" height="7" rx="1" {...common} /><Rect x="14" y="3" width="7" height="7" rx="1" {...common} /><Rect x="3" y="14" width="7" height="7" rx="1" {...common} /><Path d="M15 15h2v2h-2zM19 14v3h2M14 20h3M20 20h1" {...common} /></>;
+      break;
+    case "scan":
+      mark = <><Path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" {...common} /><Rect x="8" y="8" width="8" height="8" rx="1" {...common} /></>;
       break;
   }
   return <Svg width={size} height={size} viewBox="0 0 24 24" accessible={false}>{mark}</Svg>;
