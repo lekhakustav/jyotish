@@ -21,6 +21,7 @@ type AppContextValue = {
   modal: AppModal;
   isTyping: boolean;
   syncStatus?: string;
+  pendingChatPrompt?: string;
   signInDemo: () => void;
   signInGoogle: () => Promise<void>;
   signInEmail: (email: string, password: string) => Promise<void>;
@@ -31,6 +32,8 @@ type AppContextValue = {
   setTheme: (theme: ThemeChoice) => void;
   setSelectedTab: (tab: AppTab) => void;
   openModal: (modal: AppModal) => void;
+  openPandit: (prompt?: string, sourceKey?: string) => void;
+  consumePendingChatPrompt: () => void;
   closeModal: () => void;
   saveSelf: (name: string, birth?: BirthData) => void;
   addMember: (member: FamilyMember) => void;
@@ -119,6 +122,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = React.useState(false);
   const [isTyping, setIsTyping] = React.useState(false);
   const [syncStatus, setSyncStatus] = React.useState<string | undefined>();
+  const [pendingChatPrompt, setPendingChatPrompt] = React.useState<string | undefined>();
 
   const isDark = household.theme === "dark" || (household.theme === "system" && systemScheme === "dark");
   applyPalette(isDark);
@@ -259,6 +263,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     updateHousehold((current) => ({ ...current, family: [...current.family, recomputeMember(member)] }));
   }, [updateHousehold]);
 
+  const openPandit = React.useCallback((prompt?: string) => {
+    if (prompt?.trim()) setPendingChatPrompt(prompt.trim());
+    setModal("chat");
+  }, []);
+
   const selectMember = React.useCallback((memberId?: string) => {
     updateHousehold((current) => ({
       ...current,
@@ -377,6 +386,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     modal,
     isTyping,
     syncStatus,
+    pendingChatPrompt,
     signInDemo,
     signInGoogle,
     signInEmail,
@@ -387,6 +397,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     setTheme,
     setSelectedTab,
     openModal: setModal,
+    openPandit,
+    consumePendingChatPrompt: () => setPendingChatPrompt(undefined),
     closeModal: () => setModal(null),
     saveSelf,
     addMember,
@@ -396,7 +408,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     selectConversation,
     deleteConversation,
     sendChat
-  }), [household, activeChat, selectedMember, selectedTab, modal, isTyping, syncStatus, signInDemo, signInGoogle, signInEmail, signUpEmail, skipAuth, signOut, setLanguage, setTheme, saveSelf, addMember, selectMember, addEvent, newConversation, selectConversation, deleteConversation, sendChat]);
+  }), [household, activeChat, selectedMember, selectedTab, modal, isTyping, syncStatus, pendingChatPrompt, signInDemo, signInGoogle, signInEmail, signUpEmail, skipAuth, signOut, setLanguage, setTheme, saveSelf, addMember, openPandit, selectMember, addEvent, newConversation, selectConversation, deleteConversation, sendChat]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

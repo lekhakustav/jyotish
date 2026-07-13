@@ -24,7 +24,15 @@ const relationLabels: Record<Relation, Record<Language, string>> = {
   daughter: { en: "Daughter", ne: "छोरी" },
   brother: { en: "Brother", ne: "दाजु/भाइ" },
   sister: { en: "Sister", ne: "दिदी/बहिनी" },
-  cousin: { en: "Cousin", ne: "दाजुभाइ/दिदीबहिनी" }
+  cousin: { en: "Cousin", ne: "दाजुभाइ/दिदीबहिनी" },
+  boyfriend: { en: "Boyfriend", ne: "प्रेमी" },
+  girlfriend: { en: "Girlfriend", ne: "प्रेमिका" },
+  partner: { en: "Partner", ne: "साथी" },
+  fiance: { en: "Fiance", ne: "मंगेतर" },
+  fiancee: { en: "Fiancee", ne: "मंगेतर" },
+  friend: { en: "Friend", ne: "मित्र" },
+  colleague: { en: "Colleague", ne: "सहकर्मी" },
+  mentor: { en: "Mentor", ne: "मार्गदर्शक" }
 };
 
 export function relationLabel(relation: Relation, language: Language) {
@@ -61,7 +69,7 @@ export function FamilyScreen({ onAddMember, onOpenMember }: FamilyScreenProps = 
 
   const self = app.family.find((member) => member.relation === "selfMember");
   const parents = app.family.filter((member) => member.relation === "father" || member.relation === "mother");
-  const peers = app.family.filter((member) => ["husband", "wife", "brother", "sister", "cousin"].includes(member.relation));
+  const peers = app.family.filter((member) => ["husband", "wife", "brother", "sister", "cousin", "boyfriend", "girlfriend", "partner", "fiance", "fiancee", "friend", "colleague", "mentor"].includes(member.relation));
   const children = app.family.filter((member) => member.relation === "son" || member.relation === "daughter");
   const hasTree = parents.length + peers.length + children.length > 0;
 

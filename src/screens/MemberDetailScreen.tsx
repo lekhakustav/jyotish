@@ -255,7 +255,11 @@ const relations: Record<Relation, Record<Language, string>> = {
   selfMember: { en: "You", ne: "तपाईं" }, father: { en: "Father", ne: "बुबा" }, mother: { en: "Mother", ne: "आमा" },
   husband: { en: "Husband", ne: "श्रीमान्" }, wife: { en: "Wife", ne: "श्रीमती" }, son: { en: "Son", ne: "छोरा" },
   daughter: { en: "Daughter", ne: "छोरी" }, brother: { en: "Brother", ne: "दाजु/भाइ" }, sister: { en: "Sister", ne: "दिदी/बहिनी" },
-  cousin: { en: "Cousin", ne: "दाजुभाइ/दिदीबहिनी" }
+  cousin: { en: "Cousin", ne: "दाजुभाइ/दिदीबहिनी" }, boyfriend: { en: "Boyfriend", ne: "प्रेमी" },
+  girlfriend: { en: "Girlfriend", ne: "प्रेमिका" }, partner: { en: "Partner", ne: "साथी" },
+  fiance: { en: "Fiance", ne: "मंगेतर" }, fiancee: { en: "Fiancee", ne: "मंगेतर" },
+  friend: { en: "Friend", ne: "मित्र" }, colleague: { en: "Colleague", ne: "सहकर्मी" },
+  mentor: { en: "Mentor", ne: "मार्गदर्शक" }
 };
 
 function relationLabel(relation: Relation, language: Language) {

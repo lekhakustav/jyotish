@@ -1,7 +1,8 @@
 export type Language = "en" | "ne";
 export type ThemeChoice = "system" | "light" | "dark";
 export type Gender = "male" | "female" | "other";
-export type Relation = "selfMember" | "father" | "mother" | "husband" | "wife" | "son" | "daughter" | "brother" | "sister" | "cousin";
+export type Relation = "selfMember" | "father" | "mother" | "husband" | "wife" | "son" | "daughter" | "brother" | "sister" | "cousin"
+  | "boyfriend" | "girlfriend" | "partner" | "fiance" | "fiancee" | "friend" | "colleague" | "mentor";
 export type RashiKey =
   | "mesh"
   | "vrish"

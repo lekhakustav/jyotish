@@ -184,12 +184,26 @@ export function generateRashifal(rashi: RashiKey, period: RashifalPeriod, langua
     monthly: ne ? "यस महिना एक बिहीबार अन्न दान गर्नुहोस्।" : "Donate a simple meal on one Thursday this month.",
     yearly: ne ? "वर्षभरि महिनामा एक पटक गुरु वा बुबाआमाको आशीर्वाद लिनुहोस्।" : "Seek an elder's blessing once each month this year."
   };
+  const strongest = domains.reduce((best, domain) => scores[domain] > scores[best] ? domain : best, domains[0]);
+  const weakest = domains.reduce((low, domain) => scores[domain] < scores[low] ? domain : low, domains[0]);
+  const domainNames: Record<Language, Record<RashifalDomain, string>> = {
+    en: { career: "career", family: "family", health: "health", wealth: "money", love: "relationships" },
+    ne: { career: "पेशा", family: "परिवार", health: "स्वास्थ्य", wealth: "धन", love: "सम्बन्ध" }
+  };
+  const dos = ne
+    ? [`${domainNames.ne[strongest]}को सहयोगी संकेतलाई एउटा स्पष्ट काममा प्रयोग गर्नुहोस्।`, `${domainNames.ne[weakest]}मा निर्णयअघि समय लिएर तथ्य जाँच्नुहोस्।`]
+    : [`Use the supportive ${domainNames.en[strongest]} signal for one clear action.`, `Slow down and check the facts before deciding about ${domainNames.en[weakest]}.`];
+  const donts = ne
+    ? [`${domainNames.ne[weakest]}को तनावलाई अन्तिम निष्कर्ष नमान्नुहोस्।`, "एकैचोटि धेरै उपाय वा प्रतिबद्धता नथप्नुहोस्।"]
+    : [`Do not treat tension around ${domainNames.en[weakest]} as a final verdict.`, "Do not stack too many remedies or commitments at once."];
 
   return {
     period,
     text: `${copy[period][Math.floor(rand() * copy[period].length)]} ${advice[period]}`,
     scores,
     upaya: upaya[period],
+    dos,
+    donts,
     luckyColor: ne ? "सुनौलो" : "Gold",
     luckyNumber: 1 + Math.floor(rand() * 9),
     luckyDay: period === "daily" ? (ne ? "आज" : "Today") : period === "weekly" ? (ne ? "बिहीबार" : "Thursday") : period === "monthly" ? (ne ? "तेस्रो साता" : "Third week") : (ne ? "असोज–मंसिर" : "September–November"),

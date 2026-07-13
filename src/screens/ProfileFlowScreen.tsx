@@ -19,7 +19,7 @@ type ProfileFlowScreenProps = {
   onDone?: (member: FamilyMember) => void;
 };
 
-const familyRelations: Relation[] = ["husband", "wife", "son", "daughter", "father", "mother", "brother", "sister", "cousin"];
+const familyRelations: Relation[] = ["husband", "wife", "son", "daughter", "father", "mother", "brother", "sister", "cousin", "boyfriend", "girlfriend", "partner", "fiance", "fiancee", "friend", "colleague", "mentor"];
 
 /** One decision per page, matching BirthFlowView.swift's sheet geometry. */
 export function ProfileFlowScreen({ mode = "family", editingMember, onClose, onDone }: ProfileFlowScreenProps = {}) {

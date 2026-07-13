@@ -52,6 +52,13 @@ export function ChatScreen() {
     void app.sendChat(message).finally(() => setSending(false));
   }, [app, sending]);
 
+  React.useEffect(() => {
+    if (!app.pendingChatPrompt) return;
+    const prompt = app.pendingChatPrompt;
+    app.consumePendingChatPrompt();
+    submit(prompt);
+  }, [app.pendingChatPrompt]);
+
   const onContentSizeChange = React.useCallback(() => {
     if (!atBottom.current && !forceNextScroll.current) return;
     forceNextScroll.current = false;

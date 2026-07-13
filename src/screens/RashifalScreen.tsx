@@ -185,12 +185,26 @@ export function RashifalScreen() {
           />
         </View>
 
+        <View style={{ flexDirection: "row", gap: 18 }}>
+          <GuidanceList title={app.language === "ne" ? "गर्नुहोस्" : "Dos"} items={reading.dos} />
+          <GuidanceList title={app.language === "ne" ? "नगर्नुहोस्" : "Don'ts"} items={reading.donts} />
+        </View>
+
         <View style={{ gap: 10 }}>
           <Hairline />
           <SerifText style={{ fontSize: 15, fontStyle: "italic", lineHeight: 24 }}>{reading.upaya}</SerifText>
         </View>
       </View>
     </ScrollScreen>
+  );
+}
+
+function GuidanceList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <View style={{ flex: 1, gap: 8 }}>
+      <AppText style={{ color: palette.templeGold, fontFamily: "Inter-SemiBold", fontSize: 13 }}>{title}</AppText>
+      {items.map((item) => <SerifText key={item} style={{ fontSize: 14, lineHeight: 21 }}>• {item}</SerifText>)}
+    </View>
   );
 }
 
