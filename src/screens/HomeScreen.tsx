@@ -168,7 +168,7 @@ export function HomeScreen() {
           <SerifText style={{ flex: 1, color: palette.inkPrimary, fontFamily: "Fraunces-SemiBold", fontSize: 19 }}>
             {app.language === "ne" ? "ज्योतिष बाजेलाई जे पनि सोध्नुहोस्" : "Ask Jyotish Baje anything"}
           </SerifText>
-          <AppIcon name="arrow-right" size={19} color={palette.inkPrimary} strokeWidth={2} />
+          <AppIcon name="arrow-up-right" size={19} color={palette.inkPrimary} strokeWidth={2} />
         </PressableScale>
       </View>
 
@@ -395,8 +395,8 @@ function StarterIcon({ kind }: { kind: Starter["id"] }) {
   }
   return (
     <Svg width={20} height={20} viewBox="0 0 24 24" accessibilityElementsHidden>
-      <Circle cx={12} cy={12} r={8} stroke={palette.saffron} strokeWidth={1.6} fill="none" />
-      <Path d="M8 12h2.3l1.3-3.5 1.7 7 1.2-3.5H17" stroke={palette.saffron} strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <Circle cx={12} cy={4.5} r={1.8} stroke={palette.saffron} strokeWidth={1.6} fill="none" />
+      <Path d="M12 7.2v6.1M7.2 9.5 12 12l4.8-2.5M12 13.3l-4.3 4.2H4.5M12 13.3l4.3 4.2h3.2M7 20h10M6.5 17.5c1.8 0 3.2.8 5.5 2.5 2.3-1.7 3.7-2.5 5.5-2.5" stroke={palette.saffron} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" fill="none" />
     </Svg>
   );
 }

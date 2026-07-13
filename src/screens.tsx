@@ -19,7 +19,7 @@ export { ParityAuthScreen as AuthScreen };
 
 const tabs = [
   { value: "home", label: "Home", icon: "home" },
-  { value: "rashifal", label: "Rashifal", icon: "sun" },
+  { value: "rashifal", label: "Rashifal", icon: "sparkle" },
   { value: "family", label: "Family", icon: "family" }
 ] as const;
 

@@ -16,6 +16,7 @@ export type AppIconName =
   | "chevron-left"
   | "chevron-right"
   | "arrow-right"
+  | "arrow-up-right"
   | "send"
   | "microphone"
   | "volume"
@@ -69,6 +70,9 @@ export function AppIcon({ name, size = 24, color = palette.inkPrimary, strokeWid
       break;
     case "arrow-right":
       mark = <><Path d="M4 12h16M14 6l6 6-6 6" {...common} /></>;
+      break;
+    case "arrow-up-right":
+      mark = <><Path d="M5 19 19 5M10 5h9v9" {...common} /></>;
       break;
     case "send":
       mark = <Path d="m3 11 18-8-8 18-2-8-8-2Zm8 2 4-4" {...common} />;
