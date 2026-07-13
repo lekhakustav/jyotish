@@ -4,7 +4,11 @@ import XCTest
 final class PanditDiscoveryTests: XCTestCase {
     func testHighInterestQuestionsLeadTheStarterShelf() {
         XCTAssertEqual(PanditStarter.all.prefix(3).map(\.id), ["love", "career", "health"])
-        XCTAssertEqual(PanditStarter.all.last?.id, "muhurta")
+        XCTAssertTrue(PanditStarter.all.contains { $0.id == "muhurta" })
+        XCTAssertTrue(PanditStarter.all.contains { $0.id == "matching" })
+        XCTAssertTrue(PanditStarter.all.contains { $0.id == "dosha" })
+        XCTAssertTrue(PanditStarter.all.contains { $0.id == "remedies" })
+        XCTAssertTrue(PanditStarter.all.contains { $0.id == "lifePhase" })
     }
 
     func testRashifalAlwaysGeneratesMatchingPanditInvitation() {
