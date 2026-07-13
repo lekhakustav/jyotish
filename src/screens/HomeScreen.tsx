@@ -1,14 +1,15 @@
 import React from "react";
 import { Image, ScrollView, View } from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
-import { generateRashifal, panchangaFor, rashiMeta, todayBS } from "../astro";
+import { generateRashifal, panchangaFor, rashiMeta } from "../astro";
 import { useAppState } from "../app-state";
-import { AppText, PressableScale, PrimaryButton, SectionLabel, SerifText } from "../components";
+import { AppText, PressableScale, SectionLabel, SerifText } from "../components";
 import { ScrollScreen } from "../layout";
-import { RashiMark, YantraScore } from "../ornaments";
+import { AppIcon, RashiMark, YantraScore } from "../ornaments";
 import { digits, t } from "../l10n";
 import { palette } from "../theme";
 import type { Kundali, Language, RashiKey } from "../types";
+import { adToBs } from "./PatroScreen";
 
 type EnhancedApp = ReturnType<typeof useAppState> & {
   openPandit?: (prompt?: string, sourceKey?: string) => void;
@@ -53,7 +54,7 @@ export function HomeScreen() {
   const rashi = self?.kundali?.moonRashi ?? "mesh";
   const reading = generateRashifal(rashi, "daily", app.language);
   const panchanga = panchangaFor(new Date(), app.language);
-  const bs = todayBS();
+  const bs = adToBs(new Date());
   const tithi = localizedTithi(panchanga.tithiNumber, app.language);
   const relatives = app.family.filter((member) => member.relation !== "selfMember");
   const scoreValues = Object.values(reading.scores);
@@ -150,7 +151,25 @@ export function HomeScreen() {
             </PressableScale>
           ))}
         </View>
-        <PrimaryButton title={app.language === "ne" ? "जे पनि सोध्नुहोस्" : "Ask anything"} onPress={() => openPandit()} />
+        <PressableScale
+          accessibilityRole="button"
+          onPress={() => openPandit()}
+          style={{
+            minHeight: 56,
+            borderRadius: 16,
+            backgroundColor: palette.saffron,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 12,
+            paddingHorizontal: 18
+          }}
+        >
+          <AppIcon name="sparkle" size={21} color={palette.inkPrimary} strokeWidth={2} />
+          <SerifText style={{ flex: 1, color: palette.inkPrimary, fontFamily: "Fraunces-SemiBold", fontSize: 19 }}>
+            {app.language === "ne" ? "ज्योतिष बाजेलाई जे पनि सोध्नुहोस्" : "Ask Jyotish Baje anything"}
+          </SerifText>
+          <AppIcon name="arrow-right" size={19} color={palette.inkPrimary} strokeWidth={2} />
+        </PressableScale>
       </View>
 
       <View style={{ gap: 18 }}>

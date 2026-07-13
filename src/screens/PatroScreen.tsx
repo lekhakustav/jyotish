@@ -18,6 +18,18 @@ const WEEKDAYS: Record<Language, string[]> = {
   en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
   ne: ["आइत", "सोम", "मंगल", "बुध", "बिहि", "शुक्र", "शनि"]
 };
+const TITHI_NAMES: Record<Language, string[]> = {
+  en: [
+    "Pratipada", "Dwitiya", "Tritiya", "Chaturthi", "Panchami", "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami",
+    "Ekadashi", "Dwadashi", "Trayodashi", "Chaturdashi", "Purnima", "Pratipada", "Dwitiya", "Tritiya", "Chaturthi", "Panchami",
+    "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami", "Ekadashi", "Dwadashi", "Trayodashi", "Chaturdashi", "Amavasya"
+  ],
+  ne: [
+    "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
+    "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी",
+    "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औँसी"
+  ]
+};
 
 // Exact table shared with BikramSambat.swift (BS 2000–2090).
 const BS_MONTH_DAYS: readonly number[][] = [
@@ -179,15 +191,16 @@ function DayCell({ bs, width, isToday, isSaturday, events, language, onPress }: 
   onPress: () => void;
 }) {
   const pan = panchangaFor(bsToAd(bs), language);
+  const tithi = tithiName(pan.tithiNumber, language);
   const hasEvent = events.some((event) => eventOccurs(event, bs));
   return (
     <PressableScale
-      accessibilityLabel={`${digits(bs.day, language)} ${MONTHS[language][bs.month - 1]}, ${pan.tithi}`}
+      accessibilityLabel={`${digits(bs.day, language)} ${MONTHS[language][bs.month - 1]}, ${tithi}`}
       onPress={onPress}
       style={{ width, height: 72, borderRadius: 12, borderCurve: "continuous", backgroundColor: isToday ? palette.bgSunken : "transparent", alignItems: "center", justifyContent: "center", gap: 2, paddingHorizontal: 2 }}
     >
       <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 18, color: isSaturday ? palette.sindoor : palette.inkPrimary }}>{digits(bs.day, language)}</SerifText>
-      <AppText numberOfLines={1} style={{ width: "100%", textAlign: "center", color: palette.inkSecondary, fontSize: isToday ? 10 : 11 }}>{shortTithi(pan.tithi, language)}</AppText>
+      <AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.62} style={{ width: "100%", textAlign: "center", color: palette.inkSecondary, fontSize: isToday ? 10 : 11 }}>{tithi}</AppText>
       <View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: hasEvent ? palette.marigold : "transparent" }} />
     </PressableScale>
   );
@@ -223,7 +236,7 @@ function DayDetail({ bs, onBack }: { bs: NepaliDate; onBack: () => void }) {
 
       <View style={{ gap: 10 }}>
         <SectionLabel>{app.language === "ne" ? "पञ्चाङ्ग" : "Panchanga"}</SectionLabel>
-        <InfoRow label={app.language === "ne" ? "तिथि" : "Tithi"} value={pan.tithi} />
+        <InfoRow label={app.language === "ne" ? "तिथि" : "Tithi"} value={tithiName(pan.tithiNumber, app.language)} />
         <Hairline />
         <InfoRow label={app.language === "ne" ? "नक्षत्र" : "Nakshatra"} value={pan.nakshatra} />
         <Hairline />
@@ -294,9 +307,8 @@ function sameBs(first: NepaliDate, second: NepaliDate) {
   return first.year === second.year && first.month === second.month && first.day === second.day;
 }
 
-function shortTithi(value: string, language: Language) {
-  if (language === "ne") return value.replace(" तिथि", "");
-  return value.replace("Tithi ", "T");
+function tithiName(number: number, language: Language) {
+  return TITHI_NAMES[language][Math.max(0, Math.min(29, number - 1))];
 }
 
 const styles = {

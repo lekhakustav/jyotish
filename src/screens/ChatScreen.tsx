@@ -188,9 +188,14 @@ export function ChatScreen() {
 
 function ChatHeader({ title, onHistory, onNew, onClose }: { title: string; onHistory: () => void; onNew: () => void; onClose: () => void }) {
   return (
-    <View style={{ minHeight: 64, paddingHorizontal: CHAT_GUTTER, flexDirection: "row", alignItems: "center", gap: 8 }}>
+    <View style={{ minHeight: 124, paddingHorizontal: CHAT_GUTTER, flexDirection: "row", alignItems: "center", gap: 8 }}>
       <IconButton icon="history" label="Chat history" onPress={onHistory} />
-      <SerifText numberOfLines={1} style={{ flex: 1, fontSize: 28, fontFamily: "Fraunces-Bold", textAlign: "center" }}>{title}</SerifText>
+      <SerifText
+        numberOfLines={2}
+        style={{ flex: 1, maxWidth: 172, fontSize: 34, lineHeight: 41, fontFamily: "Fraunces-Bold", textAlign: "left" }}
+      >
+        {title}
+      </SerifText>
       <IconButton icon="plus" label="New chat" onPress={onNew} />
       <IconButton icon="close" label="Close chat" onPress={onClose} />
     </View>
