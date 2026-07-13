@@ -152,7 +152,11 @@ struct FeatureLaunchSheet: View {
                         VStack(alignment: .leading, spacing: 10) {
                             SectionLabel(text: app.language == .ne ? "व्यक्ति छान्नुहोस्" : "Choose a person")
                             ForEach(relatives) { member in
-                                Button { selectedMemberID = member.id } label: {
+                            Button {
+                                AppAnalytics.track("relationship_person_selected", properties: ["relation": member.relation.rawValue,
+                                                                                                  "feature": feature.id.rawValue])
+                                selectedMemberID = member.id
+                            } label: {
                                     HStack(spacing: 12) {
                                         if let kundali = member.kundali {
                                             RashiSeal(rashi: kundali.moonRashi, size: 40)
@@ -193,6 +197,8 @@ struct FeatureLaunchSheet: View {
                         PrimaryButton(title: app.language == .ne ? "ज्योतिष बाजेसँग रिपोर्ट बनाउनुहोस्" : "Prepare with Jyotish Baje",
                                       icon: "sparkles") {
                             let prompt = feature.prompt(app.language, person: selectedMember)
+                            AppAnalytics.track("feature_chat_started", properties: ["feature": feature.id.rawValue,
+                                                                                    "social": feature.isSocial ? "true" : "false"])
                             dismiss()
                             DispatchQueue.main.async { app.openPandit(prompt: prompt, sourceKey: "feature:\(feature.id.rawValue):\(selectedMember?.id.uuidString ?? "self")") }
                         }
@@ -221,7 +227,11 @@ struct FeatureCatalogSheet: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         ForEach(JyotishFeatureCatalog.all) { feature in
-                            Button { selected = feature } label: {
+                            Button {
+                                AppAnalytics.track("feature_opened", properties: ["feature": feature.id.rawValue,
+                                                                                  "surface": "catalog"])
+                                selected = feature
+                            } label: {
                                 HStack(spacing: 15) {
                                     Image(systemName: feature.icon)
                                         .scaledFont(size: 20, weight: .light)

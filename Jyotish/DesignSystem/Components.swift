@@ -45,8 +45,17 @@ extension View {
 }
 
 enum Haptics {
-    static func tap() { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
-    static func success() { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+    static func tap(file: StaticString = #fileID, function: StaticString = #function,
+                    line: UInt = #line) {
+        AppAnalytics.tap(file: file, function: function, line: line)
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    }
+    static func success(file: StaticString = #fileID, function: StaticString = #function,
+                        line: UInt = #line) {
+        AppAnalytics.track("ui_success_feedback", properties: ["source": "\(file):\(line)",
+                                                                  "function": String(describing: function)])
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+    }
 }
 
 /// Gentle press-down scale for primary actions.

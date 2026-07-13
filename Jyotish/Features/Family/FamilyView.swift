@@ -88,9 +88,15 @@ struct FamilyView: View {
     private var qrActions: some View {
         HStack(spacing: 10) {
             qrAction(title: app.language == .ne ? "QR स्क्यान" : "Scan QR",
-                     icon: "qrcode.viewfinder") { showScanner = true }
+                     icon: "qrcode.viewfinder") {
+                AppAnalytics.track("parivar_qr_scanner_opened")
+                showScanner = true
+            }
             qrAction(title: app.language == .ne ? "मेरो QR" : "My QR",
-                     icon: "qrcode") { showMyQR = true }
+                     icon: "qrcode") {
+                AppAnalytics.track("parivar_qr_shown")
+                showMyQR = true
+            }
         }
     }
 

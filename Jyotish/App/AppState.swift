@@ -58,6 +58,7 @@ final class AppState: ObservableObject {
             let supabaseAuth = SupabaseAuthService(config: config, sessionStore: sessionStore)
             auth = supabaseAuth
             remoteStore = SupabaseDataStore(config: config, sessionStore: sessionStore)
+            AppAnalytics.configure(SupabaseAnalyticsSink(config: config, sessionStore: sessionStore))
             if let session = supabaseAuth.currentSession {
                 restoredSupabaseAccount = UserAccount(id: session.userID, email: nil, displayName: "", isDemo: false)
             }
@@ -65,6 +66,9 @@ final class AppState: ObservableObject {
             auth = DummyAuthService()
             remoteStore = nil
         }
+        AppAnalytics.track("app_state_initialized", properties: [
+            "supabase_configured": SupabaseConfig.current == nil ? "false" : "true"
+        ])
         if let saved = store.load() {
             account = saved.account
             family = saved.family
@@ -187,6 +191,7 @@ final class AppState: ObservableObject {
 
     // ── Mutations ────────────────────────────────────────────────────────────
     func signInApple(credential: ASAuthorizationAppleIDCredential, rawNonce: String, mode: AuthMode) {
+        AppAnalytics.track("auth_started", properties: ["provider": "apple", "mode": String(describing: mode)])
         guard let tokenData = credential.identityToken,
               let idToken = String(data: tokenData, encoding: .utf8) else {
             syncStatus = "Apple sign-in did not return an identity token."
@@ -201,7 +206,9 @@ final class AppState: ObservableObject {
                 let acct = try await auth.signInWithApple(idToken: idToken, rawNonce: rawNonce,
                                                            fullName: fullName.isEmpty ? nil : fullName, mode: mode)
                 await completeSignIn(acct)
+                AppAnalytics.track("auth_completed", properties: ["provider": "apple"])
             } catch {
+                AppAnalytics.track("auth_failed", properties: ["provider": "apple", "error": String(describing: type(of: error))])
                 syncStatus = error.localizedDescription
             }
             isAuthenticating = false
@@ -209,12 +216,15 @@ final class AppState: ObservableObject {
     }
 
     func signInGoogle(mode: AuthMode) {
+        AppAnalytics.track("auth_started", properties: ["provider": "google", "mode": String(describing: mode)])
         isAuthenticating = true
         Task {
             do {
                 let acct = try await auth.signInWithGoogle(mode: mode)
                 await completeSignIn(acct)
+                AppAnalytics.track("auth_completed", properties: ["provider": "google"])
             } catch {
+                AppAnalytics.track("auth_failed", properties: ["provider": "google", "error": String(describing: type(of: error))])
                 syncStatus = error.localizedDescription
             }
             isAuthenticating = false
@@ -222,13 +232,16 @@ final class AppState: ObservableObject {
     }
 
     func signUpEmail(email: String, password: String) async -> EmailSignUpOutcome {
+        AppAnalytics.track("auth_started", properties: ["provider": "email", "mode": "signup"])
         isAuthenticating = true
         defer { isAuthenticating = false }
         do {
             let acct = try await auth.signUpEmail(email: email, password: password)
             await completeSignIn(acct)
+            AppAnalytics.track("auth_completed", properties: ["provider": "email", "mode": "signup"])
             return .success
         } catch {
+            AppAnalytics.track("auth_failed", properties: ["provider": "email", "mode": "signup", "error": String(describing: type(of: error))])
             syncStatus = error.localizedDescription
             if case SupabaseError.authError("user_already_exists", _) = error {
                 return .emailAlreadyExists
@@ -238,19 +251,23 @@ final class AppState: ObservableObject {
     }
 
     func signInEmail(email: String, password: String) async -> Bool {
+        AppAnalytics.track("auth_started", properties: ["provider": "email", "mode": "signin"])
         isAuthenticating = true
         defer { isAuthenticating = false }
         do {
             let acct = try await auth.signInEmail(email: email, password: password)
             await completeSignIn(acct)
+            AppAnalytics.track("auth_completed", properties: ["provider": "email", "mode": "signin"])
             return true
         } catch {
+            AppAnalytics.track("auth_failed", properties: ["provider": "email", "mode": "signin", "error": String(describing: type(of: error))])
             syncStatus = error.localizedDescription
             return false
         }
     }
 
     func signOut() {
+        AppAnalytics.track("signed_out")
         let previousPreferences = engagementPreferences
         Task {
             try? await auth.signOut()
@@ -335,6 +352,8 @@ final class AppState: ObservableObject {
             family.insert(member, at: 0)
         }
         if var acct = account { acct.displayName = name; account = acct }
+        AppAnalytics.track("birth_profile_saved", properties: ["time_known": birth.timeKnown ? "true" : "false",
+                                                                 "place_preset": BirthPlace.presets.contains(birth.place) ? "true" : "false"])
         persist()
         Task { try? await refreshEngagementNotifications() }
     }
@@ -343,6 +362,8 @@ final class AppState: ObservableObject {
         var m = member
         m.recompute()
         family.append(m)
+        AppAnalytics.track("parivar_member_added", properties: ["relation": member.relation.rawValue,
+                                                                  "has_birth_data": member.birth == nil ? "false" : "true"])
         persist()
         Task { try? await refreshEngagementNotifications() }
     }
@@ -366,17 +387,20 @@ final class AppState: ObservableObject {
 
     func removeMember(_ member: FamilyMember) {
         family.removeAll { $0.id == member.id }
+        AppAnalytics.track("parivar_member_removed", properties: ["relation": member.relation.rawValue])
         persist()
         Task { try? await refreshEngagementNotifications() }
     }
 
     func addEvent(_ event: PatroEvent) {
         events.append(event)
+        AppAnalytics.track("patro_event_added", properties: ["repeats_yearly": event.repeatsYearly ? "true" : "false"])
         persist()
         Task { try? await refreshEngagementNotifications() }
     }
     func removeEvent(_ event: PatroEvent) {
         events.removeAll { $0.id == event.id }
+        AppAnalytics.track("patro_event_removed")
         persist()
         Task { try? await refreshEngagementNotifications() }
     }
@@ -396,9 +420,12 @@ final class AppState: ObservableObject {
 
     func schedulePanditReminder(title: String, date: Date) async throws {
         try await ReminderService.schedule(title: title, date: date, language: language)
+        AppAnalytics.track("pandit_reminder_scheduled", properties: ["lead_hours": String(Int(date.timeIntervalSinceNow / 3_600))])
     }
 
     func open(_ destination: AppDestination) {
+        AppAnalytics.track("navigation_opened", properties: ["destination": destination.rawValue,
+                                                               "style": String(describing: destination.presentationStyle)])
         switch destination.presentationStyle {
         case .tab:
             selectedTab = AppTab.allCases.first { $0.destination == destination } ?? .home
@@ -410,6 +437,7 @@ final class AppState: ObservableObject {
     }
 
     func openFamilyMember(_ id: UUID?) {
+        AppAnalytics.track("family_member_opened", properties: ["has_member": id == nil ? "false" : "true"])
         requestedFamilyMemberID = nil
         selectedTab = .family
         guard let id else { return }
@@ -417,6 +445,10 @@ final class AppState: ObservableObject {
     }
 
     func openPandit(prompt: String? = nil, sourceKey: String? = nil) {
+        AppAnalytics.track("pandit_opened", properties: [
+            "source": sourceKey.map { $0.split(separator: ":").prefix(2).joined(separator: ":") } ?? "direct",
+            "has_prompt": prompt == nil ? "false" : "true"
+        ])
         if let sourceKey,
            let existing = chatConversations.first(where: { $0.sourceKey == sourceKey }) {
             selectChatConversation(existing.id)
@@ -439,6 +471,7 @@ final class AppState: ObservableObject {
     }
 
     func newChatConversation(sourceKey: String? = nil) {
+        AppAnalytics.track("chat_conversation_created", properties: ["has_source": sourceKey == nil ? "false" : "true"])
         let conversation = ChatConversation(title: t("chat.newConversation"), sourceKey: sourceKey)
         chatConversations.insert(conversation, at: 0)
         selectedChatConversationID = conversation.id
@@ -457,9 +490,11 @@ final class AppState: ObservableObject {
         guard let conversation = chatConversations.first(where: { $0.id == id }) else { return }
         selectedChatConversationID = id
         chat = conversation.messages
+        AppAnalytics.track("chat_conversation_selected", properties: ["message_count": String(conversation.messages.count)])
     }
 
     func deleteChatConversation(_ id: UUID) {
+        AppAnalytics.track("chat_conversation_deleted")
         chatConversations.removeAll { $0.id == id }
         if selectedChatConversationID == id {
             if let next = chatConversations.first {
@@ -476,12 +511,16 @@ final class AppState: ObservableObject {
     func sendChat(_ text: String) async -> ChatMessage? {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return nil }
+        let analyticsStart = Date()
         chat.append(ChatMessage(isUser: true, text: trimmed))
         let plan = PanditToolPlanner.plan(query: trimmed,
                                           family: family,
                                           events: events,
                                           language: language)
         let localAnswer = plan.answer
+        AppAnalytics.track("chat_question_sent", properties: ["intent": plan.intent.rawValue,
+                                                                "character_count": String(trimmed.count),
+                                                                "language": language.rawValue])
         persist()
 
         let pendingID = UUID()
@@ -497,8 +536,10 @@ final class AppState: ObservableObject {
                                             selfMember: selfMember,
                                             toolEvidence: plan.evidence)
         let answer: String
+        var answerSource = "local"
         do {
             if let agent {
+                answerSource = "remote"
                 let remoteAnswer = try await agent.streamReply(to: trimmed, context: context) { delta in
                     self.appendAssistantDelta(delta, messageID: pendingID)
                 }
@@ -516,6 +557,9 @@ final class AppState: ObservableObject {
             }
             syncStatus = nil
         } catch {
+            answerSource = "fallback"
+            AppAnalytics.track("chat_backend_failed", properties: ["intent": plan.intent.rawValue,
+                                                                     "error": String(describing: type(of: error))])
             answer = PanditAnswerContract.completed(localAnswer, fallback: localAnswer, language: language)
             syncStatus = "Pandit backend unavailable; using local reading."
             replaceAssistantMessage(answer, actions: plan.actions, messageID: pendingID)
@@ -527,6 +571,13 @@ final class AppState: ObservableObject {
         UserDefaults.standard.set(panditInteractionCount,
                                   forKey: "jyotish.pandit.successfulInteractions")
         persist()
+        AppAnalytics.track("chat_answer_completed", properties: [
+            "intent": plan.intent.rawValue,
+            "source": answerSource,
+            "duration_ms": String(Int(Date().timeIntervalSince(analyticsStart) * 1_000)),
+            "answer_characters": String(answer.count),
+            "action_count": String(plan.actions.count)
+        ])
         return reply
     }
 
@@ -634,10 +685,15 @@ final class AppState: ObservableObject {
 
     func setLanguage(_ l: Language) {
         language = l
+        AppAnalytics.track("language_changed", properties: ["language": l.rawValue])
         persist()
         Task { try? await refreshEngagementNotifications() }
     }
-    func setTheme(_ t: ThemeChoice) { theme = t; persist() }
+    func setTheme(_ t: ThemeChoice) {
+        theme = t
+        AppAnalytics.track("theme_changed", properties: ["theme": t.rawValue])
+        persist()
+    }
 
     func setEngagementNotificationsEnabled(_ enabled: Bool) async throws {
         var updated = engagementPreferences
@@ -645,29 +701,39 @@ final class AppState: ObservableObject {
         try await EngagementNotificationService.setEnabled(enabled, family: family, events: events,
                                                            preferences: updated, language: language)
         engagementPreferences = updated
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "enabled",
+                                                                             "value": enabled ? "true" : "false"])
         persist()
     }
 
     func setNotificationWakeHour(_ hour: Int) {
         engagementPreferences.wakeHour = min(10, max(5, hour))
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "wake_hour",
+                                                                             "value": String(engagementPreferences.wakeHour)])
         persist()
         Task { try? await refreshEngagementNotifications() }
     }
 
     func setNotificationDailyCount(_ count: Int) {
         engagementPreferences.dailyCount = min(4, max(2, count))
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "daily_count",
+                                                                             "value": String(engagementPreferences.dailyCount)])
         persist()
         Task { try? await refreshEngagementNotifications() }
     }
 
     func setFamilyNotifications(_ enabled: Bool) {
         engagementPreferences.familyInsights = enabled
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "family_insights",
+                                                                             "value": enabled ? "true" : "false"])
         persist()
         Task { try? await refreshEngagementNotifications() }
     }
 
     func setCalendarNotifications(_ enabled: Bool) {
         engagementPreferences.calendarReminders = enabled
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "calendar_reminders",
+                                                                             "value": enabled ? "true" : "false"])
         persist()
         Task { try? await refreshEngagementNotifications() }
     }

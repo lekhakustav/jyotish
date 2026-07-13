@@ -56,10 +56,13 @@ struct HomeView: View {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 14) {
                 ForEach(JyotishFeatureCatalog.home) { feature in
                     featureIcon(name: feature.name(app.language), icon: feature.icon) {
+                        AppAnalytics.track("feature_opened", properties: ["feature": feature.id.rawValue,
+                                                                          "surface": "home"])
                         selectedFeature = feature
                     }
                 }
                 featureIcon(name: app.language == .ne ? "थप" : "More", icon: "ellipsis.circle") {
+                    AppAnalytics.track("feature_catalog_opened", properties: ["surface": "home"])
                     showFeatureCatalog = true
                 }
             }

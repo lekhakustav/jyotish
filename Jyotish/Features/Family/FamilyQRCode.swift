@@ -210,7 +210,10 @@ struct FamilyQRScannerSheet: View {
             PrimaryButton(title: app.language == .ne ? "परिवारमा थप्नुहोस्" : "Add to Parivar", icon: "person.badge.plus") {
                 let added = app.addSharedMember(name: payload.name, gender: payload.gender,
                                                 relation: relation, birth: payload.birth)
-                if added { dismiss() }
+                if added {
+                    AppAnalytics.track("parivar_qr_imported", properties: ["relation": relation.rawValue])
+                    dismiss()
+                }
                 else { error = app.language == .ne ? "यो व्यक्ति पहिले नै परिवारमा छ।" : "This person is already in Parivar." }
             }
             Button(app.language == .ne ? "अर्को कोड स्क्यान" : "Scan another code") {
@@ -226,8 +229,10 @@ struct FamilyQRScannerSheet: View {
         do {
             payload = try FamilySharePayload.decode(rawCode.trimmingCharacters(in: .whitespacesAndNewlines))
             error = nil
+            AppAnalytics.track("parivar_qr_decoded")
             Haptics.success()
         } catch {
+            AppAnalytics.track("parivar_qr_decode_failed")
             self.error = error.localizedDescription
         }
     }

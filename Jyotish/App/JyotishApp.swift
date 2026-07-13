@@ -5,6 +5,7 @@ struct JyotishApp: App {
     @UIApplicationDelegateAdaptor(JyotishAppDelegate.self) private var appDelegate
     @StateObject private var app = AppState()
     @Environment(\.colorScheme) private var systemScheme
+    @Environment(\.scenePhase) private var scenePhase
 
     init() {
         AppRuntime.configureCaches()
@@ -14,6 +15,10 @@ struct JyotishApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(app)
+                .onChange(of: scenePhase) { _, phase in
+                    AppAnalytics.track("app_lifecycle", properties: ["phase": String(describing: phase)])
+                    if phase != .active { AppAnalytics.flushNow() }
+                }
         }
     }
 }
@@ -59,12 +64,29 @@ struct RootView: View {
                   let raw = userInfo["destination"] as? String,
                   let destination = AppDestination(rawValue: raw) else { return }
             let prompt = (userInfo["prompt"] as? String).flatMap { $0.isEmpty ? nil : $0 }
+            AppAnalytics.track("notification_opened", properties: ["destination": destination.rawValue,
+                                                                    "has_prompt": prompt == nil ? "false" : "true"])
             if destination == .pandit {
                 app.openPandit(prompt: prompt)
             } else {
                 app.open(destination)
             }
         }
+        .onAppear {
+            AppAnalytics.track("screen_view", properties: ["screen": rootScreenName])
+        }
+        .onChange(of: app.isLoggedIn) { _, _ in
+            AppAnalytics.track("screen_view", properties: ["screen": rootScreenName])
+        }
+        .onChange(of: app.hasBirthProfile) { _, _ in
+            AppAnalytics.track("screen_view", properties: ["screen": rootScreenName])
+        }
+    }
+
+    private var rootScreenName: String {
+        if !app.isLoggedIn { return "welcome" }
+        if !app.hasBirthProfile { return "profile_setup" }
+        return "main"
     }
 }
 
@@ -100,6 +122,15 @@ struct MainTabView: View {
             }
         }
         .tint(p.saffron)
+        .onChange(of: app.selectedTab) { _, tab in
+            AppAnalytics.track("screen_view", properties: ["screen": tab.destination.rawValue])
+        }
+        .onChange(of: app.pushedDestination) { _, destination in
+            if let destination { AppAnalytics.track("screen_view", properties: ["screen": destination.rawValue]) }
+        }
+        .onChange(of: app.modalDestination) { _, destination in
+            if let destination { AppAnalytics.track("screen_view", properties: ["screen": destination.rawValue]) }
+        }
         .fullScreenCover(item: $app.modalDestination) { destination in
             switch destination {
             case .pandit:
