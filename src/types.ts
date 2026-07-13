@@ -81,17 +81,38 @@ export type ChatMessage = {
   isUser: boolean;
   text: string;
   timestamp: string;
+  suggestedReplies?: string[];
+};
+
+export type ChatConversation = {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Household = {
-  schemaVersion: number;
+  schemaVersion: 2;
   account?: UserAccount;
   family: FamilyMember[];
   events: PatroEvent[];
+  /**
+   * Compatibility mirror of the active conversation. New code should prefer
+   * `conversations`, but retaining this field lets older UI code and stored
+   * schema-v1 households continue to work during the native parity migration.
+   */
   chat: ChatMessage[];
+  conversations: ChatConversation[];
+  activeConversationId?: string;
+  selectedMemberId?: string;
   language: Language;
   theme: ThemeChoice;
 };
+
+export type RashifalPeriod = "daily" | "weekly" | "monthly" | "yearly";
+export type RashifalDomain = "career" | "family" | "health" | "wealth" | "love";
+export type RashifalScore = 1 | 2 | 3 | 4 | 5;
 
 export type AppTab = "home" | "rashifal" | "family";
 export type AppModal = "chat" | "settings" | "patro" | "profile" | "auth" | null;

@@ -1,4 +1,15 @@
-import type { BirthData, BirthPlace, FamilyMember, Kundali, Language, PatroEvent, RashiKey } from "@/types";
+import type {
+  BirthData,
+  BirthPlace,
+  FamilyMember,
+  Kundali,
+  Language,
+  PatroEvent,
+  RashiKey,
+  RashifalDomain,
+  RashifalPeriod,
+  RashifalScore
+} from "@/types";
 
 export const birthPlaces: BirthPlace[] = [
   { name: "Kathmandu", nameNE: "काठमाडौं", latitude: 27.7172, longitude: 85.324, utcOffsetHours: 5.75 },
@@ -95,52 +106,97 @@ function seeded(seed: number): () => number {
   };
 }
 
-export function generateRashifal(rashi: RashiKey, period: "daily" | "weekly" | "monthly" | "yearly", language: Language) {
+function startOfLocalDay(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function rashifalWindow(period: RashifalPeriod, now: Date): { start: Date; end: Date; stamp: number } {
+  if (period === "daily") {
+    const start = startOfLocalDay(now);
+    return { start, end: new Date(start.getFullYear(), start.getMonth(), start.getDate(), 23, 59, 59, 999), stamp: start.getFullYear() * 10000 + (start.getMonth() + 1) * 100 + start.getDate() };
+  }
+  if (period === "weekly") {
+    const start = startOfLocalDay(now);
+    const daysSinceMonday = (start.getDay() + 6) % 7;
+    start.setDate(start.getDate() - daysSinceMonday);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    end.setHours(23, 59, 59, 999);
+    return { start, end, stamp: start.getFullYear() * 10000 + (start.getMonth() + 1) * 100 + start.getDate() };
+  }
+  if (period === "monthly") {
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    const end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+    return { start, end, stamp: start.getFullYear() * 100 + start.getMonth() + 1 };
+  }
+  const start = new Date(now.getFullYear(), 0, 1);
+  const end = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
+  return { start, end, stamp: start.getFullYear() };
+}
+
+function formatRashifalTimeline(period: RashifalPeriod, start: Date, end: Date, language: Language): string {
+  const locale = language === "ne" ? "ne-NP" : "en-US";
+  if (period === "daily") return start.toLocaleDateString(locale, { weekday: "long", month: "short", day: "numeric" });
+  if (period === "weekly") {
+    const startLabel = start.toLocaleDateString(locale, { month: "short", day: "numeric" });
+    const endLabel = end.toLocaleDateString(locale, { month: "short", day: "numeric" });
+    return `${startLabel} – ${endLabel}`;
+  }
+  if (period === "monthly") return start.toLocaleDateString(locale, { month: "long", year: "numeric" });
+  return start.toLocaleDateString(locale, { year: "numeric" });
+}
+
+export function generateRashifal(rashi: RashiKey, period: RashifalPeriod, language: Language) {
   const now = new Date();
-  const focusDate = new Date(now);
-  if (period === "weekly") focusDate.setDate(now.getDate() + 3);
-  if (period === "monthly") focusDate.setDate(now.getDate() + 15);
-  if (period === "yearly") focusDate.setMonth(now.getMonth() + 6);
-  const isoWeek = Math.ceil((((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(now.getFullYear(), 0, 1)) / 86400000) + new Date(now.getFullYear(), 0, 1).getUTCDay() + 1) / 7);
-  const stamp = period === "daily"
-    ? now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate()
-    : period === "weekly" ? now.getFullYear() * 100 + isoWeek
-      : period === "monthly" ? now.getFullYear() * 100 + now.getMonth() + 1
-        : now.getFullYear();
-  const rand = seeded(stamp + rashiOrder.indexOf(rashi) * 97);
+  const window = rashifalWindow(period, now);
+  const rand = seeded(window.stamp + rashiOrder.indexOf(rashi) * 97 + period.length * 1_009);
   const ne = language === "ne";
-  const domains = ["career", "family", "health", "wealth", "love"];
-  const scores = Object.fromEntries(domains.map((domain) => [domain, 58 + Math.floor(rand() * 38)]));
-  const copy = {
+  const domains: RashifalDomain[] = ["career", "family", "health", "wealth", "love"];
+  const scoreValues = domains.map(() => (1 + Math.floor(rand() * 5)) as RashifalScore);
+  // A flat row of identical marks looks fabricated and hides domain nuance.
+  // Deterministically nudge one value when the seeded draw happens to tie.
+  if (new Set(scoreValues).size === 1) scoreValues[scoreValues.length - 1] = scoreValues[0] === 5 ? 4 : ((scoreValues[0] + 1) as RashifalScore);
+  const scores = Object.fromEntries(domains.map((domain, index) => [domain, scoreValues[index]])) as Record<RashifalDomain, RashifalScore>;
+
+  const copy: Record<RashifalPeriod, readonly string[]> = {
     daily: ne
-      ? ["आजको चन्द्रगतिले छोटो निर्णयमा धैर्य माग्छ।", "आज परिवारको कुरा सुन्दा लाभ हुन्छ।", "आज सानो तर स्थिर काममा ध्यान दिनुहोस्।"]
-      : ["Today rewards calm decisions and steady timing.", "Today, family signals are supportive if you listen first.", "Today favors one small, disciplined task."],
+      ? ["बिहान निर्णय स्पष्ट हुन्छ; साँझ परिवारको कुरा धैर्यपूर्वक सुन्नुहोस्।", "आज एउटा सानो काम पूरा गर्दा बाँकी दिन हल्का हुन्छ।", "आज तुरुन्त प्रतिक्रिया दिनुभन्दा एकछिन रोकिएर बोल्नु लाभदायी छ।"]
+      : ["Decisions are clearer this morning; listen patiently to family this evening.", "Finishing one small task today makes the rest of the day lighter.", "Today rewards a short pause before you respond."],
     weekly: ne
-      ? ["यो साता संवाद र अधुरा काम मिलाउने समय हो।", "यो साता परिवारसँग तालमेल बढाउन सकिन्छ।", "यो साताको प्रगतिका लागि नियमितता रोज्नुहोस्।"]
-      : ["This week favors clearing conversations and unfinished work.", "This week supports steadier family coordination.", "Build momentum this week through a simple routine."],
+      ? ["साताको सुरुमा अधुरा काम मिलाउनुहोस्; मध्यसातामा संवाद र अन्त्यतिर विश्रामलाई ठाउँ दिनुहोस्।", "यो साता एक प्राथमिकतामा टिक्दा काम र घर दुवैमा तालमेल बढ्छ।", "सोमबारको योजना बिहीबार जाँच्नुहोस् र सप्ताहान्तमा अनावश्यक बोझ छोड्नुहोस्।"]
+      : ["Clear unfinished work early in the week, handle conversations midweek, and leave room to rest near the weekend.", "This week improves when one priority guides both work and home.", "Set the plan on Monday, review it Thursday, and release unnecessary load by the weekend."],
     monthly: ne
-      ? ["यो महिना बानी र योजना सुधार्ने समय हो।", "यो महिना खर्च र सम्बन्धमा क्रम चाहिन्छ।", "यो महिना एउटा दीर्घ लक्ष्यलाई निरन्तरता दिनुहोस्।"]
-      : ["This month is for improving habits and plans.", "This month asks for order in spending and relationships.", "Give one longer goal steady attention this month."],
+      ? ["महिनाको पहिलो भाग योजना र खर्च मिलाउन, दोस्रो भाग सम्बन्ध र दीर्घ काम अघि बढाउन उपयुक्त छ।", "यो महिना बानी सुधारमा निरन्तरता राख्दा अन्तिम सातासम्म स्पष्ट परिणाम देखिन्छ।", "एक मासिक लक्ष्य छानेर हरेक साताको सानो समीक्षा गर्नुहोस्।"]
+      : ["Use the first half of the month to organize plans and spending; use the second half for relationships and longer work.", "Consistent habit changes this month should show a clearer result by the final week.", "Choose one monthly goal and review it briefly each week."],
     yearly: ne
-      ? ["यो वर्ष जिम्मेवारी र दीर्घ दिशालाई बल दिने समय हो।", "यो वर्ष धैर्यले सम्बन्ध र काममा स्थिर लाभ दिन्छ।", "यो वर्ष क्रमिक परिवर्तनलाई प्राथमिकता दिनुहोस्।"]
-      : ["This year favors responsibility and long direction.", "Patience can bring steadier gains in work and relationships this year.", "Choose gradual, lasting change this year."]
-  } as const;
-  const advice = period === "daily"
-    ? (ne ? "बिहान छोटो प्रार्थना गरेर काम सुरु गर्नुहोस्।" : "Begin important work after a short morning prayer.")
-    : period === "weekly"
-      ? (ne ? "एक प्राथमिकता छानेर साताभरि त्यसमा टिक्नुहोस्।" : "Choose one priority and stay with it through the week.")
-      : period === "monthly"
-        ? (ne ? "महिनाको योजना लेखेर खर्च र समय जाँच्नुहोस्।" : "Write a monthly plan and review time and spending.")
-        : (ne ? "दीर्घ लक्ष्यलाई साना चरणमा बाँड्नुहोस्।" : "Break a long goal into smaller, steady steps.");
+      ? ["वर्षको पहिलो चौमासिकले आधार बनाउँछ, मध्यभागले जिम्मेवारी बढाउँछ र अन्तिम भागले स्थिर फल देखाउँछ।", "यो वर्ष छिटो परिवर्तनभन्दा क्रमिक सुधारले काम, धन र सम्बन्धमा दीर्घ लाभ दिन्छ।", "वार्षिक दिशालाई चार साना चरणमा बाँडेर प्रत्येक तीन महिनामा समीक्षा गर्नुहोस्।"]
+      : ["The first quarter builds the foundation, midyear increases responsibility, and the final months reveal the steadier result.", "This year favors gradual improvement over abrupt change in work, money, and relationships.", "Divide the year's direction into four smaller stages and review it every quarter."]
+  };
+  const advice: Record<RashifalPeriod, string> = {
+    daily: ne ? "आजको मुख्य काम बिहानै तय गर्नुहोस्।" : "Choose today's main task before the morning gets busy.",
+    weekly: ne ? "एक प्राथमिकता छानेर साताभरि त्यसमा टिक्नुहोस्।" : "Choose one priority and stay with it through the week.",
+    monthly: ne ? "महिनाको योजना लेखेर प्रत्येक साताको प्रगति जाँच्नुहोस्।" : "Write the monthly plan and check progress each week.",
+    yearly: ne ? "दीर्घ लक्ष्यलाई त्रैमासिक चरणमा बाँड्नुहोस्।" : "Break the long goal into quarterly stages."
+  };
+  const upaya: Record<RashifalPeriod, string> = {
+    daily: ne ? "बिहान दीप बालेर तीन मिनेट मौन बस्नुहोस्।" : "Light a lamp and sit quietly for three minutes this morning.",
+    weekly: ne ? "यस साता एक दिन ज्येष्ठ व्यक्तिको सेवा गर्नुहोस्।" : "Offer one act of service to an elder this week.",
+    monthly: ne ? "यस महिना एक बिहीबार अन्न दान गर्नुहोस्।" : "Donate a simple meal on one Thursday this month.",
+    yearly: ne ? "वर्षभरि महिनामा एक पटक गुरु वा बुबाआमाको आशीर्वाद लिनुहोस्।" : "Seek an elder's blessing once each month this year."
+  };
+
   return {
-    text: `${copy[period][Math.floor(rand() * copy[period].length)]} ${advice}`,
-    scores: scores as Record<string, number>,
-    upaya: ne ? "गुरु वा बुबाआमाको आशीर्वाद लिनुहोस्।" : "Seek an elder's blessing and offer a small act of service.",
+    period,
+    text: `${copy[period][Math.floor(rand() * copy[period].length)]} ${advice[period]}`,
+    scores,
+    upaya: upaya[period],
     luckyColor: ne ? "सुनौलो" : "Gold",
     luckyNumber: 1 + Math.floor(rand() * 9),
-    luckyDay: period === "daily" ? (ne ? "आज" : "Today") : period === "weekly" ? (ne ? "बिहीबार" : "Thursday") : period === "monthly" ? (ne ? "महिनाको दोस्रो भाग" : "Second half") : (ne ? "वर्षको मध्य भाग" : "Mid-year"),
-    timeline: period === "daily" ? (ne ? "आज" : "Today") : period === "weekly" ? (ne ? "यस साताभरि" : "This week") : period === "monthly" ? (ne ? "यस महिनाभरि" : "This month") : (ne ? "यस वर्षभरि" : "This year"),
-    focusDate
+    luckyDay: period === "daily" ? (ne ? "आज" : "Today") : period === "weekly" ? (ne ? "बिहीबार" : "Thursday") : period === "monthly" ? (ne ? "तेस्रो साता" : "Third week") : (ne ? "असोज–मंसिर" : "September–November"),
+    timeline: formatRashifalTimeline(period, window.start, window.end, language),
+    periodStart: window.start,
+    periodEnd: window.end,
+    focusDate: new Date((window.start.getTime() + window.end.getTime()) / 2)
   };
 }
 
@@ -163,7 +219,12 @@ export function todayBS() {
 }
 
 export function recomputeMember(member: FamilyMember): FamilyMember {
-  if (!member.birth) return member;
+  if (!member.birth) {
+    // A kundali is derived data. Keeping one without its source birth record
+    // makes a placeholder chart look authoritative, so remove it explicitly.
+    const { kundali: _discardedKundali, ...memberWithoutKundali } = member;
+    return memberWithoutKundali;
+  }
   return { ...member, kundali: computeKundali(member.birth) };
 }
 
