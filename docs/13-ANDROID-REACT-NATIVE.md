@@ -45,6 +45,9 @@ npm run android:prebuild -- --no-install
 - `src/ornaments.tsx` — semantic vector icons, the twelve rashi marks, yantra scores, and shared visual ornaments.
 - `src/theme.ts` — shared palette, spacing, layout, and motion constants ported from the SwiftUI design system.
 - `src/astro.ts` — TypeScript astrology/rashifal/panchanga/demo data layer.
+- `src/features.ts` — bilingual feature catalog shared by Home, More, launch sheets, and chat source keys.
+- `src/jyotish-reports.ts` — deterministic feature evidence and local prepared reports; Vimshottari dates are calculated here rather than invented by the language model.
+- `src/family-qr.ts` — versioned iOS-compatible Parivar QR encoding, validation, and duplicate identity rules.
 - `assets/expo/` — Android app icon, brand logo, temple image, and bundled fonts.
 - `android/` — generated native Android project for `com.sodhera.jyotish`.
 
@@ -60,9 +63,12 @@ npm run android:prebuild -- --no-install
 - The Android astrology layer is local TypeScript. It preserves deterministic Jyotish
   behavior and user-facing structure, but the full Swift ephemeris should remain the
   accuracy reference until a second pass ports every Swift astronomy term exactly.
-- Voice reply playback is wired through `expo-speech`. Recording/STT permission is declared
-  for Android, but full ElevenLabs voice-agent recording should be completed in the next
-  native QA pass.
+- Voice typing uses the phone's native speech-recognition service through
+  `expo-speech-recognition`. The composer requests microphone permission on demand, uses
+  `ne-NP` or `en-IN`, shows interim text, and leaves the transcript editable before send.
+- Parivar provides camera QR scanning, paste fallback, and a locally rendered personal QR.
+  Camera and microphone capabilities require a development/native build; Expo Go is not
+  the acceptance target for these plugins.
 
 ## SwiftUI parity contract
 
@@ -72,9 +78,9 @@ hierarchy even when native platform chrome differs:
 | Surface | Shared contract |
 | --- | --- |
 | App shell | Home, Rashifal, and Family are the only primary tabs. Patro is secondary and Jyotish Baje is modal. |
-| Home | Greeting/name, personal rashifal hook, three Jyotish Baje starters plus ask-anything CTA, tithi/Patro link, temple, relatives, then upcoming events. |
+| Home | Greeting/name, personal rashifal hook, conditional Relationships, five feature icons plus More, ask-anything CTA, tithi/Patro link, temple, relatives, then upcoming events. Dashas & Life Phase is a primary icon. |
 | Rashifal | Period selector, horizontal rashi selector, rashi/period heading, reading and Baje CTA, five-point domain scores, lucky facts, then upaya. |
-| Family | Optional family tree followed by flat member rows and a Kundli affordance. The add action belongs in the header. |
+| Family | Add, Scan QR, and My QR actions; optional family tree followed by flat member rows and a Kundli affordance. |
 | Visual system | Plain warm canvas, Fraunces display type, Inter body type, 24dp primary gutters, 40dp section rhythm, semantic palette only, and no decorative content cards. |
 | Appearance | Light, dark, and system settings use the same semantic colors as SwiftUI. |
 
@@ -125,6 +131,7 @@ Before pushing Android changes, run:
 ```sh
 npm run typecheck
 npm run android:export
+npm run android:prebuild -- --no-install
 cd android && ./gradlew assembleDebug
 cd android && ./gradlew assembleRelease
 ```

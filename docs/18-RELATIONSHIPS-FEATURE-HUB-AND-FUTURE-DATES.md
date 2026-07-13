@@ -30,15 +30,37 @@ system that was intentionally requested as a report only.
 The main grid deliberately limits itself to:
 
 1. Today's Panchang
-2. Muhurat Finder
-3. Dosha Check
-4. Personal Upaya
+2. Dashas & Life Phase
+3. Muhurat Finder
+4. Dosha Check
 5. Kundli Matching
 6. More
 
 `More` is a catalog, not another question shelf. This avoids the previous habit of placing
 multiple long questions on Home. The generic `Ask Jyotish Baje anything` action remains
 available below the grid.
+
+Dashas is primary because it is both a frequent-return use case and a report the local
+engine can substantiate. Personal Upaya remains available in More.
+
+## Prepared feature report contract
+
+Every feature launch owns a stable source key:
+
+```text
+feature:<feature-id>:<self-or-family-member-id>
+```
+
+Android consumes this key in `src/app-state.tsx`, runs `buildFeatureToolReport`, and sends
+`requestedFeature`, `toolEvidence`, and `localFallbackReply` to the agent. The Dasha report
+is fully deterministic and includes current Mahadasha and Antardasha boundaries, the next
+Mahadasha date, six life-area interpretations, Dos, Don'ts, and uncertainty. If the remote
+agent is unavailable, the same prepared report still appears in chat. If it is available,
+the backend may improve warmth and clarity but must preserve every supplied date.
+
+For tools that require planets absent from Android's compact chart, the prepared report
+states the calculation boundary and asks the agent to calculate and disclose the missing
+evidence. It never fabricates a Dosha, transit, Ashtakoota score, or Muhurat.
 
 ## Relationship interpretation contract
 
@@ -185,5 +207,7 @@ When changing this feature family:
 5. Check all four Rashifal horizons for Dos and Don'ts.
 6. Check Panchang timing order for at least Kathmandu and one non-Nepal location.
 7. Confirm surgery copy never tells a user to delay medically necessary care.
-8. Run `PanditToolsTests` and a simulator build.
-
+8. Open Dashas & Life Phase and verify the report contains Mahadasha, Antardasha, next
+   phase, six life areas, Dos and Don'ts.
+9. On Android, dictate in both language settings and verify the transcript remains editable.
+10. Run `PanditToolsTests`, TypeScript checking, Android export/native builds, and an iOS simulator build.
