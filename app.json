@@ -11,7 +11,7 @@
       "assets/expo/**/*"
     ],
     "android": {
-      "package": "com.sodhera.jyotishbaje",
+      "package": "com.sodhera.jyotish",
       "adaptiveIcon": {
         "foregroundImage": "./assets/expo/images/icon.png",
         "backgroundColor": "#FCF7ED"
