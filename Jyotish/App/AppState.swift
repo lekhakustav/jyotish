@@ -502,9 +502,14 @@ final class AppState: ObservableObject {
                 let remoteAnswer = try await agent.streamReply(to: trimmed, context: context) { delta in
                     self.appendAssistantDelta(delta, messageID: pendingID)
                 }
-                answer = PanditAnswerContract.completed(remoteAnswer,
-                                                        fallback: localAnswer,
-                                                        language: language)
+                let completed = PanditAnswerContract.completed(remoteAnswer,
+                                                               fallback: localAnswer,
+                                                               language: language)
+                if completed.hasPrefix(remoteAnswer), completed.count > remoteAnswer.count {
+                    appendAssistantDelta(String(completed.dropFirst(remoteAnswer.count)), messageID: pendingID)
+                }
+                await finishAssistantStream(messageID: pendingID)
+                answer = completed
             } else {
                 answer = PanditAnswerContract.completed(localAnswer, fallback: localAnswer, language: language)
                 await streamLocalFallback(answer, messageID: pendingID)
@@ -529,8 +534,29 @@ final class AppState: ObservableObject {
         assistantStreamBuffers[messageID, default: ""] += delta
         guard assistantStreamTasks[messageID] == nil else { return }
         assistantStreamTasks[messageID] = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 90_000_000)
-            flushAssistantStream(messageID)
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 36_000_000)
+                guard !Task.isCancelled else { return }
+                guard var buffered = assistantStreamBuffers[messageID], !buffered.isEmpty else {
+                    assistantStreamTasks[messageID] = nil
+                    return
+                }
+                let chunkSize = min(7, max(2, buffered.count / 16))
+                let end = buffered.index(buffered.startIndex,
+                                         offsetBy: min(chunkSize, buffered.count))
+                let chunk = String(buffered[..<end])
+                buffered.removeSubrange(..<end)
+                assistantStreamBuffers[messageID] = buffered
+                guard let index = chat.firstIndex(where: { $0.id == messageID }) else { continue }
+                chat[index].text += chunk
+            }
+        }
+    }
+
+    private func finishAssistantStream(messageID: UUID) async {
+        while assistantStreamTasks[messageID] != nil ||
+                !(assistantStreamBuffers[messageID] ?? "").isEmpty {
+            try? await Task.sleep(nanoseconds: 24_000_000)
         }
     }
 
@@ -558,6 +584,7 @@ final class AppState: ObservableObject {
             appendAssistantDelta((index == 0 ? "" : " ") + piece, messageID: messageID)
             try? await Task.sleep(nanoseconds: 42_000_000)
         }
+        await finishAssistantStream(messageID: messageID)
     }
 
     private func restoreChats(from household: Household) {

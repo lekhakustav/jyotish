@@ -15,6 +15,7 @@ struct ChatView: View {
     @State private var showComparison = false
     @State private var kundliPath: [UUID] = []
     @State private var notice: String?
+    @State private var followsLatestAnswer = true
     @FocusState private var focused: Bool
 
     var body: some View {
@@ -25,35 +26,59 @@ struct ChatView: View {
                     header
 
                     ScrollViewReader { proxy in
-                        ScrollView {
-                            VStack(spacing: 20) {
-                                if app.chat.isEmpty { welcome }
-                                ForEach(app.chat) { msg in
-                                    bubble(msg)
-                                        .id(msg.id)
-                                        .transition(.opacity.combined(with: .offset(y: 8)))
+                        ZStack(alignment: .bottomTrailing) {
+                            ScrollView {
+                                VStack(spacing: 20) {
+                                    if app.chat.isEmpty { welcome }
+                                    ForEach(app.chat) { msg in
+                                        bubble(msg)
+                                            .id(msg.id)
+                                            .transition(.opacity.combined(with: .offset(y: 8)))
+                                    }
                                 }
+                                .padding(.horizontal, LayoutMetrics.screenGutter)
+                                .padding(.bottom, 12)
                             }
-                            .padding(.horizontal, LayoutMetrics.screenGutter)
-                            .padding(.bottom, 12)
-                        }
-                        .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9), value: app.chat.count)
-                        .onChange(of: app.chat.count) {
-                            if let last = app.chat.last {
+                            .simultaneousGesture(DragGesture(minimumDistance: 5).onChanged { _ in
+                                followsLatestAnswer = false
+                            })
+                            .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9), value: app.chat.count)
+                            .onChange(of: app.chat.count) {
+                                guard followsLatestAnswer, let last = app.chat.last else { return }
                                 withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9)) {
                                     proxy.scrollTo(last.id, anchor: .bottom)
                                 }
                             }
-                        }
-                        .onChange(of: app.chatTypingMessageID) { _, typingID in
-                            guard typingID == nil, let last = app.chat.last else { return }
-                            withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.9)) {
+                            .onChange(of: app.chatTypingMessageID) { _, typingID in
+                                guard followsLatestAnswer, typingID == nil, let last = app.chat.last else { return }
+                                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.22)) {
+                                    proxy.scrollTo(last.id, anchor: .bottom)
+                                }
+                            }
+                            .onChange(of: app.chat.last?.text) { _, _ in
+                                guard followsLatestAnswer, app.chatTypingMessageID != nil,
+                                      let last = app.chat.last else { return }
                                 proxy.scrollTo(last.id, anchor: .bottom)
                             }
-                        }
-                        .onChange(of: app.chat.last?.text) { _, _ in
-                            guard app.chatTypingMessageID != nil, let last = app.chat.last else { return }
-                            proxy.scrollTo(last.id, anchor: .bottom)
+
+                            if !followsLatestAnswer, let last = app.chat.last {
+                                Button {
+                                    Haptics.tap()
+                                    followsLatestAnswer = true
+                                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.22)) {
+                                        proxy.scrollTo(last.id, anchor: .bottom)
+                                    }
+                                } label: {
+                                    Image(systemName: "arrow.down")
+                                        .scaledFont(size: 15, weight: .semibold)
+                                        .foregroundStyle(p.onAccent)
+                                        .frame(width: 42, height: 42)
+                                        .background(Circle().fill(p.saffron))
+                                        .shadow(color: .black.opacity(0.12), radius: 8, y: 3)
+                                }
+                                .accessibilityLabel(app.language == .ne ? "नयाँ उत्तरमा जानुहोस्" : "Jump to latest answer")
+                                .padding(14)
+                            }
                         }
                     }
 
@@ -204,30 +229,32 @@ struct ChatView: View {
                 }
                 if !msg.isUser { Spacer(minLength: 56) }
             }
-            if !msg.isUser, !msg.text.isEmpty, let member = kundliMember(for: msg) {
-                Button {
-                    Haptics.tap()
-                    openKundli(member.id)
-                } label: {
-                    VStack(alignment: .leading, spacing: 10) {
-                        HStack {
-                            Label(app.t("chat.action.seeKundli"), systemImage: "square.grid.3x3")
-                                .scaledFont(size: 14, weight: .semibold)
-                            Spacer()
-                            Image(systemName: "arrow.up.left.and.arrow.down.right")
-                        }
-                        .foregroundStyle(p.sindoor)
-                        if let chart = member.kundali {
-                            KundaliChartView(chart: chart).frame(maxWidth: 260)
-                        }
+            if !msg.isUser, !msg.text.isEmpty, app.chatTypingMessageID != msg.id,
+               let member = kundliMember(for: msg), let chart = member.kundali {
+                VStack(alignment: .leading, spacing: 12) {
+                    Hairline()
+                    Text(app.language == .ne
+                         ? "उत्तरमा प्रयोग गरिएको \(member.displayName(.ne))को कुण्डली"
+                         : "Kundli used for \(member.name)'s answer")
+                        .scaledFont(size: 13, weight: .semibold)
+                        .foregroundStyle(p.inkSecondary)
+                    KundaliChartView(chart: chart)
+                        .frame(maxWidth: 280)
+                    Button {
+                        Haptics.tap()
+                        openKundli(member.id)
+                    } label: {
+                        Label(app.t("chat.action.seeKundli"), systemImage: "arrow.up.right")
+                            .scaledFont(size: 14, weight: .semibold)
+                            .foregroundStyle(p.sindoor)
+                            .frame(minHeight: 44)
                     }
-                    .padding(14)
-                    .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(p.bgElevated))
+                    .buttonStyle(SpringPressStyle())
                 }
-                .buttonStyle(SpringPressStyle())
                 .accessibilityLabel(app.t("chat.action.seeKundli"))
             }
-            if !msg.isUser, !msg.text.isEmpty, let actions = msg.actions, !actions.isEmpty {
+            if !msg.isUser, !msg.text.isEmpty, app.chatTypingMessageID != msg.id,
+               let actions = msg.actions, !actions.isEmpty {
                 actionRow(actions, message: msg)
             }
         }
@@ -435,6 +462,7 @@ struct ChatView: View {
 
     private func send(_ text: String) {
         guard !isSending else { return }
+        followsLatestAnswer = true
         isSending = true
         Task {
             let reply = await app.sendChat(text)
