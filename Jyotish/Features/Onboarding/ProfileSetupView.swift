@@ -237,6 +237,8 @@ struct BirthFlowView: View {
 
     private var relationSections: [(titleKey: String, relations: [Relation])] {
         [
+            ("flow.relation.social", [.friend, .boyfriend, .girlfriend, .partner,
+                                       .fiance, .fiancee, .colleague, .mentor]),
             ("flow.relation.immediate", [.husband, .wife, .son, .daughter, .father, .mother,
                                           .brother, .sister, .grandfather, .grandmother,
                                           .grandson, .granddaughter]),

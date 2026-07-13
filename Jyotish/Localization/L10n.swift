@@ -63,6 +63,7 @@ enum L10n {
         "flow.continue": ("Continue", "अगाडि बढ्नुहोस्"),
         "flow.relation.q": ("Who are you adding?", "कसलाई थप्दै हुनुहुन्छ?"),
         "flow.relation.immediate": ("Immediate family", "नजिकको परिवार"),
+        "flow.relation.social": ("Friends & relationships", "साथी र सम्बन्ध"),
         "flow.relation.paternal": ("Father's side", "बुबातर्फ"),
         "flow.relation.maternal": ("Mother's side", "आमातर्फ"),
         "flow.relation.inlaws": ("In-laws", "ससुराली नाता"),

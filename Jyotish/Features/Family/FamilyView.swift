@@ -83,8 +83,9 @@ struct FamilyView: View {
     /// connector lines never cross the name labels.
     private var familyTree: some View {
         let parents = app.family.filter { [.father, .mother, .grandfather, .grandmother].contains($0.relation) }
-        let partners = app.family.filter { [.husband, .wife].contains($0.relation) }
-        let siblings = app.family.filter { [.brother, .sister].contains($0.relation) }
+        let partners = app.family.filter { [.husband, .wife, .boyfriend, .girlfriend,
+                                            .partner, .fiance, .fiancee].contains($0.relation) }
+        let siblings = app.family.filter { [.brother, .sister, .friend, .colleague, .mentor].contains($0.relation) }
         let children = app.family.filter { [.son, .daughter].contains($0.relation) }
         let grandchildren = app.family.filter { [.grandson, .granddaughter].contains($0.relation) }
 
@@ -177,13 +178,14 @@ struct FamilyView: View {
         case .son, .daughter, .grandson, .granddaughter,
              .bhatija, .bhatiji, .bhanja, .bhanji:
             return "figure.child"
-        case .husband, .wife:
+        case .husband, .wife, .boyfriend, .girlfriend, .partner, .fiance, .fiancee:
             return "person.2"
         case .father, .mother, .grandfather, .grandmother,
              .kaka, .kaki, .thuloBaa, .thuloAma, .phupu, .phupaju,
              .mama, .maiju, .saniAma, .thuliAma, .sasura, .sasu:
             return "person.fill"
-        case .brother, .sister, .jethaju, .devar, .jethani, .devrani, .nanad,
+        case .brother, .sister, .friend, .colleague, .mentor,
+             .jethaju, .devar, .jethani, .devrani, .nanad,
              .saala, .saali, .bhinaju, .bhauju, .buhari, .jwaai, .cousin:
             return "person"
         case .selfMember, nil:

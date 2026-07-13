@@ -23,6 +23,11 @@ struct Rashifal {
     var panditTeaser: String
     var panditCTA: String
     var panditPrompt: String
+    /// Concrete behavior turns a reading into something usable. Every horizon
+    /// receives both lists; they are derived from the same transit scores as the
+    /// prose instead of being generic daily filler.
+    var dos: [String]
+    var donts: [String]
 }
 
 /// Generates rashifal from *real* gochar (transits) — deterministic per
@@ -194,6 +199,7 @@ enum RashifalEngine {
         let upaya = upayaOptions[Int(rng.next() % UInt64(upayaOptions.count))]
         let colors = ne ? g.colorsNE : g.colorsEN
         let panditInvitation = panditInvitation(scores: scores, period: period, ne: ne)
+        let guidance = behaviorGuidance(scores: scores, period: period, ne: ne)
         let result = Rashifal(rashi: rashi, period: period,
                               text: lines.joined(separator: " "),
                               scores: scores, upaya: upaya,
@@ -203,7 +209,9 @@ enum RashifalEngine {
                               timeline: periodTimeline(period: period, date: date, ne: ne),
                               panditTeaser: panditInvitation.teaser,
                               panditCTA: panditInvitation.cta,
-                              panditPrompt: panditInvitation.prompt)
+                              panditPrompt: panditInvitation.prompt,
+                              dos: guidance.dos,
+                              donts: guidance.donts)
         store(result, for: key)
         return result
     }
@@ -275,6 +283,53 @@ enum RashifalEngine {
             : "Ask Jyotish Baje about your \(area) opportunity"
         let prompt = "My \(period.rawValue) rashifal gives \(area) \(chosen.value)/5. How does that connect with my kundli and current dasha, and what should I do?"
         return (teaser, cta, prompt)
+    }
+
+    private static func behaviorGuidance(scores: [String: Int],
+                                         period: RashifalPeriod,
+                                         ne: Bool) -> (dos: [String], donts: [String]) {
+        let strongest = scores.max { lhs, rhs in
+            lhs.value == rhs.value ? lhs.key < rhs.key : lhs.value < rhs.value
+        }?.key ?? "rashifal.family"
+        let weakest = scores.min { lhs, rhs in
+            lhs.value == rhs.value ? lhs.key < rhs.key : lhs.value < rhs.value
+        }?.key ?? "rashifal.health"
+
+        let doByDomain: [String: (String, String)] = [
+            "rashifal.career": ("Finish the highest-impact task before taking on more.", "थप काम लिनुअघि सबैभन्दा प्रभावकारी काम पूरा गर्नुहोस्।"),
+            "rashifal.family": ("Make time for one calm, undistracted family conversation.", "परिवारसँग ध्यान दिएर एउटा शान्त कुराकानी गर्नुहोस्।"),
+            "rashifal.health": ("Protect sleep, hydration, and a steady movement routine.", "निद्रा, पानी र नियमित हिँडडुललाई प्राथमिकता दिनुहोस्।"),
+            "rashifal.wealth": ("Review the practical numbers before committing money.", "पैसा लगाउनुअघि व्यावहारिक हिसाब जाँच्नुहोस्।"),
+            "rashifal.love": ("Say what you need with warmth and without testing the other person.", "अर्कोलाई परीक्षा नलिई न्यानोपनका साथ आफ्नो आवश्यकता भन्नुहोस्।"),
+        ]
+        let dontByDomain: [String: (String, String)] = [
+            "rashifal.career": ("Do not confuse urgency with importance.", "हतारलाई महत्त्वपूर्ण काम ठान्ने भूल नगर्नुहोस्।"),
+            "rashifal.family": ("Do not reopen an old argument just to win it.", "जित्नका लागि पुरानो विवाद फेरि नउठाउनुहोस्।"),
+            "rashifal.health": ("Do not ignore fatigue or use astrology as medical advice.", "थकानलाई बेवास्ता नगर्नुहोस् र ज्योतिषलाई चिकित्सा सल्लाह नमान्नुहोस्।"),
+            "rashifal.wealth": ("Do not lend, buy, or invest from social pressure.", "सामाजिक दबाबमा ऋण, खरिद वा लगानी नगर्नुहोस्।"),
+            "rashifal.love": ("Do not make a permanent decision during a temporary emotional spike.", "क्षणिक भावनामा स्थायी निर्णय नगर्नुहोस्।"),
+        ]
+        let horizonDo: (String, String)
+        let horizonDont: (String, String)
+        switch period {
+        case .daily:
+            horizonDo = ("Leave a little space before answering.", "उत्तर दिनुअघि केही क्षण रोक्नुहोस्।")
+            horizonDont = ("Do not force every decision today.", "आज हरेक निर्णय जबर्जस्ती नगर्नुहोस्।")
+        case .weekly:
+            horizonDo = ("Choose one repeatable habit for this week.", "यो साताका लागि दोहोर्याउन मिल्ने एउटा बानी छान्नुहोस्।")
+            horizonDont = ("Do not scatter attention across too many promises.", "धेरै वाचामा ध्यान नछरिनुहोस्।")
+        case .monthly:
+            horizonDo = ("Set one measurable intention for the month.", "महिनाका लागि मापन गर्न मिल्ने एउटा संकल्प राख्नुहोस्।")
+            horizonDont = ("Do not judge the whole month by one difficult day.", "एउटा कठिन दिनले पूरै महिना ननाप्नुहोस्।")
+        case .yearly:
+            horizonDo = ("Build around the responsibility you want to sustain.", "टिकाइराख्न चाहेको जिम्मेवारी वरिपरि योजना बनाउनुहोस्।")
+            horizonDont = ("Do not chase a major change without a practical base.", "व्यावहारिक आधारबिना ठूलो परिवर्तन नपछ्याउनुहोस्।")
+        }
+        let strong = doByDomain[strongest] ?? doByDomain["rashifal.family"]!
+        let weak = dontByDomain[weakest] ?? dontByDomain["rashifal.health"]!
+        return ne
+            ? ([strong.1, horizonDo.1], [weak.1, horizonDont.1])
+            : ([strong.0, horizonDo.0], [weak.0, horizonDont.0])
     }
 
     private static func cachedValue(for key: CacheKey) -> Rashifal? {

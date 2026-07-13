@@ -6,7 +6,7 @@ import Foundation
 /// Results are planning candidates based on Panchanga limbs, not a replacement
 /// for a ceremony-specific sankalpa from a human Pandit.
 enum MuhurtaPurpose: String, Codable, CaseIterable, Identifiable {
-    case general, marriage, grihaPravesh, vehicle, travel, business, education, puja, naming
+    case general, marriage, housePurchase, grihaPravesh, vehicle, travel, business, newJob, surgery, education, puja, naming
 
     var id: String { rawValue }
 
@@ -14,10 +14,13 @@ enum MuhurtaPurpose: String, Codable, CaseIterable, Identifiable {
         let q = query.lowercased()
         let matches: [(MuhurtaPurpose, [String])] = [
             (.marriage, ["marriage", "wedding", "vivah", "विवाह", "बिहे"]),
+            (.housePurchase, ["buying a house", "buy a house", "property purchase", "घर किन्न", "घर खरिद"]),
             (.grihaPravesh, ["griha", "house entry", "new home", "गृहप्रवेश", "घर सर्ने"]),
             (.vehicle, ["vehicle", "car", "bike", "गाडी", "मोटरसाइकल"]),
             (.travel, ["travel", "trip", "journey", "यात्रा", "विदेश"]),
             (.business, ["business", "shop", "company", "काम सुरु", "व्यापार", "पसल"]),
+            (.newJob, ["new job", "starting a job", "join work", "नयाँ जागिर", "जागिर सुरु"]),
+            (.surgery, ["surgery", "operation", "procedure", "शल्यक्रिया", "अपरेशन"]),
             (.education, ["study", "exam", "school", "education", "पढाइ", "परीक्षा"]),
             (.puja, ["puja", "pooja", "havan", " पूजा", "पूजा", "हवन"]),
             (.naming, ["naming", "naamkaran", "baby name", "नामकरण", "न्वारान"]),
@@ -29,10 +32,13 @@ enum MuhurtaPurpose: String, Codable, CaseIterable, Identifiable {
         let names: [MuhurtaPurpose: (String, String)] = [
             .general: ("important work", "महत्त्वपूर्ण काम"),
             .marriage: ("marriage", "विवाह"),
+            .housePurchase: ("house purchase", "घर खरिद"),
             .grihaPravesh: ("griha pravesh", "गृहप्रवेश"),
             .vehicle: ("vehicle purchase", "सवारी खरिद"),
             .travel: ("travel", "यात्रा"),
             .business: ("business start", "व्यापार आरम्भ"),
+            .newJob: ("starting a new job", "नयाँ जागिर सुरु"),
+            .surgery: ("a medical procedure", "चिकित्सकीय प्रक्रिया"),
             .education: ("study or exam", "पढाइ वा परीक्षा"),
             .puja: ("puja", "पूजा"),
             .naming: ("naamkaran", "नामकरण"),
@@ -129,9 +135,16 @@ enum MuhurtaEngine {
                 ? "दिन मध्यम छ; अर्को विकल्पसँग तुलना गर्नु राम्रो हुन्छ।"
                 : "The day is mixed; compare it with another candidate before deciding.")
         }
-        let caution = ne
-            ? "यो पात्रो-आधारित प्रारम्भिक छनोट हो। विवाह वा संस्कारको ठ्याक्कै समय अनुभवी पण्डितसँग पुष्टि गर्नुहोस्।"
-            : "This is a Panchanga-based planning candidate. Confirm the exact time for marriage or formal samskara with an experienced Pandit."
+        let caution: String
+        if purpose == .surgery {
+            caution = ne
+                ? "चिकित्सकले दिएको आवश्यक समय कहिल्यै नसार्नुहोस्। यो केवल वैकल्पिक समयबीचको परम्परागत पात्रो तुलना हो।"
+                : "Never delay medically necessary care. This only compares optional scheduling windows through traditional Panchanga factors."
+        } else {
+            caution = ne
+                ? "यो पात्रो-आधारित प्रारम्भिक छनोट हो। विवाह वा संस्कारको ठ्याक्कै समय अनुभवी पण्डितसँग पुष्टि गर्नुहोस्।"
+                : "This is a Panchanga-based planning candidate. Confirm the exact time for marriage or formal samskara with an experienced Pandit."
+        }
         return MuhurtaCandidate(date: date,
                                 bsDate: BikramSambat.toBS(date),
                                 purpose: purpose,
@@ -143,9 +156,10 @@ enum MuhurtaEngine {
     private static func tithis(for purpose: MuhurtaPurpose) -> Set<Int> {
         switch purpose {
         case .marriage: return [2, 3, 5, 7, 10, 11, 13]
-        case .grihaPravesh, .vehicle: return [2, 3, 5, 7, 10, 11, 13]
+        case .housePurchase, .grihaPravesh, .vehicle: return [2, 3, 5, 7, 10, 11, 13]
         case .travel: return [2, 3, 5, 7, 10, 11]
-        case .business, .education: return [2, 3, 5, 7, 10, 11, 13]
+        case .business, .newJob, .education: return [2, 3, 5, 7, 10, 11, 13]
+        case .surgery: return [2, 3, 5, 7, 10, 11]
         case .puja: return [2, 3, 5, 7, 10, 11, 13, 15]
         case .naming: return [2, 3, 5, 7, 10, 11, 13]
         case .general: return [2, 3, 5, 7, 10, 11, 13]
@@ -155,9 +169,10 @@ enum MuhurtaEngine {
     private static func weekdays(for purpose: MuhurtaPurpose) -> Set<Int> {
         switch purpose {
         case .marriage: return [2, 4, 5, 6]
-        case .grihaPravesh, .vehicle, .naming: return [2, 4, 5, 6]
+        case .housePurchase, .grihaPravesh, .vehicle, .naming: return [2, 4, 5, 6]
         case .travel: return [2, 3, 4, 5, 6]
-        case .business, .education: return [4, 5, 6]
+        case .business, .newJob, .education: return [4, 5, 6]
+        case .surgery: return [2, 4, 5]
         case .puja: return [1, 2, 4, 5, 6]
         case .general: return [2, 4, 5, 6]
         }
@@ -167,133 +182,6 @@ enum MuhurtaEngine {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: Int(place.utcOffsetHours * 3600)) ?? .current
         return calendar
-    }
-}
-
-// MARK: - Compatibility
-
-struct CompatibilityReading: Equatable {
-    var score: Int
-    var summary: String
-    var strengths: [String]
-    var cautions: [String]
-    var uncertainty: String?
-}
-
-/// A transparent preliminary relationship reading. It deliberately does not
-/// claim to be a formal 36-guna Ashtakoota report; each score comes from a
-/// visible chart factor already computed by the app.
-enum CompatibilityEngine {
-    static func compare(_ first: FamilyMember,
-                        _ second: FamilyMember,
-                        language: Language) -> CompatibilityReading? {
-        guard let a = first.kundali, let b = second.kundali else { return nil }
-        let ne = language == .ne
-
-        let element = elementScore(a.moonRashi, b.moonRashi)
-        let lords = lordScore(a.moonRashi.lord, b.moonRashi.lord)
-        let tara = taraScore(a.moonNakshatra, b.moonNakshatra)
-        let bhakoot = bhakootScore(a.moonRashi, b.moonRashi)
-        let score = Int((Double(element + lords + tara + bhakoot) / 20.0 * 100.0).rounded())
-
-        var strengths: [String] = []
-        var cautions: [String] = []
-        appendFactor(element,
-                     good: ne ? "राशि तत्वले स्वभाव मिलाउन सहयोग गर्छ।" : "The rashi elements support a natural temperament fit.",
-                     caution: ne ? "राशि तत्व फरक भएकाले दिनचर्या र भावनामा सम्झौता चाहिन्छ।" : "Different rashi elements call for compromise in routines and emotions.",
-                     strengths: &strengths, cautions: &cautions)
-        appendFactor(lords,
-                     good: ne ? "दुवै राशिका स्वामी ग्रहबीच मैत्री छ।" : "The two rashi lords have a supportive relationship.",
-                     caution: ne ? "स्वामी ग्रहको स्वभाव फरक छ; निर्णय शैली खुला रूपमा बोल्नुहोस्।" : "The rashi lords differ; discuss decision styles openly.",
-                     strengths: &strengths, cautions: &cautions)
-        appendFactor(tara,
-                     good: ne ? "नक्षत्र ताराबलले आपसी सहयोग देखाउँछ।" : "Nakshatra tara balance supports mutual encouragement.",
-                     caution: ne ? "नक्षत्र लय फरक छ; दबाबको बेला धैर्य उपयोगी हुन्छ।" : "The nakshatra rhythm differs; patience helps under pressure.",
-                     strengths: &strengths, cautions: &cautions)
-        appendFactor(bhakoot,
-                     good: ne ? "चन्द्र राशिको दूरी साझा लक्ष्यका लागि सहयोगी छ।" : "The Moon-sign distance supports shared goals.",
-                     caution: ne ? "चन्द्र राशिको दूरी संवेदनशील छ; परिवार र पैसाबारे स्पष्टता राख्नुहोस्।" : "The Moon-sign distance is sensitive; be explicit about family and money.",
-                     strengths: &strengths, cautions: &cautions)
-
-        let summary: String
-        switch score {
-        case 75...:
-            summary = ne ? "सम्बन्धको प्रारम्भिक ज्योतिषीय आधार बलियो देखिन्छ।" : "The preliminary astrological foundation looks strong."
-        case 55..<75:
-            summary = ne ? "सम्बन्धमा राम्रो आधार छ, केही क्षेत्रमा सचेत समझदारी चाहिन्छ।" : "There is a good foundation with a few areas needing conscious understanding."
-        default:
-            summary = ne ? "यो सम्बन्धमा फरक स्वभाव छन्; निर्णय अघि विस्तृत मिलान उपयोगी हुन्छ।" : "The charts show meaningful differences; a fuller match is useful before a major decision."
-        }
-        let uncertain = [first.birth, second.birth].contains { $0?.timeKnown == false }
-            ? (ne
-                ? "कम्तीमा एक जनाको जन्म समय अज्ञात छ; लग्न-आधारित मिलान समावेश गरिएको छैन।"
-                : "At least one birth time is unknown, so Lagna-based matching is excluded.")
-            : nil
-        return CompatibilityReading(score: score,
-                                    summary: summary,
-                                    strengths: strengths,
-                                    cautions: cautions,
-                                    uncertainty: uncertain)
-    }
-
-    private static func appendFactor(_ score: Int,
-                                     good: String,
-                                     caution: String,
-                                     strengths: inout [String],
-                                     cautions: inout [String]) {
-        if score >= 4 { strengths.append(good) }
-        if score <= 2 { cautions.append(caution) }
-    }
-
-    private static func elementScore(_ a: Rashi, _ b: Rashi) -> Int {
-        let ea = element(a), eb = element(b)
-        if ea == eb { return 5 }
-        if Set([ea, eb]) == Set([0, 2]) || Set([ea, eb]) == Set([1, 3]) { return 4 }
-        return 2
-    }
-
-    /// 0 fire, 1 earth, 2 air, 3 water.
-    private static func element(_ rashi: Rashi) -> Int {
-        switch rashi.rawValue % 4 {
-        case 0: return 0
-        case 1: return 1
-        case 2: return 2
-        default: return 3
-        }
-    }
-
-    private static func lordScore(_ a: Planet, _ b: Planet) -> Int {
-        if a == b { return 5 }
-        let friends: [Planet: Set<Planet>] = [
-            .sun: [.moon, .mars, .jupiter],
-            .moon: [.sun, .mercury],
-            .mars: [.sun, .moon, .jupiter],
-            .mercury: [.sun, .venus],
-            .jupiter: [.sun, .moon, .mars],
-            .venus: [.mercury, .saturn],
-            .saturn: [.mercury, .venus],
-        ]
-        let mutual = friends[a]?.contains(b) == true && friends[b]?.contains(a) == true
-        let oneWay = friends[a]?.contains(b) == true || friends[b]?.contains(a) == true
-        return mutual ? 5 : (oneWay ? 4 : 2)
-    }
-
-    private static func taraScore(_ a: Nakshatra, _ b: Nakshatra) -> Int {
-        func supportive(from start: Int, to end: Int) -> Bool {
-            let count = (end - start + 27) % 27 + 1
-            return [2, 4, 6, 8, 9].contains((count - 1) % 9 + 1)
-        }
-        let ab = supportive(from: a.rawValue, to: b.rawValue)
-        let ba = supportive(from: b.rawValue, to: a.rawValue)
-        return ab && ba ? 5 : ((ab || ba) ? 3 : 1)
-    }
-
-    private static func bhakootScore(_ a: Rashi, _ b: Rashi) -> Int {
-        let distanceAB = (b.rawValue - a.rawValue + 12) % 12 + 1
-        let distanceBA = (a.rawValue - b.rawValue + 12) % 12 + 1
-        let pair = Set([distanceAB, distanceBA])
-        if pair == Set([2, 12]) || pair == Set([5, 9]) || pair == Set([6, 8]) { return 1 }
-        return 5
     }
 }
 
@@ -365,7 +253,7 @@ enum DevotionalKnowledge {
 // MARK: - Intent planning and structured answers
 
 enum PanditIntent: String, Codable, Equatable {
-    case daily, muhurta, compatibility, panchang, kundliDasha
+    case daily, muhurta, compatibility, panchang, kundliDasha, dosha
     case family, remedy, devotional, event, reminder, general
 }
 
@@ -455,7 +343,13 @@ enum PanditToolPlanner {
         case .daily:
             return dailyPlan(member: resolveMember(in: q, family: family) ?? selfMember,
                              family: family, language: language, now: now)
-        case .kundliDasha, .family, .remedy, .general:
+        case .dosha:
+            return doshaPlan(member: resolveMember(in: q, family: family) ?? selfMember,
+                             language: language, now: now)
+        case .remedy:
+            return remedyPlan(member: resolveMember(in: q, family: family) ?? selfMember,
+                              language: language)
+        case .kundliDasha, .family, .general:
             return chartPlan(intent: intent,
                              query: query,
                              member: resolveMember(in: q, family: family) ?? selfMember,
@@ -489,14 +383,16 @@ enum PanditToolPlanner {
     private static func detectIntent(_ q: String) -> PanditIntent {
         if contains(q, ["muhurat", "muhurta", "auspicious time", "good time", "shubh time", "good date", "when should", "शुभ समय", "शुभ दिन", "शुभ साइत", "साइत", "कहिले"]) { return .muhurta }
         if contains(q, ["compatib", "matchmaking", "match kundli", "guna", "मिलान", "गुण", "जोडी", "विवाह मिल्छ"]) { return .compatibility }
+        if contains(q, ["dosha", "manglik", "mangal dosh", "kaal sarp", "kal sarp", "pitra", "sade sati", "sadhe sati", "dhaiya", "guru chandal", "दोष", "माङ्गलिक", "मंगल दोष", "कालसर्प", "पितृ", "साढेसाती", "ढैया", "गुरु चाण्डाल"]) { return .dosha }
         if contains(q, ["add event", "save date", "add to patro", "कार्यक्रम थप", "पात्रोमा राख"]) { return .event }
         if contains(q, ["remind", "reminder", "याद दिला", "सम्झाइ"]) { return .reminder }
         if contains(q, ["panchang", "panchanga", "tithi", "nakshatra", "पञ्चाङ्ग", "तिथि", "नक्षत्र", "पात्रो"]) { return .panchang }
+        if contains(q, ["remedy", "upaya", "gem", "gemstone", "donation", "charity", "yantra", "color", "food", "उपाय", "रत्न", "दान", "यन्त्र", "रंग", "रङ", "भोजन"]) { return .remedy }
         if contains(q, ["festival", "vrat", "fast", "puja", "pooja", "aarti", "mantra", "पर्व", "व्रत", "पूजा", "आरती", "मन्त्र", "चाड"]) { return .devotional }
         if contains(q, ["today", "my day", "daily", "आज", "आजको दिन", "राशिफल"]) { return .daily }
         if contains(q, ["kundli", "kundali", "dasha", "rashi", "lagna", "कुण्डली", "दशा", "राशि", "लग्न"]) { return .kundliDasha }
         if contains(q, ["son", "daughter", "child", "family", "छोरा", "छोरी", "बच्चा", "परिवार"]) { return .family }
-        if contains(q, ["remedy", "upaya", "gem", "color", "vastu", "उपाय", "रत्न", "रंग", "रङ", "वास्तु"]) { return .remedy }
+        if contains(q, ["vastu", "वास्तु"]) { return .remedy }
         return .general
     }
 
@@ -578,6 +474,10 @@ enum PanditToolPlanner {
         let pair: [FamilyMember]
         if named.count >= 2 {
             pair = Array(named.prefix(2))
+        } else if named.count == 1,
+                  let me = family.first(where: { $0.relation == .selfMember }),
+                  me.id != named[0].id {
+            pair = [me, named[0]]
         } else {
             pair = Array(family.filter(\.hasBirthData).prefix(2))
         }
@@ -585,24 +485,27 @@ enum PanditToolPlanner {
               let reading = CompatibilityEngine.compare(pair[0], pair[1], language: language) else {
             let sections = StructuredPanditAnswer(
                 direct: language == .ne ? "मिलानका लागि दुई जनाको जन्म विवरण चाहिन्छ।" : "I need birth details for two people to compare them.",
-                why: [language == .ne ? "मिलान चन्द्र राशि, नक्षत्र र स्वामी ग्रहबाट सुरु हुन्छ।" : "The preliminary match uses Moon signs, nakshatras, and rashi lords."],
+                why: [language == .ne ? "पूर्ण मिलानमा वर्ण, वश्य, तारा, योनि, ग्रह मैत्री, गण, भकूट र नाडी गरी ३६ गुण हेरिन्छ।" : "A full report evaluates Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, and Nadi out of 36."],
                 action: language == .ne ? "परिवारमा दुवै व्यक्ति थपेर फेरि सोध्नुहोस्।" : "Add both people to Parivar, then ask again.",
                 practice: language == .ne ? "निर्णयमा संवाद र परिवारको सहमति पनि महत्त्वपूर्ण हुन्छ।" : "Conversation and family consent matter alongside astrology.",
-                uncertainty: language == .ne ? "यो औपचारिक ३६ गुण मिलान होइन।" : "This is not a formal 36-guna report.")
+                uncertainty: language == .ne ? "दुवै कुण्डली बिना मिलान निकाल्न मिल्दैन।" : "A match cannot be calculated without both kundlis.")
             return PanditToolPlan(intent: .compatibility,
                                   answer: sections.render(language),
                                   evidence: [],
                                   actions: commonActions(prefix: [PanditAction(kind: .compare)]))
         }
-        let why = Array((reading.strengths + reading.cautions).prefix(4))
+        let factorFacts = reading.factors.map { factor in
+            "\(factor.name): \(formatScore(factor.score))/\(formatScore(factor.maximum)) — \(factor.meaning)"
+        }
+        let why = factorFacts + [reading.manglikNote]
         let sections = StructuredPanditAnswer(
-            direct: "\(pair[0].name) + \(pair[1].name): \(reading.summary)",
-            why: why.isEmpty ? [language == .ne ? "चार देखिने कुण्डली कारक तुलना गरिएको छ।" : "Four visible chart factors were compared."] : why,
-            action: language == .ne ? "बलियो र संवेदनशील दुवै क्षेत्रमा खुला कुरा गर्नुहोस्।" : "Discuss both the strong and sensitive areas openly.",
+            direct: "\(pair[0].name) + \(pair[1].name): \(formatScore(reading.gunaScore))/36. \(reading.summary)",
+            why: why,
+            action: language == .ne ? "कम अंक आएका पक्षलाई निर्णयको डर होइन, स्पष्ट संवादको एजेन्डा बनाउनुहोस्।" : "Turn the lowest-scoring factors into a conversation agenda, not a fear-based verdict.",
             practice: language == .ne ? "ठूलो निर्णयअघि दुवै परिवारको शान्त सहमतिका लागि प्रार्थना गर्नुहोस्।" : "Before a major decision, make space for calm agreement between both families.",
-            uncertainty: reading.uncertainty ?? (language == .ne ? "यो प्रारम्भिक तुलना हो; औपचारिक विवाह मिलान होइन।" : "This is a preliminary comparison, not formal marriage matching."))
+            uncertainty: reading.uncertainty)
         let evidence = PanditToolEvidence(tool: "compare_kundli",
-                                          summary: "\(reading.score)/100",
+                                          summary: "\(formatScore(reading.gunaScore))/36 (\(reading.score)/100)",
                                           facts: why,
                                           uncertainty: reading.uncertainty)
         return PanditToolPlan(intent: .compatibility,
@@ -618,6 +521,7 @@ enum PanditToolPlanner {
                                      language: Language,
                                      now: Date) -> PanditToolPlan {
         let pan = Panchanga.forDay(now, place: place)
+        let details = PanchangaDayCalculator.details(for: now, place: place, language: language)
         let ne = language == .ne
         let direct = ne
             ? "आज \(pan.tithiName(ne: true)), \(pan.pakshaName(ne: true)) र \(pan.nakshatra.nameNE) नक्षत्र छ।"
@@ -626,6 +530,10 @@ enum PanditToolPlanner {
         let facts = [
             ne ? "योग: \(pan.yogaName(ne: true))" : "Yoga: \(pan.yogaName(ne: false))",
             ne ? "करण: \(pan.karanaName(ne: true))" : "Karana: \(pan.karanaName(ne: false))",
+            ne ? "सूर्योदय: \(timeLabel(details.sunrise, place: place, language: language)); सूर्यास्त: \(timeLabel(details.sunset, place: place, language: language))"
+               : "Sunrise: \(timeLabel(details.sunrise, place: place, language: language)); sunset: \(timeLabel(details.sunset, place: place, language: language))",
+            ne ? "राहुकाल: \(windowLabel(details.rahuKaal, place: place, language: language)); अभिजित मुहूर्त: \(windowLabel(details.abhijitMuhurat, place: place, language: language))"
+               : "Rahu Kaal: \(windowLabel(details.rahuKaal, place: place, language: language)); Abhijit Muhurat: \(windowLabel(details.abhijitMuhurat, place: place, language: language))",
             ne ? "स्थान: \(place.nameNE)" : "Place: \(place.name)",
         ]
         let sections = StructuredPanditAnswer(
@@ -633,7 +541,9 @@ enum PanditToolPlanner {
             why: facts,
             action: ne ? "पूरा दिन वा अर्को मिति हेर्न पात्रो खोल्नुहोस्।" : "Open Patro for the full day or another date.",
             practice: devotional.practice,
-            uncertainty: nil)
+            uncertainty: details.moonTimesAreApproximate
+                ? (ne ? "चन्द्र उदय/अस्त हाल अनुमानित हो; सूर्योदय र कालखण्ड स्थानअनुसार गणना भएका छन्।" : "Moonrise/set is currently approximate; solar times and kaal windows are location-derived.")
+                : nil)
         return PanditToolPlan(intent: .panchang,
                               answer: sections.render(language),
                               evidence: [PanditToolEvidence(tool: "get_panchang", summary: direct, facts: facts, uncertainty: nil)],
@@ -675,7 +585,8 @@ enum PanditToolPlanner {
         let sections = StructuredPanditAnswer(
             direct: r.text,
             why: why,
-            action: language == .ne ? "आज सबैभन्दा बलियो क्षेत्रलाई प्राथमिकता दिनुहोस्।" : "Prioritize the strongest area today.",
+            action: (language == .ne ? "गर्नुहोस्: " : "Do: ") + r.dos.joined(separator: " ")
+                + "\n" + (language == .ne ? "नगर्नुहोस्: " : "Don't: ") + r.donts.joined(separator: " "),
             practice: r.upaya,
             uncertainty: uncertainty)
         return PanditToolPlan(intent: .daily,
@@ -685,6 +596,63 @@ enum PanditToolPlanner {
                                 PanditAction(kind: .seeKundli, memberID: member.id),
                                 PanditAction(kind: .openPatro),
                               ]))
+    }
+
+    private static func doshaPlan(member: FamilyMember?,
+                                  language: Language,
+                                  now: Date) -> PanditToolPlan {
+        guard let member, member.kundali != nil else {
+            return chartPlan(intent: .dosha, query: language == .ne ? "दोष जाँच" : "dosha check",
+                             member: member, family: member.map { [$0] } ?? [], language: language)
+        }
+        let findings = DoshaEngine.analyze(member, at: now, language: language)
+        let ne = language == .ne
+        if findings.isEmpty {
+            let sections = StructuredPanditAnswer(
+                direct: ne ? "हाल जाँचिएका प्रमुख दोष वा गोचर चरणको बलियो संकेत भेटिएन।" : "No strong indicator appeared in the major doshas and transit phases checked.",
+                why: [ne ? "मंगल, राहु–केतु, सूर्य, बृहस्पति र हालको शनि गोचर जाँचियो।" : "The check covered Mangal, the lunar nodes, Surya, Brihaspati, and current Shani transit."],
+                action: ne ? "डरमा आधारित उपाय नगर्नुहोस्; आफ्नो वास्तविक प्रश्नमा ध्यान दिनुहोस्।" : "Avoid fear-based remedies and focus on the real-life concern behind the question.",
+                practice: DevotionalKnowledge.forDay(language: language).practice,
+                uncertainty: ne ? "यो स्वचालित प्रारम्भिक जाँच हो; सबै शास्त्रीय अपवाद समावेश छैनन्।" : "This is an automated first pass and does not include every classical exception.")
+            return PanditToolPlan(intent: .dosha, answer: sections.render(language),
+                                  evidence: [PanditToolEvidence(tool: "analyze_dosha", summary: "none flagged", facts: [], uncertainty: sections.uncertainty)],
+                                  actions: commonActions(prefix: [PanditAction(kind: .seeKundli, memberID: member.id)]))
+        }
+        let facts = findings.flatMap { finding in
+            ["\(finding.title) [\(finding.severity.rawValue)/3]: \(finding.evidence)", finding.effect]
+        }
+        let practice = findings.flatMap(\.remedies).prefix(4).joined(separator: " ")
+        let sections = StructuredPanditAnswer(
+            direct: ne ? "\(member.name)को कुण्डलीमा \(L10n.digits(findings.count, .ne)) प्रमुख संकेत भेटिए। सबैभन्दा बलियो: \(findings[0].title)।"
+                       : "\(member.name)'s chart shows \(findings.count) notable indicators. The strongest is \(findings[0].title).",
+            why: facts,
+            action: ne ? "प्रत्येक संकेतको प्रभाव, तीव्रता र व्यवहारिक सन्दर्भ अलग हेर्नुहोस्।" : "Review each indicator's effect, severity, and practical context separately.",
+            practice: practice,
+            uncertainty: ne ? "दोष भय वा निश्चित घटनाको प्रमाण होइन; जन्म समय र शास्त्रीय अपवादले नतिजा बदल्न सक्छ।" : "A dosha is not proof of harm or a fixed event; birth-time accuracy and classical exceptions can change the result.")
+        return PanditToolPlan(intent: .dosha, answer: sections.render(language),
+                              evidence: [PanditToolEvidence(tool: "analyze_dosha", summary: findings[0].title, facts: facts, uncertainty: sections.uncertainty)],
+                              actions: commonActions(prefix: [PanditAction(kind: .seeKundli, memberID: member.id)]))
+    }
+
+    private static func remedyPlan(member: FamilyMember?,
+                                   language: Language) -> PanditToolPlan {
+        guard let member else {
+            return chartPlan(intent: .remedy, query: language == .ne ? "उपाय" : "remedies",
+                             member: nil, family: [], language: language)
+        }
+        let remedies = RemedyEngine.suggestions(for: member, language: language)
+        let ne = language == .ne
+        let facts = remedies.map { "\($0.category): \($0.suggestion)" }
+        let cautions = remedies.compactMap(\.caution)
+        let sections = StructuredPanditAnswer(
+            direct: ne ? "\(member.name)को चन्द्र राशि र इष्टदेव परम्परासँग मिल्ने सरल उपायहरू यहाँ छन्।" : "Here are simple remedies aligned with \(member.name)'s Moon rashi and devotional tradition.",
+            why: Array(facts.prefix(7)),
+            action: ne ? "एउटा सस्तो, टिकाउ अभ्यास छानेर ४० दिन निरन्तर गर्नुहोस्।" : "Choose one inexpensive, sustainable practice and keep it consistently for 40 days.",
+            practice: ne ? "मन्त्र, सेवा, दान र सरल आहारलाई प्राथमिकता दिनुहोस्।" : "Prioritize mantra, service, daan, and simple food practices.",
+            uncertainty: cautions.first ?? (ne ? "उपाय निश्चित परिणामको ग्यारेन्टी होइन।" : "A remedy does not guarantee a specific outcome."))
+        return PanditToolPlan(intent: .remedy, answer: sections.render(language),
+                              evidence: [PanditToolEvidence(tool: "get_remedies", summary: "\(remedies.count) categories", facts: facts, uncertainty: sections.uncertainty)],
+                              actions: commonActions(prefix: [PanditAction(kind: .seeKundli, memberID: member.id)]))
     }
 
     private static func chartPlan(intent: PanditIntent,
@@ -740,5 +708,21 @@ enum PanditToolPlanner {
         formatter.dateStyle = .long
         formatter.locale = Locale(identifier: language == .ne ? "ne_NP" : "en_US")
         return formatter.string(from: date)
+    }
+
+    private static func timeLabel(_ date: Date, place: BirthPlace, language: Language) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: language == .ne ? "ne_NP" : "en_US")
+        formatter.timeZone = TimeZone(secondsFromGMT: Int(place.utcOffsetHours * 3600))
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
+
+    private static func windowLabel(_ window: PanchangaWindow, place: BirthPlace, language: Language) -> String {
+        "\(timeLabel(window.start, place: place, language: language))–\(timeLabel(window.end, place: place, language: language))"
+    }
+
+    private static func formatScore(_ value: Double) -> String {
+        value.rounded() == value ? String(Int(value)) : String(format: "%.1f", value)
     }
 }

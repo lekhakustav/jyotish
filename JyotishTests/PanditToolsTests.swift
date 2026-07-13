@@ -54,6 +54,10 @@ final class PanditToolsTests: XCTestCase {
 
         XCTAssertNotNil(reading)
         XCTAssertTrue((0...100).contains(reading!.score))
+        XCTAssertEqual(reading!.factors.count, 8)
+        XCTAssertEqual(reading!.factors.reduce(0) { $0 + $1.maximum }, 36, accuracy: 0.001)
+        XCTAssertEqual(reading!.factors.reduce(0) { $0 + $1.score }, reading!.gunaScore, accuracy: 0.001)
+        XCTAssertTrue((0...36).contains(reading!.gunaScore))
         XCTAssertFalse(reading!.summary.isEmpty)
         XCTAssertNotNil(reading!.uncertainty)
     }
@@ -142,5 +146,75 @@ final class PanditToolsTests: XCTestCase {
         XCTAssertEqual(plan.evidence.first?.tool, "compare_kundli")
         XCTAssertTrue(plan.actions.contains { $0.kind == .compare })
         XCTAssertTrue(plan.answer.contains("Aarav + Priya"))
+        XCTAssertTrue(plan.answer.contains("/36"))
+        XCTAssertTrue(plan.answer.contains("Nadi"))
+    }
+
+    func testRelationshipInsightUsesBothChartsAndProvidesDosAndDonts() {
+        var me = FamilyMember(name: "Sita", gender: .female, relation: .selfMember,
+                              birth: BirthData(year: 1962, month: 3, day: 15,
+                                               hour: 7, minute: 30, timeKnown: true,
+                                               place: .kathmandu))
+        var friend = FamilyMember(name: "Maya", gender: .female, relation: .friend,
+                                  birth: BirthData(year: 1965, month: 8, day: 11,
+                                                   hour: 9, minute: 5, timeKnown: true,
+                                                   place: .kathmandu))
+        me.recompute()
+        friend.recompute()
+
+        let insight = CompatibilityEngine.dailyInsight(me, friend,
+                                                        date: Date(timeIntervalSince1970: 1_783_440_000),
+                                                        language: .en)
+
+        XCTAssertNotNil(insight)
+        XCTAssertTrue(insight!.title.contains("Maya"))
+        XCTAssertFalse(insight!.doItem.isEmpty)
+        XCTAssertFalse(insight!.dontItem.isEmpty)
+        XCTAssertTrue(insight!.prompt.contains("Maya's kundli"))
+    }
+
+    func testDoshaAndRemedyPlansUseDeterministicChartEvidence() {
+        var me = FamilyMember(name: "Sita", gender: .female, relation: .selfMember,
+                              birth: BirthData(year: 1962, month: 3, day: 15,
+                                               hour: 7, minute: 30, timeKnown: true,
+                                               place: .kathmandu))
+        me.recompute()
+
+        let dosha = PanditToolPlanner.plan(query: "Check Mangal Dosha and Sade Sati",
+                                           family: [me], events: [], language: .en,
+                                           now: Date(timeIntervalSince1970: 1_783_440_000))
+        let remedy = PanditToolPlanner.plan(query: "Give me remedies, mantra, donation and gemstone guidance",
+                                            family: [me], events: [], language: .en)
+
+        XCTAssertEqual(dosha.intent, .dosha)
+        XCTAssertEqual(dosha.evidence.first?.tool, "analyze_dosha")
+        XCTAssertEqual(remedy.intent, .remedy)
+        XCTAssertEqual(remedy.evidence.first?.tool, "get_remedies")
+        XCTAssertTrue(remedy.answer.contains("Gemstone"))
+        XCTAssertTrue(remedy.answer.contains("Daan"))
+    }
+
+    func testPanchangaDayDetailsProduceOrderedLocationBasedWindows() {
+        let date = Date(timeIntervalSince1970: 1_783_440_000)
+        let details = PanchangaDayCalculator.details(for: date, place: .kathmandu, language: .en)
+
+        XCTAssertLessThan(details.sunrise, details.sunset)
+        XCTAssertLessThan(details.rahuKaal.start, details.rahuKaal.end)
+        XCTAssertGreaterThanOrEqual(details.rahuKaal.start, details.sunrise)
+        XCTAssertLessThanOrEqual(details.rahuKaal.end, details.sunset)
+        XCTAssertLessThan(details.abhijitMuhurat.start, details.abhijitMuhurat.end)
+        XCTAssertTrue(details.moonTimesAreApproximate)
+    }
+
+    func testEveryRashifalHorizonHasActionableDosAndDonts() {
+        for period in RashifalPeriod.allCases {
+            let reading = RashifalEngine.generate(rashi: .mithun, period: period,
+                                                  date: Date(timeIntervalSince1970: 1_783_440_000),
+                                                  lang: .en)
+            XCTAssertEqual(reading.dos.count, 2)
+            XCTAssertEqual(reading.donts.count, 2)
+            XCTAssertTrue(reading.dos.allSatisfy { !$0.isEmpty })
+            XCTAssertTrue(reading.donts.allSatisfy { !$0.isEmpty })
+        }
     }
 }

@@ -3,7 +3,9 @@ import Foundation
 enum Gender: String, Codable, CaseIterable { case male, female, other }
 
 enum Relation: String, Codable, CaseIterable, Identifiable {
-    case selfMember, husband, wife, son, daughter, father, mother,
+    case selfMember, husband, wife, boyfriend, girlfriend, partner, fiance, fiancee,
+         friend, colleague, mentor,
+         son, daughter, father, mother,
          grandson, granddaughter, grandfather, grandmother, brother, sister,
          // Father's side
          kaka, kaki, thuloBaa, thuloAma, phupu, phupaju,
@@ -19,6 +21,11 @@ enum Relation: String, Codable, CaseIterable, Identifiable {
         switch self {
         case .selfMember: return "Myself"
         case .husband: return "Husband"; case .wife: return "Wife"
+        case .boyfriend: return "Boyfriend"; case .girlfriend: return "Girlfriend"
+        case .partner: return "Partner"
+        case .fiance: return "Fiancé"; case .fiancee: return "Fiancée"
+        case .friend: return "Friend"; case .colleague: return "Colleague"
+        case .mentor: return "Mentor"
         case .son: return "Son"; case .daughter: return "Daughter"
         case .father: return "Father"; case .mother: return "Mother"
         case .grandson: return "Grandson"; case .granddaughter: return "Granddaughter"
@@ -58,6 +65,11 @@ enum Relation: String, Codable, CaseIterable, Identifiable {
         switch self {
         case .selfMember: return "म आफैं"
         case .husband: return "श्रीमान्"; case .wife: return "श्रीमती"
+        case .boyfriend: return "प्रेमी"; case .girlfriend: return "प्रेमिका"
+        case .partner: return "जीवनसाथी"
+        case .fiance: return "मंगेतर"; case .fiancee: return "मंगेतर"
+        case .friend: return "साथी"; case .colleague: return "सहकर्मी"
+        case .mentor: return "मार्गदर्शक"
         case .son: return "छोरा"; case .daughter: return "छोरी"
         case .father: return "बुबा"; case .mother: return "आमा"
         case .grandson: return "नाति"; case .granddaughter: return "नातिनी"
@@ -97,6 +109,14 @@ enum Relation: String, Codable, CaseIterable, Identifiable {
     func possessive(_ lang: Language) -> String {
         if self == .selfMember { return lang == .ne ? "तपाईं" : "You" }
         return lang == .ne ? "तपाईंको \(labelNE)" : "your \(labelEN.lowercased())"
+    }
+
+    var isRomantic: Bool {
+        [.husband, .wife, .boyfriend, .girlfriend, .partner, .fiance, .fiancee].contains(self)
+    }
+
+    var isSocialPeer: Bool {
+        [.friend, .colleague, .mentor, .boyfriend, .girlfriend, .partner, .fiance, .fiancee].contains(self)
     }
 }
 

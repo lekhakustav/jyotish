@@ -16,6 +16,7 @@
 		18FD98C3C69EBFF96796E2D4 /* JyotishApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04874C08BA79769F89665330 /* JyotishApp.swift */; };
 		196B259F6C44EB6E70031433 /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD07CBC1E9562A142F38E12 /* AppNavigation.swift */; };
 		1F22A280B839C2159A20306A /* PanditToolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C9BC03BBE18FFC36DAB4A0 /* PanditToolsTests.swift */; };
+		2F6428C51264A362B3A3D166 /* RelationshipEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC69B81A92D50BA2049D1B11 /* RelationshipEngine.swift */; };
 		31C69AE9E739F1C190E1E0B2 /* Fraunces-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69649463FC2706B0FC8E9B1D /* Fraunces-SemiBold.ttf */; };
 		342595E8504959599F44F45F /* Ornaments.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44A4C641E1416AD6B34B960 /* Ornaments.swift */; };
 		36856623A9AC54D0BDFFA233 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0161B72EC6663579F8AB2188 /* Components.swift */; };
@@ -45,6 +46,7 @@
 		9F731CDF9A1576A51032B444 /* ChatConversationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D118583482854147800D7438 /* ChatConversationTests.swift */; };
 		A38B8453A71ED87233B14BD6 /* RashifalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD68A4D028F36F482D9FA402 /* RashifalView.swift */; };
 		A489B76D7C351579A19984D6 /* ProfileSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA021C568E8EF24299EF59 /* ProfileSetupView.swift */; };
+		A616EACC6A2C41930A9CBE65 /* PanchangaDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB453F78DE97ECAF37F4A51 /* PanchangaDay.swift */; };
 		A8B849ACC8381CFCCB55CE69 /* PanditBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9777A86C8ACCA10A6FEF6B69 /* PanditBrain.swift */; };
 		AF044C10DDADB97420B7732D /* JyotishAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4AC46C1066E6DF4995D975 /* JyotishAppDelegate.swift */; };
 		B1784E2D79797EFFB7C4532F /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE8FC0FA8B659775C2DB8D1 /* Services.swift */; };
@@ -91,6 +93,7 @@
 		3926239D658BA52D7F5CB4CC /* PerformanceOptimizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceOptimizationTests.swift; sourceTree = "<group>"; };
 		45A3FECFE64229B30FF8F567 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		45C324F7E4013404A123B04A /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
+		4EB453F78DE97ECAF37F4A51 /* PanchangaDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanchangaDay.swift; sourceTree = "<group>"; };
 		52D4CFB496D533A622FAE8A9 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		5BD07CBC1E9562A142F38E12 /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
 		603A1F10E008F246D46E7233 /* JyotishTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JyotishTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +134,7 @@
 		E7A13E79110A9ABA9098701B /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		EA32BBF29F3A24CF9FEDEA05 /* Jyotish.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Jyotish.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB564A0D2D0D03EB2CA6E865 /* BikramSambat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikramSambat.swift; sourceTree = "<group>"; };
+		EC69B81A92D50BA2049D1B11 /* RelationshipEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipEngine.swift; sourceTree = "<group>"; };
 		F44A4C641E1416AD6B34B960 /* Ornaments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ornaments.swift; sourceTree = "<group>"; };
 		F9FA4FEB1504A4A8AB30ED72 /* AppNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationTests.swift; sourceTree = "<group>"; };
 		FCE00720028CA05B5B8DB6D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -202,7 +206,9 @@
 				45C324F7E4013404A123B04A /* Interpreter.swift */,
 				A6EAF520AA82A3822747D8BB /* Kundali.swift */,
 				DB6708A30C224E4C16DD41D5 /* Panchanga.swift */,
+				4EB453F78DE97ECAF37F4A51 /* PanchangaDay.swift */,
 				A36C5B8B4B2381749BF0F88E /* RashifalEngine.swift */,
+				EC69B81A92D50BA2049D1B11 /* RelationshipEngine.swift */,
 			);
 			path = Astro;
 			sourceTree = "<group>";
@@ -505,6 +511,7 @@
 				CCC6A0BF1539CA238DD5CAFA /* Models.swift in Sources */,
 				342595E8504959599F44F45F /* Ornaments.swift in Sources */,
 				8115908D22258F108C6A9121 /* Panchanga.swift in Sources */,
+				A616EACC6A2C41930A9CBE65 /* PanchangaDay.swift in Sources */,
 				A8B849ACC8381CFCCB55CE69 /* PanditBrain.swift in Sources */,
 				C37BDE9ACE20A70A75138D69 /* PanditDiscovery.swift in Sources */,
 				53F58617AC1B1D52096419B7 /* PanditTools.swift in Sources */,
@@ -512,6 +519,7 @@
 				A489B76D7C351579A19984D6 /* ProfileSetupView.swift in Sources */,
 				7953F4E8ADE00171CFD252DE /* RashifalEngine.swift in Sources */,
 				A38B8453A71ED87233B14BD6 /* RashifalView.swift in Sources */,
+				2F6428C51264A362B3A3D166 /* RelationshipEngine.swift in Sources */,
 				D7028681684DCD5E9F7FC12D /* ReminderService.swift in Sources */,
 				B1784E2D79797EFFB7C4532F /* Services.swift in Sources */,
 				4B7C1766D0AEB43508C605D7 /* SettingsView.swift in Sources */,
