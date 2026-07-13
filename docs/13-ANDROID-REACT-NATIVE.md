@@ -39,8 +39,11 @@ npm run android:prebuild -- --no-install
 ## Structure
 
 - `app/` — Expo Router entrypoints.
-- `src/app-state.tsx` — household state, local persistence, modal/tab routing, chat send/streaming.
-- `src/screens.tsx` — Android screens matching the current SwiftUI app contract.
+- `src/app-state.tsx` — schema-v2 household state, migration-safe persistence, modal/tab routing, conversation history, and batched chat streaming.
+- `src/screens.tsx` — the small Android navigation shell; each feature screen lives in `src/screens/`.
+- `src/layout.tsx` — safe-area screen primitives and the SwiftUI-shaped floating tab capsule.
+- `src/ornaments.tsx` — semantic vector icons, the twelve rashi marks, yantra scores, and shared visual ornaments.
+- `src/theme.ts` — shared palette, spacing, layout, and motion constants ported from the SwiftUI design system.
 - `src/astro.ts` — TypeScript astrology/rashifal/panchanga/demo data layer.
 - `assets/expo/` — Android app icon, brand logo, temple image, and bundled fonts.
 - `android/` — generated native Android project for `com.sodhera.jyotish`.
@@ -49,6 +52,8 @@ npm run android:prebuild -- --no-install
 
 - The Android app has the same onboarding, main tabs, Patro, Family, Rashifal, settings,
   and Jyotish Baje chat surfaces.
+- Android bundles the same Fraunces weights used by SwiftUI and renders the twelve rashi
+  marks, star scores, and North-Indian Kundli chart as vectors rather than text glyphs.
 - The chat UI shows a typing indicator and streams local fallback replies character by
   character. If `EXPO_PUBLIC_JYOTISH_AGENT_ENDPOINT_URL` is present, it attempts the
   backend agent first and falls back locally on failure.
@@ -80,6 +85,10 @@ typography roles, and interaction destinations must otherwise remain aligned.
 When SwiftUI screen structure changes, update this table and the corresponding Android
 screen in the same change. Treat a successful bundle as necessary but not sufficient:
 compare both apps on similarly sized emulators before release.
+
+The dated element-by-element acceptance record is in
+[`17-IOS-ANDROID-VISUAL-PARITY.md`](17-IOS-ANDROID-VISUAL-PARITY.md). Update it or add a
+new dated review whenever either implementation changes its visible hierarchy.
 
 ## Runtime performance guardrails
 
@@ -117,6 +126,7 @@ Before pushing Android changes, run:
 npm run typecheck
 npm run android:export
 cd android && ./gradlew assembleDebug
+cd android && ./gradlew assembleRelease
 ```
 
 If a dependency refresh leaves Reanimated pointing at an obsolete Worklets CMake output,
