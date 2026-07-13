@@ -31,6 +31,9 @@
             "./assets/expo/fonts/Inter-SemiBold.ttf",
             "./assets/expo/fonts/Inter-Bold.ttf",
             "./assets/expo/fonts/Fraunces-Regular.ttf",
+            "./assets/expo/fonts/Fraunces-Light.ttf",
+            "./assets/expo/fonts/Fraunces-Medium.ttf",
+            "./assets/expo/fonts/Fraunces-SemiBold.ttf",
             "./assets/expo/fonts/Fraunces-Bold.ttf"
           ]
         }
