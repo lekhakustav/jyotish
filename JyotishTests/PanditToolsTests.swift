@@ -231,4 +231,31 @@ final class PanditToolsTests: XCTestCase {
         XCTAssertEqual(decoded.name, "Maya")
         XCTAssertEqual(decoded.birth.place.name, BirthPlace.kathmandu.name)
     }
+
+    func testNepaliModeTransliteratesLatinNamesWithoutChangingStoredIdentity() {
+        let aarav = FamilyMember(name: "Aarav", gender: .male, relation: .friend)
+        let priya = FamilyMember(name: "Priya", gender: .female, relation: .friend)
+        let native = FamilyMember(name: "माया", gender: .female, relation: .friend)
+
+        XCTAssertEqual(aarav.displayName(.ne), "आरव")
+        XCTAssertEqual(priya.displayName(.ne), "प्रिया")
+        XCTAssertEqual(native.displayName(.ne), "माया")
+        XCTAssertEqual(aarav.displayName(.en), "Aarav")
+        XCTAssertEqual(aarav.name, "Aarav")
+    }
+
+    func testRashifalShubhTimingMatchesEachHorizon() {
+        let date = Date(timeIntervalSince1970: 1_783_440_000)
+        let daily = RashifalEngine.generate(rashi: .mithun, period: .daily, date: date, lang: .en)
+        let weekly = RashifalEngine.generate(rashi: .mithun, period: .weekly, date: date, lang: .en)
+        let monthly = RashifalEngine.generate(rashi: .mithun, period: .monthly, date: date, lang: .en)
+        let yearly = RashifalEngine.generate(rashi: .mithun, period: .yearly, date: date, lang: .en)
+
+        XCTAssertTrue(daily.luckyDay.contains(":"))
+        XCTAssertFalse(weekly.luckyDay.contains("month"))
+        XCTAssertTrue(monthly.luckyDay.lowercased().contains("month") || monthly.luckyDay.lowercased().contains("days"))
+        XCTAssertTrue(yearly.luckyDay.lowercased().contains("months"))
+        XCTAssertEqual(L10n.t("rashifal.shubh.time", .ne), "शुभ समय")
+        XCTAssertEqual(L10n.t("rashifal.shubh.period", .ne), "शुभ अवधि")
+    }
 }

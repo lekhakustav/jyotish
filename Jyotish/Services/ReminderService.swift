@@ -147,11 +147,12 @@ enum EngagementNotificationPlanner {
             let relativeRashi = relative.kundali?.moonRashi ?? .mesh
             let relativeReading = RashifalEngine.generate(rashi: relativeRashi, period: .daily,
                                                           date: date, lang: language)
-            let title = ne ? "आज \(relative.name)लाई के चाहिन्छ?" : "What might \(relative.name) need today?"
+            let relativeName = relative.displayName(language)
+            let title = ne ? "आज \(relativeName)लाई के चाहिन्छ?" : "What might \(relativeName) need today?"
             let body = firstSentence(relativeReading.text, nepali: ne)
             let prompt = ne
-                ? "\(relative.name)को आजको राशिफल र कुण्डली हेरेर परिवारले कसरी सहयोग गर्न सक्छ?"
-                : "Using \(relative.name)'s chart and today's rashifal, how can the family support them?"
+                ? "\(relativeName)को आजको राशिफल र कुण्डली हेरेर परिवारले कसरी सहयोग गर्न सक्छ?"
+                : "Using \(relativeName)'s chart and today's rashifal, how can the family support them?"
             return (title, body, .pandit, prompt)
         default:
             return (ne ? "आजको एउटा संकेत बाँकी छ" : "One detail is still worth asking about",

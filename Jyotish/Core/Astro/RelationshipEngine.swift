@@ -173,9 +173,9 @@ enum CompatibilityEngine {
             ? (neitherOpen ? "आजै निष्कर्ष वा अन्तिम निर्णयमा नपुग्नुहोस्।" : "जित्नका लागि उनीहरूको पुरानो कमजोरी नउठाउनुहोस्।")
             : (neitherOpen ? "Do not force a final conclusion today." : "Do not use an old vulnerability to win the moment.")
         let prompt = ne
-            ? "मेरो र \(second.name)को कुण्डली, अष्टकूटका सान्दर्भिक पक्ष र आजको चन्द्र गोचर हेरेर हाम्रो सम्बन्धको बलियो पक्ष, अहिलेको तनाव, गर्नुपर्ने र नगर्नुपर्ने कुरा सहित विस्तृत रिपोर्ट दिनुहोस्।"
+            ? "मेरो र \(second.displayName(.ne))को कुण्डली, अष्टकूटका सान्दर्भिक पक्ष र आजको चन्द्र गोचर हेरेर हाम्रो सम्बन्धको बलियो पक्ष, अहिलेको तनाव, गर्नुपर्ने र नगर्नुपर्ने कुरा सहित विस्तृत रिपोर्ट दिनुहोस्।"
             : "Using my kundli, \(second.name)'s kundli, the relevant Ashtakoota factors, and today's Moon transit, prepare a detailed relationship report with our strengths, current tension, and clear dos and don'ts."
-        return DailyRelationshipInsight(title: ne ? "\(second.name)सँगको सम्बन्ध" : "With \(second.name)",
+        return DailyRelationshipInsight(title: ne ? "\(second.displayName(.ne))सँगको सम्बन्ध" : "With \(second.name)",
                                         summary: summary, support: support, struggle: struggle,
                                         doItem: doItem, dontItem: dontItem, prompt: prompt)
     }

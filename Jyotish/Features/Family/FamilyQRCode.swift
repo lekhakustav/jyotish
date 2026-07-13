@@ -82,7 +82,7 @@ struct FamilyQRCodeSheet: View {
                         .padding(18)
                         .background(RoundedRectangle(cornerRadius: 22).fill(.white))
                         .accessibilityLabel(app.language == .ne ? "मेरो जन्म विवरण थप्ने QR कोड" : "QR code for adding my birth profile")
-                    Text(member.name)
+                    Text(member.displayName(app.language))
                         .scaledFont(size: 21, weight: .semibold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
                     Text(app.language == .ne
@@ -187,7 +187,8 @@ struct FamilyQRScannerSheet: View {
 
     private func importForm(_ payload: FamilySharePayload) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            Label(payload.name, systemImage: "person.crop.circle.badge.checkmark")
+            Label(app.language == .ne ? NepaliNameTransliterator.transliterate(payload.name) : payload.name,
+                  systemImage: "person.crop.circle.badge.checkmark")
                 .scaledFont(size: 22, weight: .semibold, design: .serif)
                 .foregroundStyle(p.inkPrimary)
             Text(app.language == .ne ? "तपाईंको नाता छान्नुहोस्" : "Choose how you know this person")

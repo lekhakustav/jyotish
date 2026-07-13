@@ -135,7 +135,7 @@ struct HomeView: View {
                     HStack(spacing: 8) {
                         ForEach(relatives) { relative in
                             Button { selectedRelationshipID = relative.id } label: {
-                                Text(relative.name)
+                                Text(relative.displayName(app.language))
                                     .scaledFont(size: 13, weight: relative.id == member.id ? .semibold : .regular)
                                     .foregroundStyle(relative.id == member.id ? p.onAccent : p.inkSecondary)
                                     .padding(.horizontal, 13)
@@ -186,8 +186,8 @@ struct HomeView: View {
                 Text(app.t(greetingKey))
                     .scaledFont(size: 16, weight: .medium, design: .serif)
                     .foregroundStyle(p.templeGold)
-                if let name = app.selfMember?.name, !name.trimmingCharacters(in: .whitespaces).isEmpty {
-                    Text(name)
+                if let member = app.selfMember, !member.name.trimmingCharacters(in: .whitespaces).isEmpty {
+                    Text(member.displayName(app.language))
                         .scaledFont(size: 26, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
                         .lineLimit(1)

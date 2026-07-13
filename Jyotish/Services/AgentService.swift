@@ -218,7 +218,7 @@ extension AgentFamilyMember {
 
         return AgentFamilyMember(
             id: member.id,
-            name: member.name,
+            name: member.displayName(language),
             gender: member.gender.rawValue,
             relationEN: member.relation.labelEN,
             relationNE: member.relation.labelNE,

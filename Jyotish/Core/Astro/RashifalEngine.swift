@@ -205,7 +205,9 @@ enum RashifalEngine {
                               scores: scores, upaya: upaya,
                               luckyColor: colors[Int(rng.next() % UInt64(colors.count))],
                               luckyNumber: g.numbers[Int(rng.next() % UInt64(g.numbers.count))],
-                              luckyDay: periodLuckyTiming(period: period, date: date, ne: ne, natalDay: ne ? g.dayNE : g.dayEN),
+                              luckyDay: periodLuckyTiming(period: period, date: date, ne: ne,
+                                                         natalDay: ne ? g.dayNE : g.dayEN,
+                                                         variant: Int(rng.next() % 3)),
                               timeline: periodTimeline(period: period, date: date, ne: ne),
                               panditTeaser: panditInvitation.teaser,
                               panditCTA: panditInvitation.cta,
@@ -234,12 +236,22 @@ enum RashifalEngine {
         }
     }
 
-    private static func periodLuckyTiming(period: RashifalPeriod, date: Date, ne: Bool, natalDay: String) -> String {
+    private static func periodLuckyTiming(period: RashifalPeriod, date: Date, ne: Bool,
+                                          natalDay: String, variant: Int) -> String {
         switch period {
-        case .daily: return ne ? "आज" : "Today"
+        case .daily:
+            let en = ["7:00–8:30 AM", "10:30 AM–12:00 PM", "4:30–6:00 PM"]
+            let np = ["बिहान ७:००–८:३०", "बिहान १०:३०–दिउँसो १२:००", "अपराह्न ४:३०–६:००"]
+            return ne ? np[variant] : en[variant]
         case .weekly: return natalDay
-        case .monthly: return ne ? "महिनाको दोस्रो भाग" : "The month’s second half"
-        case .yearly: return ne ? "वर्षको मध्य भाग" : "Mid-year"
+        case .monthly:
+            let en = ["The first ten days", "The middle of the month", "The final ten days"]
+            let np = ["महिनाको पहिलो दस दिन", "महिनाको मध्य अवधि", "महिनाको अन्तिम दस दिन"]
+            return ne ? np[variant] : en[variant]
+        case .yearly:
+            let en = ["The opening months", "The middle months", "The closing months"]
+            let np = ["वर्षका सुरुआती महिना", "वर्षका मध्य महिना", "वर्षका अन्तिम महिना"]
+            return ne ? np[variant] : en[variant]
         }
     }
 

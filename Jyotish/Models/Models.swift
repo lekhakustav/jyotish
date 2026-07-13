@@ -130,8 +130,54 @@ struct FamilyMember: Codable, Identifiable, Equatable {
 
     var hasBirthData: Bool { birth != nil && kundali != nil }
 
+    /// Keeps the saved identity untouched while ensuring Nepali surfaces do not
+    /// mix Latin-script names into Devanagari sentences.
+    func displayName(_ language: Language) -> String {
+        language == .ne ? NepaliNameTransliterator.transliterate(name) : name
+    }
+
     mutating func recompute() {
         if let birth { kundali = Kundali.compute(from: birth) }
+    }
+}
+
+enum NepaliNameTransliterator {
+    private static let known: [String: String] = [
+        "aarav": "आरव", "priya": "प्रिया", "sita": "सीता", "sharma": "शर्मा",
+        "maya": "माया", "ram": "राम", "rama": "रमा",
+        "gita": "गीता", "geeta": "गीता", "krishna": "कृष्ण", "hari": "हरि",
+        "laxmi": "लक्ष्मी", "lakshmi": "लक्ष्मी", "sarita": "सरिता",
+        "sunita": "सुनिता", "anita": "अनिता", "rita": "रीता", "nita": "नीता",
+        "roshan": "रोशन", "suman": "सुमन", "bikash": "विकास", "vikas": "विकास",
+        "dipak": "दीपक", "deepak": "दीपक", "rajesh": "राजेश", "ramesh": "रमेश",
+        "suresh": "सुरेश", "mahesh": "महेश", "ganesh": "गणेश", "dinesh": "दिनेश",
+        "anil": "अनिल", "sunil": "सुनील", "manish": "मनीष", "nisha": "निशा",
+        "asha": "आशा", "usha": "उषा", "pooja": "पूजा", "puja": "पूजा",
+        "anjali": "अञ्जली", "sanjay": "सञ्जय", "bijay": "विजय", "vijay": "विजय"
+    ]
+
+    static func transliterate(_ value: String) -> String {
+        guard value.range(of: "[A-Za-z]", options: .regularExpression) != nil else { return value }
+        return value.split(separator: " ", omittingEmptySubsequences: false).map { part in
+            let word = String(part)
+            let stripped = word.trimmingCharacters(in: .punctuationCharacters)
+            let punctuationPrefix = String(word.prefix { $0.isPunctuation })
+            let punctuationSuffix = String(word.reversed().prefix { $0.isPunctuation }.reversed())
+            let key = stripped.lowercased()
+            if let exact = known[key] { return punctuationPrefix + exact + punctuationSuffix }
+
+            var phonetic = key
+            let replacements = [("aa", "ā"), ("ee", "ī"), ("ii", "ī"),
+                                ("oo", "ū"), ("uu", "ū"), ("sh", "ś")]
+            for (source, target) in replacements {
+                phonetic = phonetic.replacingOccurrences(of: source, with: target)
+            }
+            var transformed = phonetic.applyingTransform(
+                StringTransform(rawValue: "Latin-Devanagari"), reverse: false
+            ) ?? stripped
+            while transformed.last == "्" { transformed.removeLast() }
+            return punctuationPrefix + transformed + punctuationSuffix
+        }.joined(separator: " ")
     }
 }
 

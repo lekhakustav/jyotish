@@ -28,11 +28,11 @@ struct JyotishFeature: Identifiable, Equatable {
         switch id {
         case .kundliMatching:
             return language == .ne
-                ? "मेरो र \(person.name)को कुण्डली प्रयोग गरेर ३६ गुणको पूर्ण अष्टकूट मिलान तयार गर्नुहोस्। वर्ण, वश्य, तारा, योनि, ग्रह मैत्री, गण, भकूट, नाडी, मंगल दोष, बलियो पक्ष, संवेदनशील पक्ष, उपाय र स्पष्ट गर्नुपर्ने कुराहरू देखाउनुहोस्।"
+                ? "मेरो र \(person.displayName(.ne))को कुण्डली प्रयोग गरेर ३६ गुणको पूर्ण अष्टकूट मिलान तयार गर्नुहोस्। वर्ण, वश्य, तारा, योनि, ग्रह मैत्री, गण, भकूट, नाडी, मंगल दोष, बलियो पक्ष, संवेदनशील पक्ष, उपाय र स्पष्ट गर्नुपर्ने कुराहरू देखाउनुहोस्।"
                 : "Using my kundli and \(person.name)'s kundli, prepare a complete 36-point Ashtakoota report. Cover Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, Nadi, Mangal Dosha balance, strengths, tensions, remedies, and questions we should discuss."
         case .relationshipGuidance:
             return language == .ne
-                ? "मेरो र \(person.name)को कुण्डली, नक्षत्र, राशि स्वामी र आजको गोचर हेरेर हाम्रो सम्बन्धमा के सहज छ, कहाँ संघर्ष आउन सक्छ, र आज के गर्ने वा नगर्ने भनेर विस्तृत रिपोर्ट दिनुहोस्।"
+                ? "मेरो र \(person.displayName(.ne))को कुण्डली, नक्षत्र, राशि स्वामी र आजको गोचर हेरेर हाम्रो सम्बन्धमा के सहज छ, कहाँ संघर्ष आउन सक्छ, र आज के गर्ने वा नगर्ने भनेर विस्तृत रिपोर्ट दिनुहोस्।"
                 : "Using my kundli, \(person.name)'s kundli, our nakshatras, rashi lords, and today's transits, prepare a detailed relationship report: what flows, where struggles may arise, and today's clear dos and don'ts."
         default:
             return language == .ne ? promptNE : promptEN
@@ -158,7 +158,7 @@ struct FeatureLaunchSheet: View {
                                             RashiSeal(rashi: kundali.moonRashi, size: 40)
                                         }
                                         VStack(alignment: .leading, spacing: 2) {
-                                            Text(member.name)
+                                            Text(member.displayName(app.language))
                                                 .scaledFont(size: 17, weight: .semibold, design: .serif)
                                             Text(app.language == .ne ? member.relation.labelNE : member.relation.labelEN)
                                                 .scaledFont(size: 13)

@@ -187,7 +187,7 @@ struct FamilyView: View {
                 .frame(width: size, height: size)
                 .background(Circle().fill(p.bgSunken))
             VStack(spacing: 1) {
-                Text(member?.name ?? app.t("common.you"))
+                Text(member?.displayName(app.language) ?? app.t("common.you"))
                     .scaledFont(size: 13, weight: .semibold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
                     .lineLimit(1)
@@ -236,7 +236,7 @@ struct FamilyView: View {
                                 .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
                         }
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(m.name)
+                            Text(m.displayName(app.language))
                                 .scaledFont(size: 18, weight: .semibold, design: .serif)
                                 .foregroundStyle(p.inkPrimary)
                             Text(m.relation == .selfMember

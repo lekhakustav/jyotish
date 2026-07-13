@@ -499,7 +499,7 @@ enum PanditToolPlanner {
         }
         let why = factorFacts + [reading.manglikNote]
         let sections = StructuredPanditAnswer(
-            direct: "\(pair[0].name) + \(pair[1].name): \(formatScore(reading.gunaScore))/36. \(reading.summary)",
+            direct: "\(pair[0].displayName(language)) + \(pair[1].displayName(language)): \(formatScore(reading.gunaScore))/36. \(reading.summary)",
             why: why,
             action: language == .ne ? "कम अंक आएका पक्षलाई निर्णयको डर होइन, स्पष्ट संवादको एजेन्डा बनाउनुहोस्।" : "Turn the lowest-scoring factors into a conversation agenda, not a fear-based verdict.",
             practice: language == .ne ? "ठूलो निर्णयअघि दुवै परिवारको शान्त सहमतिका लागि प्रार्थना गर्नुहोस्।" : "Before a major decision, make space for calm agreement between both families.",
@@ -623,7 +623,7 @@ enum PanditToolPlanner {
         }
         let practice = findings.flatMap(\.remedies).prefix(4).joined(separator: " ")
         let sections = StructuredPanditAnswer(
-            direct: ne ? "\(member.name)को कुण्डलीमा \(L10n.digits(findings.count, .ne)) प्रमुख संकेत भेटिए। सबैभन्दा बलियो: \(findings[0].title)।"
+            direct: ne ? "\(member.displayName(.ne))को कुण्डलीमा \(L10n.digits(findings.count, .ne)) प्रमुख संकेत भेटिए। सबैभन्दा बलियो: \(findings[0].title)।"
                        : "\(member.name)'s chart shows \(findings.count) notable indicators. The strongest is \(findings[0].title).",
             why: facts,
             action: ne ? "प्रत्येक संकेतको प्रभाव, तीव्रता र व्यवहारिक सन्दर्भ अलग हेर्नुहोस्।" : "Review each indicator's effect, severity, and practical context separately.",
@@ -645,7 +645,7 @@ enum PanditToolPlanner {
         let facts = remedies.map { "\($0.category): \($0.suggestion)" }
         let cautions = remedies.compactMap(\.caution)
         let sections = StructuredPanditAnswer(
-            direct: ne ? "\(member.name)को चन्द्र राशि र इष्टदेव परम्परासँग मिल्ने सरल उपायहरू यहाँ छन्।" : "Here are simple remedies aligned with \(member.name)'s Moon rashi and devotional tradition.",
+            direct: ne ? "\(member.displayName(.ne))को चन्द्र राशि र इष्टदेव परम्परासँग मिल्ने सरल उपायहरू यहाँ छन्।" : "Here are simple remedies aligned with \(member.name)'s Moon rashi and devotional tradition.",
             why: Array(facts.prefix(7)),
             action: ne ? "एउटा सस्तो, टिकाउ अभ्यास छानेर ४० दिन निरन्तर गर्नुहोस्।" : "Choose one inexpensive, sustainable practice and keep it consistently for 40 days.",
             practice: ne ? "मन्त्र, सेवा, दान र सरल आहारलाई प्राथमिकता दिनुहोस्।" : "Prioritize mantra, service, daan, and simple food practices.",

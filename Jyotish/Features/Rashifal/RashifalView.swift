@@ -147,7 +147,7 @@ struct RashifalView: View {
             HStack(spacing: 10) {
                 LuckyFact(label: app.t("rashifal.lucky.color"), value: r.luckyColor)
                 LuckyFact(label: app.t("rashifal.lucky.number"), value: app.digits(r.luckyNumber))
-                LuckyFact(label: app.t("rashifal.lucky.day"), value: r.luckyDay)
+                LuckyFact(label: shubhTimingLabel, value: r.luckyDay)
             }
 
             HStack(alignment: .top, spacing: 18) {
@@ -167,6 +167,14 @@ struct RashifalView: View {
 
         }
         .padding(.horizontal, LayoutMetrics.screenGutter)
+    }
+
+    private var shubhTimingLabel: String {
+        switch period {
+        case .daily: return app.t("rashifal.shubh.time")
+        case .weekly: return app.t("rashifal.shubh.day")
+        case .monthly, .yearly: return app.t("rashifal.shubh.period")
+        }
     }
 
     private func behaviorColumn(title: String, icon: String, items: [String]) -> some View {

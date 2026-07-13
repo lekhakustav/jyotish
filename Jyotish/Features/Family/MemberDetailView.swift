@@ -42,7 +42,7 @@ struct MemberDetailView: View {
                 // Identity hero
                 VStack(alignment: .center, spacing: 8) {
                     RashiSeal(rashi: k.moonRashi, size: 84)
-                    Text(m.name)
+                    Text(m.displayName(app.language))
                         .scaledFont(size: 30, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
                     Text(m.relation == .selfMember

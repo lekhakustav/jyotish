@@ -83,7 +83,9 @@ struct ChatView: View {
         .sheet(isPresented: $showComparison) {
             CompatibilityPromptSheet(members: app.family) { first, second in
                 showComparison = false
-                send("Compare \(first.name) and \(second.name) compatibility")
+                send(app.language == .ne
+                     ? "\(first.displayName(.ne)) र \(second.displayName(.ne))को कुण्डली मिलान गर्नुहोस्"
+                     : "Compare \(first.name) and \(second.name) compatibility")
             }
         }
         .alert(app.t("chat.action.result"),
@@ -165,7 +167,12 @@ struct ChatView: View {
     }
 
     private var welcomeText: String {
-        guard let name = app.selfMember?.name.trimmingCharacters(in: .whitespacesAndNewlines),
+        guard let member = app.selfMember,
+              !member.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return app.t("chat.welcome.generic")
+        }
+        let name = member.displayName(app.language).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard
               !name.isEmpty else { return app.t("chat.welcome.generic") }
         return String(format: app.t("chat.welcome"), name)
     }
@@ -753,10 +760,10 @@ private struct CompatibilityPromptSheet: View {
         NavigationStack {
             Form {
                 Picker(app.t("chat.compare.first"), selection: $firstID) {
-                    ForEach(members) { Text($0.name).tag($0.id) }
+                    ForEach(members) { Text($0.displayName(app.language)).tag($0.id) }
                 }
                 Picker(app.t("chat.compare.second"), selection: $secondID) {
-                    ForEach(members) { Text($0.name).tag($0.id) }
+                    ForEach(members) { Text($0.displayName(app.language)).tag($0.id) }
                 }
             }
             .scrollContentBackground(.hidden)
