@@ -168,6 +168,11 @@ The server prompt tells OpenAI to:
 - return Direct answer, Why Baje says this, What to do, Optional practice, and
   Uncertainty sections,
 - avoid fear-based predictions and medical/legal/financial certainty.
+- interpret supplied Ashtakoota, Manglik, relationship, Dosha, and Upaya evidence without
+  inventing a score or turning a traditional indicator into a deterministic verdict,
+- use the actual relationship type: reserve full marital framing for romantic/marriage
+  matching and keep family/friend guidance focused on temperament, communication, and timing,
+- preserve Rashifal Dos/Don'ts and the Panchang timing caveats included in tool evidence.
 
 The model never schedules notifications or writes Patro data. It only returns prose. The
 iOS app owns typed actions and asks for confirmation before executing a write.

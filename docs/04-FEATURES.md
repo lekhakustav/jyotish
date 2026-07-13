@@ -35,15 +35,17 @@ opens from Home/Rashifal as a modal chat. Settings remains reachable from Home (
   The same flow (prefixed with a relation step) is used for adding family members.
 
 ## 2. Home dashboard (the aarti thali)
-Order: small settings header → **personal rashifal block** → **Jyotish Baje discovery module**
+Order: small settings header → **personal rashifal block** → **Relationships**, only when
+another complete birth profile exists → **feature icon grid**
 (unframed rashi mark + 2-line summary + star score + "read more" → Rashifal; dasha shown
 as one quiet text line) → **today's tithi block** + Temple of the Day → **family quick row**
 only when relatives exist → **upcoming events** only when events exist.
 
-The Pandit module shows three high-interest starters at once—love life, career, and health—
-inside a vertically scrolling template shelf. Future outlook, family, daily guidance, and
-shubh time remain available below them. The fixed “Ask anything” action sits below the shelf
-and never scrolls away. Each starter opens a fresh chat and immediately sends its richer prompt.
+The feature grid shows Today's Panchang, Muhurat Finder, Dosha Check, Personal Upaya,
+Kundli Matching, and More. More opens a complete icon-and-description catalog. Each feature
+first opens a concise explanation sheet and then preloads Jyotish Baje. Social features select
+a saved person; when none exists, `Add a person` routes to Parivar. The fixed “Ask anything”
+action remains below the grid. See `docs/18-RELATIONSHIPS-FEATURE-HUB-AND-FUTURE-DATES.md`.
 
 Temple of the Day should move from pure day-of-year rotation to the BS 2083 planning
 dataset in `docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md`: festival anchors win first, then
@@ -57,6 +59,7 @@ the detail sheet can preserve the fuller original composition.
   (the "grandmother checks the whole family's signs" use case).
 - Reading: rashi mark, generated text, domain score dots
   (career/family/health/wealth/love as star icons 1–5), lucky color/number/day, upaya line.
+- Every horizon includes two Dos and two Don'ts derived from its strongest and weakest domains.
 - The engine also creates a restrained open-loop sentence, a specific Pandit CTA, and the
   matching full chat prompt from the same strongest or weakest domain score. Cautious readings
   invite the user to ask how to handle that exact area; supportive readings invite them to ask
@@ -69,15 +72,19 @@ the detail sheet can preserve the fuller original composition.
 - Header: "Asar 2083"; chevrons move months and tapping the month opens direct
   month/year/day selection.
 - Day cells show BS day + tithi + event dot only; AD day numbers are intentionally hidden.
-- Tap a day → detail sheet: full panchanga for that day + its events + **"Add event"**
+- Tap a day → detail sheet: Tithi, Nakshatra, Yoga, Karana, location-based sunrise/sunset,
+  approximate moonrise/moonset, Rahu Kaal, Gulika, Yamaganda, Abhijit, observances,
+  its events + **"Add event"**
   (title, optional note, repeat-yearly toggle for birthdays). Events stored with BS date.
 
 ## 5. Parivar (family)
 - List of members grouped around the user. The tree uses names and relation labels with
   gold connector lines; rashi marks stay in the member list/detail context.
-- Add member: relation picker (Son, Daughter, Husband, Wife, Father, Mother, Grandson,
-  Granddaughter, Brother, Sister…) + same birth form. Relation drives labels everywhere:
+- Add member: relation picker (family plus Friend, Colleague, Mentor, Boyfriend, Girlfriend,
+  Partner, Fiance, and Fiancee) + same birth form. Relation drives labels everywhere:
   "Your son Aarav" / "तपाईंको छोरा आरव".
+- Header actions show and scan a versioned Parivar QR birth-profile code. The receiver chooses
+  the local relationship before saving; paste-code fallback supports simulators without cameras.
 - MemberDetailView: North-Indian kundali chart (Path-drawn), lagna/rashi/nakshatra marks,
   mahadasha timeline, personality reading, guna table (gemstone, deity, mantra, lucky items).
 
@@ -102,7 +109,7 @@ the detail sheet can preserve the fuller original composition.
 - **PanditToolPlanner** is the agentic, local-first coordinator:
   - understands ordinary requests without requiring feature or astrology vocabulary,
   - calls deterministic Kundali/Dasha, Panchang, Muhurta, compatibility, festival/vrat,
-    and devotional guidance tools,
+    Dosha/Upaya, relationship/Ashtakoota, and devotional guidance tools,
   - always structures guidance as Direct answer → Why Baje says this → What to do →
     Optional practice → Uncertainty when inputs are incomplete,
   - offers only relevant actions in a horizontally scrolling row: Add to Patro, Remind me,

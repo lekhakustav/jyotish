@@ -26,6 +26,12 @@ If a session dies mid-build, resume from the first unchecked box, guided by docs
 - [x] Parivar + MemberDetail (kundali chart)
 - [x] Chat
 - [x] Settings
+- [x] Relationship-aware Parivar (friends/partners), conditional Home relationship guidance
+- [x] Parivar QR sharing/scanning with duplicate protection and simulator paste fallback
+- [x] Feature icon hub + More catalog + social person selection + preloaded AI questions
+- [x] Full Patro day timing fields and all-horizon Rashifal Dos/Don'ts
+- [x] Deterministic Ashtakoota, Dosha, and Upaya evidence for Jyotish Baje
+- [ ] Future Dasha/transit date notifications — language/report approved in docs/18; engine and scheduling intentionally not implemented
 
 ## Phase E — Ship
 - [x] xcodebuild clean, fix all errors
