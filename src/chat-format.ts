@@ -20,7 +20,6 @@ export function stripChatMarkdown(value: string): string {
     .replace(/\s+([?!.।])/g, "$1")
     .trim();
 }
-
 export function parseChatBlocks(value: string): ChatBlock[] {
   const blocks: ChatBlock[] = [];
   for (const rawLine of value.replace(/\r/g, "").split("\n")) {
@@ -71,4 +70,3 @@ export function chatSuggestions(message: ChatMessage | undefined, language: Lang
     .filter((candidate, index, all) => candidate.length > 0 && all.indexOf(candidate) === index)
     .slice(0, 3);
 }
-
