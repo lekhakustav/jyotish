@@ -79,6 +79,15 @@ and messages. The chat shelf can therefore create, restore, and delete real thre
 device. A legacy `chat` field is still written for compatibility, and schema-v1 payloads are
 migrated into one conversation when loaded.
 
+## Product analytics
+
+`public.analytics_events` is a normalized, user-owned event table created by
+`supabase/migrations/20260713000000_add_product_analytics.sql`. It is intentionally
+separate from the household JSON because events are append-heavy and queried across time.
+RLS limits authenticated clients to their own rows; client telemetry excludes names, birth
+details, email, raw chat content, and Kundli payloads. See `docs/19-PRODUCT-ANALYTICS.md`
+for local durability, event taxonomy, deployment, and aggregate-query examples.
+
 ## Why one `households` JSON row
 The app models account, family members, patro events, conversation history, language, and theme
 as one `Household` aggregate. Storing that aggregate in one user-owned JSON row keeps offline and

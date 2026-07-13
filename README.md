@@ -43,3 +43,4 @@ For production without a dedicated server, deploy `supabase/functions/jyotish-ag
 - [docs/12-BRAND-ASSETS.md](docs/12-BRAND-ASSETS.md) — logo, app icon, and Supabase brand asset notes
 - [docs/14-PRODUCT-UX-INTENT-REVIEW.md](docs/14-PRODUCT-UX-INTENT-REVIEW.md) — current UI/UX audit, market feature landscape, user-intent model, and Jyotish Baje agent direction
 - [docs/18-RELATIONSHIPS-FEATURE-HUB-AND-FUTURE-DATES.md](docs/18-RELATIONSHIPS-FEATURE-HUB-AND-FUTURE-DATES.md) — relationship/QR mechanics, feature hub, safety contracts, and the report-only future-date notification language
+- [docs/19-PRODUCT-ANALYTICS.md](docs/19-PRODUCT-ANALYTICS.md) — local-first event capture, privacy rules, Supabase schema, taxonomy, and queries

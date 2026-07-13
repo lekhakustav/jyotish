@@ -58,7 +58,9 @@ the detail sheet can preserve the fuller original composition.
 - Default = user's janma rashi; horizontal rashi-mark picker to read any other rashi
   (the "grandmother checks the whole family's signs" use case).
 - Reading: rashi mark, generated text, domain score dots
-  (career/family/health/wealth/love as star icons 1–5), lucky color/number/day, upaya line.
+  (career/family/health/wealth/love as star icons 1–5), lucky color/number, upaya line,
+  and horizon-aware Shubh timing: a clock window for daily, weekday for weekly, and a
+  named portion of the month/year for monthly and yearly.
 - Every horizon includes two Dos and two Don'ts derived from its strongest and weakest domains.
 - The engine also creates a restrained open-loop sentence, a specific Pandit CTA, and the
   matching full chat prompt from the same strongest or weakest domain score. Cautious readings
@@ -80,6 +82,9 @@ the detail sheet can preserve the fuller original composition.
 ## 5. Parivar (family)
 - List of members grouped around the user. The tree uses names and relation labels with
   gold connector lines; rashi marks stay in the member list/detail context.
+- Stored names preserve the spelling entered by the user. When the interface language is
+  Nepali, every displayed/interpolated Latin-script name is transliterated to Devanagari;
+  English mode continues to show the original spelling.
 - Add member: relation picker (family plus Friend, Colleague, Mentor, Boyfriend, Girlfriend,
   Partner, Fiance, and Fiancee) + same birth form. Relation drives labels everywhere:
   "Your son Aarav" / "तपाईंको छोरा आरव".
@@ -104,8 +109,11 @@ the detail sheet can preserve the fuller original composition.
   dasha, daily rashifal, saved events, chat history, and the local fallback answer.
   It keeps `OPENAI_API_KEY` server-side and answers in Pandit-ji style. The model
   interprets authoritative deterministic evidence; it does not invent Jyotish calculations.
-- Chat requests stream over server-sent events when available. The assistant row appears
-  immediately with a typing indicator, then fills character-by-character as deltas arrive.
+- Chat requests stream over server-sent events when available. Incoming deltas are buffered
+  into small, steady visual updates. The view follows the latest answer until the user drags;
+  manual scrolling remains available while generation continues and a down-arrow restores
+  follow mode. Kundli evidence is inserted inline only after the answer completes, so a chart
+  never arrives before the surrounding explanation.
 - **PanditToolPlanner** is the agentic, local-first coordinator:
   - understands ordinary requests without requiring feature or astrology vocabulary,
   - calls deterministic Kundali/Dasha, Panchang, Muhurta, compatibility, festival/vrat,

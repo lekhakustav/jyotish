@@ -26,14 +26,22 @@ lists, tables, and line breaks formatted as the answer arrives. Do not replace
 the live branch with a plain `Text` view; that makes Markdown appear only after
 the final response is received.
 
+The app buffers network deltas and drains them at a stable cadence in small chunks instead
+of committing every irregular network packet. `ChatView` follows the newest content only
+while the reader remains at the bottom. A user drag disables follow mode without stopping
+generation, and the floating down-arrow resumes it. Preserve this ownership rule when
+changing streaming or scroll behavior.
+
 ## Kundli navigation
 
-The chat only renders a Kundli card when the assistant's actions include a
+The chat only renders Kundli evidence after its assistant message has completed, and only
+when the assistant's actions include a
 `seeKundli` action with a family-member ID and that member has a computed
 Kundali. The ID can point to the account holder or any child/relative included
 in the household.
 
-Tapping the chart card or its `See Kundli` action pushes the shared
+The compact chart is separated from the prose by a hairline and caption, making it part of
+the answer flow rather than a premature elevated card. Tapping it or its `See Kundli` action pushes the shared
 `MemberDetailView` into the chat's `NavigationStack`. This intentionally reuses
 the same complete page reached from Family/Parivar: identity, chart, reading,
 dasha timeline, and supporting details. The native Back action pops that page
