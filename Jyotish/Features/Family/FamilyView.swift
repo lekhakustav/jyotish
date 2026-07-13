@@ -22,6 +22,8 @@ struct FamilyView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @State private var showAdd = false
+    @State private var showMyQR = false
+    @State private var showScanner = false
     @State private var nodeX: [String: CGFloat] = [:]
     @State private var path: [UUID] = []
 
@@ -40,6 +42,8 @@ struct FamilyView: View {
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 8)
+                        qrActions
+                            .padding(.horizontal, 20)
                         if hasRelatives {
                             familyTree.fadeRise()
                         }
@@ -50,6 +54,8 @@ struct FamilyView: View {
             }
             .statusBarFade()
             .sheet(isPresented: $showAdd) { AddMemberSheet() }
+            .sheet(isPresented: $showMyQR) { FamilyQRCodeSheet() }
+            .sheet(isPresented: $showScanner) { FamilyQRScannerSheet() }
             .navigationDestination(for: UUID.self) { id in
                 if let m = app.family.first(where: { $0.id == id }) {
                     MemberDetailView(memberID: m.id)
@@ -77,6 +83,30 @@ struct FamilyView: View {
                 .frame(width: 48, height: 48)
         }
         .accessibilityLabel(app.t("family.add"))
+    }
+
+    private var qrActions: some View {
+        HStack(spacing: 10) {
+            qrAction(title: app.language == .ne ? "QR स्क्यान" : "Scan QR",
+                     icon: "qrcode.viewfinder") { showScanner = true }
+            qrAction(title: app.language == .ne ? "मेरो QR" : "My QR",
+                     icon: "qrcode") { showMyQR = true }
+        }
+    }
+
+    private func qrAction(title: String, icon: String, action: @escaping () -> Void) -> some View {
+        Button {
+            Haptics.tap()
+            action()
+        } label: {
+            Label(title, systemImage: icon)
+                .scaledFont(size: 14, weight: .semibold)
+                .foregroundStyle(p.saffron)
+                .frame(maxWidth: .infinity)
+                .frame(height: 46)
+                .background(RoundedRectangle(cornerRadius: 14).fill(p.bgSunken))
+        }
+        .buttonStyle(SpringPressStyle())
     }
 
     /// A top-to-bottom family tree so parent/child placement is obvious and

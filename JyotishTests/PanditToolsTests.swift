@@ -118,7 +118,7 @@ final class PanditToolsTests: XCTestCase {
                                           language: .en,
                                           now: Date(timeIntervalSince1970: 1_783_440_000))
 
-        XCTAssertEqual(PanditStarter.all.last?.id, "muhurta")
+        XCTAssertTrue(PanditStarter.all.contains { $0.id == "muhurta" })
         XCTAssertEqual(plan.intent, .muhurta)
         XCTAssertEqual(plan.evidence.first?.tool, "find_muhurta.requirements")
         XCTAssertFalse(plan.actions.contains { $0.kind == .addToPatro })
@@ -216,5 +216,19 @@ final class PanditToolsTests: XCTestCase {
             XCTAssertTrue(reading.dos.allSatisfy { !$0.isEmpty })
             XCTAssertTrue(reading.donts.allSatisfy { !$0.isEmpty })
         }
+    }
+
+    func testParivarShareCodeRoundTripsBirthProfile() throws {
+        let member = FamilyMember(name: "Maya", gender: .female, relation: .friend,
+                                  birth: BirthData(year: 1991, month: 8, day: 11,
+                                                   hour: 9, minute: 5, timeKnown: true,
+                                                   place: .kathmandu))
+
+        let payload = try FamilySharePayload(member: member)
+        let decoded = try FamilySharePayload.decode(payload.encodedString())
+
+        XCTAssertEqual(decoded, payload)
+        XCTAssertEqual(decoded.name, "Maya")
+        XCTAssertEqual(decoded.birth.place.name, BirthPlace.kathmandu.name)
     }
 }

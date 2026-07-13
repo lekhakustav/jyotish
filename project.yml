@@ -27,6 +27,7 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         NSMicrophoneUsageDescription: "The microphone lets you ask Jyotish Baje questions by voice."
         NSSpeechRecognitionUsageDescription: "Speech recognition turns your voice into a question for Jyotish Baje."
+        NSCameraUsageDescription: "The camera scans a trusted person's Parivar QR code so you can add their birth profile."
         CFBundleURLTypes:
           - CFBundleURLName: com.sodhera.jyotishbaje
             CFBundleURLSchemes: [jyotishbaje]

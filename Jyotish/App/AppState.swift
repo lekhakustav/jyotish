@@ -347,6 +347,23 @@ final class AppState: ObservableObject {
         Task { try? await refreshEngagementNotifications() }
     }
 
+    /// QR imports are idempotent by identity plus civil birth date. Relation is
+    /// deliberately chosen by the receiver; the sender never declares how they
+    /// should appear in somebody else's Parivar.
+    @discardableResult
+    func addSharedMember(name: String, gender: Gender, relation: Relation, birth: BirthData) -> Bool {
+        let normalized = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !normalized.isEmpty, relation != .selfMember else { return false }
+        let duplicate = family.contains { member in
+            guard member.name.localizedCaseInsensitiveCompare(normalized) == .orderedSame,
+                  let existing = member.birth else { return false }
+            return existing.year == birth.year && existing.month == birth.month && existing.day == birth.day
+        }
+        guard !duplicate else { return false }
+        addMember(FamilyMember(name: normalized, gender: gender, relation: relation, birth: birth))
+        return true
+    }
+
     func removeMember(_ member: FamilyMember) {
         family.removeAll { $0.id == member.id }
         persist()

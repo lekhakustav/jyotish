@@ -38,6 +38,22 @@ struct PanditStarter: Identifiable, Equatable {
                       icon: "calendar.badge.clock",
                       titleKey: "pandit.starter.muhurta.title",
                       promptKey: "pandit.starter.muhurta.prompt"),
+        PanditStarter(id: "matching",
+                      icon: "person.2.circle",
+                      titleKey: "pandit.starter.matching.title",
+                      promptKey: "pandit.starter.matching.prompt"),
+        PanditStarter(id: "dosha",
+                      icon: "circle.hexagongrid",
+                      titleKey: "pandit.starter.dosha.title",
+                      promptKey: "pandit.starter.dosha.prompt"),
+        PanditStarter(id: "remedies",
+                      icon: "hands.and.sparkles",
+                      titleKey: "pandit.starter.remedies.title",
+                      promptKey: "pandit.starter.remedies.prompt"),
+        PanditStarter(id: "lifePhase",
+                      icon: "timeline.selection",
+                      titleKey: "pandit.starter.lifePhase.title",
+                      promptKey: "pandit.starter.lifePhase.prompt"),
     ]
 
     func title(language: Language) -> String { L10n.t(titleKey, language) }

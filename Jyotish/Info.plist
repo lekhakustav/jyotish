@@ -35,6 +35,8 @@
 	<string>$(JYOTISH_AGENT_BASE_URL)</string>
 	<key>JYOTISH_AGENT_ENDPOINT_URL</key>
 	<string>$(JYOTISH_AGENT_ENDPOINT_URL)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The camera scans a trusted person's Parivar QR code so you can add their birth profile.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>The microphone lets you ask Jyotish Baje questions by voice.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>

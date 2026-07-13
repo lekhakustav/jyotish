@@ -150,6 +150,13 @@ struct RashifalView: View {
                 LuckyFact(label: app.t("rashifal.lucky.day"), value: r.luckyDay)
             }
 
+            HStack(alignment: .top, spacing: 18) {
+                behaviorColumn(title: app.language == .ne ? "गर्नुहोस्" : "Do",
+                               icon: "checkmark.circle", items: r.dos)
+                behaviorColumn(title: app.language == .ne ? "नगर्नुहोस्" : "Don't",
+                               icon: "xmark.circle", items: r.donts)
+            }
+
             VStack(alignment: .leading, spacing: 10) {
                 Hairline()
                 Text(r.upaya)
@@ -160,6 +167,21 @@ struct RashifalView: View {
 
         }
         .padding(.horizontal, LayoutMetrics.screenGutter)
+    }
+
+    private func behaviorColumn(title: String, icon: String, items: [String]) -> some View {
+        VStack(alignment: .leading, spacing: 9) {
+            Label(title, systemImage: icon)
+                .scaledFont(size: 14, weight: .semibold)
+                .foregroundStyle(p.saffron)
+            ForEach(items, id: \.self) { item in
+                Text("• \(item)")
+                    .scaledFont(size: 14, design: .serif)
+                    .foregroundStyle(p.inkSecondary)
+                    .lineSpacing(3)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var rashifalChatKey: String {

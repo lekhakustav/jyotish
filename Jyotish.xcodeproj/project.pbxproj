@@ -28,6 +28,7 @@
 		4387C6122422FD7B392AC4B2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A3FECFE64229B30FF8F567 /* Theme.swift */; };
 		4B7C1766D0AEB43508C605D7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFFE2FD7A849DC61A4D7460 /* SettingsView.swift */; };
 		53F58617AC1B1D52096419B7 /* PanditTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FAD1A1FEA7E7A47FFB6D8CF /* PanditTools.swift */; };
+		5DA12755554EE76F5CB1AAB9 /* FamilyQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5807D448BE66D50CDB59B686 /* FamilyQRCode.swift */; };
 		67D16C29BEA0B0765C96EB33 /* PanditDiscoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4E4AB6870A5041C2331609 /* PanditDiscoveryTests.swift */; };
 		6AAFD83EBE94CCD00773AA5C /* CityMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3A63C337A93743E1C5EA4 /* CityMatcher.swift */; };
 		6AC5B3D5B6D78B4E8F3E4A64 /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F8584733B44A9AC9D0B723D /* Inter-Light.ttf */; };
@@ -53,6 +54,7 @@
 		B1F4DCC228EC5921A8084668 /* PatroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EDE8C06A4966A678575C68 /* PatroView.swift */; };
 		B3D10967F60ACFD468CE648B /* EngagementNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B2680D3EA815A56AD6ED6C /* EngagementNotificationTests.swift */; };
 		BB18557AA47A96F20C4EA043 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C324F7E4013404A123B04A /* Interpreter.swift */; };
+		BB3615AE8276D39264987948 /* JyotishFeatureCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884489EC85EBF3B44B7AC174 /* JyotishFeatureCatalog.swift */; };
 		BE7CB82D1A359417E872EA22 /* BikramSambat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB564A0D2D0D03EB2CA6E865 /* BikramSambat.swift */; };
 		BFE7737B8492C21CD7A0FEE8 /* AgentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A2B609F60974ACC59E2E /* AgentService.swift */; };
 		C311C6BFE5D07B045C3C5C69 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */; };
@@ -95,6 +97,7 @@
 		45C324F7E4013404A123B04A /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		4EB453F78DE97ECAF37F4A51 /* PanchangaDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanchangaDay.swift; sourceTree = "<group>"; };
 		52D4CFB496D533A622FAE8A9 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		5807D448BE66D50CDB59B686 /* FamilyQRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyQRCode.swift; sourceTree = "<group>"; };
 		5BD07CBC1E9562A142F38E12 /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
 		603A1F10E008F246D46E7233 /* JyotishTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JyotishTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67C9BC03BBE18FFC36DAB4A0 /* PanditToolsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanditToolsTests.swift; sourceTree = "<group>"; };
@@ -108,6 +111,7 @@
 		7C0A3C9008CC0AED2AD5D23C /* Fraunces-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Bold.ttf"; sourceTree = "<group>"; };
 		7F7FDC9A5C3726CF5FDAAE94 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
 		86D1B04B741F6E03E3BE1F9E /* MemberDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberDetailView.swift; sourceTree = "<group>"; };
+		884489EC85EBF3B44B7AC174 /* JyotishFeatureCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JyotishFeatureCatalog.swift; sourceTree = "<group>"; };
 		9221A2B609F60974ACC59E2E /* AgentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentService.swift; sourceTree = "<group>"; };
 		9777A86C8ACCA10A6FEF6B69 /* PanditBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanditBrain.swift; sourceTree = "<group>"; };
 		987D33B98247512D8CCC19C2 /* Temple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temple.swift; sourceTree = "<group>"; };
@@ -319,6 +323,7 @@
 		CA8E7E79046F07A4E25CCB26 /* Family */ = {
 			isa = PBXGroup;
 			children = (
+				5807D448BE66D50CDB59B686 /* FamilyQRCode.swift */,
 				B5A582A58746E5941C82D0D1 /* FamilyView.swift */,
 				86D1B04B741F6E03E3BE1F9E /* MemberDetailView.swift */,
 			);
@@ -343,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				370EBE83AD255A081076BD31 /* HomeView.swift */,
+				884489EC85EBF3B44B7AC174 /* JyotishFeatureCatalog.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -500,11 +506,13 @@
 				9A515675446E7C017D3B9CCC /* Dasha.swift in Sources */,
 				9AA1E37596728B344301945C /* EmailAuthView.swift in Sources */,
 				DAE42E526033BEEE15D677BC /* Ephemeris.swift in Sources */,
+				5DA12755554EE76F5CB1AAB9 /* FamilyQRCode.swift in Sources */,
 				0290FA070DFFEBFFFCCB13E3 /* FamilyView.swift in Sources */,
 				3A05992A7F4E49A937079AF7 /* HomeView.swift in Sources */,
 				BB18557AA47A96F20C4EA043 /* Interpreter.swift in Sources */,
 				18FD98C3C69EBFF96796E2D4 /* JyotishApp.swift in Sources */,
 				AF044C10DDADB97420B7732D /* JyotishAppDelegate.swift in Sources */,
+				BB3615AE8276D39264987948 /* JyotishFeatureCatalog.swift in Sources */,
 				F109AA60F3D7ABAEAEDF47CE /* Kundali.swift in Sources */,
 				CDEB601E28C6202765C6DD99 /* L10n.swift in Sources */,
 				095C1183AD1CEBA94728DEB4 /* MemberDetailView.swift in Sources */,

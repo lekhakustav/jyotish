@@ -7,6 +7,9 @@ struct HomeView: View {
     @Environment(\.palette) private var p
     @State private var showSettings = ProcessInfo.processInfo.arguments.contains("-settings")
     @State private var showTemple = false
+    @State private var selectedFeature: JyotishFeature?
+    @State private var showFeatureCatalog = false
+    @State private var selectedRelationshipID: UUID?
 
     private var ne: Bool { app.language == .ne }
     @State private var temple = Temple.ofToday()
@@ -18,13 +21,13 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: 36) {
                     header.fadeRise()
                     rashifalBlock.fadeRise(delay: 0.04)
-                    panditDiscovery.fadeRise(delay: 0.08)
+                    if hasRelatives { relationshipsBlock.fadeRise(delay: 0.07) }
+                    featureHub.fadeRise(delay: 0.1)
                     VStack(alignment: .leading, spacing: 18) {
                         tithiHero
                         templeOfDay
                     }
                     .fadeRise(delay: 0.12)
-                    if hasRelatives { familyRow.fadeRise(delay: 0.2) }
                     if hasUpcoming { upcoming.fadeRise(delay: 0.25) }
                 }
                 .padding(.horizontal, LayoutMetrics.screenGutter)
@@ -35,30 +38,31 @@ struct HomeView: View {
         .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .sheet(isPresented: $showTemple) { TempleDetailSheet(temple: temple) }
+        .sheet(item: $selectedFeature) { FeatureLaunchSheet(feature: $0) }
+        .sheet(isPresented: $showFeatureCatalog) { FeatureCatalogSheet() }
         .task { temple = await Temple.fetchToday() }
+        .onAppear {
+            if selectedRelationshipID == nil { selectedRelationshipID = relatives.first?.id }
+        }
     }
 
-    /// Three high-interest questions are visible at once. More specific entry
-    /// points remain vertically discoverable, while the generic composer stays
-    /// fixed below the scrolling template area.
-    private var panditDiscovery: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(app.t("home.panditAI"))
-                .scaledFont(size: 19, weight: .semibold, design: .serif)
+    /// Compact icons replace the old stack of full-sentence questions. Five
+    /// high-use tools stay visible; More opens the complete, named catalog.
+    private var featureHub: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text(app.language == .ne ? "ज्योतिष सुविधाहरू" : "Jyotish tools")
+                .scaledFont(size: 20, weight: .semibold, design: .serif)
                 .foregroundStyle(p.inkPrimary)
-
-            ScrollView(.vertical, showsIndicators: true) {
-                LazyVStack(spacing: 6) {
-                    ForEach(PanditStarter.all) { starter in
-                        PanditStarterCard(starter: starter, quiet: true) {
-                            app.openPandit(prompt: starter.prompt(language: app.language))
-                        }
-                        .frame(minHeight: 58)
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 14) {
+                ForEach(JyotishFeatureCatalog.home) { feature in
+                    featureIcon(name: feature.name(app.language), icon: feature.icon) {
+                        selectedFeature = feature
                     }
                 }
+                featureIcon(name: app.language == .ne ? "थप" : "More", icon: "ellipsis.circle") {
+                    showFeatureCatalog = true
+                }
             }
-            .frame(height: 186)
-
             Button {
                 Haptics.tap()
                 app.openPandit()
@@ -79,6 +83,100 @@ struct HomeView: View {
             }
             .buttonStyle(SpringPressStyle())
             .accessibilityLabel(app.t("home.askPandit"))
+        }
+    }
+
+    private func featureIcon(name: String, icon: String, action: @escaping () -> Void) -> some View {
+        Button {
+            Haptics.tap()
+            action()
+        } label: {
+            VStack(spacing: 9) {
+                Image(systemName: icon)
+                    .scaledFont(size: 22, weight: .light)
+                    .foregroundStyle(p.saffron)
+                    .frame(width: 48, height: 48)
+                    .background(Circle().fill(p.bgSunken))
+                Text(name)
+                    .scaledFont(size: 13, weight: .semibold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.75)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 92, alignment: .top)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(SpringPressStyle())
+        .accessibilityLabel(name)
+    }
+
+    /// Appears only when another person exists in Parivar. Static Ashtakoota
+    /// signals are combined with today's Moon transit, then translated into a
+    /// relationship action rather than a deterministic compatibility verdict.
+    @ViewBuilder private var relationshipsBlock: some View {
+        if let member = relationshipMember,
+           let me = app.selfMember,
+           let insight = CompatibilityEngine.dailyInsight(me, member, language: app.language) {
+            VStack(alignment: .leading, spacing: 14) {
+                HStack {
+                    Text(app.language == .ne ? "सम्बन्धहरू" : "Relationships")
+                        .scaledFont(size: 20, weight: .semibold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                    Spacer()
+                    Button { app.open(.family) } label: {
+                        Text(app.language == .ne ? "परिवार" : "Parivar")
+                            .scaledFont(size: 13, weight: .semibold)
+                            .foregroundStyle(p.saffron)
+                    }
+                }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(relatives) { relative in
+                            Button { selectedRelationshipID = relative.id } label: {
+                                Text(relative.name)
+                                    .scaledFont(size: 13, weight: relative.id == member.id ? .semibold : .regular)
+                                    .foregroundStyle(relative.id == member.id ? p.onAccent : p.inkSecondary)
+                                    .padding(.horizontal, 13)
+                                    .frame(height: 34)
+                                    .background(Capsule().fill(relative.id == member.id ? p.saffron : p.bgSunken))
+                            }
+                            .buttonStyle(SpringPressStyle())
+                        }
+                    }
+                }
+                Button {
+                    app.openPandit(prompt: insight.prompt,
+                                   sourceKey: "relationship:\(member.id.uuidString):\(Calendar.current.startOfDay(for: Date()).timeIntervalSince1970)")
+                } label: {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(insight.title)
+                            .scaledFont(size: 18, weight: .semibold, design: .serif)
+                            .foregroundStyle(p.templeGold)
+                        Text(insight.summary)
+                            .scaledFont(size: 17, weight: .medium, design: .serif)
+                            .foregroundStyle(p.inkPrimary)
+                            .lineSpacing(4)
+                        Label(insight.doItem, systemImage: "checkmark.circle")
+                            .scaledFont(size: 14, design: .serif)
+                            .foregroundStyle(p.inkSecondary)
+                            .multilineTextAlignment(.leading)
+                        Label(insight.dontItem, systemImage: "xmark.circle")
+                            .scaledFont(size: 14, design: .serif)
+                            .foregroundStyle(p.inkSecondary)
+                            .multilineTextAlignment(.leading)
+                        HStack(spacing: 5) {
+                            Text(app.language == .ne ? "विस्तृत सम्बन्ध रिपोर्ट" : "Detailed relationship report")
+                            Image(systemName: "arrow.up.right")
+                        }
+                        .scaledFont(size: 14, weight: .semibold)
+                        .foregroundStyle(p.sindoor)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(SpringPressStyle())
+            }
         }
     }
 
@@ -252,35 +350,6 @@ struct HomeView: View {
         .buttonStyle(SpringPressStyle())
     }
 
-    private var familyRow: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 16) {
-                ForEach(app.family.filter { $0.relation != .selfMember }) { m in
-                    Button { app.open(.family) } label: {
-                        VStack(spacing: 5) {
-                            if let k = m.kundali {
-                                RashiIcon(rashi: k.moonRashi, size: 50)
-                            } else {
-                                Circle().strokeBorder(p.templeGold.opacity(0.4), style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                    .frame(width: 50, height: 50)
-                                    .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
-                            }
-                            Text(m.name)
-                                .scaledFont(size: 13)
-                                .foregroundStyle(p.inkSecondary)
-                                .lineLimit(1)
-                        }
-                        .frame(width: 62)
-                    }
-                    .buttonStyle(SpringPressStyle())
-                    .accessibilityLabel(m.name)
-                }
-            }
-        }
-        .padding(.horizontal, -24)
-        .contentMargins(.horizontal, 24, for: .scrollContent)
-    }
-
     private var upcoming: some View {
         VStack(alignment: .leading, spacing: 16) {
             SectionLabel(text: app.t("home.upcoming"))
@@ -310,6 +379,14 @@ struct HomeView: View {
 
     private var hasRelatives: Bool {
         app.family.contains { $0.relation != .selfMember }
+    }
+
+    private var relatives: [FamilyMember] {
+        app.family.filter { $0.relation != .selfMember && $0.hasBirthData }
+    }
+
+    private var relationshipMember: FamilyMember? {
+        relatives.first { $0.id == selectedRelationshipID } ?? relatives.first
     }
 
     private var hasUpcoming: Bool {

@@ -272,7 +272,9 @@ struct DayDetailSheet: View {
 
     var body: some View {
         let ad = BikramSambat.toAD(bs)
-        let pan = Panchanga.forDay(ad)
+        let place = app.selfMember?.birth?.place ?? .kathmandu
+        let pan = Panchanga.forDay(ad, place: place)
+        let details = PanchangaDayCalculator.details(for: ad, place: place, language: app.language)
         let dayEvents = app.events.filter { $0.occurs(on: bs) }
 
         ZStack {
@@ -300,6 +302,27 @@ struct DayDetailSheet: View {
                         InfoRow(label: app.t("patro.yoga"), value: pan.yogaName(ne: ne))
                         Hairline()
                         InfoRow(label: app.t("patro.karana"), value: pan.karanaName(ne: ne))
+                        Hairline()
+                        InfoRow(label: ne ? "सूर्योदय" : "Sunrise", value: time(details.sunrise, place: place))
+                        Hairline()
+                        InfoRow(label: ne ? "सूर्यास्त" : "Sunset", value: time(details.sunset, place: place))
+                        Hairline()
+                        InfoRow(label: ne ? "चन्द्रोदय (अनुमानित)" : "Moonrise (approx.)", value: time(details.moonrise, place: place))
+                        Hairline()
+                        InfoRow(label: ne ? "चन्द्रास्त (अनुमानित)" : "Moonset (approx.)", value: time(details.moonset, place: place))
+                        Hairline()
+                        InfoRow(label: ne ? "राहुकाल" : "Rahu Kaal", value: window(details.rahuKaal, place: place))
+                        Hairline()
+                        InfoRow(label: ne ? "गुलिककाल" : "Gulika Kaal", value: window(details.gulikaKaal, place: place))
+                        Hairline()
+                        InfoRow(label: ne ? "यमगण्ड" : "Yamaganda", value: window(details.yamaganda, place: place))
+                        Hairline()
+                        InfoRow(label: ne ? "अभिजित मुहूर्त" : "Abhijit Muhurat", value: window(details.abhijitMuhurat, place: place))
+                        if !details.observances.isEmpty {
+                            Hairline()
+                            InfoRow(label: ne ? "व्रत र पर्व" : "Observances",
+                                    value: details.observances.joined(separator: ", "))
+                        }
                     }
 
                     if !dayEvents.isEmpty {
@@ -360,5 +383,17 @@ struct DayDetailSheet: View {
         .overlay(alignment: .topTrailing) { SheetCloseButton().padding(8) }
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
+    }
+
+    private func time(_ date: Date, place: BirthPlace) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = app.locale
+        formatter.timeZone = TimeZone(secondsFromGMT: Int(place.utcOffsetHours * 3600))
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
+
+    private func window(_ value: PanchangaWindow, place: BirthPlace) -> String {
+        "\(time(value.start, place: place))–\(time(value.end, place: place))"
     }
 }
