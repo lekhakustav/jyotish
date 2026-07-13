@@ -87,21 +87,23 @@ export function ChatScreen() {
     });
   }, [app.language, listening]);
 
-  const submit = React.useCallback((rawText: string) => {
+  const submit = React.useCallback((rawText: string, sourceKey?: string) => {
     const message = stripChatMarkdown(rawText).trim();
     if (!message || sending || app.isTyping) return;
     setText("");
     setListening(false);
     setSending(true);
     forceNextScroll.current = true;
-    void app.sendChat(message).finally(() => setSending(false));
+    void app.sendChat(message, sourceKey).finally(() => setSending(false));
   }, [app, sending]);
 
   React.useEffect(() => {
     if (!app.pendingChatPrompt) return;
     const prompt = app.pendingChatPrompt;
+    const sourceKey = app.pendingChatSourceKey;
     app.consumePendingChatPrompt();
-    submit(prompt);
+    app.consumePendingChatSourceKey();
+    submit(prompt, sourceKey);
   }, [app.pendingChatPrompt]);
 
   const onContentSizeChange = React.useCallback(() => {

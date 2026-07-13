@@ -10,43 +10,11 @@ import { digits, displayName, t } from "../l10n";
 import { palette } from "../theme";
 import type { Kundali, Language, RashiKey } from "../types";
 import { adToBs } from "./PatroScreen";
+import { RelationshipAndFeatureHub } from "./FeatureHub";
 
 type EnhancedApp = ReturnType<typeof useAppState> & {
   openPandit?: (prompt?: string, sourceKey?: string) => void;
 };
-
-type Starter = {
-  id: "love" | "career" | "health";
-  title: Record<Language, string>;
-  prompt: Record<Language, string>;
-};
-
-const starters: Starter[] = [
-  {
-    id: "love",
-    title: { en: "What is ahead for my love life?", ne: "मेरो प्रेम जीवनमा अब के हुन्छ?" },
-    prompt: {
-      en: "Read my kundli, current dasha and relevant transits. What is ahead for my love life, and what pattern should I understand?",
-      ne: "मेरो कुण्डली, हालको दशा र गोचर हेरेर मेरो प्रेम जीवनमा अब के हुन्छ र मैले कुन ढाँचा बुझ्नुपर्छ?"
-    }
-  },
-  {
-    id: "career",
-    title: { en: "What is my next career move?", ne: "मेरो पेशाको अर्को कदम के हो?" },
-    prompt: {
-      en: "Using my kundli and current dasha, what career direction suits me now, what may block me, and what should I do next?",
-      ne: "मेरो कुण्डली र हालको दशा हेरेर अहिले कुन पेशागत दिशा ठीक छ, के कुराले रोक्न सक्छ र अब के गर्नुपर्छ?"
-    }
-  },
-  {
-    id: "health",
-    title: { en: "What should I watch in my health?", ne: "स्वास्थ्यमा मैले के कुरामा ध्यान दिने?" },
-    prompt: {
-      en: "Using my kundli and current transits, what health tendencies should I be mindful of? Keep it practical and do not diagnose illness.",
-      ne: "मेरो कुण्डली र हालको गोचर हेरेर स्वास्थ्यका कुन प्रवृत्तिमा ध्यान दिनुपर्छ? व्यावहारिक सुझाव दिनुहोस्, रोग निदान नगर्नुहोस्।"
-    }
-  }
-];
 
 export function HomeScreen() {
   const app = useAppState() as EnhancedApp;
@@ -120,57 +88,7 @@ export function HomeScreen() {
         ) : null}
       </PressableScale>
 
-      <View style={{ gap: 10 }}>
-        <SerifText style={{ fontFamily: "Fraunces-SemiBold", fontSize: 19 }}>
-          {app.language === "ne" ? "ज्योतिष बाजे" : "Jyotish Baje"}
-        </SerifText>
-        <View>
-          {starters.map((starter, index) => (
-            <PressableScale
-              key={starter.id}
-              accessibilityLabel={starter.title[app.language]}
-              onPress={() => openPandit(starter.prompt[app.language], `starter:${starter.id}`)}
-              style={{
-                minHeight: 58,
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 12,
-                paddingHorizontal: 12,
-                paddingVertical: 9,
-                borderBottomWidth: index < starters.length - 1 ? 1 : 0,
-                borderBottomColor: palette.hairline
-              }}
-            >
-              <View style={{ width: 38, height: 38, alignItems: "center", justifyContent: "center" }}>
-                <StarterIcon kind={starter.id} />
-              </View>
-              <SerifText numberOfLines={2} style={{ flex: 1, fontFamily: "Fraunces-SemiBold", fontSize: 15 }}>
-                {starter.title[app.language]}
-              </SerifText>
-              <ChevronIcon color={palette.inkSecondary} />
-            </PressableScale>
-          ))}
-        </View>
-        <PressableScale
-          accessibilityRole="button"
-          onPress={() => openPandit()}
-          style={{
-            minHeight: 56,
-            borderRadius: 16,
-            backgroundColor: palette.saffron,
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 12,
-            paddingHorizontal: 18
-          }}
-        >
-          <AppIcon name="sparkle" size={21} color={palette.inkPrimary} strokeWidth={2} />
-          <SerifText style={{ flex: 1, color: palette.inkPrimary, fontFamily: "Fraunces-SemiBold", fontSize: 19 }}>
-            {app.language === "ne" ? "ज्योतिष बाजेलाई जे पनि सोध्नुहोस्" : "Ask Jyotish Baje anything"}
-          </SerifText>
-          <AppIcon name="arrow-up-right" size={19} color={palette.inkPrimary} strokeWidth={2} />
-        </PressableScale>
-      </View>
+      <RelationshipAndFeatureHub />
 
       <View style={{ gap: 18 }}>
         <View style={{ gap: 12 }}>
@@ -374,29 +292,6 @@ function ChevronIcon({ color }: { color: string }) {
   return (
     <Svg width={13} height={13} viewBox="0 0 13 13" accessibilityElementsHidden>
       <Path d="m4.5 2.5 4 4-4 4" stroke={color} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-    </Svg>
-  );
-}
-
-function StarterIcon({ kind }: { kind: Starter["id"] }) {
-  if (kind === "love") {
-    return (
-      <Svg width={20} height={20} viewBox="0 0 24 24" accessibilityElementsHidden>
-        <Path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z" stroke={palette.saffron} strokeWidth={1.7} strokeLinejoin="round" fill="none" />
-      </Svg>
-    );
-  }
-  if (kind === "career") {
-    return (
-      <Svg width={20} height={20} viewBox="0 0 24 24" accessibilityElementsHidden>
-        <Path d="M4 8.5h16v10H4zM9 8.5v-3h6v3M4 12.5h16" stroke={palette.saffron} strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      </Svg>
-    );
-  }
-  return (
-    <Svg width={20} height={20} viewBox="0 0 24 24" accessibilityElementsHidden>
-      <Circle cx={12} cy={4.5} r={1.8} stroke={palette.saffron} strokeWidth={1.6} fill="none" />
-      <Path d="M12 7.2v6.1M7.2 9.5 12 12l4.8-2.5M12 13.3l-4.3 4.2H4.5M12 13.3l4.3 4.2h3.2M7 20h10M6.5 17.5c1.8 0 3.2.8 5.5 2.5 2.3-1.7 3.7-2.5 5.5-2.5" stroke={palette.saffron} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" fill="none" />
     </Svg>
   );
 }

@@ -151,6 +151,7 @@ function systemPrompt(payload: Record<string, unknown>): string {
     "The toolEvidence field is authoritative output from deterministic Kundali, Dasha, Panchang, Muhurta, compatibility, festival, and devotional tools.",
     "Your job is interpretation. Never recalculate, override, or invent astrology facts, dates, scores, festival claims, or Muhurta. If the required tool evidence is absent, say what is needed.",
     "Use the supplied localFallbackReply as the factual answer draft. Improve clarity and warmth without changing its facts or uncertainty.",
+    payload.requestedFeature ? "This is a feature-report launch. Preserve every supplied date and requested life-area section; return a complete, scannable report rather than collapsing it into a brief answer." : "",
     "Keep the answer concise and use exactly these bold section labels: Direct answer; Why Baje says this; What to do; Optional practice; Uncertainty. Translate the labels into Nepali when answering in Nepali.",
     "Ground every confident chart claim in supplied tool evidence or context. State missing or uncertain birth time plainly and give a softer reading.",
     "Do not claim medical, legal, or financial certainty. Avoid fear-based predictions.",
@@ -169,6 +170,8 @@ function userPrompt(payload: Record<string, unknown>): string {
       events: payload.events || [],
       chatHistory: payload.chatHistory || [],
       toolEvidence: payload.toolEvidence || [],
+      requestedFeature: payload.requestedFeature || null,
+      sourceKey: payload.sourceKey || null,
       localFallbackReply: payload.localFallbackReply || "",
     }, null, 2),
   ].join("\n");

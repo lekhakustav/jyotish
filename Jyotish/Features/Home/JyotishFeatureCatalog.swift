@@ -101,7 +101,7 @@ enum JyotishFeatureCatalog {
                        isSocial: true),
     ]
 
-    static let homeIDs: [JyotishFeatureID] = [.panchang, .muhurta, .dosha, .remedies, .kundliMatching]
+    static let homeIDs: [JyotishFeatureID] = [.panchang, .lifePhase, .muhurta, .dosha, .kundliMatching]
     static var home: [JyotishFeature] { homeIDs.compactMap(feature) }
     static func feature(_ id: JyotishFeatureID) -> JyotishFeature? { all.first { $0.id == id } }
 

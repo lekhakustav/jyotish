@@ -6,6 +6,8 @@ import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase } f
 import type { AppModal, AppTab, BirthData, ChatConversation, ChatMessage, FamilyMember, Household, Language, PatroEvent, ThemeChoice, UserAccount } from "@/types";
 import { applyPalette } from "@/theme";
 import { track } from "@/analytics";
+import { parseFeatureSource } from "@/features";
+import { buildFeatureToolReport } from "@/jyotish-reports";
 
 type AppContextValue = {
   account?: UserAccount;
@@ -23,6 +25,7 @@ type AppContextValue = {
   isTyping: boolean;
   syncStatus?: string;
   pendingChatPrompt?: string;
+  pendingChatSourceKey?: string;
   signInDemo: () => void;
   signInGoogle: () => Promise<void>;
   signInEmail: (email: string, password: string) => Promise<void>;
@@ -35,6 +38,7 @@ type AppContextValue = {
   openModal: (modal: AppModal) => void;
   openPandit: (prompt?: string, sourceKey?: string) => void;
   consumePendingChatPrompt: () => void;
+  consumePendingChatSourceKey: () => void;
   closeModal: () => void;
   saveSelf: (name: string, birth?: BirthData) => void;
   addMember: (member: FamilyMember) => void;
@@ -43,7 +47,7 @@ type AppContextValue = {
   newConversation: () => string;
   selectConversation: (conversationId: string) => void;
   deleteConversation: (conversationId: string) => void;
-  sendChat: (text: string) => Promise<void>;
+  sendChat: (text: string, sourceKey?: string) => Promise<void>;
 };
 
 const storageKey = "jyotish.household.v1";
@@ -124,6 +128,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [isTyping, setIsTyping] = React.useState(false);
   const [syncStatus, setSyncStatus] = React.useState<string | undefined>();
   const [pendingChatPrompt, setPendingChatPrompt] = React.useState<string | undefined>();
+  const [pendingChatSourceKey, setPendingChatSourceKey] = React.useState<string | undefined>();
 
   const isDark = household.theme === "dark" || (household.theme === "system" && systemScheme === "dark");
   applyPalette(isDark);
@@ -277,6 +282,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const openPandit = React.useCallback((prompt?: string, sourceKey?: string) => {
     track("pandit_opened", { source: sourceKey || (prompt?.trim() ? "preloaded" : "manual") });
     if (prompt?.trim()) setPendingChatPrompt(prompt.trim());
+    setPendingChatSourceKey(sourceKey);
     setModal("chat");
   }, []);
 
@@ -326,11 +332,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     });
   }, [updateHousehold]);
 
-  const sendChat = React.useCallback(async (text: string) => {
+  const sendChat = React.useCallback(async (text: string, sourceKey?: string) => {
     const trimmed = text.trim();
     if (!trimmed || isTyping) return;
     const startedAt = Date.now();
-    track("chat_question_sent", { character_count: trimmed.length, language: household.language });
+    const featureContext = parseFeatureSource(sourceKey);
+    track("chat_question_sent", { character_count: trimmed.length, language: household.language, source: sourceKey || "manual", feature: featureContext?.featureID || "none" });
     const sentAt = new Date().toISOString();
     const userMessage: ChatMessage = { id: uuid(), isUser: true, text: trimmed, timestamp: sentAt };
     const assistantID = uuid();
@@ -357,7 +364,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       };
     });
 
-    const localAnswer = localPanditReply(trimmed, familySnapshot, languageSnapshot);
+    const preparedReport = featureContext
+      ? buildFeatureToolReport(featureContext.featureID, familySnapshot, languageSnapshot, featureContext.memberID)
+      : undefined;
+    const localAnswer = preparedReport?.answer ?? localPanditReply(trimmed, familySnapshot, languageSnapshot);
     const endpoint = process.env.EXPO_PUBLIC_JYOTISH_AGENT_ENDPOINT_URL || process.env.JYOTISH_AGENT_ENDPOINT_URL;
     let answer = localAnswer;
     let source = "local";
@@ -370,7 +380,13 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
             language: languageSnapshot,
             message: trimmed,
             family: familySnapshot,
+            events: household.events,
+            selfMemberID: familySnapshot.find((member) => member.relation === "selfMember")?.id,
             chatHistory: chatSnapshot.slice(-16),
+            sourceKey,
+            requestedFeature: featureContext?.featureID,
+            nowISO: new Date().toISOString(),
+            toolEvidence: preparedReport?.evidence,
             localFallbackReply: localAnswer
           })
         });
@@ -421,6 +437,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     isTyping,
     syncStatus,
     pendingChatPrompt,
+    pendingChatSourceKey,
     signInDemo,
     signInGoogle,
     signInEmail,
@@ -433,6 +450,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     openModal: showModal,
     openPandit,
     consumePendingChatPrompt: () => setPendingChatPrompt(undefined),
+    consumePendingChatSourceKey: () => setPendingChatSourceKey(undefined),
     closeModal: () => setModal(null),
     saveSelf,
     addMember,
@@ -442,7 +460,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     selectConversation,
     deleteConversation,
     sendChat
-  }), [household, activeChat, selectedMember, selectedTab, modal, isTyping, syncStatus, pendingChatPrompt, signInDemo, signInGoogle, signInEmail, signUpEmail, skipAuth, signOut, setLanguage, setTheme, selectTab, showModal, saveSelf, addMember, openPandit, selectMember, addEvent, newConversation, selectConversation, deleteConversation, sendChat]);
+  }), [household, activeChat, selectedMember, selectedTab, modal, isTyping, syncStatus, pendingChatPrompt, pendingChatSourceKey, signInDemo, signInGoogle, signInEmail, signUpEmail, skipAuth, signOut, setLanguage, setTheme, selectTab, showModal, saveSelf, addMember, openPandit, selectMember, addEvent, newConversation, selectConversation, deleteConversation, sendChat]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
