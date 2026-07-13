@@ -1,4 +1,5 @@
 import React from "react";
+import { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } from "expo-speech-recognition";
 import {
   Animated,
   FlatList,
@@ -32,6 +33,7 @@ export function ChatScreen() {
   const [text, setText] = React.useState("");
   const [sending, setSending] = React.useState(false);
   const [listening, setListening] = React.useState(false);
+  const [voiceError, setVoiceError] = React.useState<string>();
   const [historyOpen, setHistoryOpen] = React.useState(false);
   const latestAssistant = React.useMemo(
     () => [...app.chat].reverse().find((message) => !message.isUser && message.text.trim()),
@@ -41,6 +43,49 @@ export function ChatScreen() {
     () => app.isTyping ? [] : chatSuggestions(latestAssistant, app.language),
     [app.isTyping, app.language, latestAssistant]
   );
+
+  useSpeechRecognitionEvent("start", () => {
+    setVoiceError(undefined);
+    setListening(true);
+  });
+  useSpeechRecognitionEvent("end", () => setListening(false));
+  useSpeechRecognitionEvent("result", (event) => {
+    const transcript = event.results[0]?.transcript?.trim();
+    if (transcript) setText(transcript);
+  });
+  useSpeechRecognitionEvent("error", (event) => {
+    setListening(false);
+    if (event.error === "aborted" || event.error === "no-speech" || event.error === "speech-timeout") return;
+    setVoiceError(app.language === "ne"
+      ? "आवाज टाइपिङ उपलब्ध भएन। माइक्रोफोन अनुमति र फोनको आवाज सेवा जाँच्नुहोस्।"
+      : "Voice typing is unavailable. Check microphone permission and the phone's speech service.");
+  });
+
+  const toggleVoiceInput = React.useCallback(async () => {
+    if (listening) {
+      ExpoSpeechRecognitionModule.stop();
+      return;
+    }
+    setVoiceError(undefined);
+    if (!ExpoSpeechRecognitionModule.isRecognitionAvailable()) {
+      setVoiceError(app.language === "ne"
+        ? "यस फोनमा आवाज पहिचान सेवा उपलब्ध छैन।"
+        : "No speech-recognition service is available on this phone.");
+      return;
+    }
+    const permission = await ExpoSpeechRecognitionModule.requestPermissionsAsync();
+    if (!permission.granted) {
+      setVoiceError(app.language === "ne"
+        ? "आवाज टाइपिङका लागि माइक्रोफोन अनुमति दिनुहोस्।"
+        : "Allow microphone access to use voice typing.");
+      return;
+    }
+    ExpoSpeechRecognitionModule.start({
+      lang: app.language === "ne" ? "ne-NP" : "en-IN",
+      interimResults: true,
+      continuous: false
+    });
+  }, [app.language, listening]);
 
   const submit = React.useCallback((rawText: string) => {
     const message = stripChatMarkdown(rawText).trim();
@@ -155,6 +200,11 @@ export function ChatScreen() {
               ))}
             </ScrollView>
           ) : null}
+          {voiceError ? (
+            <AppText accessibilityRole="alert" style={{ color: palette.sindoor, fontSize: 12, paddingHorizontal: CHAT_GUTTER, paddingBottom: 4 }}>
+              {voiceError}
+            </AppText>
+          ) : null}
           <Composer
             value={text}
             language={app.language}
@@ -165,7 +215,7 @@ export function ChatScreen() {
               setText(value);
             }}
             onSubmit={() => submit(text)}
-            onMicrophone={() => setListening((current) => !current)}
+            onMicrophone={() => void toggleVoiceInput()}
           />
         </View>
       </KeyboardAvoidingView>
@@ -313,19 +363,19 @@ function Composer({ value, language, listening, disabled, onChangeText, onSubmit
       />
       <PressableScale
         accessibilityRole="button"
-        accessibilityLabel={hasText ? "Send message" : listening ? "Stop listening" : "Start voice input"}
+        accessibilityLabel={listening ? "Stop listening" : hasText ? "Send message" : "Start voice input"}
         disabled={disabled}
-        onPress={hasText ? onSubmit : onMicrophone}
+        onPress={listening ? onMicrophone : hasText ? onSubmit : onMicrophone}
         style={{
           width: 48,
           height: 48,
           borderRadius: 24,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: hasText ? palette.saffron : listening ? "rgba(242, 169, 59, 0.28)" : palette.bgSunken
+          backgroundColor: hasText && !listening ? palette.saffron : listening ? "rgba(242, 169, 59, 0.28)" : palette.bgSunken
         }}
       >
-        <AppIcon name={hasText ? "send" : "microphone"} size={21} color={hasText || listening ? palette.inkPrimary : palette.inkSecondary} strokeWidth={2} />
+        <AppIcon name={hasText && !listening ? "send" : "microphone"} size={21} color={hasText || listening ? palette.inkPrimary : palette.inkSecondary} strokeWidth={2} />
       </PressableScale>
     </View>
   );
