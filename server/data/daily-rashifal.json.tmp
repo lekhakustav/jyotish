@@ -1,0 +1,435 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-02T09:27:36.117Z",
+  "records": {
+    "2026-07-02|mesha|en": {
+      "date": "2026-07-02",
+      "rashi": "mesha",
+      "language": "en",
+      "status": "ready",
+      "source": "local-daily-rotation",
+      "generatedAt": "2026-07-02T09:27:36.106Z",
+      "horoscope": {
+        "date": "2026-07-02",
+        "language": "en",
+        "rashi": {
+          "key": "mesha",
+          "nepali": "Mesha",
+          "sanskrit": "Mesha",
+          "english": "Aries",
+          "sign": "Mesha"
+        },
+        "title": "Mesha / Mesha Rashi Phal",
+        "dailyContent": {
+          "date": "2026-07-02",
+          "rashi": "mesha",
+          "source": "local-daily-rotation",
+          "english": {
+            "language": "english",
+            "paragraph": "For Mesha Rashi, Today can bring support through people. Focus on confidence and quick decisions. Partner, client, friend, or group talks can become useful. Keep agreements clear and write important points down. Avoid pleasing everyone and forgetting your own need. Your lucky color is saffron and your lucky number is 2.",
+            "luckyColor": "saffron",
+            "luckyNumber": 2
+          },
+          "nepali": {
+            "language": "nepali",
+            "paragraph": "मेष राशिका लागि आज मानिसहरूबाट साथ मिल्न सक्छ। आत्मविश्वास र छिटो निर्णयमा ध्यान दिँदा राम्रो हुन्छ। जोडी, ग्राहक, साथी वा समूहसँगको कुरा उपयोगी हुन सक्छ। सहमति स्पष्ट राख्नुहोस् र मुख्य कुरा लेखेर राख्नुहोस्। सबैलाई खुसी पार्दा आफ्नो आवश्यकता नबिर्सनुहोस्। आजको शुभ रंग केशरी र शुभ अंक 2 हो।",
+            "luckyColor": "केशरी",
+            "luckyNumber": 2
+          }
+        },
+        "good": "For Mesha Rashi, Today can bring support through people. Focus on confidence and quick decisions. Partner, client, friend, or group talks can become useful. Keep agreements clear and write important points down. Avoid pleasing everyone and forgetting your own need. Your lucky color is saffron and your lucky number is 2.",
+        "avoid": "Avoid rushing, ego reactions, or starting too many things at once.",
+        "luckyColor": "saffron",
+        "luckyNumber": 2,
+        "love": "Your mood may be easy to read today, so honest and soft communication matters more than proving a point.",
+        "career": "Good for interviews, study plans, first drafts, and work where you need to show initiative.",
+        "health": "Keep food light, hydrate, and give your head and sleep routine some care.",
+        "money": "Pause before buying something just because the mood is strong. Spend only after checking the real need.",
+        "advice": "For Mesha Rashi, Today can bring support through people. Focus on confidence and quick decisions. Partner, client, friend, or group talks can become useful. Keep agreements clear and write important points down. Avoid pleasing everyone and forgetting your own need. Your lucky color is saffron and your lucky number is 2.",
+        "method": "Saved daily rashifal for this date, rashi, and language.",
+        "confidenceLevel": "stored",
+        "explanations": {
+          "houseNumber": 1,
+          "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+          "confidenceLevel": "basic",
+          "good": {
+            "title": "Good things today",
+            "shortSummary": "Today is better for body, confidence, and fresh starts.",
+            "detailedMeaning": "The day may feel more personal because attention comes back to your body, mood, image, and first decisions.",
+            "practicalGuidance": "Begin with one clear task, keep your morning steady, and choose direct but kind words.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "avoid": {
+            "title": "Avoid today",
+            "shortSummary": "Avoid rushing, ego reactions, or starting too many things at once.",
+            "detailedMeaning": "This does not mean something bad must happen. It simply points to the type of behavior that can make the day feel heavier.",
+            "practicalGuidance": "Slow the reaction, check facts, and choose the cleaner path.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "love": {
+            "title": "Love",
+            "shortSummary": "Your mood may be easy to read today, so honest and soft communication matters more than proving a point.",
+            "detailedMeaning": "Relationship guidance is about communication style and emotional clarity, not a guaranteed result.",
+            "practicalGuidance": "Listen before replying, keep boundaries kind, and avoid testing the other person.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "career": {
+            "title": "Study / Career",
+            "shortSummary": "Good for interviews, study plans, first drafts, and work where you need to show initiative.",
+            "detailedMeaning": "Use this as a practical focus area for study, work, clients, interviews, negotiation, or teamwork.",
+            "practicalGuidance": "Pick one useful task and complete it before moving to the next.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "health": {
+            "title": "Wellness",
+            "shortSummary": "Keep food light, hydrate, and give your head and sleep routine some care.",
+            "detailedMeaning": "This is a gentle wellness reminder based on the daily house theme, not a diagnosis.",
+            "practicalGuidance": "Keep food, rest, movement, and hydration simple today.",
+            "caution": "General wellness reminder, not medical advice. Consult a doctor if you already have symptoms.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "money": {
+            "title": "Money",
+            "shortSummary": "Pause before buying something just because the mood is strong. Spend only after checking the real need.",
+            "detailedMeaning": "Money guidance is about clarity, planning, saving, and avoiding confused decisions. It does not promise profit.",
+            "practicalGuidance": "Check the details before spending, lending, borrowing, or making shared money decisions.",
+            "caution": "Practical money reminder, not financial advice.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "luckyColor": {
+            "title": "Lucky color",
+            "shortSummary": "saffron can be used as a simple mood cue today.",
+            "detailedMeaning": "In this app, lucky color is basic daily guidance, meant to support intention and presentation.",
+            "practicalGuidance": "Use it in clothing, a small accessory, or your work space if it feels natural.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic color cycle for 2026-07-02.",
+            "basis": "Basic color cycle for 2026-07-02.",
+            "confidenceLevel": "basic"
+          },
+          "luckyNumber": {
+            "title": "Lucky number",
+            "shortSummary": "2 is a light daily focus number, not a promise of results.",
+            "detailedMeaning": "Treat the number as a reminder for intention, timing, or mindful repetition.",
+            "practicalGuidance": "Use it lightly; do not make important decisions only because of a number.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic number cycle for 2026-07-02.",
+            "basis": "Basic number cycle for 2026-07-02.",
+            "confidenceLevel": "basic"
+          },
+          "advice": {
+            "title": "Today's advice",
+            "shortSummary": "Begin with one clear task, keep your morning steady, and choose direct but kind words.",
+            "detailedMeaning": "The day may feel more personal because attention comes back to your body, mood, image, and first decisions.",
+            "practicalGuidance": "Begin with one clear task, keep your morning steady, and choose direct but kind words. Avoid rushing, ego reactions, or starting too many things at once.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          }
+        }
+      }
+    },
+    "2026-07-02|mesha|ne": {
+      "date": "2026-07-02",
+      "rashi": "mesha",
+      "language": "ne",
+      "status": "ready",
+      "source": "local-daily-rotation",
+      "generatedAt": "2026-07-02T09:27:36.114Z",
+      "horoscope": {
+        "date": "2026-07-02",
+        "language": "ne",
+        "rashi": {
+          "key": "mesha",
+          "nepali": "Mesha",
+          "sanskrit": "Mesha",
+          "english": "Aries",
+          "sign": "Mesha"
+        },
+        "title": "Mesha / Mesha Rashi Phal",
+        "dailyContent": {
+          "date": "2026-07-02",
+          "rashi": "mesha",
+          "source": "local-daily-rotation",
+          "english": {
+            "language": "english",
+            "paragraph": "For Mesha Rashi, Today can bring support through people. Focus on confidence and quick decisions. Partner, client, friend, or group talks can become useful. Keep agreements clear and write important points down. Avoid pleasing everyone and forgetting your own need. Your lucky color is saffron and your lucky number is 2.",
+            "luckyColor": "saffron",
+            "luckyNumber": 2
+          },
+          "nepali": {
+            "language": "nepali",
+            "paragraph": "मेष राशिका लागि आज मानिसहरूबाट साथ मिल्न सक्छ। आत्मविश्वास र छिटो निर्णयमा ध्यान दिँदा राम्रो हुन्छ। जोडी, ग्राहक, साथी वा समूहसँगको कुरा उपयोगी हुन सक्छ। सहमति स्पष्ट राख्नुहोस् र मुख्य कुरा लेखेर राख्नुहोस्। सबैलाई खुसी पार्दा आफ्नो आवश्यकता नबिर्सनुहोस्। आजको शुभ रंग केशरी र शुभ अंक 2 हो।",
+            "luckyColor": "केशरी",
+            "luckyNumber": 2
+          }
+        },
+        "good": "मेष राशिका लागि आज मानिसहरूबाट साथ मिल्न सक्छ। आत्मविश्वास र छिटो निर्णयमा ध्यान दिँदा राम्रो हुन्छ। जोडी, ग्राहक, साथी वा समूहसँगको कुरा उपयोगी हुन सक्छ। सहमति स्पष्ट राख्नुहोस् र मुख्य कुरा लेखेर राख्नुहोस्। सबैलाई खुसी पार्दा आफ्नो आवश्यकता नबिर्सनुहोस्। आजको शुभ रंग केशरी र शुभ अंक 2 हो।",
+        "avoid": "Avoid rushing, ego reactions, or starting too many things at once.",
+        "luckyColor": "केशरी",
+        "luckyNumber": 2,
+        "love": "Your mood may be easy to read today, so honest and soft communication matters more than proving a point.",
+        "career": "Good for interviews, study plans, first drafts, and work where you need to show initiative.",
+        "health": "Keep food light, hydrate, and give your head and sleep routine some care.",
+        "money": "Pause before buying something just because the mood is strong. Spend only after checking the real need.",
+        "advice": "मेष राशिका लागि आज मानिसहरूबाट साथ मिल्न सक्छ। आत्मविश्वास र छिटो निर्णयमा ध्यान दिँदा राम्रो हुन्छ। जोडी, ग्राहक, साथी वा समूहसँगको कुरा उपयोगी हुन सक्छ। सहमति स्पष्ट राख्नुहोस् र मुख्य कुरा लेखेर राख्नुहोस्। सबैलाई खुसी पार्दा आफ्नो आवश्यकता नबिर्सनुहोस्। आजको शुभ रंग केशरी र शुभ अंक 2 हो।",
+        "method": "Saved daily rashifal for this date, rashi, and language.",
+        "confidenceLevel": "stored",
+        "explanations": {
+          "houseNumber": 1,
+          "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+          "confidenceLevel": "basic",
+          "good": {
+            "title": "Good things today",
+            "shortSummary": "Today is better for body, confidence, and fresh starts.",
+            "detailedMeaning": "The day may feel more personal because attention comes back to your body, mood, image, and first decisions.",
+            "practicalGuidance": "Begin with one clear task, keep your morning steady, and choose direct but kind words.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "avoid": {
+            "title": "Avoid today",
+            "shortSummary": "Avoid rushing, ego reactions, or starting too many things at once.",
+            "detailedMeaning": "This does not mean something bad must happen. It simply points to the type of behavior that can make the day feel heavier.",
+            "practicalGuidance": "Slow the reaction, check facts, and choose the cleaner path.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "love": {
+            "title": "Love",
+            "shortSummary": "Your mood may be easy to read today, so honest and soft communication matters more than proving a point.",
+            "detailedMeaning": "Relationship guidance is about communication style and emotional clarity, not a guaranteed result.",
+            "practicalGuidance": "Listen before replying, keep boundaries kind, and avoid testing the other person.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "career": {
+            "title": "Study / Career",
+            "shortSummary": "Good for interviews, study plans, first drafts, and work where you need to show initiative.",
+            "detailedMeaning": "Use this as a practical focus area for study, work, clients, interviews, negotiation, or teamwork.",
+            "practicalGuidance": "Pick one useful task and complete it before moving to the next.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "health": {
+            "title": "Wellness",
+            "shortSummary": "Keep food light, hydrate, and give your head and sleep routine some care.",
+            "detailedMeaning": "This is a gentle wellness reminder based on the daily house theme, not a diagnosis.",
+            "practicalGuidance": "Keep food, rest, movement, and hydration simple today.",
+            "caution": "General wellness reminder, not medical advice. Consult a doctor if you already have symptoms.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "money": {
+            "title": "Money",
+            "shortSummary": "Pause before buying something just because the mood is strong. Spend only after checking the real need.",
+            "detailedMeaning": "Money guidance is about clarity, planning, saving, and avoiding confused decisions. It does not promise profit.",
+            "practicalGuidance": "Check the details before spending, lending, borrowing, or making shared money decisions.",
+            "caution": "Practical money reminder, not financial advice.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "luckyColor": {
+            "title": "Lucky color",
+            "shortSummary": "saffron can be used as a simple mood cue today.",
+            "detailedMeaning": "In this app, lucky color is basic daily guidance, meant to support intention and presentation.",
+            "practicalGuidance": "Use it in clothing, a small accessory, or your work space if it feels natural.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic color cycle for 2026-07-02.",
+            "basis": "Basic color cycle for 2026-07-02.",
+            "confidenceLevel": "basic"
+          },
+          "luckyNumber": {
+            "title": "Lucky number",
+            "shortSummary": "2 is a light daily focus number, not a promise of results.",
+            "detailedMeaning": "Treat the number as a reminder for intention, timing, or mindful repetition.",
+            "practicalGuidance": "Use it lightly; do not make important decisions only because of a number.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic number cycle for 2026-07-02.",
+            "basis": "Basic number cycle for 2026-07-02.",
+            "confidenceLevel": "basic"
+          },
+          "advice": {
+            "title": "Today's advice",
+            "shortSummary": "Begin with one clear task, keep your morning steady, and choose direct but kind words.",
+            "detailedMeaning": "The day may feel more personal because attention comes back to your body, mood, image, and first decisions.",
+            "practicalGuidance": "Begin with one clear task, keep your morning steady, and choose direct but kind words. Avoid rushing, ego reactions, or starting too many things at once.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Mesha / Mesha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          }
+        }
+      }
+    },
+    "2026-07-02|vrishabha|en": {
+      "date": "2026-07-02",
+      "rashi": "vrishabha",
+      "language": "en",
+      "status": "ready",
+      "source": "local-daily-rotation",
+      "generatedAt": "2026-07-02T09:27:36.116Z",
+      "horoscope": {
+        "date": "2026-07-02",
+        "language": "en",
+        "rashi": {
+          "key": "vrishabha",
+          "nepali": "Brisha",
+          "sanskrit": "Vrishabha",
+          "english": "Taurus",
+          "sign": "Vrishabha"
+        },
+        "title": "Brisha / Vrishabha Rashi Phal",
+        "dailyContent": {
+          "date": "2026-07-02",
+          "rashi": "vrishabha",
+          "source": "local-daily-rotation",
+          "english": {
+            "language": "english",
+            "paragraph": "For Brisha Rashi, Today asks you to protect peace around you. Focus on money, food, family, and steady work. Home and close relations can feel better with gentle behavior. Give time to rest, food, and small family duties. Avoid taking every small word personally. Your lucky color is green and your lucky number is 9.",
+            "luckyColor": "green",
+            "luckyNumber": 9
+          },
+          "nepali": {
+            "language": "nepali",
+            "paragraph": "वृष राशिका लागि आज वरिपरिको शान्ति जोगाउनु राम्रो हुन्छ। पैसा, खाना, परिवार र स्थिर काममा ध्यान दिँदा राम्रो हुन्छ। नरम व्यवहारले घर र नजिकका सम्बन्ध सहज बन्न सक्छन्। आराम, खाना र साना पारिवारिक काममा समय दिनुहोस्। हरेक सानो कुरालाई मनमा धेरै नलिनुहोस्। आजको शुभ रंग हरियो र शुभ अंक 9 हो।",
+            "luckyColor": "हरियो",
+            "luckyNumber": 9
+          }
+        },
+        "good": "For Brisha Rashi, Today asks you to protect peace around you. Focus on money, food, family, and steady work. Home and close relations can feel better with gentle behavior. Give time to rest, food, and small family duties. Avoid taking every small word personally. Your lucky color is green and your lucky number is 9.",
+        "avoid": "Avoid rushing, ego reactions, or starting too many things at once.",
+        "luckyColor": "green",
+        "luckyNumber": 9,
+        "love": "Your mood may be easy to read today, so honest and soft communication matters more than proving a point.",
+        "career": "Good for interviews, study plans, first drafts, and work where you need to show initiative.",
+        "health": "Keep food light, hydrate, and give your head and sleep routine some care.",
+        "money": "Pause before buying something just because the mood is strong. Spend only after checking the real need.",
+        "advice": "For Brisha Rashi, Today asks you to protect peace around you. Focus on money, food, family, and steady work. Home and close relations can feel better with gentle behavior. Give time to rest, food, and small family duties. Avoid taking every small word personally. Your lucky color is green and your lucky number is 9.",
+        "method": "Saved daily rashifal for this date, rashi, and language.",
+        "confidenceLevel": "stored",
+        "explanations": {
+          "houseNumber": 1,
+          "basis": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+          "confidenceLevel": "basic",
+          "good": {
+            "title": "Good things today",
+            "shortSummary": "Today is better for body, confidence, and fresh starts.",
+            "detailedMeaning": "The day may feel more personal because attention comes back to your body, mood, image, and first decisions.",
+            "practicalGuidance": "Begin with one clear task, keep your morning steady, and choose direct but kind words.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "avoid": {
+            "title": "Avoid today",
+            "shortSummary": "Avoid rushing, ego reactions, or starting too many things at once.",
+            "detailedMeaning": "This does not mean something bad must happen. It simply points to the type of behavior that can make the day feel heavier.",
+            "practicalGuidance": "Slow the reaction, check facts, and choose the cleaner path.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "love": {
+            "title": "Love",
+            "shortSummary": "Your mood may be easy to read today, so honest and soft communication matters more than proving a point.",
+            "detailedMeaning": "Relationship guidance is about communication style and emotional clarity, not a guaranteed result.",
+            "practicalGuidance": "Listen before replying, keep boundaries kind, and avoid testing the other person.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "career": {
+            "title": "Study / Career",
+            "shortSummary": "Good for interviews, study plans, first drafts, and work where you need to show initiative.",
+            "detailedMeaning": "Use this as a practical focus area for study, work, clients, interviews, negotiation, or teamwork.",
+            "practicalGuidance": "Pick one useful task and complete it before moving to the next.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "health": {
+            "title": "Wellness",
+            "shortSummary": "Keep food light, hydrate, and give your head and sleep routine some care.",
+            "detailedMeaning": "This is a gentle wellness reminder based on the daily house theme, not a diagnosis.",
+            "practicalGuidance": "Keep food, rest, movement, and hydration simple today.",
+            "caution": "General wellness reminder, not medical advice. Consult a doctor if you already have symptoms.",
+            "dataSource": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "money": {
+            "title": "Money",
+            "shortSummary": "Pause before buying something just because the mood is strong. Spend only after checking the real need.",
+            "detailedMeaning": "Money guidance is about clarity, planning, saving, and avoiding confused decisions. It does not promise profit.",
+            "practicalGuidance": "Check the details before spending, lending, borrowing, or making shared money decisions.",
+            "caution": "Practical money reminder, not financial advice.",
+            "dataSource": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          },
+          "luckyColor": {
+            "title": "Lucky color",
+            "shortSummary": "green can be used as a simple mood cue today.",
+            "detailedMeaning": "In this app, lucky color is basic daily guidance, meant to support intention and presentation.",
+            "practicalGuidance": "Use it in clothing, a small accessory, or your work space if it feels natural.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic color cycle for 2026-07-02.",
+            "basis": "Basic color cycle for 2026-07-02.",
+            "confidenceLevel": "basic"
+          },
+          "luckyNumber": {
+            "title": "Lucky number",
+            "shortSummary": "9 is a light daily focus number, not a promise of results.",
+            "detailedMeaning": "Treat the number as a reminder for intention, timing, or mindful repetition.",
+            "practicalGuidance": "Use it lightly; do not make important decisions only because of a number.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic number cycle for 2026-07-02.",
+            "basis": "Basic number cycle for 2026-07-02.",
+            "confidenceLevel": "basic"
+          },
+          "advice": {
+            "title": "Today's advice",
+            "shortSummary": "Begin with one clear task, keep your morning steady, and choose direct but kind words.",
+            "detailedMeaning": "The day may feel more personal because attention comes back to your body, mood, image, and first decisions.",
+            "practicalGuidance": "Begin with one clear task, keep your morning steady, and choose direct but kind words. Avoid rushing, ego reactions, or starting too many things at once.",
+            "caution": "Traditional jyotish-based guidance for cultural and self-reflection use, not a guaranteed prediction.",
+            "dataSource": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "basis": "Basic daily guidance for Brisha / Vrishabha; live Moon transit was not available.",
+            "confidenceLevel": "basic"
+          }
+        }
+      }
+    }
+  }
+}

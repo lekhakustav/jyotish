@@ -45,16 +45,27 @@ extension View {
 }
 
 enum Haptics {
-    static func tap() { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
-    static func success() { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+    static func tap(file: StaticString = #fileID, function: StaticString = #function,
+                    line: UInt = #line) {
+        AppAnalytics.tap(file: file, function: function, line: line)
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    }
+    static func success(file: StaticString = #fileID, function: StaticString = #function,
+                        line: UInt = #line) {
+        AppAnalytics.track("ui_success_feedback", properties: ["source": "\(file):\(line)",
+                                                                  "function": String(describing: function)])
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+    }
 }
 
 /// Gentle press-down scale for primary actions.
 struct SpringPressStyle: ButtonStyle {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.97 : 1)
-            .animation(.spring(response: 0.25, dampingFraction: 0.7), value: configuration.isPressed)
+            .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.7),
+                       value: configuration.isPressed)
     }
 }
 
@@ -82,6 +93,7 @@ extension View {
 
 /// Explicit dismiss affordance for sheets (HIG: never rely on drag alone).
 struct SheetCloseButton: View {
+    @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @Environment(\.dismiss) private var dismiss
     var body: some View {
@@ -92,32 +104,7 @@ struct SheetCloseButton: View {
                 .foregroundStyle(p.inkSecondary.opacity(0.6))
                 .frame(width: 48, height: 48)
         }
-        .accessibilityLabel("Close")
-    }
-}
-
-/// Screen header with the Devanagari echo line (docs/01 §3).
-struct SacredHeader: View {
-    @Environment(\.palette) private var p
-    let devanagari: String
-    let title: String
-    var trailing: AnyView? = nil
-
-    var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(devanagari)
-                    .scaledFont(size: 15, design: .serif)
-                    .foregroundStyle(p.templeGold)
-                    .accessibilityHidden(true)
-                Text(title)
-                    .scaledFont(size: 34, weight: .bold, design: .serif)
-                    .foregroundStyle(p.inkPrimary)
-            }
-            Spacer()
-            trailing
-        }
-        .padding(.horizontal, 20)
+        .accessibilityLabel(app.t("common.close"))
     }
 }
 
@@ -135,7 +122,7 @@ struct PrimaryButton: View {
         } label: {
             HStack(spacing: 8) {
                 if isLoading {
-                    ProgressView().tint(Color(hex: 0x3B1F14))
+                    ProgressView().tint(p.onAccent)
                 } else if let icon {
                     Image(systemName: icon)
                 }
@@ -143,7 +130,7 @@ struct PrimaryButton: View {
             }
             // Dark umber, not cream: cream-on-saffron fails the 3:1 large-text
             // contrast minimum; umber passes at ~4.4:1 in both themes.
-            .foregroundStyle(Color(hex: 0x3B1F14))
+            .foregroundStyle(p.onAccent)
             .frame(maxWidth: .infinity)
             .frame(minHeight: 56)
             .background(
@@ -198,7 +185,7 @@ struct SectionLabel: View {
     let text: String
     var body: some View {
         Text(text.uppercased())
-            .scaledFont(size: 12, weight: .medium)
+            .scaledFont(size: 13, weight: .medium)
             .foregroundStyle(p.inkSecondary)
     }
 }
@@ -214,6 +201,7 @@ struct Hairline: View {
 
 /// 1–5 score as small yantra stars.
 struct YantraScore: View {
+    @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     let score: Int
     var body: some View {
@@ -224,7 +212,9 @@ struct YantraScore: View {
                     .frame(width: 12.5, height: 12.5)
             }
         }
-        .accessibilityLabel("\(score) of 5")
+        .accessibilityLabel(app.language == .ne
+                            ? "\(app.digits(5)) मध्ये \(app.digits(score))"
+                            : "\(score) of 5")
     }
 }
 

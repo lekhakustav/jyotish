@@ -22,10 +22,13 @@ struct FamilyView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @State private var showAdd = false
+    @State private var showMyQR = false
+    @State private var showScanner = false
     @State private var nodeX: [String: CGFloat] = [:]
+    @State private var path: [UUID] = []
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ZStack {
                 p.bgCanvas.ignoresSafeArea()
                 ScrollView {
@@ -39,6 +42,8 @@ struct FamilyView: View {
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 8)
+                        qrActions
+                            .padding(.horizontal, 20)
                         if hasRelatives {
                             familyTree.fadeRise()
                         }
@@ -49,12 +54,21 @@ struct FamilyView: View {
             }
             .statusBarFade()
             .sheet(isPresented: $showAdd) { AddMemberSheet() }
+            .sheet(isPresented: $showMyQR) { FamilyQRCodeSheet() }
+            .sheet(isPresented: $showScanner) { FamilyQRScannerSheet() }
             .navigationDestination(for: UUID.self) { id in
                 if let m = app.family.first(where: { $0.id == id }) {
                     MemberDetailView(memberID: m.id)
                 }
             }
+            .onAppear { openRequestedMember(app.requestedFamilyMemberID) }
+            .onChange(of: app.requestedFamilyMemberID) { _, id in openRequestedMember(id) }
         }
+    }
+
+    private func openRequestedMember(_ id: UUID?) {
+        guard let id, app.family.contains(where: { $0.id == id }) else { return }
+        path = [id]
     }
 
     private var hasRelatives: Bool {
@@ -71,12 +85,43 @@ struct FamilyView: View {
         .accessibilityLabel(app.t("family.add"))
     }
 
+    private var qrActions: some View {
+        HStack(spacing: 10) {
+            qrAction(title: app.language == .ne ? "QR स्क्यान" : "Scan QR",
+                     icon: "qrcode.viewfinder") {
+                AppAnalytics.track("parivar_qr_scanner_opened")
+                showScanner = true
+            }
+            qrAction(title: app.language == .ne ? "मेरो QR" : "My QR",
+                     icon: "qrcode") {
+                AppAnalytics.track("parivar_qr_shown")
+                showMyQR = true
+            }
+        }
+    }
+
+    private func qrAction(title: String, icon: String, action: @escaping () -> Void) -> some View {
+        Button {
+            Haptics.tap()
+            action()
+        } label: {
+            Label(title, systemImage: icon)
+                .scaledFont(size: 14, weight: .semibold)
+                .foregroundStyle(p.saffron)
+                .frame(maxWidth: .infinity)
+                .frame(height: 46)
+                .background(RoundedRectangle(cornerRadius: 14).fill(p.bgSunken))
+        }
+        .buttonStyle(SpringPressStyle())
+    }
+
     /// A top-to-bottom family tree so parent/child placement is obvious and
     /// connector lines never cross the name labels.
     private var familyTree: some View {
         let parents = app.family.filter { [.father, .mother, .grandfather, .grandmother].contains($0.relation) }
-        let partners = app.family.filter { [.husband, .wife].contains($0.relation) }
-        let siblings = app.family.filter { [.brother, .sister].contains($0.relation) }
+        let partners = app.family.filter { [.husband, .wife, .boyfriend, .girlfriend,
+                                            .partner, .fiance, .fiancee].contains($0.relation) }
+        let siblings = app.family.filter { [.brother, .sister, .friend, .colleague, .mentor].contains($0.relation) }
         let children = app.family.filter { [.son, .daughter].contains($0.relation) }
         let grandchildren = app.family.filter { [.grandson, .granddaughter].contains($0.relation) }
 
@@ -148,13 +193,13 @@ struct FamilyView: View {
                 .frame(width: size, height: size)
                 .background(Circle().fill(p.bgSunken))
             VStack(spacing: 1) {
-                Text(member?.name ?? app.t("common.you"))
-                    .scaledFont(size: 12, weight: .semibold, design: .serif)
+                Text(member?.displayName(app.language) ?? app.t("common.you"))
+                    .scaledFont(size: 13, weight: .semibold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
                 Text(relation)
-                    .scaledFont(size: 10)
+                    .scaledFont(size: 13)
                     .foregroundStyle(p.inkSecondary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
@@ -169,13 +214,14 @@ struct FamilyView: View {
         case .son, .daughter, .grandson, .granddaughter,
              .bhatija, .bhatiji, .bhanja, .bhanji:
             return "figure.child"
-        case .husband, .wife:
+        case .husband, .wife, .boyfriend, .girlfriend, .partner, .fiance, .fiancee:
             return "person.2"
         case .father, .mother, .grandfather, .grandmother,
              .kaka, .kaki, .thuloBaa, .thuloAma, .phupu, .phupaju,
              .mama, .maiju, .saniAma, .thuliAma, .sasura, .sasu:
             return "person.fill"
-        case .brother, .sister, .jethaju, .devar, .jethani, .devrani, .nanad,
+        case .brother, .sister, .friend, .colleague, .mentor,
+             .jethaju, .devar, .jethani, .devrani, .nanad,
              .saala, .saali, .bhinaju, .bhauju, .buhari, .jwaai, .cousin:
             return "person"
         case .selfMember, nil:
@@ -196,7 +242,7 @@ struct FamilyView: View {
                                 .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
                         }
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(m.name)
+                            Text(m.displayName(app.language))
                                 .scaledFont(size: 18, weight: .semibold, design: .serif)
                                 .foregroundStyle(p.inkPrimary)
                             Text(m.relation == .selfMember
@@ -206,14 +252,14 @@ struct FamilyView: View {
                                 .foregroundStyle(p.inkSecondary)
                         }
                         Spacer()
-                        if let k = m.kundali {
-                            Text(app.language == .ne ? k.moonRashi.nameNE : k.moonRashi.shortEN)
-                                .scaledFont(size: 13, design: .serif)
+                        if m.kundali != nil {
+                            Label(app.t("family.seeKundli"), systemImage: "square.grid.3x3")
+                                .scaledFont(size: 13, weight: .semibold)
                                 .foregroundStyle(p.sindoor)
+                                .padding(.horizontal, 11)
+                                .frame(minHeight: 40)
+                                .background(Capsule().fill(p.bgSunken))
                         }
-                        Image(systemName: "chevron.right")
-                            .scaledFont(size: 13)
-                            .foregroundStyle(p.inkSecondary.opacity(0.6))
                     }
                     .padding(.vertical, 12)
                 }

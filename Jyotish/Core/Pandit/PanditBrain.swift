@@ -29,7 +29,7 @@ struct PanditBrain {
     private func memberLabel(_ m: FamilyMember) -> String {
         m.relation == .selfMember
             ? (lang == .ne ? "तपाईं" : "you")
-            : "\(m.relation.possessive(lang)) \(m.name)"
+            : "\(m.relation.possessive(lang)) \(m.displayName(lang))"
     }
 
     private func gate(_ m: FamilyMember) -> String {

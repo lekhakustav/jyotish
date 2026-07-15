@@ -73,9 +73,24 @@ before update on public.households
 for each row execute function public.set_updated_at();
 ```
 
+## Conversation persistence
+Household schema v2 stores `conversations`, each with a stable ID, generated title, timestamps,
+and messages. The chat shelf can therefore create, restore, and delete real threads on every
+device. A legacy `chat` field is still written for compatibility, and schema-v1 payloads are
+migrated into one conversation when loaded.
+
+## Product analytics
+
+`public.analytics_events` is a normalized, user-owned event table created by
+`supabase/migrations/20260713000000_add_product_analytics.sql`. It is intentionally
+separate from the household JSON because events are append-heavy and queried across time.
+RLS limits authenticated clients to their own rows; client telemetry excludes names, birth
+details, email, raw chat content, and Kundli payloads. See `docs/19-PRODUCT-ANALYTICS.md`
+for local durability, event taxonomy, deployment, and aggregate-query examples.
+
 ## Why one `households` JSON row
-The app already models account, family members, patro events, chat history, language, and theme
-as one `Household` aggregate. Storing that aggregate in one user-owned JSON row gives us a small,
-safe first Supabase integration. If we later need analytics, sharing, or server-side queries, split
-the JSON into normalized `profiles`, `family_members`, `events`, `chat_messages`, and `settings`
-tables while keeping the same `auth.uid()` ownership rule.
+The app models account, family members, patro events, conversation history, language, and theme
+as one `Household` aggregate. Storing that aggregate in one user-owned JSON row keeps offline and
+remote writes atomic. If analytics, sharing, search, or very large histories later require it,
+split the JSON into normalized `profiles`, `family_members`, `events`, `chat_conversations`,
+`chat_messages`, and `settings` tables while preserving the same `auth.uid()` ownership rule.

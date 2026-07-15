@@ -9,7 +9,39 @@ struct Temple: Identifiable {
     let nameNE: String
     let blurbEN: String
     let blurbNE: String
+    /// Why this sacred site is paired with the day's tithi or festival.
+    /// Delivered by the rolling manifest when a curator has supplied it.
+    var selectionReasonEN: String? = nil
+    var selectionReasonNE: String? = nil
     var imageURL: URL? = nil
+
+    func selectionReason(on date: Date = Date(), ne: Bool) -> String {
+        if ne, let selectionReasonNE, !selectionReasonNE.isEmpty { return selectionReasonNE }
+        if !ne, let selectionReasonEN, !selectionReasonEN.isEmpty { return selectionReasonEN }
+
+        let panchanga = Panchanga.forDay(date)
+        let tithi = panchanga.tithiName(ne: ne)
+        let connection: String
+        switch panchanga.tithiInPaksha {
+        case 4:
+            connection = ne ? "गणेश आराधना" : "Ganesh worship"
+        case 8, 9, 10:
+            connection = ne ? "देवी र शक्तिको आराधना" : "Devi and Shakti worship"
+        case 11, 12:
+            connection = ne ? "विष्णु व्रत र संयम" : "Vishnu vrata and reflection"
+        case 13, 14:
+            connection = ne ? "शिव साधना र प्रदोष परम्परा" : "Shiva sadhana and Pradosh tradition"
+        case 15:
+            connection = panchanga.isShukla
+                ? (ne ? "पूर्णिमाको तीर्थ र उज्यालो" : "the full-moon pilgrimage tradition")
+                : (ne ? "औँसीको पितृस्मरण र शिव आराधना" : "new-moon ancestor remembrance and Shiva worship")
+        default:
+            connection = ne ? "आजको चन्द्र पक्षअनुसारको श्रद्धा" : "today's lunar observance"
+        }
+        return ne
+            ? "आजको \(tithi) तिथिको \(connection)सँग जोडेर यो धाम रोजिएको हो।"
+            : "Chosen for today's \(tithi) tithi and its tradition of \(connection)."
+    }
 
     static let all: [Temple] = [
         Temple(id: "pashupatinath", nameEN: "Pashupatinath Temple", nameNE: "पशुपतिनाथ मन्दिर",
@@ -36,6 +68,15 @@ struct Temple: Identifiable {
         Temple(id: "janakimandir", nameEN: "Janaki Mandir", nameNE: "जानकी मन्दिर",
                blurbEN: "A striking white marble temple in Janakpur marking the birthplace of Goddess Sita.",
                blurbNE: "जनकपुरमा रहेको, देवी सीताको जन्मस्थान चिनाउने सेतो संगमरमरको भव्य मन्दिर।"),
+        Temple(id: "gokarneshwar", nameEN: "Gokarneshwar Mahadev Temple", nameNE: "गोकर्णेश्वर महादेव मन्दिर",
+               blurbEN: "A riverside Shiva shrine in Kathmandu associated with ancestor remembrance on the dark moon.",
+               blurbNE: "औंसीमा पितृस्मरणसँग जोडिएको काठमाडौंको नदीकिनारको शिव मन्दिर।"),
+        Temple(id: "changu_narayan", nameEN: "Changu Narayan Temple", nameNE: "चाँगुनारायण मन्दिर",
+               blurbEN: "An ancient hilltop Vishnu temple near Bhaktapur, carrying the promise of a fresh lunar beginning.",
+               blurbNE: "भक्तपुर नजिकैको प्राचीन डाँडामाथिको विष्णु मन्दिर, नयाँ चन्द्र पक्षको शुभ सुरुवातसँग जोडिएको।"),
+        Temple(id: "guhyeshwari", nameEN: "Guhyeshwari Shakti Peeth", nameNE: "गुह्येश्वरी शक्तिपीठ",
+               blurbEN: "A sacred Shakti shrine in a monsoon-green grove near Pashupatinath.",
+               blurbNE: "पशुपतिनाथ नजिकै हरियो वनले घेरिएको पवित्र शक्तिपीठ।"),
     ]
 
     /// Hand-curated batch for BS 2083-03-22 through 2083-03-27 (AD 2026-07-06
@@ -66,7 +107,33 @@ struct Temple: Identifiable {
             blurbEN: "The same reclining Narayana shrine keeps today's Yogini Ekadashi vrata, a second Vishnu fast day back-to-back on the calendar.",
             blurbNE: "योगिनी एकादशी व्रतका लागि आज पनि उही शयन नारायण मन्दिरमा भक्तहरूको बत्ति बल्छ।",
             imageURL: URL(string: "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-11_budhanilkantha-yogini-ekadashi.png")),
+        "2026-07-12": Temple(id: "pashupatinath", nameEN: "Pashupatinath Temple", nameNE: "पशुपतिनाथ मन्दिर",
+            blurbEN: "Pradosh is a Shiva vrata observed around Trayodashi; Pashupatinath is the Nepal Shiva anchor.",
+            blurbNE: "प्रदोष त्रयोदशी वरिपरि मनाइने शिव व्रत हो; पशुपतिनाथ नेपालको शिव आराधनाको मुख्य धाम हो।",
+            imageURL: URL(string: "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-12_pashupatinath-pradosh.png")),
+        "2026-07-13": Temple(id: "pashupatinath", nameEN: "Pashupatinath Temple", nameNE: "पशुपतिनाथ मन्दिर",
+            blurbEN: "Monday is the weekly Shiva day, so Pashupatinath anchors this Chaturdashi day.",
+            blurbNE: "सोमबार साप्ताहिक शिव आराधनाको दिन भएकाले चतुर्दशीमा पशुपतिनाथ रोजिएको हो।",
+            imageURL: URL(string: "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-13_pashupatinath-bhanu-jayanti.png")),
+        "2026-07-14": Temple(id: "gokarneshwar", nameEN: "Gokarneshwar Mahadev Temple", nameNE: "गोकर्णेश्वर महादेव मन्दिर",
+            blurbEN: "Aunsi is a dark-moon ancestor and Shiva-remembrance day, anchored at Gokarneshwar.",
+            blurbNE: "औंसी पितृस्मरण र शिव आराधनाको अँध्यारो चन्द्र दिन हो; गोकर्णेश्वर यसको धाम हो।",
+            imageURL: URL(string: "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-14_gokarneshwar-aunsi.png")),
+        "2026-07-15": Temple(id: "changu_narayan", nameEN: "Changu Narayan Temple", nameNE: "चाँगुनारायण मन्दिर",
+            blurbEN: "Pratipada opens a fresh lunar phase, anchored by Changu Narayan for auspicious continuity.",
+            blurbNE: "प्रतिपदाले नयाँ चन्द्र पक्ष खोल्छ; शुभ निरन्तरताका लागि चाँगुनारायण रोजिएको हो।",
+            imageURL: URL(string: "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-15_changu-narayan-pratipada.png")),
+        "2026-07-16": Temple(id: "manakamana", nameEN: "Manakamana Temple", nameNE: "मनकामना मन्दिर",
+            blurbEN: "Dwitiya is a quieter household-sankalpa day, so Manakamana fits the wish and prayer logic.",
+            blurbNE: "द्वितीया शान्त पारिवारिक सङ्कल्पको दिन भएकाले मनकामना यसको उपयुक्त धाम हो।",
+            imageURL: URL(string: "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-16_manakamana-dwitiya.png")),
+        "2026-07-17": Temple(id: "guhyeshwari", nameEN: "Guhyeshwari Shakti Peeth", nameNE: "गुह्येश्वरी शक्तिपीठ",
+            blurbEN: "Tritiya leans toward Gauri and Devi vrata logic; Guhyeshwari is the Shakti anchor.",
+            blurbNE: "तृतीया गौरी र देवी व्रतसँग जोडिन्छ; गुह्येश्वरी शक्तिको मुख्य धाम हो।",
+            imageURL: URL(string: "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-17_guhyeshwari-tritiya.png")),
     ]
+
+    private static let publicManifestURL = URL(string: "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/manifest.json")
 
     private static let scheduleFormatter: DateFormatter = {
         let df = DateFormatter()
@@ -81,5 +148,57 @@ struct Temple: Identifiable {
         if let t = scheduled[key] { return t }
         let dayOfYear = Calendar.nepali.ordinality(of: .day, in: .year, for: Date()) ?? 1
         return all[dayOfYear % all.count]
+    }
+
+    /// Fetches the daily asset published by the server-side maintainer. The
+    /// baked-in schedule remains the offline fallback for cold starts and
+    /// network failures.
+    static func fetchToday() async -> Temple {
+        let fallback = ofToday()
+        guard let publicManifestURL else { return fallback }
+        var request = URLRequest(url: publicManifestURL)
+        request.cachePolicy = .returnCacheDataElseLoad
+        request.timeoutInterval = 8
+        guard let (data, _) = try? await URLSession.shared.data(for: request),
+              let manifest = try? JSONDecoder().decode(TempleManifest.self, from: data),
+              let item = manifest.items.first(where: { $0.adDate == scheduleFormatter.string(from: Date()) }) else {
+            return fallback
+        }
+        let catalog = all.first(where: { $0.id == item.templeId }) ?? fallback
+        return Temple(id: item.templeId,
+                      nameEN: item.nameEN ?? item.templeName ?? catalog.nameEN,
+                      nameNE: item.nameNE ?? catalog.nameNE,
+                      blurbEN: item.blurbEN ?? catalog.blurbEN,
+                      blurbNE: item.blurbNE ?? catalog.blurbNE,
+                      selectionReasonEN: item.sourceScheduleReason,
+                      imageURL: item.publicURL ?? catalog.imageURL)
+    }
+}
+
+private struct TempleManifest: Decodable {
+    let items: [TempleManifestItem]
+}
+
+private struct TempleManifestItem: Decodable {
+    let adDate: String
+    let templeId: String
+    let templeName: String?
+    let nameEN: String?
+    let nameNE: String?
+    let blurbEN: String?
+    let blurbNE: String?
+    let publicURL: URL?
+    let sourceScheduleReason: String?
+
+    enum CodingKeys: String, CodingKey {
+        case adDate
+        case templeId
+        case templeName
+        case nameEN
+        case nameNE
+        case blurbEN
+        case blurbNE
+        case publicURL = "publicUrl"
+        case sourceScheduleReason
     }
 }

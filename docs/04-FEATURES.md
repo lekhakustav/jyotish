@@ -35,22 +35,37 @@ opens from Home/Rashifal as a modal chat. Settings remains reachable from Home (
   The same flow (prefixed with a relation step) is used for adding family members.
 
 ## 2. Home dashboard (the aarti thali)
-Order: small settings header → **today's tithi block** (BS day/month large + tithi,
-paksha, nakshatra on separate lines + Open Patro action) → **personal rashifal block**
+Order: small settings header → **personal rashifal block** → **Relationships**, only when
+another complete birth profile exists → **feature icon grid**
 (unframed rashi mark + 2-line summary + star score + "read more" → Rashifal; dasha shown
-as one quiet text line) → **family quick row** only when relatives exist → **upcoming
-events** only when events exist. Home also carries the floating Pandit-ji chat action.
+as one quiet text line) → **today's tithi block** + Temple of the Day → **family quick row**
+only when relatives exist → **upcoming events** only when events exist.
+
+The feature grid shows Today's Panchang, Muhurat Finder, Dosha Check, Personal Upaya,
+Kundli Matching, and More. More opens a complete icon-and-description catalog. Each feature
+first opens a concise explanation sheet and then preloads Jyotish Baje. Social features select
+a saved person; when none exists, `Add a person` routes to Parivar. The fixed “Ask anything”
+action remains below the grid. See `docs/18-RELATIONSHIPS-FEATURE-HUB-AND-FUTURE-DATES.md`.
 
 Temple of the Day should move from pure day-of-year rotation to the BS 2083 planning
 dataset in `docs/10-TEMPLE-OF-DAY-SCHEDULE-2083.md`: festival anchors win first, then
 tithi/weekday fallbacks choose the Nepal temple and explanation.
+The Home artwork uses a stable 4:3 `scaledToFill` crop with matching placeholder geometry;
+the detail sheet can preserve the fuller original composition.
 
 ## 3. Rashifal
 - Segmented: दैनिक / साप्ताहिक / मासिक / वार्षिक.
 - Default = user's janma rashi; horizontal rashi-mark picker to read any other rashi
   (the "grandmother checks the whole family's signs" use case).
 - Reading: rashi mark, generated text, domain score dots
-  (career/family/health/wealth/love as star icons 1–5), lucky color/number/day, upaya line.
+  (career/family/health/wealth/love as star icons 1–5), lucky color/number, upaya line,
+  and horizon-aware Shubh timing: a clock window for daily, weekday for weekly, and a
+  named portion of the month/year for monthly and yearly.
+- Every horizon includes two Dos and two Don'ts derived from its strongest and weakest domains.
+- The engine also creates a restrained open-loop sentence, a specific Pandit CTA, and the
+  matching full chat prompt from the same strongest or weakest domain score. Cautious readings
+  invite the user to ask how to handle that exact area; supportive readings invite them to ask
+  how to use the opportunity. This keeps the conversion hook truthful to the generated reading.
 
 ## 4. Patro (Bikram Sambat calendar)
 - Month grid of BS month; each day cell: BS digit (Nepali numerals in NE), small tithi name
@@ -59,32 +74,58 @@ tithi/weekday fallbacks choose the Nepal temple and explanation.
 - Header: "Asar 2083"; chevrons move months and tapping the month opens direct
   month/year/day selection.
 - Day cells show BS day + tithi + event dot only; AD day numbers are intentionally hidden.
-- Tap a day → detail sheet: full panchanga for that day + its events + **"Add event"**
+- Tap a day → detail sheet: Tithi, Nakshatra, Yoga, Karana, location-based sunrise/sunset,
+  approximate moonrise/moonset, Rahu Kaal, Gulika, Yamaganda, Abhijit, observances,
+  its events + **"Add event"**
   (title, optional note, repeat-yearly toggle for birthdays). Events stored with BS date.
 
 ## 5. Parivar (family)
 - List of members grouped around the user. The tree uses names and relation labels with
   gold connector lines; rashi marks stay in the member list/detail context.
-- Add member: relation picker (Son, Daughter, Husband, Wife, Father, Mother, Grandson,
-  Granddaughter, Brother, Sister…) + same birth form. Relation drives labels everywhere:
+- Stored names preserve the spelling entered by the user. When the interface language is
+  Nepali, every displayed/interpolated Latin-script name is transliterated to Devanagari;
+  English mode continues to show the original spelling.
+- Add member: relation picker (family plus Friend, Colleague, Mentor, Boyfriend, Girlfriend,
+  Partner, Fiance, and Fiancee) + same birth form. Relation drives labels everywhere:
   "Your son Aarav" / "तपाईंको छोरा आरव".
+- Header actions show and scan a versioned Parivar QR birth-profile code. The receiver chooses
+  the local relationship before saving; paste-code fallback supports simulators without cameras.
 - MemberDetailView: North-Indian kundali chart (Path-drawn), lagna/rashi/nakshatra marks,
   mahadasha timeline, personality reading, guna table (gemstone, deity, mantra, lucky items).
 
 ## 6. Pandit-ji chat
 - Chat UI: modal with close button and history drawer. Pandit messages are bare serif
-  prose on the canvas; user messages are the only tinted bubbles.
-  Suggestion chips ("Which color suits my son's room?", "Best city for me?", "Vastu for main door",
-  "मेरो दशा कस्तो छ?").
+  prose on the canvas; user messages are the only tinted bubbles. Lightweight Markdown
+  is rendered, never exposed as raw markers. The empty state greets the user by name and
+  shows three large starters at a time in a vertically scrolling template shelf. The generic
+  composer stays fixed below that shelf. After a question, those starters give way to
+  two context-sensitive follow-ups derived from the current intent.
+- Home starter taps carry a one-shot prompt into chat and send it automatically. Friendly
+  phrases such as “shubh time” are part of the deterministic Muhurta intent vocabulary, so
+  users never need to know the engine's technical command language.
 - **OpenAI-backed Pandit agent** (`server/jyotish-agent.mjs` locally,
   `supabase/functions/jyotish-agent` in production) receives the full app context
   from `AgentService`: self and family birth data, computed kundlis, readings, current
   dasha, daily rashifal, saved events, chat history, and the local fallback answer.
-  It keeps `OPENAI_API_KEY` server-side, defaults to `gpt-5.4-mini`, and answers in
-  Pandit-ji style.
-- Chat requests stream over server-sent events when available. The assistant row appears
-  immediately with a typing indicator, then fills character-by-character as deltas arrive.
-- **PanditBrain** remains the local rule-based fallback and context source:
+  It keeps `OPENAI_API_KEY` server-side and answers in Pandit-ji style. The model
+  interprets authoritative deterministic evidence; it does not invent Jyotish calculations.
+- Chat requests stream over server-sent events when available. Incoming deltas are buffered
+  into small, steady visual updates. The view follows the latest answer until the user drags;
+  manual scrolling remains available while generation continues and a down-arrow restores
+  follow mode. Kundli evidence is inserted inline only after the answer completes, so a chart
+  never arrives before the surrounding explanation.
+- **PanditToolPlanner** is the agentic, local-first coordinator:
+  - understands ordinary requests without requiring feature or astrology vocabulary,
+  - calls deterministic Kundali/Dasha, Panchang, Muhurta, compatibility, festival/vrat,
+    Dosha/Upaya, relationship/Ashtakoota, and devotional guidance tools,
+  - always structures guidance as Direct answer → Why Baje says this → What to do →
+    Optional practice → Uncertainty when inputs are incomplete,
+  - offers only relevant actions in a horizontally scrolling row: Add to Patro, Remind me,
+    Open Patro, Compare, Listen, See Kundli, and Share,
+  - requires confirmation before Patro or notification writes and avoids duplicate events,
+  - supports personal daily guidance, family/child questions, practical remedies,
+    devotional practice and Puja support through the same single chat entry point,
+- **PanditBrain** remains available for established local interpretation domains:
   - resolves the family member mentioned ("my son" → the son's chart; asks to add if absent),
   - **color questions** → member's rashi lucky colors + current dasha lord color,
   - **city/place questions** → CityMatcher (rashi→cities DB with reasons),
@@ -92,12 +133,21 @@ tithi/weekday fallbacks choose the Nepal temple and explanation.
   - **dasha/kundali/nakshatra/rashifal questions** → live engine calls,
   - profile-gated: if the needed member lacks birth data → politely ask to fill profile first,
   - fallback: warm general jyotish answer + offer of what he can do.
-- Chat history persists via DataStore. Voice input remains optional; spoken replies are
-  off by default so typed questions do not unexpectedly start audio.
+- Conversations persist through the offline DataStore and the existing Supabase household
+  payload. The shelf can create, restore, and delete distinct threads; legacy single-stream
+  history migrates into one titled conversation. Voice input remains optional; spoken replies
+  are off by default so typed questions do not unexpectedly start audio.
 
 ## 7. Settings
 Language (EN/नेपाली), theme (Light "Prabhat" / Dark "Ratri" / System), profile edit,
-sign-out (returns to Welcome; data kept). No about/credit block in the live UI.
+sign-out (returns to Welcome; data kept), and notification controls. Daily guidance is
+opt-in and exposes wake time, 2–4 moments per day, family insights, and Patro reminders.
+The app maintains a rolling seven-day plan with stable identifiers: refreshing replaces
+old requests instead of duplicating them, keeps no more than 56 engagement alerts pending,
+and deep-links each alert to Rashifal, Jyotish Baje, or Patro. The default four moments are a
+morning personal rashifal, high-interest midday Pandit question, family-specific guidance
+when a relative has a kundli, and a quiet evening open loop. Preferences sync in the
+Supabase household payload and pending alerts are removed on opt-out/sign-out.
 
 ## 8. Bilinguality
 `L10n` string tables; every user-facing string keyed. Nepali digits helper for Patro.

@@ -5,54 +5,182 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
-    @State private var showSettings = false
+    @State private var showSettings = ProcessInfo.processInfo.arguments.contains("-settings")
     @State private var showTemple = false
+    @State private var selectedFeature: JyotishFeature?
+    @State private var showFeatureCatalog = false
+    @State private var selectedRelationshipID: UUID?
 
     private var ne: Bool { app.language == .ne }
-    private let temple = Temple.ofToday()
+    @State private var temple = Temple.ofToday()
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
+        ZStack {
             p.bgCanvas.ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 36) {
                     header.fadeRise()
-                    rashifalBlock.fadeRise(delay: 0.05)
+                    rashifalBlock.fadeRise(delay: 0.04)
+                    if hasRelatives { relationshipsBlock.fadeRise(delay: 0.07) }
+                    featureHub.fadeRise(delay: 0.1)
                     VStack(alignment: .leading, spacing: 18) {
                         tithiHero
                         templeOfDay
                     }
-                    .fadeRise(delay: 0.1)
-                    if hasRelatives { familyRow.fadeRise(delay: 0.2) }
+                    .fadeRise(delay: 0.12)
                     if hasUpcoming { upcoming.fadeRise(delay: 0.25) }
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 112)
+                .padding(.horizontal, LayoutMetrics.screenGutter)
+                .padding(.bottom, 24)
             }
-            Button {
-                Haptics.tap()
-                app.open(.pandit)
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: "bubble.left.and.bubble.right.fill")
-                        .scaledFont(size: 21, weight: .medium)
-                    Text(app.t("home.chat"))
-                        .scaledFont(size: 15, weight: .semibold, design: .serif)
-                }
-                .foregroundStyle(Color(hex: 0x3B1F14))
-                .padding(.horizontal, 20)
-                .frame(height: 64)
-                .background(Capsule().fill(p.saffron))
-                .shadow(color: p.saffron.opacity(0.22), radius: 12, y: 5)
-            }
-            .accessibilityLabel(app.t("home.askPandit"))
-            .padding(.trailing, 22)
-            .padding(.bottom, 24)
         }
         .statusBarFade()
         .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showSettings) { SettingsView() }
         .sheet(isPresented: $showTemple) { TempleDetailSheet(temple: temple) }
+        .sheet(item: $selectedFeature) { FeatureLaunchSheet(feature: $0) }
+        .sheet(isPresented: $showFeatureCatalog) { FeatureCatalogSheet() }
+        .task { temple = await Temple.fetchToday() }
+        .onAppear {
+            if selectedRelationshipID == nil { selectedRelationshipID = relatives.first?.id }
+        }
+    }
+
+    /// Compact icons replace the old stack of full-sentence questions. Five
+    /// high-use tools stay visible; More opens the complete, named catalog.
+    private var featureHub: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text(app.language == .ne ? "ज्योतिष सुविधाहरू" : "Jyotish tools")
+                .scaledFont(size: 20, weight: .semibold, design: .serif)
+                .foregroundStyle(p.inkPrimary)
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 14) {
+                ForEach(JyotishFeatureCatalog.home) { feature in
+                    featureIcon(name: feature.name(app.language), icon: feature.icon) {
+                        AppAnalytics.track("feature_opened", properties: ["feature": feature.id.rawValue,
+                                                                          "surface": "home"])
+                        selectedFeature = feature
+                    }
+                }
+                featureIcon(name: app.language == .ne ? "थप" : "More", icon: "ellipsis.circle") {
+                    AppAnalytics.track("feature_catalog_opened", properties: ["surface": "home"])
+                    showFeatureCatalog = true
+                }
+            }
+            Button {
+                Haptics.tap()
+                app.openPandit()
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: "sparkles")
+                        .scaledFont(size: 18, weight: .medium)
+                    Text(app.t("home.panditAskAnything"))
+                        .scaledFont(size: 16, weight: .semibold, design: .serif)
+                    Spacer()
+                    Image(systemName: "arrow.up.right")
+                        .scaledFont(size: 13, weight: .semibold)
+                }
+                .foregroundStyle(p.onAccent)
+                .padding(.horizontal, 16)
+                .frame(height: 54)
+                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(p.saffron))
+            }
+            .buttonStyle(SpringPressStyle())
+            .accessibilityLabel(app.t("home.askPandit"))
+        }
+    }
+
+    private func featureIcon(name: String, icon: String, action: @escaping () -> Void) -> some View {
+        Button {
+            Haptics.tap()
+            action()
+        } label: {
+            VStack(spacing: 9) {
+                Image(systemName: icon)
+                    .scaledFont(size: 22, weight: .light)
+                    .foregroundStyle(p.saffron)
+                    .frame(width: 48, height: 48)
+                    .background(Circle().fill(p.bgSunken))
+                Text(name)
+                    .scaledFont(size: 13, weight: .semibold, design: .serif)
+                    .foregroundStyle(p.inkPrimary)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.75)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 92, alignment: .top)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(SpringPressStyle())
+        .accessibilityLabel(name)
+    }
+
+    /// Appears only when another person exists in Parivar. Static Ashtakoota
+    /// signals are combined with today's Moon transit, then translated into a
+    /// relationship action rather than a deterministic compatibility verdict.
+    @ViewBuilder private var relationshipsBlock: some View {
+        if let member = relationshipMember,
+           let me = app.selfMember,
+           let insight = CompatibilityEngine.dailyInsight(me, member, language: app.language) {
+            VStack(alignment: .leading, spacing: 14) {
+                HStack {
+                    Text(app.language == .ne ? "सम्बन्धहरू" : "Relationships")
+                        .scaledFont(size: 20, weight: .semibold, design: .serif)
+                        .foregroundStyle(p.inkPrimary)
+                    Spacer()
+                    Button { app.open(.family) } label: {
+                        Text(app.language == .ne ? "परिवार" : "Parivar")
+                            .scaledFont(size: 13, weight: .semibold)
+                            .foregroundStyle(p.saffron)
+                    }
+                }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(relatives) { relative in
+                            Button { selectedRelationshipID = relative.id } label: {
+                                Text(relative.displayName(app.language))
+                                    .scaledFont(size: 13, weight: relative.id == member.id ? .semibold : .regular)
+                                    .foregroundStyle(relative.id == member.id ? p.onAccent : p.inkSecondary)
+                                    .padding(.horizontal, 13)
+                                    .frame(height: 34)
+                                    .background(Capsule().fill(relative.id == member.id ? p.saffron : p.bgSunken))
+                            }
+                            .buttonStyle(SpringPressStyle())
+                        }
+                    }
+                }
+                Button {
+                    app.openPandit(prompt: insight.prompt,
+                                   sourceKey: "relationship:\(member.id.uuidString):\(Calendar.current.startOfDay(for: Date()).timeIntervalSince1970)")
+                } label: {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(insight.title)
+                            .scaledFont(size: 18, weight: .semibold, design: .serif)
+                            .foregroundStyle(p.templeGold)
+                        Text(insight.summary)
+                            .scaledFont(size: 17, weight: .medium, design: .serif)
+                            .foregroundStyle(p.inkPrimary)
+                            .lineSpacing(4)
+                        Label(insight.doItem, systemImage: "checkmark.circle")
+                            .scaledFont(size: 14, design: .serif)
+                            .foregroundStyle(p.inkSecondary)
+                            .multilineTextAlignment(.leading)
+                        Label(insight.dontItem, systemImage: "xmark.circle")
+                            .scaledFont(size: 14, design: .serif)
+                            .foregroundStyle(p.inkSecondary)
+                            .multilineTextAlignment(.leading)
+                        HStack(spacing: 5) {
+                            Text(app.language == .ne ? "विस्तृत सम्बन्ध रिपोर्ट" : "Detailed relationship report")
+                            Image(systemName: "arrow.up.right")
+                        }
+                        .scaledFont(size: 14, weight: .semibold)
+                        .foregroundStyle(p.sindoor)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(SpringPressStyle())
+            }
+        }
     }
 
     private var header: some View {
@@ -61,8 +189,8 @@ struct HomeView: View {
                 Text(app.t(greetingKey))
                     .scaledFont(size: 16, weight: .medium, design: .serif)
                     .foregroundStyle(p.templeGold)
-                if let name = app.selfMember?.name, !name.trimmingCharacters(in: .whitespaces).isEmpty {
-                    Text(name)
+                if let member = app.selfMember, !member.name.trimmingCharacters(in: .whitespaces).isEmpty {
+                    Text(member.displayName(app.language))
                         .scaledFont(size: 26, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
                         .lineLimit(1)
@@ -118,6 +246,7 @@ struct HomeView: View {
                         .scaledFont(size: 13, weight: .semibold)
                 }
                 .foregroundStyle(p.saffron)
+                .frame(minHeight: 44, alignment: .leading)
                 .contentShape(Rectangle())
             }
             .buttonStyle(SpringPressStyle())
@@ -186,19 +315,28 @@ struct HomeView: View {
         } label: {
             VStack(alignment: .leading, spacing: 12) {
                 if let url = temple.imageURL {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let img):
-                            img.resizable().aspectRatio(contentMode: .fit)
-                        default:
-                            Rectangle().fill(p.bgSunken)
+                    GeometryReader { proxy in
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .success(let img):
+                                img.resizable().scaledToFill()
+                            default:
+                                Rectangle().fill(p.bgSunken)
+                            }
                         }
+                        .frame(width: proxy.size.width, height: proxy.size.height)
+                        .clipped()
                     }
                     .frame(maxWidth: .infinity)
-                    .frame(height: 220)
+                    .aspectRatio(4 / 3, contentMode: .fit)
                     .background(p.bgSunken)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 }
+                Text(temple.selectionReason(ne: ne))
+                    .scaledFont(size: 14, weight: .medium, design: .serif)
+                    .foregroundStyle(p.templeGold)
+                    .lineSpacing(3)
+                    .multilineTextAlignment(.leading)
                 Text(ne ? temple.nameNE : temple.nameEN)
                     .scaledFont(size: 21, weight: .semibold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
@@ -213,35 +351,6 @@ struct HomeView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(SpringPressStyle())
-    }
-
-    private var familyRow: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 16) {
-                ForEach(app.family.filter { $0.relation != .selfMember }) { m in
-                    Button { app.open(.family) } label: {
-                        VStack(spacing: 5) {
-                            if let k = m.kundali {
-                                RashiIcon(rashi: k.moonRashi, size: 50)
-                            } else {
-                                Circle().strokeBorder(p.templeGold.opacity(0.4), style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                    .frame(width: 50, height: 50)
-                                    .overlay(Image(systemName: "person").foregroundStyle(p.inkSecondary))
-                            }
-                            Text(m.name)
-                                .scaledFont(size: 12)
-                                .foregroundStyle(p.inkSecondary)
-                                .lineLimit(1)
-                        }
-                        .frame(width: 62)
-                    }
-                    .buttonStyle(SpringPressStyle())
-                    .accessibilityLabel(m.name)
-                }
-            }
-        }
-        .padding(.horizontal, -24)
-        .contentMargins(.horizontal, 24, for: .scrollContent)
     }
 
     private var upcoming: some View {
@@ -273,6 +382,14 @@ struct HomeView: View {
 
     private var hasRelatives: Bool {
         app.family.contains { $0.relation != .selfMember }
+    }
+
+    private var relatives: [FamilyMember] {
+        app.family.filter { $0.relation != .selfMember && $0.hasBirthData }
+    }
+
+    private var relationshipMember: FamilyMember? {
+        relatives.first { $0.id == selectedRelationshipID } ?? relatives.first
     }
 
     private var hasUpcoming: Bool {
@@ -320,7 +437,7 @@ private struct TempleDetailSheet: View {
                     .lineSpacing(5)
                 Spacer(minLength: 24)
                 }
-                .padding(.horizontal, 24)
+                .padding(.horizontal, LayoutMetrics.sheetGutter)
                 .padding(.top, 44)
                 .padding(.bottom, 30)
             }

@@ -15,6 +15,19 @@ struct Rashifal {
     var luckyColor: String
     var luckyNumber: Int
     var luckyDay: String
+    /// Makes the period's time horizon explicit in the rendered reading.
+    var timeline: String
+    /// A restrained open loop and its matching question are generated from the
+    /// same transit scores as the reading, so the Pandit invitation stays
+    /// specific without inventing a warning that the rashifal does not support.
+    var panditTeaser: String
+    var panditCTA: String
+    var panditPrompt: String
+    /// Concrete behavior turns a reading into something usable. Every horizon
+    /// receives both lists; they are derived from the same transit scores as the
+    /// prose instead of being generic daily filler.
+    var dos: [String]
+    var donts: [String]
 }
 
 /// Generates rashifal from *real* gochar (transits) — deterministic per
@@ -71,30 +84,91 @@ enum RashifalEngine {
         var rng = Seeded(UInt64(periodStamp) &* 12 &+ UInt64(rashi.rawValue))
 
         // ── Real transits ────────────────────────────────────────────────────
-        let jd = suppliedJD ?? Ephemeris.julianDay(date)
+        // Each tab has a distinct observation horizon. Daily reads the present
+        // lunar day; longer periods use a stable representative point inside
+        // their own window instead of rephrasing today's transit four times.
+        let horizonDate: Date
+        switch period {
+        case .daily: horizonDate = date
+        case .weekly: horizonDate = Calendar.nepali.date(byAdding: .day, value: 3, to: date) ?? date
+        case .monthly: horizonDate = Calendar.nepali.date(byAdding: .day, value: 15, to: date) ?? date
+        case .yearly: horizonDate = Calendar.nepali.date(byAdding: .month, value: 6, to: date) ?? date
+        }
+        let jd = suppliedJD ?? Ephemeris.julianDay(horizonDate)
         let moonNow = Ephemeris.rashi(of: Ephemeris.sidereal(.moon, jd: jd))
-        let jupiterHouse = (Ephemeris.rashi(of: Ephemeris.sidereal(.jupiter, jd: jd)).rawValue - rashi.rawValue + 12) % 12 + 1
-        let venusHouse = (Ephemeris.rashi(of: Ephemeris.sidereal(.venus, jd: jd)).rawValue - rashi.rawValue + 12) % 12 + 1
+        func transitHouse(_ planet: Planet) -> Int {
+            (Ephemeris.rashi(of: Ephemeris.sidereal(planet, jd: jd)).rawValue - rashi.rawValue + 12) % 12 + 1
+        }
+        let jupiterHouse = transitHouse(.jupiter)
+        let venusHouse = transitHouse(.venus)
+        let mercuryHouse = transitHouse(.mercury)
+        let marsHouse = transitHouse(.mars)
+        let saturnHouse = transitHouse(.saturn)
         let saturnRashi = Ephemeris.rashi(of: Ephemeris.sidereal(.saturn, jd: jd))
         let chandra = Interpreter.chandraBala(natal: rashi, transitMoon: moonNow)
         let sadheSati = Interpreter.sadheSatiPhase(natal: rashi, transitSaturn: saturnRashi)
 
-        // ── Domain scores from transit weights ──────────────────────────────
-        func clamp(_ x: Int) -> Int { max(1, min(5, x)) }
-        var base = chandra.favorable ? 4 : 3
-        if sadheSati != nil { base -= 1 }
-        let jupiterBoost = [2, 5, 7, 9, 11].contains(jupiterHouse) ? 1 : 0
-        let venusBoost = [1, 4, 5, 7, 11].contains(venusHouse) ? 1 : 0
-        var scores: [String: Int] = [:]
-        scores["rashifal.career"] = clamp(base + jupiterBoost + Int(rng.next() % 2) - ([10, 8].contains(chandra.house) ? 1 : 0))
-        scores["rashifal.family"] = clamp(base + venusBoost + Int(rng.next() % 2))
-        scores["rashifal.health"] = clamp(base + (chandra.favorable ? 1 : 0) - (sadheSati == 2 ? 1 : 0) + Int(rng.next() % 2))
-        scores["rashifal.wealth"] = clamp(base + jupiterBoost + venusBoost - 1 + Int(rng.next() % 2))
-        scores["rashifal.love"] = clamp(base + venusBoost + Int(rng.next() % 2))
+        // ── Domain scores from distinct transit evidence ────────────────────
+        // Stars are not random decoration. Each life area weighs the grahas
+        // and houses that actually relate to it, then maps the result onto a
+        // deliberately conservative scale where 5 means exceptional support.
+        func effect(_ house: Int, favorable: Set<Int>, difficult: Set<Int>) -> Double {
+            if favorable.contains(house) { return 1 }
+            if difficult.contains(house) { return -1 }
+            return 0
+        }
+        func stars(_ raw: Double) -> Int {
+            switch raw {
+            case ..<1.85: return 1
+            case ..<2.65: return 2
+            case ..<3.45: return 3
+            case ..<4.25: return 4
+            default: return 5
+            }
+        }
+
+        let moon = chandra.favorable ? 0.55 : -0.45
+        let sadePenalty = sadheSati == nil ? 0.0 : (sadheSati == 2 ? -0.75 : -0.45)
+        let rawScores: [String: Double] = [
+            "rashifal.career": 3
+                + 0.75 * effect(jupiterHouse, favorable: [2, 5, 7, 9, 10, 11], difficult: [3, 6, 8, 12])
+                + 0.55 * effect(saturnHouse, favorable: [3, 6, 10, 11], difficult: [1, 4, 8, 12])
+                + 0.40 * effect(mercuryHouse, favorable: [2, 3, 6, 10, 11], difficult: [8, 12])
+                + 0.25 * moon,
+            "rashifal.family": 3
+                + 0.65 * effect(venusHouse, favorable: [1, 2, 4, 5, 7, 9, 11], difficult: [6, 8, 12])
+                + 0.40 * effect(jupiterHouse, favorable: [2, 4, 5, 7, 9, 11], difficult: [6, 8, 12])
+                + 0.45 * moon + 0.35 * sadePenalty,
+            "rashifal.health": 3
+                + 0.75 * moon
+                + 0.40 * effect(marsHouse, favorable: [3, 6, 10, 11], difficult: [1, 4, 8, 12])
+                + 0.35 * effect(saturnHouse, favorable: [3, 6, 11], difficult: [1, 4, 8, 12])
+                + sadePenalty,
+            "rashifal.wealth": 3
+                + 0.80 * effect(jupiterHouse, favorable: [2, 5, 9, 11], difficult: [6, 8, 12])
+                + 0.50 * effect(venusHouse, favorable: [2, 5, 9, 11], difficult: [6, 8, 12])
+                + 0.40 * effect(mercuryHouse, favorable: [2, 6, 10, 11], difficult: [8, 12]),
+            "rashifal.love": 3
+                + 0.90 * effect(venusHouse, favorable: [1, 5, 7, 9, 11], difficult: [6, 8, 12])
+                + 0.35 * moon
+                + 0.35 * effect(marsHouse, favorable: [3, 5, 11], difficult: [4, 7, 8, 12]),
+        ]
+        var scores = rawScores.mapValues(stars)
+        // A page full of perfect marks communicates no information. Even in
+        // the rare case of universally supportive transits, retain the weakest
+        // relative domain as a four so five stars stays meaningful.
+        if scores.values.allSatisfy({ $0 == 5 }),
+           let weakest = rawScores.min(by: { $0.value < $1.value })?.key {
+            scores[weakest] = 4
+        }
+
+        let jupiterBoost = effect(jupiterHouse, favorable: [2, 5, 7, 9, 11], difficult: []) > 0 ? 1 : 0
+        let venusBoost = effect(venusHouse, favorable: [1, 4, 5, 7, 11], difficult: []) > 0 ? 1 : 0
 
         // ── Sentences ────────────────────────────────────────────────────────
         let ne = lang == .ne
         var lines: [String] = []
+        lines.append(periodLead(period: period, ne: ne))
         lines.append(opening(chandra: chandra, ne: ne, rng: &rng))
         if jupiterBoost > 0 {
             lines.append(ne
@@ -124,14 +198,150 @@ enum RashifalEngine {
                "Feed green grass to a cow and seek an elder's blessing."]
         let upaya = upayaOptions[Int(rng.next() % UInt64(upayaOptions.count))]
         let colors = ne ? g.colorsNE : g.colorsEN
+        let panditInvitation = panditInvitation(scores: scores, period: period, ne: ne)
+        let guidance = behaviorGuidance(scores: scores, period: period, ne: ne)
         let result = Rashifal(rashi: rashi, period: period,
                               text: lines.joined(separator: " "),
                               scores: scores, upaya: upaya,
                               luckyColor: colors[Int(rng.next() % UInt64(colors.count))],
                               luckyNumber: g.numbers[Int(rng.next() % UInt64(g.numbers.count))],
-                              luckyDay: ne ? g.dayNE : g.dayEN)
+                              luckyDay: periodLuckyTiming(period: period, date: date, ne: ne,
+                                                         natalDay: ne ? g.dayNE : g.dayEN,
+                                                         variant: Int(rng.next() % 3)),
+                              timeline: periodTimeline(period: period, date: date, ne: ne),
+                              panditTeaser: panditInvitation.teaser,
+                              panditCTA: panditInvitation.cta,
+                              panditPrompt: panditInvitation.prompt,
+                              dos: guidance.dos,
+                              donts: guidance.donts)
         store(result, for: key)
         return result
+    }
+
+    private static func periodLead(period: RashifalPeriod, ne: Bool) -> String {
+        switch period {
+        case .daily: return ne ? "आजको चन्द्रगतिले छोटो निर्णय र दैनिक ताललाई संकेत गर्छ।" : "Today’s lunar movement speaks to immediate choices and rhythm."
+        case .weekly: return ne ? "यो साताको प्रवाहले क्रम, संवाद र साना प्रगतिलाई हेर्छ।" : "This week’s flow looks at momentum, conversations, and small progress."
+        case .monthly: return ne ? "यो महिनाको संकेतले बानी, योजना र सम्बन्धको दिशा देखाउँछ।" : "This month’s outlook focuses on habits, plans, and relationship direction."
+        case .yearly: return ne ? "यो वर्षको संकेतले दीर्घ लक्ष्य, जिम्मेवारी र स्थिर परिवर्तनलाई हेर्छ।" : "This year’s outlook concerns long goals, responsibility, and lasting change."
+        }
+    }
+
+    private static func periodTimeline(period: RashifalPeriod, date: Date, ne: Bool) -> String {
+        switch period {
+        case .daily: return ne ? "आज" : "Today"
+        case .weekly: return ne ? "यस साताभरि" : "This week"
+        case .monthly: return ne ? "यस महिनाभरि" : "This month"
+        case .yearly: return ne ? "यस वर्षभरि" : "This year"
+        }
+    }
+
+    private static func periodLuckyTiming(period: RashifalPeriod, date: Date, ne: Bool,
+                                          natalDay: String, variant: Int) -> String {
+        switch period {
+        case .daily:
+            let en = ["7:00–8:30 AM", "10:30 AM–12:00 PM", "4:30–6:00 PM"]
+            let np = ["बिहान ७:००–८:३०", "बिहान १०:३०–दिउँसो १२:००", "अपराह्न ४:३०–६:००"]
+            return ne ? np[variant] : en[variant]
+        case .weekly: return natalDay
+        case .monthly:
+            let en = ["The first ten days", "The middle of the month", "The final ten days"]
+            let np = ["महिनाको पहिलो दस दिन", "महिनाको मध्य अवधि", "महिनाको अन्तिम दस दिन"]
+            return ne ? np[variant] : en[variant]
+        case .yearly:
+            let en = ["The opening months", "The middle months", "The closing months"]
+            let np = ["वर्षका सुरुआती महिना", "वर्षका मध्य महिना", "वर्षका अन्तिम महिना"]
+            return ne ? np[variant] : en[variant]
+        }
+    }
+
+    private static func panditInvitation(scores: [String: Int],
+                                          period: RashifalPeriod,
+                                          ne: Bool) -> (teaser: String, cta: String, prompt: String) {
+        let weakest = scores.min { lhs, rhs in
+            lhs.value == rhs.value ? lhs.key < rhs.key : lhs.value < rhs.value
+        } ?? ("rashifal.health", 3)
+        let strongest = scores.max { lhs, rhs in
+            lhs.value == rhs.value ? lhs.key < rhs.key : lhs.value < rhs.value
+        } ?? ("rashifal.career", 3)
+        let chosen = weakest.value <= 2 ? weakest : strongest
+        let domainEN: [String: String] = [
+            "rashifal.career": "career", "rashifal.family": "family",
+            "rashifal.health": "health", "rashifal.wealth": "money",
+            "rashifal.love": "love life",
+        ]
+        let domainNE: [String: String] = [
+            "rashifal.career": "पेशा", "rashifal.family": "परिवार",
+            "rashifal.health": "स्वास्थ्य", "rashifal.wealth": "धन",
+            "rashifal.love": "प्रेम जीवन",
+        ]
+        let area = ne ? (domainNE[chosen.key] ?? "जीवन") : (domainEN[chosen.key] ?? "life")
+        let cautious = weakest.value <= 2
+        if ne {
+            let teaser = cautious
+                ? "तपाईंको \(area) पक्षमा ध्यान दिनुपर्ने एउटा संकेत अझै बाँकी छ।"
+                : "तपाईंको \(area) पक्षमा उपयोग गर्न मिल्ने एउटा विशेष अवसर छ।"
+            let cta = cautious
+                ? "\(area) कसरी सम्हाल्ने भनेर पण्डितजीलाई सोध्नुहोस्"
+                : "\(area) को अवसरबारे पण्डितजीलाई सोध्नुहोस्"
+            let prompt = "मेरो \(period.rawValue) राशिफलमा \(area) को अंक \(L10n.digits(chosen.value, .ne))/५ छ। यसले मेरो कुण्डली र हालको दशासँग मिलेर के संकेत गर्छ, र मैले के गर्नुपर्छ?"
+            return (teaser, cta, prompt)
+        }
+        let teaser = cautious
+            ? "There is one signal in your \(area) outlook worth looking at more closely."
+            : "There is one useful opening in your \(area) outlook that the summary cannot fully show."
+        let cta = cautious
+            ? "Ask Jyotish Baje how to handle your \(area) outlook"
+            : "Ask Jyotish Baje about your \(area) opportunity"
+        let prompt = "My \(period.rawValue) rashifal gives \(area) \(chosen.value)/5. How does that connect with my kundli and current dasha, and what should I do?"
+        return (teaser, cta, prompt)
+    }
+
+    private static func behaviorGuidance(scores: [String: Int],
+                                         period: RashifalPeriod,
+                                         ne: Bool) -> (dos: [String], donts: [String]) {
+        let strongest = scores.max { lhs, rhs in
+            lhs.value == rhs.value ? lhs.key < rhs.key : lhs.value < rhs.value
+        }?.key ?? "rashifal.family"
+        let weakest = scores.min { lhs, rhs in
+            lhs.value == rhs.value ? lhs.key < rhs.key : lhs.value < rhs.value
+        }?.key ?? "rashifal.health"
+
+        let doByDomain: [String: (String, String)] = [
+            "rashifal.career": ("Finish the highest-impact task before taking on more.", "थप काम लिनुअघि सबैभन्दा प्रभावकारी काम पूरा गर्नुहोस्।"),
+            "rashifal.family": ("Make time for one calm, undistracted family conversation.", "परिवारसँग ध्यान दिएर एउटा शान्त कुराकानी गर्नुहोस्।"),
+            "rashifal.health": ("Protect sleep, hydration, and a steady movement routine.", "निद्रा, पानी र नियमित हिँडडुललाई प्राथमिकता दिनुहोस्।"),
+            "rashifal.wealth": ("Review the practical numbers before committing money.", "पैसा लगाउनुअघि व्यावहारिक हिसाब जाँच्नुहोस्।"),
+            "rashifal.love": ("Say what you need with warmth and without testing the other person.", "अर्कोलाई परीक्षा नलिई न्यानोपनका साथ आफ्नो आवश्यकता भन्नुहोस्।"),
+        ]
+        let dontByDomain: [String: (String, String)] = [
+            "rashifal.career": ("Do not confuse urgency with importance.", "हतारलाई महत्त्वपूर्ण काम ठान्ने भूल नगर्नुहोस्।"),
+            "rashifal.family": ("Do not reopen an old argument just to win it.", "जित्नका लागि पुरानो विवाद फेरि नउठाउनुहोस्।"),
+            "rashifal.health": ("Do not ignore fatigue or use astrology as medical advice.", "थकानलाई बेवास्ता नगर्नुहोस् र ज्योतिषलाई चिकित्सा सल्लाह नमान्नुहोस्।"),
+            "rashifal.wealth": ("Do not lend, buy, or invest from social pressure.", "सामाजिक दबाबमा ऋण, खरिद वा लगानी नगर्नुहोस्।"),
+            "rashifal.love": ("Do not make a permanent decision during a temporary emotional spike.", "क्षणिक भावनामा स्थायी निर्णय नगर्नुहोस्।"),
+        ]
+        let horizonDo: (String, String)
+        let horizonDont: (String, String)
+        switch period {
+        case .daily:
+            horizonDo = ("Leave a little space before answering.", "उत्तर दिनुअघि केही क्षण रोक्नुहोस्।")
+            horizonDont = ("Do not force every decision today.", "आज हरेक निर्णय जबर्जस्ती नगर्नुहोस्।")
+        case .weekly:
+            horizonDo = ("Choose one repeatable habit for this week.", "यो साताका लागि दोहोर्याउन मिल्ने एउटा बानी छान्नुहोस्।")
+            horizonDont = ("Do not scatter attention across too many promises.", "धेरै वाचामा ध्यान नछरिनुहोस्।")
+        case .monthly:
+            horizonDo = ("Set one measurable intention for the month.", "महिनाका लागि मापन गर्न मिल्ने एउटा संकल्प राख्नुहोस्।")
+            horizonDont = ("Do not judge the whole month by one difficult day.", "एउटा कठिन दिनले पूरै महिना ननाप्नुहोस्।")
+        case .yearly:
+            horizonDo = ("Build around the responsibility you want to sustain.", "टिकाइराख्न चाहेको जिम्मेवारी वरिपरि योजना बनाउनुहोस्।")
+            horizonDont = ("Do not chase a major change without a practical base.", "व्यावहारिक आधारबिना ठूलो परिवर्तन नपछ्याउनुहोस्।")
+        }
+        let strong = doByDomain[strongest] ?? doByDomain["rashifal.family"]!
+        let weak = dontByDomain[weakest] ?? dontByDomain["rashifal.health"]!
+        return ne
+            ? ([strong.1, horizonDo.1], [weak.1, horizonDont.1])
+            : ([strong.0, horizonDo.0], [weak.0, horizonDont.0])
     }
 
     private static func cachedValue(for key: CacheKey) -> Rashifal? {

@@ -18,6 +18,29 @@ final class PerformanceOptimizationTests: XCTestCase {
         XCTAssertEqual(afterSecond.hits, 1)
     }
 
+    func testRashifalStarsAreTransitBasedBoundedAndNeverAllPerfect() {
+        RashifalEngine.resetCacheForTesting()
+        let date = Date(timeIntervalSince1970: 1_783_440_000)
+
+        for rashi in Rashi.allCases {
+            let result = RashifalEngine.generate(rashi: rashi, period: .daily, date: date, lang: .en)
+            XCTAssertEqual(Set(result.scores.keys), Set(RashifalEngine.domains))
+            XCTAssertTrue(result.scores.values.allSatisfy { (1...5).contains($0) })
+            XCTAssertFalse(result.scores.values.allSatisfy { $0 == 5 }, "\(rashi) should not show five perfect domains")
+        }
+    }
+
+    func testRashifalPeriodsUseDifferentTimeHorizonsAndReadingLeads() {
+        RashifalEngine.resetCacheForTesting()
+        let date = Date(timeIntervalSince1970: 1_783_440_000)
+        let readings = RashifalPeriod.allCases.map {
+            RashifalEngine.generate(rashi: .mesh, period: $0, date: date, lang: .en)
+        }
+
+        XCTAssertEqual(Set(readings.map(\.timeline)), Set(["Today", "This week", "This month", "This year"]))
+        XCTAssertEqual(Set(readings.map(\.text)).count, RashifalPeriod.allCases.count)
+    }
+
     func testPanchangaDayResultsAreCached() {
         Panchanga.resetCacheForTesting()
         let date = Date(timeIntervalSince1970: 1_783_440_000)
@@ -32,6 +55,20 @@ final class PerformanceOptimizationTests: XCTestCase {
         XCTAssertEqual(afterFirst.entries, 1)
         XCTAssertEqual(afterFirst.misses, 1)
         XCTAssertEqual(afterSecond.hits, 1)
+    }
+
+    func testPanchangaYogaAndKaranaRespectNepaliLanguage() {
+        let panchanga = Panchanga(tithiIndex: 6,
+                                  nakshatra: .ashwini,
+                                  yogaIndex: 4,
+                                  karanaIndex: 0,
+                                  weekday: 1,
+                                  moonRashi: .mesh)
+
+        XCTAssertEqual(panchanga.yogaName(ne: false), "Shobhana")
+        XCTAssertEqual(panchanga.yogaName(ne: true), "शोभन")
+        XCTAssertEqual(panchanga.karanaName(ne: false), "Bava")
+        XCTAssertEqual(panchanga.karanaName(ne: true), "बव")
     }
 
     func testAgentContextGenerationKeepsHistoryBoundedAndScalesAcrossFamily() {
@@ -71,5 +108,39 @@ final class PerformanceOptimizationTests: XCTestCase {
 
         XCTAssertGreaterThanOrEqual(URLCache.shared.memoryCapacity, 64 * 1024 * 1024)
         XCTAssertGreaterThanOrEqual(URLCache.shared.diskCapacity, 256 * 1024 * 1024)
+    }
+
+    func testTempleExplainsItsTithiConnectionWhenNoCuratedReasonExists() {
+        let temple = Temple(id: "pashupatinath", nameEN: "Pashupatinath", nameNE: "पशुपतिनाथ",
+                            blurbEN: "", blurbNE: "")
+        let trayodashi = Date(timeIntervalSince1970: 1_783_440_000)
+
+        XCTAssertTrue(temple.selectionReason(on: trayodashi, ne: false).contains("tithi"))
+    }
+
+    func testPanditMarkdownFormattingRemovesRawEmphasisMarkers() {
+        let formatted = PanditTextFormatter.attributed(
+            "**Direct answer:** हल्का हरियो शुभ छ।\n- Choose **July 12, 2026"
+        )
+
+        XCTAssertEqual(
+            String(formatted.characters),
+            "Direct answer: हल्का हरियो शुभ छ।\n- Choose July 12, 2026"
+        )
+        XCTAssertFalse(String(formatted.characters).contains("**"))
+    }
+
+    func testAssistiveLabelsAreLocalizedInNepali() {
+        XCTAssertEqual(L10n.t("common.close", .ne), "बन्द गर्नुहोस्")
+        XCTAssertEqual(L10n.t("common.back", .ne), "पछाडि")
+        XCTAssertEqual(L10n.t("common.send", .ne), "पठाउनुहोस्")
+        XCTAssertEqual(L10n.t("chat.askByVoice", .ne), "आवाजबाट सोध्नुहोस्")
+        XCTAssertEqual(L10n.t("chat.typing", .ne), "ज्योतिष बाजे उत्तर लेख्दै हुनुहुन्छ")
+    }
+
+    func testAssistantBrandIsJyotishBaje() {
+        XCTAssertEqual(L10n.t("home.askPandit", .en), "Ask Jyotish Baje")
+        XCTAssertEqual(L10n.t("chat.title", .en), "Jyotish Baje")
+        XCTAssertEqual(L10n.t("chat.placeholder", .en), "Ask Jyotish Baje…")
     }
 }

@@ -3,7 +3,9 @@ import Foundation
 enum Gender: String, Codable, CaseIterable { case male, female, other }
 
 enum Relation: String, Codable, CaseIterable, Identifiable {
-    case selfMember, husband, wife, son, daughter, father, mother,
+    case selfMember, husband, wife, boyfriend, girlfriend, partner, fiance, fiancee,
+         friend, colleague, mentor,
+         son, daughter, father, mother,
          grandson, granddaughter, grandfather, grandmother, brother, sister,
          // Father's side
          kaka, kaki, thuloBaa, thuloAma, phupu, phupaju,
@@ -19,6 +21,11 @@ enum Relation: String, Codable, CaseIterable, Identifiable {
         switch self {
         case .selfMember: return "Myself"
         case .husband: return "Husband"; case .wife: return "Wife"
+        case .boyfriend: return "Boyfriend"; case .girlfriend: return "Girlfriend"
+        case .partner: return "Partner"
+        case .fiance: return "Fiancé"; case .fiancee: return "Fiancée"
+        case .friend: return "Friend"; case .colleague: return "Colleague"
+        case .mentor: return "Mentor"
         case .son: return "Son"; case .daughter: return "Daughter"
         case .father: return "Father"; case .mother: return "Mother"
         case .grandson: return "Grandson"; case .granddaughter: return "Granddaughter"
@@ -58,6 +65,11 @@ enum Relation: String, Codable, CaseIterable, Identifiable {
         switch self {
         case .selfMember: return "म आफैं"
         case .husband: return "श्रीमान्"; case .wife: return "श्रीमती"
+        case .boyfriend: return "प्रेमी"; case .girlfriend: return "प्रेमिका"
+        case .partner: return "जीवनसाथी"
+        case .fiance: return "मंगेतर"; case .fiancee: return "मंगेतर"
+        case .friend: return "साथी"; case .colleague: return "सहकर्मी"
+        case .mentor: return "मार्गदर्शक"
         case .son: return "छोरा"; case .daughter: return "छोरी"
         case .father: return "बुबा"; case .mother: return "आमा"
         case .grandson: return "नाति"; case .granddaughter: return "नातिनी"
@@ -98,6 +110,14 @@ enum Relation: String, Codable, CaseIterable, Identifiable {
         if self == .selfMember { return lang == .ne ? "तपाईं" : "You" }
         return lang == .ne ? "तपाईंको \(labelNE)" : "your \(labelEN.lowercased())"
     }
+
+    var isRomantic: Bool {
+        [.husband, .wife, .boyfriend, .girlfriend, .partner, .fiance, .fiancee].contains(self)
+    }
+
+    var isSocialPeer: Bool {
+        [.friend, .colleague, .mentor, .boyfriend, .girlfriend, .partner, .fiance, .fiancee].contains(self)
+    }
 }
 
 struct FamilyMember: Codable, Identifiable, Equatable {
@@ -110,8 +130,54 @@ struct FamilyMember: Codable, Identifiable, Equatable {
 
     var hasBirthData: Bool { birth != nil && kundali != nil }
 
+    /// Keeps the saved identity untouched while ensuring Nepali surfaces do not
+    /// mix Latin-script names into Devanagari sentences.
+    func displayName(_ language: Language) -> String {
+        language == .ne ? NepaliNameTransliterator.transliterate(name) : name
+    }
+
     mutating func recompute() {
         if let birth { kundali = Kundali.compute(from: birth) }
+    }
+}
+
+enum NepaliNameTransliterator {
+    private static let known: [String: String] = [
+        "aarav": "आरव", "priya": "प्रिया", "sita": "सीता", "sharma": "शर्मा",
+        "maya": "माया", "ram": "राम", "rama": "रमा",
+        "gita": "गीता", "geeta": "गीता", "krishna": "कृष्ण", "hari": "हरि",
+        "laxmi": "लक्ष्मी", "lakshmi": "लक्ष्मी", "sarita": "सरिता",
+        "sunita": "सुनिता", "anita": "अनिता", "rita": "रीता", "nita": "नीता",
+        "roshan": "रोशन", "suman": "सुमन", "bikash": "विकास", "vikas": "विकास",
+        "dipak": "दीपक", "deepak": "दीपक", "rajesh": "राजेश", "ramesh": "रमेश",
+        "suresh": "सुरेश", "mahesh": "महेश", "ganesh": "गणेश", "dinesh": "दिनेश",
+        "anil": "अनिल", "sunil": "सुनील", "manish": "मनीष", "nisha": "निशा",
+        "asha": "आशा", "usha": "उषा", "pooja": "पूजा", "puja": "पूजा",
+        "anjali": "अञ्जली", "sanjay": "सञ्जय", "bijay": "विजय", "vijay": "विजय"
+    ]
+
+    static func transliterate(_ value: String) -> String {
+        guard value.range(of: "[A-Za-z]", options: .regularExpression) != nil else { return value }
+        return value.split(separator: " ", omittingEmptySubsequences: false).map { part in
+            let word = String(part)
+            let stripped = word.trimmingCharacters(in: .punctuationCharacters)
+            let punctuationPrefix = String(word.prefix { $0.isPunctuation })
+            let punctuationSuffix = String(word.reversed().prefix { $0.isPunctuation }.reversed())
+            let key = stripped.lowercased()
+            if let exact = known[key] { return punctuationPrefix + exact + punctuationSuffix }
+
+            var phonetic = key
+            let replacements = [("aa", "ā"), ("ee", "ī"), ("ii", "ī"),
+                                ("oo", "ū"), ("uu", "ū"), ("sh", "ś")]
+            for (source, target) in replacements {
+                phonetic = phonetic.replacingOccurrences(of: source, with: target)
+            }
+            var transformed = phonetic.applyingTransform(
+                StringTransform(rawValue: "Latin-Devanagari"), reverse: false
+            ) ?? stripped
+            while transformed.last == "्" { transformed.removeLast() }
+            return punctuationPrefix + transformed + punctuationSuffix
+        }.joined(separator: " ")
     }
 }
 
@@ -141,15 +207,59 @@ struct ChatMessage: Codable, Identifiable, Equatable {
     var isUser: Bool
     var text: String
     var timestamp: Date = Date()
+    /// Optional keeps existing local/Supabase household JSON backwards
+    /// compatible while new replies can expose confirmed, typed actions.
+    var actions: [PanditAction]?
+}
+
+/// A restorable Jyotish Baje thread. Conversations are kept inside the household
+/// aggregate, so the same shelf works offline and follows the user through the
+/// existing Supabase sync path.
+struct ChatConversation: Codable, Identifiable, Equatable {
+    var id: UUID = UUID()
+    var title: String
+    var messages: [ChatMessage] = []
+    var createdAt: Date = Date()
+    var updatedAt: Date = Date()
+    var sourceKey: String?
+
+    mutating func append(_ message: ChatMessage) {
+        messages.append(message)
+        updatedAt = message.timestamp
+    }
+}
+
+struct EngagementPreferences: Codable, Equatable {
+    var enabled = false
+    var wakeHour = 7
+    var dailyCount = 4
+    var familyInsights = true
+    var calendarReminders = true
+}
+
+enum PanditActionKind: String, Codable, Equatable {
+    case openPatro, addToPatro, remind, compare, listen, seeKundli, share
+}
+
+struct PanditAction: Codable, Identifiable, Equatable {
+    var id: UUID = UUID()
+    var kind: PanditActionKind
+    var date: Date?
+    var title: String?
+    var memberID: UUID?
 }
 
 /// Everything one account owns; synced as one user-owned Supabase household row.
 struct Household: Codable {
-    var schemaVersion: Int = 1
+    var schemaVersion: Int = 2
     var account: UserAccount?
     var family: [FamilyMember] = []
     var events: [PatroEvent] = []
     var chat: [ChatMessage] = []
+    /// Optional for backwards-compatible decoding of schema-v1 payloads.
+    var conversations: [ChatConversation]?
+    /// Optional keeps schema-v1/v2 Supabase payloads decodable.
+    var engagementPreferences: EngagementPreferences?
     var language: Language = .en
     var theme: ThemeChoice = .system
 }

@@ -24,9 +24,15 @@ struct Panchanga {
         "Atiganda", "Sukarma", "Dhriti", "Shula", "Ganda", "Vriddhi", "Dhruva", "Vyaghata",
         "Harshana", "Vajra", "Siddhi", "Vyatipata", "Variyana", "Parigha", "Shiva", "Siddha",
         "Sadhya", "Shubha", "Shukla", "Brahma", "Indra", "Vaidhriti"]
+    static let yogaNamesNE = ["विष्कम्भ", "प्रीति", "आयुष्मान", "सौभाग्य", "शोभन",
+        "अतिगण्ड", "सुकर्मा", "धृति", "शूल", "गण्ड", "वृद्धि", "ध्रुव", "व्याघात",
+        "हर्षण", "वज्र", "सिद्धि", "व्यतीपात", "वरीयान", "परिघ", "शिव", "सिद्ध",
+        "साध्य", "शुभ", "शुक्ल", "ब्रह्म", "इन्द्र", "वैधृति"]
 
     static let karanaNamesEN = ["Bava", "Balava", "Kaulava", "Taitila", "Garaja", "Vanija",
         "Vishti", "Shakuni", "Chatushpada", "Naga", "Kimstughna"]
+    static let karanaNamesNE = ["बव", "बालव", "कौलव", "तैतिल", "गर", "वणिज",
+        "विष्टि", "शकुनि", "चतुष्पद", "नाग", "किंस्तुघ्न"]
 
     func tithiName(ne: Bool) -> String {
         let idx = tithiIndex % 15
@@ -38,6 +44,14 @@ struct Panchanga {
 
     func pakshaName(ne: Bool) -> String {
         isShukla ? (ne ? "शुक्ल पक्ष" : "Shukla Paksha") : (ne ? "कृष्ण पक्ष" : "Krishna Paksha")
+    }
+
+    func yogaName(ne: Bool) -> String {
+        ne ? Self.yogaNamesNE[yogaIndex] : Self.yogaNamesEN[yogaIndex]
+    }
+
+    func karanaName(ne: Bool) -> String {
+        ne ? Self.karanaNamesNE[karanaIndex] : Self.karanaNamesEN[karanaIndex]
     }
 
     /// Compute the panchanga at a given instant.
@@ -67,13 +81,23 @@ struct Panchanga {
 
     /// Panchanga for a civil date in Nepal (evaluated near sunrise, 05:45 NPT).
     static func forDay(_ date: Date, calendar: Calendar = .nepali) -> Panchanga {
+        forDay(date, place: .kathmandu, calendar: calendar)
+    }
+
+    /// Panchanga for the chosen place, evaluated at the existing 05:45 local
+    /// sunrise fallback. Keeping place in the cache key prevents Nepal results
+    /// from being reused for a household abroad.
+    static func forDay(_ date: Date,
+                       place: BirthPlace,
+                       calendar: Calendar = Calendar(identifier: .gregorian)) -> Panchanga {
         var cal = calendar
-        cal.timeZone = TimeZone(identifier: "Asia/Kathmandu")!
+        cal.timeZone = TimeZone(secondsFromGMT: Int(place.utcOffsetHours * 3600)) ?? .current
         let comps = cal.dateComponents([.year, .month, .day, .weekday], from: date)
-        let key = CacheKey(year: comps.year!, month: comps.month!, day: comps.day!)
+        let key = CacheKey(year: comps.year!, month: comps.month!, day: comps.day!,
+                           utcOffsetMinutes: Int(place.utcOffsetHours * 60))
         if let cached = cachedValue(for: key) { return cached }
         let jd = Ephemeris.julianDay(year: comps.year!, month: comps.month!, day: comps.day!,
-                                     hourUT: 5.75 - 5.75) // 05:45 NPT -> 00:00 UT
+                                     hourUT: 5.75 - place.utcOffsetHours)
         let result = at(jd: jd, weekday: comps.weekday ?? 1)
         store(result, for: key)
         return result
@@ -83,6 +107,7 @@ struct Panchanga {
         var year: Int
         var month: Int
         var day: Int
+        var utcOffsetMinutes: Int
     }
 
     private static var cache: [CacheKey: Panchanga] = [:]

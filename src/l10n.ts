@@ -12,7 +12,7 @@ export const l10n: Record<string, { en: string; ne: string }> = {
   "home.mahadasha": { en: "Mahadasha", ne: "महादशा" },
   "home.antardasha": { en: "Antardasha", ne: "अन्तर्दशा" },
   "home.openPatro": { en: "Open Patro", ne: "पात्रो खोल्नुहोस्" },
-  "home.askPandit": { en: "Ask Pandit-ji", ne: "पण्डितजीलाई सोध्नुहोस्" },
+  "home.askPandit": { en: "Ask Jyotish Baje", ne: "ज्योतिष बाजेलाई सोध्नुहोस्" },
   "home.templeOfDay": { en: "Temple of the Day", ne: "आजको मन्दिर" },
   "rashifal.title": { en: "Rashifal", ne: "राशिफल" },
   "rashifal.daily": { en: "Daily", ne: "दैनिक" },
@@ -29,8 +29,8 @@ export const l10n: Record<string, { en: string; ne: string }> = {
   "patro.title": { en: "Nepali Patro", ne: "नेपाली पात्रो" },
   "patro.events": { en: "Events", ne: "कार्यक्रमहरू" },
   "patro.panchanga": { en: "Panchanga", ne: "पञ्चाङ्ग" },
-  "chat.title": { en: "Pandit-ji", ne: "पण्डितजी" },
-  "chat.placeholder": { en: "Ask Pandit-ji...", ne: "पण्डितजीलाई सोध्नुहोस्..." },
+  "chat.title": { en: "Jyotish Baje", ne: "ज्योतिष बाजे" },
+  "chat.placeholder": { en: "Ask Jyotish Baje...", ne: "ज्योतिष बाजेलाई सोध्नुहोस्..." },
   "chat.listening": { en: "Listening...", ne: "सुन्दै..." },
   "chat.speak": { en: "Speak replies", ne: "उत्तर बोल्ने" },
   "settings.title": { en: "Settings", ne: "सेटिङ" },
@@ -68,4 +68,36 @@ export function digits(value: number, language: Language): string {
       return Number.isInteger(n) ? neDigits[n] : char;
     })
     .join("");
+}
+
+const knownNepaliNames: Record<string, string> = {
+  aarav: "आरव", priya: "प्रिया", sita: "सीता", sharma: "शर्मा", maya: "माया",
+  ram: "राम", rama: "रमा", gita: "गीता", geeta: "गीता", krishna: "कृष्ण",
+  hari: "हरि", laxmi: "लक्ष्मी", lakshmi: "लक्ष्मी", sarita: "सरिता",
+  sunita: "सुनिता", anita: "अनिता", roshan: "रोशन", suman: "सुमन",
+  bikash: "विकास", vikas: "विकास", dipak: "दीपक", deepak: "दीपक",
+  rajesh: "राजेश", ramesh: "रमेश", suresh: "सुरेश", mahesh: "महेश",
+  ganesh: "गणेश", dinesh: "दिनेश", anil: "अनिल", sunil: "सुनील",
+  manish: "मनीष", nisha: "निशा", asha: "आशा", usha: "उषा",
+  pooja: "पूजा", puja: "पूजा", anjali: "अञ्जली", sanjay: "सञ्जय",
+  bijay: "विजय", vijay: "विजय"
+};
+
+const fallbackLetters: Record<string, string> = {
+  a: "अ", b: "ब", c: "क", d: "द", e: "ए", f: "फ", g: "ग", h: "ह", i: "इ",
+  j: "ज", k: "क", l: "ल", m: "म", n: "न", o: "ओ", p: "प", q: "क", r: "र",
+  s: "स", t: "त", u: "उ", v: "व", w: "व", x: "क्स", y: "य", z: "ज"
+};
+
+/** Keeps stored names untouched while preventing Latin text in Nepali UI. */
+export function displayName(value: string, language: Language): string {
+  if (language !== "ne" || !/[A-Za-z]/.test(value)) return value;
+  return value.split(/(\s+)/).map((part) => {
+    if (/^\s+$/.test(part)) return part;
+    const leading = part.match(/^\P{L}*/u)?.[0] || "";
+    const trailing = part.match(/\P{L}*$/u)?.[0] || "";
+    const word = part.slice(leading.length, part.length - trailing.length).toLowerCase();
+    const translated = knownNepaliNames[word] || [...word].map((letter) => fallbackLetters[letter] || "").join("");
+    return `${leading}${translated || "नाम"}${trailing}`;
+  }).join("");
 }

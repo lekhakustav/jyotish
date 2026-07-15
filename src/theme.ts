@@ -1,4 +1,19 @@
-export const palette = {
+export type AppPalette = {
+  bgCanvas: string;
+  bgElevated: string;
+  bgSunken: string;
+  inkPrimary: string;
+  inkSecondary: string;
+  saffron: string;
+  marigold: string;
+  sindoor: string;
+  templeGold: string;
+  peepalGreen: string;
+  lotusPink: string;
+  hairline: string;
+};
+
+export const palette: AppPalette = {
   bgCanvas: "#FCF7ED",
   bgElevated: "#FFFDF7",
   bgSunken: "#F4ECDD",
@@ -12,6 +27,34 @@ export const palette = {
   lotusPink: "#D96C8A",
   hairline: "rgba(184, 134, 11, 0.22)"
 };
+
+/** Shared geometry mirrors Jyotish/DesignSystem/DesignTokens.swift. */
+export const spacing = {
+  xxs: 4,
+  xs: 8,
+  sm: 12,
+  md: 16,
+  lg: 24,
+  xl: 32,
+  section: 40
+} as const;
+
+export const layoutMetrics = {
+  screenGutter: 24,
+  sheetGutter: 20,
+  minimumTouchTarget: 48,
+  primaryButtonHeight: 56,
+  primaryButtonRadius: 16,
+  bottomShellWidth: 278,
+  bottomShellHeight: 68,
+  bottomShellMargin: 12
+} as const;
+
+export const motion = {
+  springDuration: 450,
+  springDamping: 0.85,
+  pressedScale: 0.97
+} as const;
 
 export const darkPalette = {
   bgCanvas: "#17120C",
@@ -27,3 +70,14 @@ export const darkPalette = {
   lotusPink: "#E68BA4",
   hairline: "rgba(217, 169, 63, 0.28)"
 };
+
+/**
+ * React Native components consume one semantic palette object, matching the
+ * SwiftUI Environment palette. Mutating the stable object keeps existing
+ * imports live while the app-state update triggers the render using it.
+ */
+export function applyPalette(isDark: boolean) {
+  Object.assign(palette, isDark ? darkPalette : lightPalette);
+}
+
+const lightPalette = { ...palette };

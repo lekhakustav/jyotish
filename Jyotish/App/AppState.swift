@@ -11,9 +11,12 @@ final class AppState: ObservableObject {
     @Published var family: [FamilyMember] = []
     @Published var events: [PatroEvent] = []
     @Published var chat: [ChatMessage] = []
+    @Published private(set) var chatConversations: [ChatConversation] = []
+    @Published private(set) var selectedChatConversationID: UUID?
     @Published var chatTypingMessageID: UUID?
     @Published var language: Language = .en
     @Published var theme: ThemeChoice = .system
+    @Published private(set) var engagementPreferences = EngagementPreferences()
     @Published var syncStatus: String?
     /// True while any sign-in/sign-up provider flow is in flight — drives the
     /// loading spinner on whichever button was tapped.
@@ -27,7 +30,16 @@ final class AppState: ObservableObject {
         return .home
     }()
     @Published var pushedDestination: AppDestination?
-    @Published var modalDestination: AppDestination?
+    @Published var modalDestination: AppDestination? = ProcessInfo.processInfo.arguments.contains("-pandit") ? .pandit : nil
+    /// A one-shot deep link from Jyotish Baje chat into a person's Kundali.
+    @Published var requestedFamilyMemberID: UUID?
+    /// One-tap Home cards hand their natural-language prompt to the next chat
+    /// presentation. This is transient and never enters household persistence.
+    @Published private(set) var pendingPanditPrompt: String?
+    /// After a few successful answers, Home can reduce the teaching surface to
+    /// one rotating suggestion while keeping the generic prompt available.
+    @Published private(set) var panditInteractionCount = UserDefaults.standard.integer(
+        forKey: "jyotish.pandit.successfulInteractions")
 
     // Service seam. Supabase is used when configured; otherwise the app remains local-first.
     let auth: AuthService
@@ -36,6 +48,8 @@ final class AppState: ObservableObject {
     private let remoteStore: RemoteDataStore?
     private let agent: AgentService?
     private var remotePersistTask: Task<Void, Never>?
+    private var assistantStreamBuffers: [UUID: String] = [:]
+    private var assistantStreamTasks: [UUID: Task<Void, Never>] = [:]
 
     init() {
         var restoredSupabaseAccount: UserAccount?
@@ -44,6 +58,7 @@ final class AppState: ObservableObject {
             let supabaseAuth = SupabaseAuthService(config: config, sessionStore: sessionStore)
             auth = supabaseAuth
             remoteStore = SupabaseDataStore(config: config, sessionStore: sessionStore)
+            AppAnalytics.configure(SupabaseAnalyticsSink(config: config, sessionStore: sessionStore))
             if let session = supabaseAuth.currentSession {
                 restoredSupabaseAccount = UserAccount(id: session.userID, email: nil, displayName: "", isDemo: false)
             }
@@ -51,13 +66,17 @@ final class AppState: ObservableObject {
             auth = DummyAuthService()
             remoteStore = nil
         }
+        AppAnalytics.track("app_state_initialized", properties: [
+            "supabase_configured": SupabaseConfig.current == nil ? "false" : "true"
+        ])
         if let saved = store.load() {
             account = saved.account
             family = saved.family
             events = saved.events
-            chat = saved.chat
+            restoreChats(from: saved)
             language = saved.language
             theme = saved.theme
+            engagementPreferences = saved.engagementPreferences ?? EngagementPreferences()
         }
         if let restoredSupabaseAccount {
             if account?.id == restoredSupabaseAccount.id, var cached = account {
@@ -69,6 +88,9 @@ final class AppState: ObservableObject {
             Task { await loadRemoteHousehold() }
         }
         seedIfRequested()
+        if engagementPreferences.enabled {
+            Task { try? await refreshEngagementNotifications() }
+        }
     }
 
     private static func makeAgentService(sessionStore: SupabaseSessionStore) -> AgentService? {
@@ -92,6 +114,10 @@ final class AppState: ObservableObject {
            let l = Language(rawValue: args[i + 1]) {
             language = l
         }
+        if args.contains("-tab"), let i = args.firstIndex(of: "-tab"), i + 1 < args.count,
+           let index = Int(args[i + 1]) {
+            selectedTab = AppTab.fromLaunchIndex(index)
+        }
         guard args.contains("-demoSeed"), account == nil else { return }
         account = UserAccount(displayName: "Sita Sharma", isDemo: true)
         var me = FamilyMember(name: "Sita Sharma", gender: .female, relation: .selfMember,
@@ -112,6 +138,24 @@ final class AppState: ObservableObject {
             PatroEvent(title: "Aarav's birthday", note: "Ashirwad + kheer", bsDate: NepaliDate(year: today.year, month: today.month, day: min(28, today.day + 3)), repeatsYearly: true),
             PatroEvent(title: "Satyanarayan Puja", note: "", bsDate: NepaliDate(year: today.year, month: today.month, day: min(30, today.day + 9))),
         ]
+        if args.contains("-chatSeed") {
+            let first = ChatConversation(
+                title: "What is ahead for my love life?",
+                messages: [
+                    ChatMessage(isUser: true, text: "What is ahead for my love life?"),
+                    ChatMessage(isUser: false, text: "Your Venus period favors honest conversation and patient choices."),
+                ], updatedAt: Date().addingTimeInterval(-900))
+            let second = ChatConversation(
+                title: "Career direction this year",
+                messages: [
+                    ChatMessage(isUser: true, text: "What career direction suits me this year?"),
+                    ChatMessage(isUser: false, text: "Your current dasha rewards focused responsibility over frequent changes."),
+                ], createdAt: Date().addingTimeInterval(-86_400),
+                updatedAt: Date().addingTimeInterval(-86_100))
+            chatConversations = [first, second]
+            selectedChatConversationID = first.id
+            chat = first.messages
+        }
         persist()
     }
 
@@ -125,8 +169,11 @@ final class AppState: ObservableObject {
     var locale: Locale { Locale(identifier: language == .ne ? "ne_NP" : "en_US") }
 
     private func persist() {
+        syncCurrentConversation()
         let household = Household(account: account, family: family, events: events,
-                                  chat: chat, language: language, theme: theme)
+                                  chat: chat, conversations: chatConversations,
+                                  engagementPreferences: engagementPreferences,
+                                  language: language, theme: theme)
         store.save(household)
         guard let account, let remoteStore else { return }
         remotePersistTask?.cancel()
@@ -144,6 +191,7 @@ final class AppState: ObservableObject {
 
     // ── Mutations ────────────────────────────────────────────────────────────
     func signInApple(credential: ASAuthorizationAppleIDCredential, rawNonce: String, mode: AuthMode) {
+        AppAnalytics.track("auth_started", properties: ["provider": "apple", "mode": String(describing: mode)])
         guard let tokenData = credential.identityToken,
               let idToken = String(data: tokenData, encoding: .utf8) else {
             syncStatus = "Apple sign-in did not return an identity token."
@@ -158,7 +206,9 @@ final class AppState: ObservableObject {
                 let acct = try await auth.signInWithApple(idToken: idToken, rawNonce: rawNonce,
                                                            fullName: fullName.isEmpty ? nil : fullName, mode: mode)
                 await completeSignIn(acct)
+                AppAnalytics.track("auth_completed", properties: ["provider": "apple"])
             } catch {
+                AppAnalytics.track("auth_failed", properties: ["provider": "apple", "error": String(describing: type(of: error))])
                 syncStatus = error.localizedDescription
             }
             isAuthenticating = false
@@ -166,12 +216,15 @@ final class AppState: ObservableObject {
     }
 
     func signInGoogle(mode: AuthMode) {
+        AppAnalytics.track("auth_started", properties: ["provider": "google", "mode": String(describing: mode)])
         isAuthenticating = true
         Task {
             do {
                 let acct = try await auth.signInWithGoogle(mode: mode)
                 await completeSignIn(acct)
+                AppAnalytics.track("auth_completed", properties: ["provider": "google"])
             } catch {
+                AppAnalytics.track("auth_failed", properties: ["provider": "google", "error": String(describing: type(of: error))])
                 syncStatus = error.localizedDescription
             }
             isAuthenticating = false
@@ -179,13 +232,16 @@ final class AppState: ObservableObject {
     }
 
     func signUpEmail(email: String, password: String) async -> EmailSignUpOutcome {
+        AppAnalytics.track("auth_started", properties: ["provider": "email", "mode": "signup"])
         isAuthenticating = true
         defer { isAuthenticating = false }
         do {
             let acct = try await auth.signUpEmail(email: email, password: password)
             await completeSignIn(acct)
+            AppAnalytics.track("auth_completed", properties: ["provider": "email", "mode": "signup"])
             return .success
         } catch {
+            AppAnalytics.track("auth_failed", properties: ["provider": "email", "mode": "signup", "error": String(describing: type(of: error))])
             syncStatus = error.localizedDescription
             if case SupabaseError.authError("user_already_exists", _) = error {
                 return .emailAlreadyExists
@@ -195,24 +251,37 @@ final class AppState: ObservableObject {
     }
 
     func signInEmail(email: String, password: String) async -> Bool {
+        AppAnalytics.track("auth_started", properties: ["provider": "email", "mode": "signin"])
         isAuthenticating = true
         defer { isAuthenticating = false }
         do {
             let acct = try await auth.signInEmail(email: email, password: password)
             await completeSignIn(acct)
+            AppAnalytics.track("auth_completed", properties: ["provider": "email", "mode": "signin"])
             return true
         } catch {
+            AppAnalytics.track("auth_failed", properties: ["provider": "email", "mode": "signin", "error": String(describing: type(of: error))])
             syncStatus = error.localizedDescription
             return false
         }
     }
 
     func signOut() {
-        Task { try? await auth.signOut() }
+        AppAnalytics.track("signed_out")
+        let previousPreferences = engagementPreferences
+        Task {
+            try? await auth.signOut()
+            try? await EngagementNotificationService.setEnabled(false, family: family, events: events,
+                                                                 preferences: previousPreferences,
+                                                                 language: language)
+        }
         account = nil
         family = []
         events = []
         chat = []
+        chatConversations = []
+        selectedChatConversationID = nil
+        engagementPreferences = EngagementPreferences()
         persist()
     }
 
@@ -230,14 +299,18 @@ final class AppState: ObservableObject {
                 account = remote.account ?? acct
                 family = remote.family
                 events = remote.events
-                chat = remote.chat
+                restoreChats(from: remote)
                 language = remote.language
                 theme = remote.theme
+                engagementPreferences = remote.engagementPreferences ?? EngagementPreferences()
                 store.save(remote)
             } else {
                 account = acct
             }
             syncStatus = nil
+            if engagementPreferences.enabled {
+                try? await refreshEngagementNotifications()
+            }
         } catch {
             account = acct
             syncStatus = error.localizedDescription
@@ -252,12 +325,16 @@ final class AppState: ObservableObject {
                 self.account = remote.account ?? account
                 family = remote.family
                 events = remote.events
-                chat = remote.chat
+                restoreChats(from: remote)
                 language = remote.language
                 theme = remote.theme
+                engagementPreferences = remote.engagementPreferences ?? EngagementPreferences()
                 store.save(remote)
             }
             syncStatus = nil
+            if engagementPreferences.enabled {
+                try? await refreshEngagementNotifications()
+            }
         } catch {
             syncStatus = error.localizedDescription
         }
@@ -275,25 +352,80 @@ final class AppState: ObservableObject {
             family.insert(member, at: 0)
         }
         if var acct = account { acct.displayName = name; account = acct }
+        AppAnalytics.track("birth_profile_saved", properties: ["time_known": birth.timeKnown ? "true" : "false",
+                                                                 "place_preset": BirthPlace.presets.contains(birth.place) ? "true" : "false"])
         persist()
+        Task { try? await refreshEngagementNotifications() }
     }
 
     func addMember(_ member: FamilyMember) {
         var m = member
         m.recompute()
         family.append(m)
+        AppAnalytics.track("parivar_member_added", properties: ["relation": member.relation.rawValue,
+                                                                  "has_birth_data": member.birth == nil ? "false" : "true"])
         persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    /// QR imports are idempotent by identity plus civil birth date. Relation is
+    /// deliberately chosen by the receiver; the sender never declares how they
+    /// should appear in somebody else's Parivar.
+    @discardableResult
+    func addSharedMember(name: String, gender: Gender, relation: Relation, birth: BirthData) -> Bool {
+        let normalized = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !normalized.isEmpty, relation != .selfMember else { return false }
+        let duplicate = family.contains { member in
+            guard member.name.localizedCaseInsensitiveCompare(normalized) == .orderedSame,
+                  let existing = member.birth else { return false }
+            return existing.year == birth.year && existing.month == birth.month && existing.day == birth.day
+        }
+        guard !duplicate else { return false }
+        addMember(FamilyMember(name: normalized, gender: gender, relation: relation, birth: birth))
+        return true
     }
 
     func removeMember(_ member: FamilyMember) {
         family.removeAll { $0.id == member.id }
+        AppAnalytics.track("parivar_member_removed", properties: ["relation": member.relation.rawValue])
         persist()
+        Task { try? await refreshEngagementNotifications() }
     }
 
-    func addEvent(_ event: PatroEvent) { events.append(event); persist() }
-    func removeEvent(_ event: PatroEvent) { events.removeAll { $0.id == event.id }; persist() }
+    func addEvent(_ event: PatroEvent) {
+        events.append(event)
+        AppAnalytics.track("patro_event_added", properties: ["repeats_yearly": event.repeatsYearly ? "true" : "false"])
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+    func removeEvent(_ event: PatroEvent) {
+        events.removeAll { $0.id == event.id }
+        AppAnalytics.track("patro_event_removed")
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    /// Returns false when the same dated item already exists, so an accidental
+    /// second tap never creates duplicate Patro entries.
+    @discardableResult
+    func addPanditEvent(title: String, date: Date) -> Bool {
+        let event = PanditActionResolver.event(title: title, date: date)
+        guard !event.title.isEmpty else { return false }
+        guard !events.contains(where: { $0.title.localizedCaseInsensitiveCompare(event.title) == .orderedSame
+            && $0.bsDate == event.bsDate
+        }) else { return false }
+        addEvent(event)
+        return true
+    }
+
+    func schedulePanditReminder(title: String, date: Date) async throws {
+        try await ReminderService.schedule(title: title, date: date, language: language)
+        AppAnalytics.track("pandit_reminder_scheduled", properties: ["lead_hours": String(Int(date.timeIntervalSinceNow / 3_600))])
+    }
 
     func open(_ destination: AppDestination) {
+        AppAnalytics.track("navigation_opened", properties: ["destination": destination.rawValue,
+                                                               "style": String(describing: destination.presentationStyle)])
         switch destination.presentationStyle {
         case .tab:
             selectedTab = AppTab.allCases.first { $0.destination == destination } ?? .home
@@ -304,17 +436,96 @@ final class AppState: ObservableObject {
         }
     }
 
+    func openFamilyMember(_ id: UUID?) {
+        AppAnalytics.track("family_member_opened", properties: ["has_member": id == nil ? "false" : "true"])
+        requestedFamilyMemberID = nil
+        selectedTab = .family
+        guard let id else { return }
+        DispatchQueue.main.async { self.requestedFamilyMemberID = id }
+    }
+
+    func openPandit(prompt: String? = nil, sourceKey: String? = nil) {
+        AppAnalytics.track("pandit_opened", properties: [
+            "source": sourceKey.map { $0.split(separator: ":").prefix(2).joined(separator: ":") } ?? "direct",
+            "has_prompt": prompt == nil ? "false" : "true"
+        ])
+        if let sourceKey,
+           let existing = chatConversations.first(where: { $0.sourceKey == sourceKey }) {
+            selectChatConversation(existing.id)
+        } else if prompt != nil, !chat.isEmpty {
+            newChatConversation(sourceKey: sourceKey)
+        } else if let sourceKey {
+            if selectedChatConversationID == nil {
+                newChatConversation(sourceKey: sourceKey)
+            } else {
+                setSelectedConversationSourceKey(sourceKey)
+            }
+        }
+        pendingPanditPrompt = prompt
+        open(.pandit)
+    }
+
+    func consumePendingPanditPrompt() -> String? {
+        defer { pendingPanditPrompt = nil }
+        return pendingPanditPrompt
+    }
+
+    func newChatConversation(sourceKey: String? = nil) {
+        AppAnalytics.track("chat_conversation_created", properties: ["has_source": sourceKey == nil ? "false" : "true"])
+        let conversation = ChatConversation(title: t("chat.newConversation"), sourceKey: sourceKey)
+        chatConversations.insert(conversation, at: 0)
+        selectedChatConversationID = conversation.id
+        chat = []
+        persist()
+    }
+
+    private func setSelectedConversationSourceKey(_ sourceKey: String) {
+        guard let id = selectedChatConversationID,
+              let index = chatConversations.firstIndex(where: { $0.id == id }) else { return }
+        chatConversations[index].sourceKey = sourceKey
+        persist()
+    }
+
+    func selectChatConversation(_ id: UUID) {
+        guard let conversation = chatConversations.first(where: { $0.id == id }) else { return }
+        selectedChatConversationID = id
+        chat = conversation.messages
+        AppAnalytics.track("chat_conversation_selected", properties: ["message_count": String(conversation.messages.count)])
+    }
+
+    func deleteChatConversation(_ id: UUID) {
+        AppAnalytics.track("chat_conversation_deleted")
+        chatConversations.removeAll { $0.id == id }
+        if selectedChatConversationID == id {
+            if let next = chatConversations.first {
+                selectedChatConversationID = next.id
+                chat = next.messages
+            } else {
+                selectedChatConversationID = nil
+                chat = []
+            }
+        }
+        persist()
+    }
+
     func sendChat(_ text: String) async -> ChatMessage? {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return nil }
+        let analyticsStart = Date()
         chat.append(ChatMessage(isUser: true, text: trimmed))
-        let brain = PanditBrain(family: family, lang: language)
-        let localAnswer = brain.reply(to: trimmed)
+        let plan = PanditToolPlanner.plan(query: trimmed,
+                                          family: family,
+                                          events: events,
+                                          language: language)
+        let localAnswer = plan.answer
+        AppAnalytics.track("chat_question_sent", properties: ["intent": plan.intent.rawValue,
+                                                                "character_count": String(trimmed.count),
+                                                                "language": language.rawValue])
         persist()
 
         let pendingID = UUID()
         chatTypingMessageID = pendingID
-        chat.append(ChatMessage(id: pendingID, isUser: false, text: ""))
+        chat.append(ChatMessage(id: pendingID, isUser: false, text: "", actions: plan.actions))
 
         let context = AgentChatRequest.make(message: trimmed,
                                             localFallbackReply: localAnswer,
@@ -322,49 +533,216 @@ final class AppState: ObservableObject {
                                             events: events,
                                             chat: chat,
                                             language: language,
-                                            selfMember: selfMember)
+                                            selfMember: selfMember,
+                                            toolEvidence: plan.evidence)
         let answer: String
+        var answerSource = "local"
         do {
             if let agent {
-                answer = try await agent.streamReply(to: trimmed, context: context) { delta in
+                answerSource = "remote"
+                let remoteAnswer = try await agent.streamReply(to: trimmed, context: context) { delta in
                     self.appendAssistantDelta(delta, messageID: pendingID)
                 }
+                let completed = PanditAnswerContract.completed(remoteAnswer,
+                                                               fallback: localAnswer,
+                                                               language: language)
+                if completed.hasPrefix(remoteAnswer), completed.count > remoteAnswer.count {
+                    appendAssistantDelta(String(completed.dropFirst(remoteAnswer.count)), messageID: pendingID)
+                }
+                await finishAssistantStream(messageID: pendingID)
+                answer = completed
             } else {
-                answer = localAnswer
-                await streamLocalFallback(localAnswer, messageID: pendingID)
+                answer = PanditAnswerContract.completed(localAnswer, fallback: localAnswer, language: language)
+                await streamLocalFallback(answer, messageID: pendingID)
             }
             syncStatus = nil
         } catch {
-            answer = localAnswer
+            answerSource = "fallback"
+            AppAnalytics.track("chat_backend_failed", properties: ["intent": plan.intent.rawValue,
+                                                                     "error": String(describing: type(of: error))])
+            answer = PanditAnswerContract.completed(localAnswer, fallback: localAnswer, language: language)
             syncStatus = "Pandit backend unavailable; using local reading."
-            replaceAssistantMessage(answer, messageID: pendingID)
+            replaceAssistantMessage(answer, actions: plan.actions, messageID: pendingID)
         }
-        let reply = ChatMessage(id: pendingID, isUser: false, text: answer)
-        replaceAssistantMessage(answer, messageID: pendingID)
+        let reply = ChatMessage(id: pendingID, isUser: false, text: answer, actions: plan.actions)
+        replaceAssistantMessage(answer, actions: plan.actions, messageID: pendingID)
         chatTypingMessageID = nil
+        panditInteractionCount += 1
+        UserDefaults.standard.set(panditInteractionCount,
+                                  forKey: "jyotish.pandit.successfulInteractions")
         persist()
+        AppAnalytics.track("chat_answer_completed", properties: [
+            "intent": plan.intent.rawValue,
+            "source": answerSource,
+            "duration_ms": String(Int(Date().timeIntervalSince(analyticsStart) * 1_000)),
+            "answer_characters": String(answer.count),
+            "action_count": String(plan.actions.count)
+        ])
         return reply
     }
 
     private func appendAssistantDelta(_ delta: String, messageID: UUID) {
-        guard let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
-        chat[index].text += delta
-    }
-
-    private func replaceAssistantMessage(_ text: String, messageID: UUID) {
-        guard let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
-        chat[index].text = text
-    }
-
-    private func streamLocalFallback(_ text: String, messageID: UUID) async {
-        for character in text {
-            appendAssistantDelta(String(character), messageID: messageID)
-            try? await Task.sleep(nanoseconds: 12_000_000)
+        assistantStreamBuffers[messageID, default: ""] += delta
+        guard assistantStreamTasks[messageID] == nil else { return }
+        assistantStreamTasks[messageID] = Task { @MainActor in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 36_000_000)
+                guard !Task.isCancelled else { return }
+                guard var buffered = assistantStreamBuffers[messageID], !buffered.isEmpty else {
+                    assistantStreamTasks[messageID] = nil
+                    return
+                }
+                let chunkSize = min(7, max(2, buffered.count / 16))
+                let end = buffered.index(buffered.startIndex,
+                                         offsetBy: min(chunkSize, buffered.count))
+                let chunk = String(buffered[..<end])
+                buffered.removeSubrange(..<end)
+                assistantStreamBuffers[messageID] = buffered
+                guard let index = chat.firstIndex(where: { $0.id == messageID }) else { continue }
+                chat[index].text += chunk
+            }
         }
     }
 
-    func setLanguage(_ l: Language) { language = l; persist() }
-    func setTheme(_ t: ThemeChoice) { theme = t; persist() }
+    private func finishAssistantStream(messageID: UUID) async {
+        while assistantStreamTasks[messageID] != nil ||
+                !(assistantStreamBuffers[messageID] ?? "").isEmpty {
+            try? await Task.sleep(nanoseconds: 24_000_000)
+        }
+    }
+
+    private func flushAssistantStream(_ messageID: UUID) {
+        assistantStreamTasks[messageID] = nil
+        let buffered = assistantStreamBuffers.removeValue(forKey: messageID) ?? ""
+        guard !buffered.isEmpty,
+              let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
+        chat[index].text += buffered
+    }
+
+    private func replaceAssistantMessage(_ text: String,
+                                         actions: [PanditAction]? = nil,
+                                         messageID: UUID) {
+        assistantStreamTasks.removeValue(forKey: messageID)?.cancel()
+        flushAssistantStream(messageID)
+        guard let index = chat.firstIndex(where: { $0.id == messageID }) else { return }
+        chat[index].text = text
+        if let actions { chat[index].actions = actions }
+    }
+
+    private func streamLocalFallback(_ text: String, messageID: UUID) async {
+        let pieces = text.split(separator: " ", omittingEmptySubsequences: false)
+        for (index, piece) in pieces.enumerated() {
+            appendAssistantDelta((index == 0 ? "" : " ") + piece, messageID: messageID)
+            try? await Task.sleep(nanoseconds: 42_000_000)
+        }
+        await finishAssistantStream(messageID: messageID)
+    }
+
+    private func restoreChats(from household: Household) {
+        if let saved = household.conversations, !saved.isEmpty {
+            chatConversations = saved.sorted { $0.updatedAt > $1.updatedAt }
+            selectedChatConversationID = chatConversations.first?.id
+            chat = chatConversations.first?.messages ?? []
+        } else if !household.chat.isEmpty {
+            let migrated = ChatConversation(title: Self.chatTitle(from: household.chat),
+                                            messages: household.chat,
+                                            createdAt: household.chat.first?.timestamp ?? Date(),
+                                            updatedAt: household.chat.last?.timestamp ?? Date())
+            chatConversations = [migrated]
+            selectedChatConversationID = migrated.id
+            chat = migrated.messages
+        } else {
+            chatConversations = []
+            selectedChatConversationID = nil
+            chat = []
+        }
+    }
+
+    private func syncCurrentConversation() {
+        guard !chat.isEmpty else { return }
+        let id = selectedChatConversationID ?? UUID()
+        let title = Self.chatTitle(from: chat)
+        let createdAt = chat.first?.timestamp ?? Date()
+        let updatedAt = chat.last?.timestamp ?? Date()
+        let sourceKey = chatConversations.first(where: { $0.id == id })?.sourceKey
+        let conversation = ChatConversation(id: id, title: title, messages: chat,
+                                            createdAt: createdAt, updatedAt: updatedAt,
+                                            sourceKey: sourceKey)
+        chatConversations.removeAll { $0.id == id }
+        chatConversations.append(conversation)
+        chatConversations.sort { $0.updatedAt > $1.updatedAt }
+        selectedChatConversationID = id
+    }
+
+    private static func chatTitle(from messages: [ChatMessage]) -> String {
+        let firstQuestion = messages.first(where: \.isUser)?.text
+            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        guard !firstQuestion.isEmpty else { return "Jyotish Baje" }
+        let words = firstQuestion.split(whereSeparator: \.isWhitespace)
+        let concise = words.prefix(7).joined(separator: " ")
+        return words.count > 7 ? concise + "…" : concise
+    }
+
+    func setLanguage(_ l: Language) {
+        language = l
+        AppAnalytics.track("language_changed", properties: ["language": l.rawValue])
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+    func setTheme(_ t: ThemeChoice) {
+        theme = t
+        AppAnalytics.track("theme_changed", properties: ["theme": t.rawValue])
+        persist()
+    }
+
+    func setEngagementNotificationsEnabled(_ enabled: Bool) async throws {
+        var updated = engagementPreferences
+        updated.enabled = enabled
+        try await EngagementNotificationService.setEnabled(enabled, family: family, events: events,
+                                                           preferences: updated, language: language)
+        engagementPreferences = updated
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "enabled",
+                                                                             "value": enabled ? "true" : "false"])
+        persist()
+    }
+
+    func setNotificationWakeHour(_ hour: Int) {
+        engagementPreferences.wakeHour = min(10, max(5, hour))
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "wake_hour",
+                                                                             "value": String(engagementPreferences.wakeHour)])
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    func setNotificationDailyCount(_ count: Int) {
+        engagementPreferences.dailyCount = min(4, max(2, count))
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "daily_count",
+                                                                             "value": String(engagementPreferences.dailyCount)])
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    func setFamilyNotifications(_ enabled: Bool) {
+        engagementPreferences.familyInsights = enabled
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "family_insights",
+                                                                             "value": enabled ? "true" : "false"])
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    func setCalendarNotifications(_ enabled: Bool) {
+        engagementPreferences.calendarReminders = enabled
+        AppAnalytics.track("notification_preference_changed", properties: ["setting": "calendar_reminders",
+                                                                             "value": enabled ? "true" : "false"])
+        persist()
+        Task { try? await refreshEngagementNotifications() }
+    }
+
+    private func refreshEngagementNotifications() async throws {
+        try await EngagementNotificationService.refresh(family: family, events: events,
+                                                        preferences: engagementPreferences,
+                                                        language: language)
+    }
 
     /// Events coming up in the next `days` days, resolved to AD dates.
     func upcomingEvents(days: Int = 45) -> [(event: PatroEvent, date: Date, bs: NepaliDate)] {

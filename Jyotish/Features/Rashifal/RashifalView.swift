@@ -5,6 +5,7 @@ import SwiftUI
 struct RashifalView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var period: RashifalPeriod = .daily
     @State private var selectedRashi: Rashi?
 
@@ -20,7 +21,7 @@ struct RashifalView: View {
                     Text(app.t("rashifal.title"))
                         .scaledFont(size: 34, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, LayoutMetrics.screenGutter)
                         .padding(.top, 8)
 
                     periodPicker
@@ -33,8 +34,8 @@ struct RashifalView: View {
                 }
                 .padding(.bottom, 96)
             }
-            .animation(.spring(response: 0.45, dampingFraction: 0.85), value: rashi)
-            .animation(.spring(response: 0.45, dampingFraction: 0.85), value: period)
+            .animation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.85), value: rashi)
+            .animation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.85), value: period)
         }
         .statusBarFade()
     }
@@ -44,11 +45,11 @@ struct RashifalView: View {
             ForEach(RashifalPeriod.allCases) { pd in
                 Button {
                     Haptics.tap()
-                    withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { period = pd }
+                    withAnimation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.85)) { period = pd }
                 } label: {
                     Text(app.t(pd.l10nKey))
                         .scaledFont(size: 14, weight: period == pd ? .semibold : .regular)
-                        .foregroundStyle(period == pd ? Color(hex: 0x3B1F14) : p.inkSecondary)
+                        .foregroundStyle(period == pd ? p.onAccent : p.inkSecondary)
                         .padding(.vertical, 12)
                         .frame(maxWidth: .infinity)
                         .background(Capsule().fill(period == pd ? p.saffron : .clear))
@@ -57,7 +58,7 @@ struct RashifalView: View {
         }
         .padding(4)
         .background(Capsule().fill(p.bgSunken))
-        .padding(.horizontal, 24)
+        .padding(.horizontal, LayoutMetrics.screenGutter)
     }
 
     private var rashiPicker: some View {
@@ -66,12 +67,12 @@ struct RashifalView: View {
                 ForEach(Rashi.allCases) { r in
                     Button {
                         Haptics.tap()
-                        withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) { selectedRashi = r }
+                        withAnimation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.85)) { selectedRashi = r }
                     } label: {
                         VStack(spacing: 5) {
                             RashiSeal(rashi: r, size: 48)
                             Text(app.language == .ne ? r.nameNE : r.shortEN)
-                                .scaledFont(size: 11, weight: rashi == r ? .semibold : .regular)
+                                .scaledFont(size: 13, weight: rashi == r ? .semibold : .regular)
                                 .foregroundStyle(rashi == r ? p.sindoor : p.inkSecondary)
                         }
                         .padding(.bottom, 4)
@@ -83,7 +84,7 @@ struct RashifalView: View {
                     }
                 }
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, LayoutMetrics.screenGutter)
             .padding(.vertical, 4)
         }
     }
@@ -98,7 +99,7 @@ struct RashifalView: View {
                     Text(ne ? rashi.nameNE : rashi.shortEN)
                         .scaledFont(size: 26, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
-                    Text(app.t(period.l10nKey))
+                    Text(r.timeline)
                         .scaledFont(size: 14)
                         .foregroundStyle(p.templeGold)
                 }
@@ -109,6 +110,29 @@ struct RashifalView: View {
                 .scaledFont(size: 17, design: .serif)
                 .foregroundStyle(p.inkPrimary.opacity(0.92))
                 .lineSpacing(6)
+
+            Text(r.panditTeaser)
+                .scaledFont(size: 15, weight: .medium, design: .serif)
+                .foregroundStyle(p.inkSecondary)
+                .lineSpacing(4)
+
+            Button {
+                Haptics.tap()
+                app.openPandit(prompt: r.panditPrompt, sourceKey: rashifalChatKey)
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                    Text(r.panditCTA)
+                    Spacer(minLength: 8)
+                    Image(systemName: "arrow.up.right")
+                }
+                .scaledFont(size: 15, weight: .semibold)
+                .foregroundStyle(p.onAccent)
+                .padding(.horizontal, 16)
+                .frame(minHeight: 52)
+                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(p.saffron))
+            }
+            .buttonStyle(SpringPressStyle())
 
             VStack(spacing: 10) {
                 ForEach(RashifalEngine.domains, id: \.self) { d in
@@ -123,7 +147,14 @@ struct RashifalView: View {
             HStack(spacing: 10) {
                 LuckyFact(label: app.t("rashifal.lucky.color"), value: r.luckyColor)
                 LuckyFact(label: app.t("rashifal.lucky.number"), value: app.digits(r.luckyNumber))
-                LuckyFact(label: app.t("rashifal.lucky.day"), value: r.luckyDay)
+                LuckyFact(label: shubhTimingLabel, value: r.luckyDay)
+            }
+
+            HStack(alignment: .top, spacing: 18) {
+                behaviorColumn(title: app.language == .ne ? "गर्नुहोस्" : "Do",
+                               icon: "checkmark.circle", items: r.dos)
+                behaviorColumn(title: app.language == .ne ? "नगर्नुहोस्" : "Don't",
+                               icon: "xmark.circle", items: r.donts)
             }
 
             VStack(alignment: .leading, spacing: 10) {
@@ -134,22 +165,36 @@ struct RashifalView: View {
                     .foregroundStyle(p.inkPrimary.opacity(0.85))
             }
 
-            Button {
-                Haptics.tap()
-                app.open(.pandit)
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: "bubble.left.and.bubble.right")
-                    Text(app.t("home.askPandit"))
-                }
-                .scaledFont(size: 15, weight: .medium)
-                .foregroundStyle(p.saffron)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.vertical, 8)
-            }
-            .buttonStyle(SpringPressStyle())
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, LayoutMetrics.screenGutter)
+    }
+
+    private var shubhTimingLabel: String {
+        switch period {
+        case .daily: return app.t("rashifal.shubh.time")
+        case .weekly: return app.t("rashifal.shubh.day")
+        case .monthly, .yearly: return app.t("rashifal.shubh.period")
+        }
+    }
+
+    private func behaviorColumn(title: String, icon: String, items: [String]) -> some View {
+        VStack(alignment: .leading, spacing: 9) {
+            Label(title, systemImage: icon)
+                .scaledFont(size: 14, weight: .semibold)
+                .foregroundStyle(p.saffron)
+            ForEach(items, id: \.self) { item in
+                Text("• \(item)")
+                    .scaledFont(size: 14, design: .serif)
+                    .foregroundStyle(p.inkSecondary)
+                    .lineSpacing(3)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var rashifalChatKey: String {
+        let day = Calendar.current.startOfDay(for: Date()).formatted(.iso8601.year().month().day())
+        return "rashifal:\(day):\(period.rawValue):\(rashi.rawValue)"
     }
 }
 
@@ -161,7 +206,7 @@ private struct LuckyFact: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(label)
-                .scaledFont(size: 11)
+                .scaledFont(size: 13)
                 .foregroundStyle(p.inkSecondary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
@@ -172,7 +217,6 @@ private struct LuckyFact: View {
                 .minimumScaleFactor(0.75)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(10)
-        .background(RoundedRectangle(cornerRadius: 8).fill(p.bgSunken))
+        .padding(.vertical, 4)
     }
 }

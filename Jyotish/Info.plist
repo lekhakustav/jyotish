@@ -35,10 +35,12 @@
 	<string>$(JYOTISH_AGENT_BASE_URL)</string>
 	<key>JYOTISH_AGENT_ENDPOINT_URL</key>
 	<string>$(JYOTISH_AGENT_ENDPOINT_URL)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The camera scans a trusted person's Parivar QR code so you can add their birth profile.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>The microphone lets you ask Pandit-ji questions by voice.</string>
+	<string>The microphone lets you ask Jyotish Baje questions by voice.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Speech recognition turns your voice into a question for Pandit-ji.</string>
+	<string>Speech recognition turns your voice into a question for Jyotish Baje.</string>
 	<key>SUPABASE_ANON_OR_PUBLISHABLE_KEY</key>
 	<string>$(SUPABASE_ANON_OR_PUBLISHABLE_KEY)</string>
 	<key>SUPABASE_URL</key>

@@ -7,23 +7,30 @@
     "orientation": "portrait",
     "icon": "./assets/expo/images/icon.png",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "assetBundlePatterns": [
       "assets/expo/**/*"
     ],
     "android": {
-      "package": "com.sodhera.jyotishbaje",
+      "package": "com.sodhera.jyotish",
       "adaptiveIcon": {
         "foregroundImage": "./assets/expo/images/icon.png",
         "backgroundColor": "#FCF7ED"
       },
       "permissions": [
-        "android.permission.RECORD_AUDIO"
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA"
       ]
     },
     "plugins": [
       "expo-router",
       "expo-secure-store",
+      "expo-speech-recognition",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Jyotish Baje to scan a Parivar QR code."
+        }
+      ],
       [
         "expo-font",
         {
@@ -32,6 +39,9 @@
             "./assets/expo/fonts/Inter-SemiBold.ttf",
             "./assets/expo/fonts/Inter-Bold.ttf",
             "./assets/expo/fonts/Fraunces-Regular.ttf",
+            "./assets/expo/fonts/Fraunces-Light.ttf",
+            "./assets/expo/fonts/Fraunces-Medium.ttf",
+            "./assets/expo/fonts/Fraunces-SemiBold.ttf",
             "./assets/expo/fonts/Fraunces-Bold.ttf"
           ]
         }

@@ -2,7 +2,7 @@
 
 **Jyotish baje (ज्योतिष बाजे)**
 **Effective Date:** July 8, 2026
-**Last Updated:** July 8, 2026
+**Last Updated:** July 11, 2026
 
 Sodhera ("**we**," "**us**," or "**our**") operates the Jyotish baje mobile application (the "**App**"). This Privacy Policy explains how we collect, use, store, share, and protect your information when you use the App. By using Jyotish baje, you agree to the practices described in this Privacy Policy.
 
@@ -23,7 +23,7 @@ When you use Jyotish baje, you may voluntarily provide the following information
 | **Family Member Profiles** | Name, gender, family relation, date of birth, time of birth, birthplace — for each family member you add | Generate astrological readings for your family members |
 | **Chat Messages** | Questions you type or dictate to "Pandit-ji" (the AI assistant), along with Pandit-ji's replies | Provide personalized astrological guidance; maintain conversational context |
 | **Calendar Events** | Event titles, optional notes, Bikram Sambat dates, yearly-repeat preferences | Display your personal events on the Nepali patro (calendar) |
-| **Preferences** | Language choice (English or Nepali), theme choice (light, dark, or system) | Customize your app experience |
+| **Preferences** | Language, theme, notification opt-in, wake time, daily frequency, family-insight toggle, calendar-reminder toggle | Customize your app experience and requested notification schedule |
 
 ### 1.2 Information Generated Automatically
 
@@ -57,7 +57,7 @@ We use the information we collect for the following purposes:
 
 1. **Astrological Computations:** Your birth details are used to compute your Vedic kundali, planetary positions, dasha cycles, panchanga, and rashifal — all calculated on your device using genuine sidereal astronomical algorithms.
 
-2. **AI-Powered Guidance:** When you ask Pandit-ji a question, your query, relevant family birth data, computed kundali, current dasha, daily rashifal, saved calendar events, and recent chat history (up to the last 16 messages) are sent to our server-side backend to generate a personalized response.
+2. **AI-Powered Guidance:** When you ask Jyotish Baje a question, your query, relevant family birth data, computed kundali, current dasha, daily rashifal, saved calendar events, and recent chat history (up to the last 16 messages) are sent to our server-side backend to generate a personalized response.
 
 3. **Family Astrology:** Family member profiles you add are used to generate kundalis and readings for your entire family, enabling family-centric astrological features.
 
@@ -66,6 +66,8 @@ We use the information we collect for the following purposes:
 5. **Cloud Sync:** Your household data (profiles, family, events, chat history, and preferences) is synced to our cloud database so your data persists if you reinstall the App.
 
 6. **Language & Theme:** Your preference choices are stored to deliver the App in your chosen language (English or Nepali) and visual theme.
+
+7. **Optional Notifications:** If you opt in, the App schedules a rolling set of local notifications for personal rashifal, Pandit-ji questions, family guidance, and Patro events. Notification text is generated on device from the profiles and preferences already stored in the App. You can change the frequency or turn notifications off in Settings at any time.
 
 We do **not** use your data for advertising, marketing, profiling, sale to third parties, or any purpose other than providing and improving the Jyotish baje experience.
 
@@ -82,6 +84,10 @@ Jyotish baje offers an optional voice input feature that lets you speak question
 - **Text-to-Speech:** Pandit-ji's replies can optionally be spoken aloud using your device's built-in text-to-speech engine (Apple AVSpeechSynthesizer). This is also fully on-device. This feature is off by default.
 
 - **Supported Languages:** Voice recognition supports Nepali (ne-NP), Hindi (hi-IN), English India (en-IN), and English US (en-US).
+
+### 3.1 Local Notifications
+
+Notification scheduling uses Apple's local notification system. Jyotish baje asks for iOS notification permission only after you enable Daily Guidance in Settings. Pending notification content stays on your device; enabling this feature does not register a push token or send notification content to a third-party messaging provider. Tapping a notification opens the relevant Rashifal, Jyotish Baje, or Patro screen.
 
 ---
 

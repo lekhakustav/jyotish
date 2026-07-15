@@ -98,9 +98,10 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 
 - **Display / headers:** system **serif** (`.fontDesign(.serif)`) — evokes devotional print.
   Sizes: hero 34/bold, section 22/semibold.
-- **Body:** SF Pro (default), 17pt minimum — audience is 40–80. Never below 13pt (captions).
-- **Devanagari:** rendered by system fonts automatically. Every major screen header carries a
-  small Devanagari echo above the Latin title (e.g. "राशिफल" over "Rashifal") in `templeGold`.
+- **Body:** bundled Inter, 17pt minimum — audience is 40–80. Never below 13pt (captions).
+- **Devanagari:** rendered by system fonts automatically. Major screen headers use the active
+  language once; do not duplicate English and Nepali titles on the same screen. This preserves
+  the product's low-clutter navigation direction.
 - **Numerals in Patro:** Nepali digits (०१२३४५६७८९) when language = Nepali.
 
 ## 4. Ornament & Graphics (all drawn in code — no image assets)
@@ -117,7 +118,7 @@ pink `#E68BA4`, nightBlue `#8FA3C8`. The feeling: the same shrine, at night, lam
 - Corner radius is reserved for structural controls: **16** primary buttons, **14** choice
   controls, **12** text fields/calendar cells. No decorative card radius.
 - Borders and shadows are banned on ordinary content. Use `Hairline` for row separation.
-- Spacing scale: 4/8/12/16/24/32. Screen gutter 20.
+- Spacing scale: 4/8/12/16/24/32. Primary-screen gutter 24; compact sheet gutter 20.
 - Tap targets ≥ 48pt. Primary buttons: 56pt height, saffron fill, dark-umber serif label.
 
 ## 6. Motion — "reverent, never busy"

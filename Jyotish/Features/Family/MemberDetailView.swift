@@ -42,7 +42,7 @@ struct MemberDetailView: View {
                 // Identity hero
                 VStack(alignment: .center, spacing: 8) {
                     RashiSeal(rashi: k.moonRashi, size: 84)
-                    Text(m.name)
+                    Text(m.displayName(app.language))
                         .scaledFont(size: 30, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
                     Text(m.relation == .selfMember
@@ -142,7 +142,7 @@ struct MemberDetailView: View {
     private func triad(_ label: String, _ value: String) -> some View {
         VStack(spacing: 4) {
             Text(label.uppercased())
-                .scaledFont(size: 10, weight: .semibold)
+                .scaledFont(size: 13, weight: .semibold)
                 .foregroundStyle(p.inkSecondary)
             Text(value)
                 .scaledFont(size: 16, weight: .semibold, design: .serif)

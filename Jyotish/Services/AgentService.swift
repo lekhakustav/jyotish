@@ -8,6 +8,7 @@ struct AgentChatRequest: Encodable {
     var family: [AgentFamilyMember]
     var events: [AgentEvent]
     var chatHistory: [AgentChatMessage]
+    var toolEvidence: [PanditToolEvidence]
     var localFallbackReply: String
 }
 
@@ -167,7 +168,8 @@ extension AgentChatRequest {
                      events: [PatroEvent],
                      chat: [ChatMessage],
                      language: Language,
-                     selfMember: FamilyMember?) -> AgentChatRequest {
+                     selfMember: FamilyMember?,
+                     toolEvidence: [PanditToolEvidence] = []) -> AgentChatRequest {
         let now = Date()
         let nowISO = ISO8601DateFormatter.agentFormatter.string(from: now)
         let nowJD = Ephemeris.julianDay(now)
@@ -179,6 +181,7 @@ extension AgentChatRequest {
             family: family.map { AgentFamilyMember.make(from: $0, language: language, now: now, nowJD: nowJD) },
             events: events.map(AgentEvent.make),
             chatHistory: chat.suffix(16).map(AgentChatMessage.make),
+            toolEvidence: toolEvidence,
             localFallbackReply: localFallbackReply
         )
     }
@@ -215,7 +218,7 @@ extension AgentFamilyMember {
 
         return AgentFamilyMember(
             id: member.id,
-            name: member.name,
+            name: member.displayName(language),
             gender: member.gender.rawValue,
             relationEN: member.relation.labelEN,
             relationNE: member.relation.labelNE,

@@ -60,7 +60,7 @@ SLIDES = [
     {"f": "07-family-dasha-native.png",       "tag": "DASHA",         "h1": "Vimshottari",       "h2": "Dasha Cycles",      "p": 1},
     {"f": "08-patro-month-native.png",        "tag": "PATRO",         "h1": "Bikram Sambat",     "h2": "Calendar",          "p": 2},
     {"f": "09-patro-day-native.png",          "tag": "PANCHANGA",     "h1": "Daily Panchanga",   "h2": "at a Glance",       "p": 0},
-    {"f": "10-pandit-chat-empty-native.png",  "tag": "PANDIT-JI",     "h1": "Ask Pandit-ji",     "h2": "Anything",          "p": 3},
+    {"f": "10-pandit-chat-empty-native.png",  "tag": "JYOTISH BAJE",   "h1": "Ask Jyotish Baje",  "h2": "Anything",          "p": 3},
     {"f": "11-pandit-chat-answer-native.png", "tag": "AI GUIDANCE",   "h1": "AI-Powered",        "h2": "Vedic Wisdom",      "p": 1},
     {"f": "12-settings-native.png",           "tag": "SETTINGS",      "h1": "English & Nepali",  "h2": "Your Choice",       "p": 2},
 ]

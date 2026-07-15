@@ -1,6 +1,6 @@
 # Jyotish Agent Edge Function
 
-This is the production path for Pandit Chat when there is no dedicated server.
+This is the production path for Jyotish Baje chat when there is no dedicated server.
 It keeps `OPENAI_API_KEY` in Supabase secrets and lets the iOS app call a Supabase-hosted
 function using the user's Supabase Auth token.
 
