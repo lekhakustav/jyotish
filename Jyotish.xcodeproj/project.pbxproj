@@ -25,6 +25,7 @@
 		40BA6F5F80A67C7CB4B11E48 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA99C1DA668D5C3A056D6744 /* Inter-Regular.ttf */; };
 		4387C6122422FD7B392AC4B2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A3FECFE64229B30FF8F567 /* Theme.swift */; };
 		4B7C1766D0AEB43508C605D7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFFE2FD7A849DC61A4D7460 /* SettingsView.swift */; };
+		544E2D28A3575E834A926461 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 1455C3829053D56866126050 /* PrivacyInfo.xcprivacy */; };
 		6AAFD83EBE94CCD00773AA5C /* CityMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C3A63C337A93743E1C5EA4 /* CityMatcher.swift */; };
 		6AC5B3D5B6D78B4E8F3E4A64 /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F8584733B44A9AC9D0B723D /* Inter-Light.ttf */; };
 		6B3EFFE235F27961475A205E /* Fraunces-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 251EA90ADE8C26975640E59A /* Fraunces-Medium.ttf */; };
@@ -70,6 +71,7 @@
 		0161B72EC6663579F8AB2188 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		04874C08BA79769F89665330 /* JyotishApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JyotishApp.swift; sourceTree = "<group>"; };
 		08215CE0B480D62A0FC91506 /* Fraunces-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Regular.ttf"; sourceTree = "<group>"; };
+		1455C3829053D56866126050 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		2330AEE3BF7ED552FAE8610F /* Jyotish.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jyotish.entitlements; sourceTree = "<group>"; };
 		24F0CB684B9DA81F1A9CE9A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		251EA90ADE8C26975640E59A /* Fraunces-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Fraunces-Medium.ttf"; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				FCE00720028CA05B5B8DB6D5 /* Assets.xcassets */,
 				24F0CB684B9DA81F1A9CE9A1 /* Info.plist */,
 				2330AEE3BF7ED552FAE8610F /* Jyotish.entitlements */,
+				1455C3829053D56866126050 /* PrivacyInfo.xcprivacy */,
 				C82A4932A5D9D2205D8BA03A /* App */,
 				15653E8710C86EBA5056B82A /* Core */,
 				112F43E5EA8E6BE3A254BAEA /* DesignSystem */,
@@ -436,6 +439,7 @@
 				02BFCF9A21E2F9597F6FDE98 /* Inter-Medium.ttf in Resources */,
 				40BA6F5F80A67C7CB4B11E48 /* Inter-Regular.ttf in Resources */,
 				0548423C0819051E00D80520 /* Inter-SemiBold.ttf in Resources */,
+				544E2D28A3575E834A926461 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
