@@ -21,7 +21,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 });
 
-export const redirectUri = makeRedirectUri({ scheme: "jyotishbaje" });
+export const redirectUri = makeRedirectUri({ scheme: "jyotishbaje", path: "auth-callback" });
 
 export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
