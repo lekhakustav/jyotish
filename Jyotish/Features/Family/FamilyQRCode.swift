@@ -51,9 +51,9 @@ enum FamilyShareError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .missingBirthData: return "A complete birth profile is required to make a family QR code."
-        case .invalidCode: return "This is not a valid Jyotish Parivar QR code."
-        case .unsupportedVersion: return "This Parivar code was created by an unsupported app version."
+        case .missingBirthData: return "A complete birth profile is required to make a Kundli QR code."
+        case .invalidCode: return "This is not a valid Jyotish Baje Kundli QR code."
+        case .unsupportedVersion: return "This Kundli code was created by an unsupported app version."
         }
     }
 }
@@ -67,7 +67,7 @@ struct FamilyQRCodeSheet: View {
             p.bgCanvas.ignoresSafeArea()
             VStack(spacing: 20) {
                 Spacer(minLength: 32)
-                Text(app.language == .ne ? "मेरो परिवार QR" : "My Parivar QR")
+                Text(app.language == .ne ? "मेरो निजी कुण्डली QR" : "My Private Kundli QR")
                     .scaledFont(size: 28, weight: .bold, design: .serif)
                     .foregroundStyle(p.inkPrimary)
                 if let member = app.selfMember,
@@ -138,7 +138,7 @@ struct FamilyQRScannerSheet: View {
             p.bgCanvas.ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
-                    Text(app.language == .ne ? "परिवार QR स्क्यान" : "Scan Parivar QR")
+                    Text(app.language == .ne ? "कुण्डली QR स्क्यान" : "Scan Kundli QR")
                         .scaledFont(size: 28, weight: .bold, design: .serif)
                         .foregroundStyle(p.inkPrimary)
                         .padding(.top, 42)
@@ -153,7 +153,7 @@ struct FamilyQRScannerSheet: View {
                         .frame(height: 330)
                         .clipShape(RoundedRectangle(cornerRadius: 22))
                         .overlay(alignment: .bottom) {
-                            Text(app.language == .ne ? "Jyotish Parivar QR लाई फ्रेमभित्र राख्नुहोस्" : "Place a Jyotish Parivar QR inside the frame")
+                            Text(app.language == .ne ? "Jyotish Baje कुण्डली QR लाई फ्रेमभित्र राख्नुहोस्" : "Place a Jyotish Baje Kundli QR inside the frame")
                                 .scaledFont(size: 13, weight: .medium)
                                 .foregroundStyle(.white)
                                 .padding(10)
@@ -207,7 +207,7 @@ struct FamilyQRScannerSheet: View {
                  : "Their name and birth details will be saved in your private household.")
                 .scaledFont(size: 14, design: .serif)
                 .foregroundStyle(p.inkSecondary)
-            PrimaryButton(title: app.language == .ne ? "परिवारमा थप्नुहोस्" : "Add to Parivar", icon: "person.badge.plus") {
+            PrimaryButton(title: app.language == .ne ? "मेरो कुण्डलीमा थप्नुहोस्" : "Add to My Kundli", icon: "person.badge.plus") {
                 let added = app.addSharedMember(name: payload.name, gender: payload.gender,
                                                 relation: relation, birth: payload.birth)
                 if added {

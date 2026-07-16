@@ -22,7 +22,7 @@ struct FamilyView: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @State private var showAdd = false
-    @State private var showMyQR = false
+    @State private var showMyQR = ProcessInfo.processInfo.arguments.contains("-showMyQR")
     @State private var showScanner = false
     @State private var nodeX: [String: CGFloat] = [:]
     @State private var path: [UUID] = []
@@ -42,6 +42,13 @@ struct FamilyView: View {
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 8)
+                        Text(app.language == .ne
+                             ? "आफ्नो कुण्डली निजी रूपमा राख्नुहोस् र आफूले रोजेको व्यक्तिसँग मात्र QR मार्फत साझा गर्नुहोस्।"
+                             : "Keep your Kundli private and share it by QR only with people you choose.")
+                            .scaledFont(size: 15, design: .serif)
+                            .foregroundStyle(p.inkSecondary)
+                            .lineSpacing(4)
+                            .padding(.horizontal, 20)
                         qrActions
                             .padding(.horizontal, 20)
                         if hasRelatives {
@@ -87,12 +94,12 @@ struct FamilyView: View {
 
     private var qrActions: some View {
         HStack(spacing: 10) {
-            qrAction(title: app.language == .ne ? "QR स्क्यान" : "Scan QR",
+            qrAction(title: app.language == .ne ? "कुण्डली QR स्क्यान" : "Scan Kundli QR",
                      icon: "qrcode.viewfinder") {
                 AppAnalytics.track("parivar_qr_scanner_opened")
                 showScanner = true
             }
-            qrAction(title: app.language == .ne ? "मेरो QR" : "My QR",
+            qrAction(title: app.language == .ne ? "मेरो कुण्डली साझा" : "Share My Kundli",
                      icon: "qrcode") {
                 AppAnalytics.track("parivar_qr_shown")
                 showMyQR = true

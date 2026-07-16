@@ -79,7 +79,7 @@ export function FamilyScreen({ onAddMember, onOpenMember }: FamilyScreenProps = 
   return (
     <ScrollScreen bottomInset={112} contentGap={20} topInset={8}>
       <View style={styles.header}>
-        <SerifText style={styles.title}>{app.language === "ne" ? "परिवार" : "Parivar"}</SerifText>
+        <SerifText style={styles.title}>{app.language === "ne" ? "मेरो कुण्डली र QR" : "My Kundli & QR"}</SerifText>
         <PressableScale
           accessibilityLabel={app.language === "ne" ? "परिवार सदस्य थप्नुहोस्" : "Add family member"}
           onPress={onAddMember ?? (() => app.openModal("profile"))}
@@ -89,15 +89,21 @@ export function FamilyScreen({ onAddMember, onOpenMember }: FamilyScreenProps = 
         </PressableScale>
       </View>
 
+      <SerifText style={{ color: palette.inkSecondary, fontSize: 15, lineHeight: 22 }}>
+        {app.language === "ne"
+          ? "आफ्नो कुण्डली निजी रूपमा राख्नुहोस् र आफूले रोजेको व्यक्तिसँग मात्र QR मार्फत साझा गर्नुहोस्।"
+          : "Keep your Kundli private and share it by QR only with people you choose."}
+      </SerifText>
+
       <View style={{ flexDirection: "row", gap: 10 }}>
         <QRAction
           icon="scan"
-          label={app.language === "ne" ? "QR स्क्यान" : "Scan QR"}
+          label={app.language === "ne" ? "कुण्डली QR स्क्यान" : "Scan Kundli QR"}
           onPress={() => setQRMode("scan")}
         />
         <QRAction
           icon="qr-code"
-          label={app.language === "ne" ? "मेरो QR" : "My QR"}
+          label={app.language === "ne" ? "मेरो कुण्डली साझा" : "Share My Kundli"}
           onPress={() => setQRMode("my")}
         />
       </View>

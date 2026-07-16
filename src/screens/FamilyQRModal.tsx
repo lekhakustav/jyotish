@@ -59,7 +59,7 @@ export function FamilyQRModal({ mode, language, family, onAdd, onClose }: {
       setScanLocked(true);
       track("family_qr_scanned", { has_birth_data: Boolean(decoded.birth) });
     } catch {
-      Alert.alert(language === "ne" ? "QR पढ्न सकिएन" : "Could not read QR", language === "ne" ? "यो Jyotish Baje परिवार QR हो कि जाँच्नुहोस्।" : "Make sure this is a Jyotish Baje Parivar QR code.");
+      Alert.alert(language === "ne" ? "QR पढ्न सकिएन" : "Could not read QR", language === "ne" ? "यो Jyotish Baje कुण्डली QR हो कि जाँच्नुहोस्।" : "Make sure this is a Jyotish Baje Kundli QR code.");
       setScanLocked(false);
     }
   }, [language]);
@@ -82,7 +82,7 @@ export function FamilyQRModal({ mode, language, family, onAdd, onClose }: {
       <View style={{ flex: 1, backgroundColor: palette.bgCanvas }}>
         <View style={{ minHeight: 72, paddingHorizontal: 20, flexDirection: "row", alignItems: "center", gap: 10 }}>
           <SerifText style={{ flex: 1, fontFamily: "Fraunces-Bold", fontSize: 28 }}>
-            {mode === "my" ? (language === "ne" ? "मेरो परिवार QR" : "My Parivar QR") : (language === "ne" ? "परिवार QR स्क्यान" : "Scan Parivar QR")}
+            {mode === "my" ? (language === "ne" ? "मेरो निजी कुण्डली QR" : "My Private Kundli QR") : (language === "ne" ? "कुण्डली QR स्क्यान" : "Scan Kundli QR")}
           </SerifText>
           <PressableScale accessibilityLabel="Close" onPress={onClose} style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}>
             <AppIcon name="close" color={palette.inkSecondary} />

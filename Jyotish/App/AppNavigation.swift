@@ -28,9 +28,9 @@ enum AppPresentationStyle: Equatable {
 }
 
 enum AppTab: Int, CaseIterable, Identifiable, Equatable {
-    case home
-    case rashifal
     case family
+    case rashifal
+    case home
 
     var id: Int { rawValue }
 
@@ -53,8 +53,9 @@ enum AppTab: Int, CaseIterable, Identifiable, Equatable {
     static func fromLaunchIndex(_ index: Int) -> AppTab {
         switch index {
         case 1: return .rashifal
-        case 3, 2: return .family
-        default: return .home
+        case 2: return .home
+        case 3: return .family // Legacy Parivar launch index.
+        default: return .family
         }
     }
 }

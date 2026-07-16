@@ -28,10 +28,10 @@ enum L10n {
         "common.readMore": ("Read more", "थप पढ्नुहोस्"),
         "blessing.saved": ("Shubha hos", "शुभ होस्"),
         // Tabs
-        "tab.home": ("Home", "गृह"),
+        "tab.home": ("Religious", "धार्मिक"),
         "tab.rashifal": ("Rashifal", "राशिफल"),
         "tab.patro": ("Patro", "पात्रो"),
-        "tab.family": ("Parivar", "परिवार"),
+        "tab.family": ("My Kundli & QR", "मेरो कुण्डली र QR"),
         "tab.pandit": ("Pandit", "पण्डित"),
         // Welcome / onboarding
         "welcome.createAccount": ("Create an account", "खाता खोल्नुहोस्"),
@@ -128,7 +128,7 @@ enum L10n {
         "patro.yoga": ("Yoga", "योग"),
         "patro.karana": ("Karana", "करण"),
         // Family
-        "family.title": ("Parivar", "परिवार"),
+        "family.title": ("My Kundli & QR", "मेरो कुण्डली र QR"),
         "family.add": ("Add family member", "परिवार सदस्य थप्नुहोस्"),
         "family.relation": ("Relation", "नाता"),
         "family.kundali": ("Kundali", "कुण्डली"),

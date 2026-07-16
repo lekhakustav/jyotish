@@ -18,9 +18,9 @@ export { ParityWelcomeScreen as WelcomeScreen };
 export { ParityAuthScreen as AuthScreen };
 
 const tabs = [
-  { value: "home", label: "Home", icon: "home" },
+  { value: "family", label: "My Kundli & QR", icon: "qr-code" },
   { value: "rashifal", label: "Rashifal", icon: "sparkle" },
-  { value: "family", label: "Family", icon: "family" }
+  { value: "home", label: "Religious", icon: "sun" }
 ] as const;
 
 /** The account-first profile route uses the same birth flow as Settings. */

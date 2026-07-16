@@ -27,7 +27,7 @@ final class AppState: ObservableObject {
         if let i = args.firstIndex(of: "-tab"), i + 1 < args.count, let n = Int(args[i + 1]) {
             return AppTab.fromLaunchIndex(n)
         }
-        return .home
+        return .family
     }()
     @Published var pushedDestination: AppDestination?
     @Published var modalDestination: AppDestination? = ProcessInfo.processInfo.arguments.contains("-pandit") ? .pandit : nil

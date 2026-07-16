@@ -97,18 +97,18 @@ struct MainTabView: View {
     var body: some View {
         NavigationStack {
             TabView(selection: $app.selectedTab) {
-                HomeView()
-                    .tabItem { Image(systemName: "house.fill") }
-                    .tag(AppTab.home)
-                    .accessibilityLabel(app.t("tab.home"))
-                RashifalView()
-                    .tabItem { Image(systemName: "sparkles") }
-                    .tag(AppTab.rashifal)
-                    .accessibilityLabel(app.t("tab.rashifal"))
                 FamilyView()
-                    .tabItem { Image(systemName: "person.3.fill") }
+                    .tabItem { Label(app.t("tab.family"), systemImage: "qrcode") }
                     .tag(AppTab.family)
                     .accessibilityLabel(app.t("tab.family"))
+                RashifalView()
+                    .tabItem { Label(app.t("tab.rashifal"), systemImage: "sparkles") }
+                    .tag(AppTab.rashifal)
+                    .accessibilityLabel(app.t("tab.rashifal"))
+                HomeView()
+                    .tabItem { Label(app.t("tab.home"), systemImage: "building.columns.fill") }
+                    .tag(AppTab.home)
+                    .accessibilityLabel(app.t("tab.home"))
             }
             .navigationDestination(isPresented: Binding(
                 get: { app.pushedDestination != nil },

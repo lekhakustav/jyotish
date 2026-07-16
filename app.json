@@ -28,7 +28,7 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow Jyotish Baje to scan a Parivar QR code."
+          "cameraPermission": "Allow Jyotish Baje to scan a private Kundli QR code."
         }
       ],
       [

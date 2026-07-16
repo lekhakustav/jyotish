@@ -123,7 +123,7 @@ function replaceConversationMessages(current: Household, conversationId: string,
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const systemScheme = useColorScheme();
   const [household, setHousehold] = React.useState<Household>(initialHousehold);
-  const [selectedTab, setSelectedTab] = React.useState<AppTab>("home");
+  const [selectedTab, setSelectedTab] = React.useState<AppTab>("family");
   const [modal, setModal] = React.useState<AppModal>(null);
   const [isReady, setIsReady] = React.useState(false);
   const [isTyping, setIsTyping] = React.useState(false);
@@ -252,7 +252,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     track("auth_signed_out");
     signOutSupabase().catch(() => undefined);
     setHousehold(initialHousehold());
-    setSelectedTab("home");
+    setSelectedTab("family");
     setModal(null);
   }, []);
 
