@@ -67,7 +67,7 @@ export function FamilyQRModal({ mode, language, family, onAdd, onClose }: {
   const importProfile = React.useCallback(() => {
     if (!profile) return;
     if (family.some((member) => sameSharedIdentity(member, profile))) {
-      Alert.alert(language === "ne" ? "पहिले नै परिवारमा छ" : "Already in Parivar", language === "ne" ? "यही नाम र जन्ममिति भएको व्यक्ति पहिले नै थपिएको छ।" : "A person with this name and birth date is already saved.");
+      Alert.alert(language === "ne" ? "पहिले नै मेरो कुण्डलीमा छ" : "Already in My Kundli", language === "ne" ? "यही नाम र जन्ममिति भएको व्यक्ति पहिले नै थपिएको छ।" : "A person with this name and birth date is already saved.");
       return;
     }
     onAdd({ id: uuid(), name: profile.name, gender: profile.gender, relation, ...(profile.birth ? { birth: profile.birth } : {}) });
@@ -97,7 +97,7 @@ export function FamilyQRModal({ mode, language, family, onAdd, onClose }: {
                 </View>
               ) : (
                 <AppText style={{ textAlign: "center", color: palette.inkSecondary }}>
-                  {language === "ne" ? "पहिले आफ्नो जन्म विवरण परिवारमा थप्नुहोस्।" : "Add your profile to Parivar before sharing a QR code."}
+                  {language === "ne" ? "पहिले आफ्नो जन्म विवरण मेरो कुण्डलीमा थप्नुहोस्।" : "Add your profile to My Kundli before sharing a QR code."}
                 </AppText>
               )}
               {self ? <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 24 }}>{displayName(self.name, language)}</SerifText> : null}
@@ -120,7 +120,7 @@ export function FamilyQRModal({ mode, language, family, onAdd, onClose }: {
                   </PressableScale>
                 ))}
               </View>
-              <PrimaryButton label={language === "ne" ? "परिवारमा थप्नुहोस्" : "Add to Parivar"} onPress={importProfile} />
+              <PrimaryButton label={language === "ne" ? "मेरो कुण्डलीमा थप्नुहोस्" : "Add to My Kundli"} onPress={importProfile} />
               <PressableScale onPress={() => { setProfile(undefined); setRaw(""); setScanLocked(false); }} style={{ minHeight: 48, alignItems: "center", justifyContent: "center" }}>
                 <AppText style={{ color: palette.sindoor, fontFamily: "Inter-SemiBold" }}>{language === "ne" ? "फेरि स्क्यान गर्नुहोस्" : "Scan again"}</AppText>
               </PressableScale>

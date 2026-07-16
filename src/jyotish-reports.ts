@@ -161,7 +161,7 @@ export function buildFeatureToolReport(featureID: JyotishFeatureID, family: Fami
   const self = family.find((member) => member.relation === "selfMember" && member.kundali);
   const feature = featureByID(featureID)!;
   if (!self) {
-    const answer = language === "ne" ? `## ${feature.name.ne}\n\nयो रिपोर्ट बनाउन पहिले आफ्नो पूरा जन्म मिति, समय र स्थान परिवारमा सुरक्षित गर्नुहोस्।` : `## ${feature.name.en}\n\nSave your complete birth date, time, and place in Parivar before preparing this report.`;
+    const answer = language === "ne" ? `## ${feature.name.ne}\n\nयो रिपोर्ट बनाउन पहिले आफ्नो पूरा जन्म मिति, समय र स्थान मेरो कुण्डलीमा सुरक्षित गर्नुहोस्।` : `## ${feature.name.en}\n\nSave your complete birth date, time, and place in My Kundli & QR before preparing this report.`;
     return { answer, evidence: { tool: "missing_birth_profile", feature: featureID, generatedAt: now.toISOString(), facts: { hasSelfKundali: false }, uncertainty: "No self Kundli is available." } };
   }
   if (featureID === "lifePhase") return dashaReport(self, language, now);

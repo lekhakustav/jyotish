@@ -129,7 +129,7 @@ struct HomeView: View {
                         .foregroundStyle(p.inkPrimary)
                     Spacer()
                     Button { app.open(.family) } label: {
-                        Text(app.language == .ne ? "परिवार" : "Parivar")
+                        Text(app.language == .ne ? "मेरो कुण्डली" : "My Kundli")
                             .scaledFont(size: 13, weight: .semibold)
                             .foregroundStyle(p.saffron)
                     }

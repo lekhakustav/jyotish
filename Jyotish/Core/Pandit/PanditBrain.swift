@@ -35,7 +35,7 @@ struct PanditBrain {
     private func gate(_ m: FamilyMember) -> String {
         lang == .ne
         ? "\(memberLabel(m))को जन्म विवरण अझै भरिएको छैन। परिवार ट्याबमा गएर जन्म मिति, समय र स्थान भर्नुभयो भने म कुण्डली हेरेर भन्न सक्छु।"
-        : "I don't yet have the birth details for \(memberLabel(m)). Please fill in the date, time and place of birth in the Parivar tab, and I will read the kundali properly."
+        : "I don't yet have the birth details for \(memberLabel(m)). Please fill in the date, time and place of birth in My Kundli & QR, and I will read the kundali properly."
     }
 
     // ── The reply ────────────────────────────────────────────────────────────

@@ -486,7 +486,7 @@ enum PanditToolPlanner {
             let sections = StructuredPanditAnswer(
                 direct: language == .ne ? "मिलानका लागि दुई जनाको जन्म विवरण चाहिन्छ।" : "I need birth details for two people to compare them.",
                 why: [language == .ne ? "पूर्ण मिलानमा वर्ण, वश्य, तारा, योनि, ग्रह मैत्री, गण, भकूट र नाडी गरी ३६ गुण हेरिन्छ।" : "A full report evaluates Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, and Nadi out of 36."],
-                action: language == .ne ? "परिवारमा दुवै व्यक्ति थपेर फेरि सोध्नुहोस्।" : "Add both people to Parivar, then ask again.",
+                action: language == .ne ? "मेरो कुण्डलीमा दुवै व्यक्ति थपेर फेरि सोध्नुहोस्।" : "Add both people to My Kundli & QR, then ask again.",
                 practice: language == .ne ? "निर्णयमा संवाद र परिवारको सहमति पनि महत्त्वपूर्ण हुन्छ।" : "Conversation and family consent matter alongside astrology.",
                 uncertainty: language == .ne ? "दुवै कुण्डली बिना मिलान निकाल्न मिल्दैन।" : "A match cannot be calculated without both kundlis.")
             return PanditToolPlan(intent: .compatibility,

@@ -214,7 +214,7 @@ struct FamilyQRScannerSheet: View {
                     AppAnalytics.track("parivar_qr_imported", properties: ["relation": relation.rawValue])
                     dismiss()
                 }
-                else { error = app.language == .ne ? "यो व्यक्ति पहिले नै परिवारमा छ।" : "This person is already in Parivar." }
+                else { error = app.language == .ne ? "यो व्यक्ति पहिले नै मेरो कुण्डलीमा छ।" : "This person is already in My Kundli." }
             }
             Button(app.language == .ne ? "अर्को कोड स्क्यान" : "Scan another code") {
                 self.payload = nil
