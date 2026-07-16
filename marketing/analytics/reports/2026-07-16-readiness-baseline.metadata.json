@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "report_id": "rpt_20260716_ready1",
+  "report_type": "readiness",
+  "period_start": "2026-07-16",
+  "period_end": "2026-07-16",
+  "data_cutoff_utc": "2026-07-16T13:35:20Z",
+  "data_maturity": "provisional",
+  "source_export_ids": [],
+  "input_hashes": [
+    "dd1c814114ae62651fc052707ede396656b0f90754d422591cdc7291aa34a368",
+    "5537ed82e562fef42fdddbed1bfdfae94874cc89fabbca8d0506885bda457eb0",
+    "45f6ba59f046f5d02e3fba2e10e66c5e5a7442eea686b42365f8b11b7aed9cc1",
+    "fdae6e1309dc84a6b0b2c89afd0dae3d0e97f83c26aa91f3e1da328c8357cd3b",
+    "c112e5468ce80b874e00d45192c8464a4de3b9a6196956c75604d6c3e29a4aa7",
+    "61132712efa0f4c20718314f7538ec970dab1516ea3c0bca729ba1e9b1055e5f",
+    "cdaa6fb88512e269f5afb20d791cb8ee6bd87b8feef0a1265d0693a18f5a9589",
+    "2a3a7451964d08b86e2e095e6067ec75d726fbb9eb1925135323e1592629bb1e",
+    "9dea9acc0c1c838684ce42865f662bc99d2e1f27e5805469689633062cf52d61",
+    "bcc4fb1c9445e33fffa9cc4df8c4f72ea6e20d8a4676bc88153dff8d544818f2",
+    "f90fcb44539ab8e70858b69cd4939479586914eeb23a0ac5d390fcabd7331e47",
+    "f54c7446e6fe6277c7d4c421ad24090d5a5fd8ff4310c237f298836b138432f8",
+    "f42592ddb3136f7616390d9249150b5608471da5d7a81d42b8285d6a0a6b7762"
+  ],
+  "analysis_script_git_sha": "df81bdcaf36aaff9d13d4f5888e8fbd139497f2d",
+  "platform_account_timezones": [],
+  "attribution": [
+    "none: zero-data readiness report"
+  ],
+  "known_data_issues": [
+    "No media, publication, performance-export, attribution, activation, or retention observations exist yet.",
+    "The report is an operational readiness baseline and contains no performance or causal estimate.",
+    "Paid launch remains gated by privacy disclosures, a verified store destination, platform eligibility, and attribution design."
+  ],
+  "generated_at_utc": "2026-07-16T13:35:20Z"
+}

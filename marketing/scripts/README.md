@@ -11,6 +11,8 @@ framework or a network install. It validates:
 
 - exact CSV headers, required fields, primitive types, enums, primary keys, and foreign keys;
 - JSON and JSONL syntax plus registered experiment, report, and structured-prompt schemas;
+- one validated metadata sidecar per dated report, including the report hash and a real analysis
+  commit;
 - experiment arm weights, entity references, metric references, and causal-claim discipline;
 - prompt-block SHA-256 values against the exact fenced Veo text registered in `prompts.csv`;
 - media/creative requirements that become stricter by asset kind and lifecycle state;

@@ -451,6 +451,7 @@ function validateStructuredArtifacts(contractResults) {
   const planFiles = allFiles.filter((file) => repoPath(file).startsWith("marketing/experiments/") && file.endsWith("/plan.json"));
   const amendmentFiles = allFiles.filter((file) => repoPath(file).startsWith("marketing/experiments/") && file.endsWith(".jsonl"));
   const reportFiles = allFiles.filter((file) => repoPath(file).startsWith("marketing/analytics/reports/") && file.endsWith(".metadata.json"));
+  const reportDocuments = allFiles.filter((file) => repoPath(file).startsWith("marketing/analytics/reports/") && file.endsWith(".md"));
   const promptFiles = allFiles.filter((file) => repoPath(file).startsWith("marketing/creative/") && file.endsWith(".prompt.json"));
 
   const campaigns = new Set(contractResults.get("campaigns")?.rows.map((row) => row.campaign_id) ?? []);
@@ -498,9 +499,32 @@ function validateStructuredArtifacts(contractResults) {
       }
     });
   }
+  const ingestionIds = new Set(contractResults.get("ingestion_runs")?.rows.map((row) => row.ingestion_id) ?? []);
+  for (const absolutePath of reportDocuments) {
+    const metadataPath = absolutePath.replace(/\.md$/, ".metadata.json");
+    if (!existsSync(metadataPath)) fail(`${repoPath(absolutePath)}: report is missing sibling metadata JSON`);
+  }
   for (const absolutePath of reportFiles) {
     const value = readJson(absolutePath);
-    if (value && reportSchema) validateAgainstSchema(value, reportSchema, reportSchema, repoPath(absolutePath));
+    if (!value || !reportSchema) continue;
+    const label = repoPath(absolutePath);
+    validateAgainstSchema(value, reportSchema, reportSchema, label);
+    const reportPath = absolutePath.replace(/\.metadata\.json$/, ".md");
+    if (!existsSync(reportPath)) {
+      fail(`${label}: metadata has no sibling report Markdown`);
+      continue;
+    }
+    if (!(value.input_hashes ?? []).includes(sha256(reportPath))) fail(`${label}: input_hashes must include the sibling report SHA-256`);
+    for (const sourceId of value.source_export_ids ?? []) {
+      if (!ingestionIds.has(sourceId)) fail(`${label}: source_export_id ${sourceId} is not registered`);
+    }
+    if (value.period_start && value.period_end && value.period_start > value.period_end) fail(`${label}: period_start is after period_end`);
+    if (value.data_cutoff_utc && value.generated_at_utc && Date.parse(value.data_cutoff_utc) > Date.parse(value.generated_at_utc)) fail(`${label}: data cutoff is after report generation`);
+    try {
+      execFileSync("git", ["cat-file", "-e", `${value.analysis_script_git_sha}^{commit}`], { cwd: repositoryRoot, stdio: "ignore" });
+    } catch {
+      fail(`${label}: analysis_script_git_sha ${value.analysis_script_git_sha} is not a local commit`);
+    }
   }
   for (const absolutePath of promptFiles) {
     const value = readJson(absolutePath);
