@@ -35,7 +35,7 @@ Family, and four-horizon Rashifal states. It is intentionally ignored by Git.
 | Canvas and gutters | Warm `bgCanvas`, 24-point primary gutter | Same semantic canvas and 24dp gutter via `ScrollScreen`/`FixedScreen` | Matched |
 | Type | Fraunces display hierarchy, Inter utility/body | Same bundled Fraunces weights and Inter weights; no synthetic display weight | Matched |
 | Motion | Short fade/rise and spring presses, reduced-motion aware | Short opacity/transform transitions and reduced-motion fallback; chat streaming is batched | Matched in intent |
-| Bottom navigation | Three icon-only tabs in a centered floating Liquid Glass capsule | Same three icons, order, 278x68 geometry, selection shape, and destinations on an opaque warm capsule | Matched except Liquid Glass |
+| Bottom navigation | My Kundli & QR first, Rashifal second, Religious last; iOS supplies visible system labels in its Liquid Glass tab bar | Same order, icon destinations, capsule geometry, and accessibility labels on an opaque warm capsule | Matched except Liquid Glass and Android's icon-only labels |
 | Home header | Time-aware greeting, member name, light gear icon | Same hierarchy, sizing, safe-area offset, and semantic gear | Matched |
 | Home rashifal hero | Vector rashi mark, name, five-point score, hook, read-more, dasha | Same unframed vector paths, score stars, text roles, and order | Matched visually |
 | Home feature hub | Five concise feature icons plus More; no shelf of long questions | Same primary catalog and modal/list flow. Dashas & Life Phase is primary on both platforms | Matched structurally |
@@ -46,8 +46,8 @@ Family, and four-horizon Rashifal states. It is intentionally ignored by Git.
 | Rashifal periods | Daily, weekly, monthly, yearly segmented control | Same four states; each generates and labels its own date range and content horizon | Matched |
 | Rashifal rashi picker | Horizontal twelve-sign vector selector | Same twelve vector marks, underline selection, labels, and horizontal behavior | Matched |
 | Rashifal content | Heading, timeline, reading, Baje CTA, five domain scores, lucky facts, upaya | Same order, typography roles, varied one-to-five scores, facts, and period-specific remedy | Matched visually |
-| Family header/tree | `Parivar`, add/Scan QR/My QR actions, self node, connector lines, relation nodes | Same title, actions, node hierarchy, connectors, and localized relation labels | Matched structurally |
-| Parivar QR | AVFoundation scanner, CoreImage QR, paste fallback, receiver-selected relation | CameraView scanner, SVG QR, paste fallback, same v1 payload and duplicate identity rule | Matched |
+| Kundli sharing header/tree | `My Kundli & QR`, add/Scan Kundli QR/Share My Kundli actions, privacy explanation, self node, connector lines, relation nodes | Same title, actions, privacy explanation, node hierarchy, connectors, and localized relation labels | Matched structurally |
+| Private Kundli QR | AVFoundation scanner, CoreImage QR, paste fallback, receiver-selected relation | CameraView scanner, SVG QR, paste fallback, same v1 payload and duplicate identity rule | Matched |
 | Family rows | Rashi mark, name/relation, `See Kundli` affordance | Same structure and working navigation for every complete profile | Matched |
 | Kundli hero/triad | Rashi mark, name/relation, lagna/rashi/nakshatra | Same centered hero and three-column summary | Matched |
 | Kundli chart | North-Indian diamond chart with house signs and natal planets | Same chart geometry and house numbering; Android shows the birth-derived Lagna, Moon, and Sun available in its current model | Matched structurally; data scope noted below |

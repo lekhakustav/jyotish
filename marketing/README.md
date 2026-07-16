@@ -33,6 +33,7 @@ complete a birth profile, receive personalized value, and return.
 
 ```text
 marketing/
+  app-store/      approval-facing product-page metadata and review notes
   research/       sourced market, audience, competitor, and channel findings
   strategy/       positioning, audience hypotheses, channel plan
   creative/       Veo prompts, voiceovers, edit recipes, campaign packs

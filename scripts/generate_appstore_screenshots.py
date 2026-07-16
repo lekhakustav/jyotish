@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 """
-Generate styled App Store screenshots for Jyotish baje.
+Generate private-Kundli-positioned App Store screenshots for Jyotish Baje.
 Creates phone-mockup cards at 1320×2868 for iPhone 6.9" display.
 
 Style: Colored gradient background + feature headline + phone mockup
        (popular App Store screenshot format per Figma reference).
 """
 
-import os
+import argparse
+from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 # ── Paths ──────────────────────────────────────────────────────────────
-SRC = "/Users/sirishjoshi/Documents/jyotish/screenshots/appstore-nepali-native-2026-07-07"
-DST = "/Users/sirishjoshi/Documents/jyotish/screenshots/appstore-styled"
-os.makedirs(DST, exist_ok=True)
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_SRC = ROOT / "marketing/media/appstore-private-kundli-source"
+DEFAULT_DST = ROOT / "marketing/media/appstore-private-kundli-2026-07-16"
 
 # ── Canvas (iPhone 6.9") ──────────────────────────────────────────────
 W, H = 1320, 2868
@@ -51,18 +52,16 @@ PALETTES = [
 
 # ── Slide definitions ─────────────────────────────────────────────────
 SLIDES = [
-    {"f": "01-home-native.png",               "tag": "JYOTISH BAJE",  "h1": "Sacred Dawn",       "h2": "in Your Pocket",    "p": 1},
-    {"f": "02-rashifal-daily-native.png",      "tag": "RASHIFAL",      "h1": "Know What",         "h2": "Today Brings",      "p": 0},
-    {"f": "03-rashifal-weekly-native.png",     "tag": "RASHIFAL",      "h1": "Plan Your Week",    "h2": "with the Stars",    "p": 1},
-    {"f": "04-rashifal-singha-native.png",     "tag": "RASHI",         "h1": "Deep Rashi",        "h2": "Insights",          "p": 2},
-    {"f": "05-family-native.png",             "tag": "PARIVAR",       "h1": "Astrology for",     "h2": "the Whole Family",  "p": 0},
-    {"f": "06-family-kundali-native.png",     "tag": "KUNDALI",       "h1": "Authentic Vedic",   "h2": "Birth Charts",      "p": 3},
-    {"f": "07-family-dasha-native.png",       "tag": "DASHA",         "h1": "Vimshottari",       "h2": "Dasha Cycles",      "p": 1},
-    {"f": "08-patro-month-native.png",        "tag": "PATRO",         "h1": "Bikram Sambat",     "h2": "Calendar",          "p": 2},
-    {"f": "09-patro-day-native.png",          "tag": "PANCHANGA",     "h1": "Daily Panchanga",   "h2": "at a Glance",       "p": 0},
-    {"f": "10-pandit-chat-empty-native.png",  "tag": "JYOTISH BAJE",   "h1": "Ask Jyotish Baje",  "h2": "Anything",          "p": 3},
-    {"f": "11-pandit-chat-answer-native.png", "tag": "AI GUIDANCE",   "h1": "AI-Powered",        "h2": "Vedic Wisdom",      "p": 1},
-    {"f": "12-settings-native.png",           "tag": "SETTINGS",      "h1": "English & Nepali",  "h2": "Your Choice",       "p": 2},
+    {"f": "05-family-native.png",             "tag": "PRIVATE KUNDLI", "h1": "Keep Every Kundli", "h2": "in One Private Place",   "p": 2},
+    {"f": "00-family-qr-native.png",          "tag": "TRUSTED SHARING", "h1": "Share Your Kundli", "h2": "Only When You Choose",   "p": 0},
+    {"f": "06-family-kundali-native.png",     "tag": "SAVED KUNDLIS",  "h1": "Open Trusted Charts", "h2": "Without Retyping",       "p": 3},
+    {"f": "01-home-native.png",               "tag": "RELIGIOUS",      "h1": "Nepali Religious Life", "h2": "in One Daily View",      "p": 1},
+    {"f": "08-patro-month-native.png",        "tag": "BIKRAM SAMBAT",  "h1": "Plan Family Rituals", "h2": "on Nepali Dates",        "p": 2},
+    {"f": "09-patro-day-native.png",          "tag": "PANCHANGA",      "h1": "Follow Tithi",       "h2": "Festivals & Muhurat",    "p": 0},
+    {"f": "02-rashifal-daily-native.png",     "tag": "RASHIFAL",       "h1": "Daily Guidance",     "h2": "Grounded in Your Chart", "p": 1},
+    {"f": "10-pandit-chat-empty-native.png",  "tag": "JYOTISH BAJE",   "h1": "Ask About",          "h2": "the People You Trust",   "p": 3},
+    {"f": "11-pandit-chat-answer-native.png", "tag": "PRIVATE GUIDANCE", "h1": "Use Saved Kundlis", "h2": "for Clearer Context",     "p": 1},
+    {"f": "12-settings-native.png",           "tag": "BILINGUAL",      "h1": "English & Nepali",   "h2": "for Every Generation",  "p": 2},
 ]
 
 # ── Helpers ────────────────────────────────────────────────────────────
@@ -81,7 +80,7 @@ def lighten(c, amount=0.22):
     return tuple(min(255, int(v + (255 - v) * amount)) for v in c)
 
 
-def make_slide(s, idx):
+def make_slide(s, idx, source_dir, output_dir):
     c1, c2 = PALETTES[s["p"]]
 
     # ── 1. Gradient background ────────────────────────────────────────
@@ -140,7 +139,10 @@ def make_slide(s, idx):
     )
 
     # ── 6. Screenshot inside phone ────────────────────────────────────
-    ss = Image.open(os.path.join(SRC, s["f"])).convert("RGBA")
+    source_path = source_dir / s["f"]
+    if not source_path.exists():
+        raise FileNotFoundError(f"Missing screenshot source: {source_path}")
+    ss = Image.open(source_path).convert("RGBA")
     ss = ss.resize((SCREEN_W, SCREEN_H), Image.LANCZOS)
 
     sx = PHONE_X + BEZEL
@@ -169,18 +171,28 @@ def make_slide(s, idx):
     # ── 8. Save ───────────────────────────────────────────────────────
     out_name = f"{idx + 1:02d}-appstore.png"
     canvas.convert("RGB").save(
-        os.path.join(DST, out_name), "PNG", optimize=True,
+        output_dir / out_name, "PNG", optimize=True,
     )
     print(f"  ✓ {out_name}  ← {s['tag']}")
 
 
 # ── Main ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source", type=Path, default=DEFAULT_SRC,
+                        help="Directory containing synthetic native app captures")
+    parser.add_argument("--output", type=Path, default=DEFAULT_DST,
+                        help="Ignored directory for rendered App Store PNGs")
+    args = parser.parse_args()
+    source_dir = args.source.expanduser().resolve()
+    output_dir = args.output.expanduser().resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
     print(f"Generating {len(SLIDES)} App Store screenshots …")
-    print(f"  Source:  {SRC}")
-    print(f"  Output:  {DST}")
+    print(f"  Source:  {source_dir}")
+    print(f"  Output:  {output_dir}")
     print(f"  Size:    {W}×{H} (iPhone 6.9\")")
     print()
     for i, s in enumerate(SLIDES):
-        make_slide(s, i)
-    print(f"\n✅ Done! {len(SLIDES)} screenshots saved to:\n   {DST}")
+        make_slide(s, i, source_dir, output_dir)
+    print(f"\n✅ Done! {len(SLIDES)} screenshots saved to:\n   {output_dir}")

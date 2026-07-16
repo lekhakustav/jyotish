@@ -2,28 +2,28 @@
 
 ## Category
 
-**A family-first Nepali Jyotish companion.**
+**Private Kundli sharing for Nepali Hindu families.**
 
-Jyotish Baje is not positioned as a pay-per-minute astrologer marketplace, a noisy everything
-portal, a Western zodiac personality feed, or a supernatural outcome machine. It combines
-traditional Vedic calculations, family profiles, Bikram Sambat Patro, and a warm bilingual
-guide that explains the evidence already computed by the app.
+Jyotish Baje is not positioned as another generic horoscope feed. Its first product promise is
+a private place for Nepali Hindu families to keep their Kundlis and intentionally share birth
+profiles through QR with people they trust. Religious guidance, Rashifal, Bikram Sambat Patro,
+and a bilingual Jyotish guide remain available as supporting experiences.
 
 ## Positioning statement
 
-For Nepali households and the family members who care for them, Jyotish Baje is the personal
-Jyotish companion that keeps the whole family's Kundalis, timing, daily guidance, and Nepali
-calendar together. Unlike generic horoscope feeds or consultation wallets, it is designed
-around the household, speaks Nepali and English, shows the underlying chart/timing context,
-and remains useful without a paid call.
+For Nepali Hindu households, Jyotish Baje is a private Kundli-sharing app that lets a person
+keep their own chart, share the birth profile behind it through a user-chosen QR exchange, and
+save trusted people's profiles in one private household. Unlike a public social feed or generic
+horoscope reader, sharing is intentional, relationship-aware, bilingual, and connected to
+Nepal-specific religious dates and practices.
 
 ## Message hierarchy
 
-1. **Emotional promise:** care for the whole family with more context and less confusion.
-2. **Distinctive mechanism:** one household holds multiple birth profiles and real calculated
-   Jyotish evidence.
-3. **Daily usefulness:** Rashifal, Dasha, Muhurat, Panchang, Patro, relationships, and questions
-   meet in one experience.
+1. **Emotional promise:** keep a sensitive religious family record private and easy to share.
+2. **Distinctive mechanism:** a person chooses when to show a QR containing their name and
+   birth details; the receiver chooses the relationship and saves it to their own household.
+3. **Daily usefulness:** Kundli, Rashifal, Dasha, Muhurat, Panchang, Patro, relationships, and
+   questions meet in one experience.
 4. **Cultural fit:** Nepali language, Bikram Sambat dates, respectful family language, and a
    calm sacred-dawn visual identity.
 5. **Trust boundary:** guidance and traditional interpretation, never guaranteed outcomes or
@@ -35,6 +35,8 @@ and remains useful without a paid call.
   capabilities, not invented in ad copy.
 - Family members and relationship labels are first-class data, not a one-off compatibility
   calculator.
+- QR sharing is a shipped, user-initiated flow. It shares the birth profile, not a public post,
+  public profile, follower graph, or permanent account-to-account connection.
 - Pandit-ji receives prepared chart, family, timing, and local report evidence and is instructed
   to interpret rather than fabricate calculations.
 - Nepali and English are available across core flows; voice input improves accessibility.
@@ -57,3 +59,7 @@ Say `explore`, `understand`, `compare`, `calculate`, `ask`, and `prepare`. Avoid
 `predict exactly`, `fix your fate`, `100% accurate`, `danger`, and outcome promises. Do not call
 the calculations scientifically validated predictions; “real calculation” means the app runs
 documented traditional astronomical/Jyotish methods rather than serving a generic text column.
+
+Do not use `Nepal's first` in App Store metadata unless a dated market search and legal review
+substantiate the claim. The approval-facing line is `Private Kundli sharing for Nepal`, which
+communicates the distinction without an unverifiable superlative.

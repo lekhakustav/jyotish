@@ -50,7 +50,8 @@ If a session dies mid-build, resume from the first unchecked box, guided by docs
   while the app is in Nepali.
 - **Large fixed-size ornaments inside a ZStack inflate layout** past the screen —
   mount them with `.overlay` on a background color instead.
-- QA hooks: launch args `-demoSeed` (seed household), `-tab N` (open tab), `-lang ne`.
+- QA hooks: launch args `-demoSeed` (seed household), `-tab 0` (My Kundli & QR), `-tab 1`
+  (Rashifal), `-tab 2` (Religious), `-lang ne`, and `-showMyQR` (open the private QR sheet).
 
 ## Post-v1 (when Supabase arrives)
 Supabase sync is implemented for the current "Continue" path through anonymous auth,

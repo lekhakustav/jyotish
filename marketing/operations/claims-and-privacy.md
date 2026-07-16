@@ -16,6 +16,8 @@ This is an operating checklist, not legal advice.
 - “Explore traditional Kundli matching with the evidence explained.”
 - “Find a Muhurat and understand why the time is considered supportive.”
 - “Available in Nepali and English.”
+- “Keep your Kundli private and share it by QR with people you choose.”
+- “Private Kundli sharing for Nepali Hindu families.”
 
 Each claim still requires a current app capture proving it.
 
@@ -30,6 +32,8 @@ Each claim still requires a current app capture proving it.
 - Pressure to purchase gemstones, puja, or remedies; the app prioritizes free and low-cost
   practices.
 - Claims that an AI-generated scene depicts a real customer or real event.
+- `Nepal's first`, `the first`, or equivalent category-leadership claims without a dated,
+  reviewable market substantiation file and approval for the exact wording.
 
 ## Current privacy launch blocker
 
