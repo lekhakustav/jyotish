@@ -26,3 +26,11 @@ data are more useful.
   history.
 
 All browsing for this repository follows root `AGENTS.md` and uses gstack `/browse`.
+
+## Current research set
+
+- `2026-07-16-market-audience-and-short-form.md` — Nepal/Hindu/diaspora market, category,
+  channel, platform, and policy evidence.
+- `2026-07-16-creative-swipe-file.md` — observed official short-form examples, frame-level
+  mechanics, access limitations, and preregisterable creative hypotheses.
+- `sources.csv` — the dated claim-to-source ledger for both reports.
