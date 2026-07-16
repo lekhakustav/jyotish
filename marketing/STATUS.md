@@ -15,7 +15,7 @@
   edit recipes, 28 reproducible real-app proof shots, and a publication preflight gate.
 - Readiness baseline records the truthful zero-data state; no media, creative, publication,
   experiment, or performance result has been fabricated.
-- `npm run marketing:validate` passes: 21 CSV contracts, 133 contracted rows, 12 launch concepts,
+- `npm run marketing:validate` passes: 21 CSV contracts, 134 contracted rows, 12 launch concepts,
   and eight verified Drive document snapshots after the Drive evidence sync.
 
 ## Launch blockers
