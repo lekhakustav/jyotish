@@ -32,10 +32,15 @@ Follow the edit recipe's timeline. The default structure is:
 
 | Time | Job |
 | ---: | --- |
-| 0.0–1.2s | visual and spoken hook; understandable with sound off |
-| 1.2–6.5s | human tension or desired moment from the generated scene |
-| 6.5–13.5s | hard cut to app proof; show the promised action, not a generic home screen |
-| 13.5–17.0s | result/payoff, simple CTA, app name |
+| 0.0–1.2s | generated visual and spoken hook; understandable with sound off |
+| 1.2–3.0s | state the benefit/question and begin the transition into genuine app footage |
+| 3.0–9.0s | app proof; show the promised action, not a generic home screen |
+| 9.0–12.0s | generated or app payoff, trust cue, simple CTA, app name |
+
+The eight-second Veo output is source footage, not an eight-second opening block. Select or
+intercut its strongest two to four seconds so the product proposition appears within three
+seconds. A 15–18 second treatment may return to a second beat from the generated source after
+the app proof.
 
 Use burned-in captions within platform-safe zones. Keep one visual idea per beat and one CTA.
 Music supports the emotional temperature but must not cover speech. Record all licensed inputs.
@@ -48,6 +53,8 @@ Music supports the emotional temperature but must not cover speech. Record all l
 - No fabricated phone screen, impossible feature, fear claim, guaranteed outcome, or sensitive
   personal data appears.
 - Voice, music, stock, and generated-media rights are recorded.
+- Platform AI-generated-content disclosure or label is applied where required and used by
+  default for material Veo dramatizations.
 - `creative_id`, `publication_id`, UTMs, destination, and app store link are correct.
 - Captions, audio, crop, and safe zones are checked in an actual draft upload.
 
