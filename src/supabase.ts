@@ -18,10 +18,53 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false,
+    // PKCE returns the auth code in the query string (?code=), which survives
+    // native deep links. The default implicit flow puts tokens in the URL hash
+    // fragment, which Android often strips when delivering the redirect.
+    flowType: "pkce",
   },
 });
 
-export const redirectUri = makeRedirectUri({ scheme: "jyotishbaje" });
+export const redirectUri = makeRedirectUri({ scheme: "jyotishbaje", path: "auth-callback" });
+
+export type AuthCallbackParams = {
+  code?: string | null;
+  access_token?: string | null;
+  refresh_token?: string | null;
+};
+
+// Completes a Supabase session from OAuth/email redirect params. Supports both
+// PKCE (code) and implicit (access_token) responses.
+export async function completeAuthFromParams(params: AuthCallbackParams) {
+  if (params.code) {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(params.code);
+    if (error) throw error;
+    return data.session;
+  }
+
+  if (params.access_token) {
+    const { data, error } = await supabase.auth.setSession({
+      access_token: params.access_token,
+      refresh_token: params.refresh_token ?? "",
+    });
+    if (error) throw error;
+    return data.session;
+  }
+
+  return null;
+}
+
+// Extracts auth params from a full redirect URL (used when the in-app browser
+// hands the URL back directly). The route path uses useLocalSearchParams.
+export function parseAuthParamsFromUrl(url: string): AuthCallbackParams {
+  const parsed = new URL(url);
+  const hash = parsed.hash ? new URLSearchParams(parsed.hash.replace(/^#/, "")) : null;
+  return {
+    code: parsed.searchParams.get("code"),
+    access_token: hash?.get("access_token") ?? parsed.searchParams.get("access_token"),
+    refresh_token: hash?.get("refresh_token") ?? parsed.searchParams.get("refresh_token"),
+  };
+}
 
 export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -37,24 +80,11 @@ export async function signInWithGoogle() {
 
   const result = await WebBrowser.openAuthSessionAsync(data.url, redirectUri);
 
-  if (result.type === "success") {
-    const url = new URL(result.url);
-    // Handle both hash fragments (implicit flow) and query params (PKCE flow)
-    const params = url.hash
-      ? new URLSearchParams(url.hash.substring(1))
-      : url.searchParams;
-
-    const accessToken = params.get("access_token");
-    const refreshToken = params.get("refresh_token");
-
-    if (accessToken) {
-      const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
-        access_token: accessToken,
-        refresh_token: refreshToken || "",
-      });
-      if (sessionError) throw sessionError;
-      return sessionData.session;
-    }
+  // Happy path: the in-app browser captured the redirect and handed us the URL.
+  // Otherwise the redirect was delivered to the router as a deep link, and
+  // app/auth-callback.tsx completes the session instead.
+  if (result.type === "success" && result.url) {
+    return completeAuthFromParams(parseAuthParamsFromUrl(result.url));
   }
 
   return null;

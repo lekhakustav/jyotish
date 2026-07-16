@@ -2,7 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import React from "react";
 import { useColorScheme } from "react-native";
 import { demoEvents, demoFamily, localPanditReply, recomputeMember, uuid } from "@/astro";
-import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase } from "@/supabase";
+import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase, completeAuthFromParams, type AuthCallbackParams } from "@/supabase";
 import type { AppModal, AppTab, BirthData, ChatConversation, ChatMessage, FamilyMember, Household, Language, PatroEvent, ThemeChoice, UserAccount } from "@/types";
 import { applyPalette } from "@/theme";
 import { track } from "@/analytics";
@@ -28,6 +28,7 @@ type AppContextValue = {
   pendingChatSourceKey?: string;
   signInDemo: () => void;
   signInGoogle: () => Promise<void>;
+  completeOAuth: (params: AuthCallbackParams) => Promise<void>;
   signInEmail: (email: string, password: string) => Promise<void>;
   signUpEmail: (email: string, password: string) => Promise<void>;
   skipAuth: () => void;
@@ -201,6 +202,17 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       updateHousehold((current) => ({
         ...current,
         account: current.account ? { ...current.account, authProvider: "google", supabaseUserId: session.user.id } : { id: uuid(), displayName: session.user.email?.split("@")[0] || "User", isDemo: false, authProvider: "google", supabaseUserId: session.user.id }
+      }));
+    }
+  }, [updateHousehold]);
+
+  const completeOAuth = React.useCallback(async (params: AuthCallbackParams) => {
+    const session = await completeAuthFromParams(params);
+    if (session) {
+      track("auth_completed", { provider: "google" });
+      updateHousehold((current) => ({
+        ...current,
+        account: current.account ? { ...current.account, authProvider: "google", supabaseUserId: session.user.id, isDemo: false } : { id: uuid(), displayName: session.user.email?.split("@")[0] || "User", isDemo: false, authProvider: "google", supabaseUserId: session.user.id }
       }));
     }
   }, [updateHousehold]);
@@ -440,6 +452,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     pendingChatSourceKey,
     signInDemo,
     signInGoogle,
+    completeOAuth,
     signInEmail,
     signUpEmail,
     skipAuth,
@@ -460,7 +473,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     selectConversation,
     deleteConversation,
     sendChat
-  }), [household, activeChat, selectedMember, selectedTab, modal, isTyping, syncStatus, pendingChatPrompt, pendingChatSourceKey, signInDemo, signInGoogle, signInEmail, signUpEmail, skipAuth, signOut, setLanguage, setTheme, selectTab, showModal, saveSelf, addMember, openPandit, selectMember, addEvent, newConversation, selectConversation, deleteConversation, sendChat]);
+  }), [household, activeChat, selectedMember, selectedTab, modal, isTyping, syncStatus, pendingChatPrompt, pendingChatSourceKey, signInDemo, signInGoogle, completeOAuth, signInEmail, signUpEmail, skipAuth, signOut, setLanguage, setTheme, selectTab, showModal, saveSelf, addMember, openPandit, selectMember, addEvent, newConversation, selectConversation, deleteConversation, sendChat]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
