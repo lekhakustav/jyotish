@@ -52,7 +52,7 @@ PALETTES = [
 
 # ── Slide definitions ─────────────────────────────────────────────────
 SLIDES = [
-    {"f": "05-family-native.png",             "tag": "PRIVATE KUNDLI", "h1": "Keep Every Kundli", "h2": "in One Private Place",   "p": 2},
+    {"f": "05-family-native.png",             "tag": "MADE FOR NEPAL", "h1": "Private Kundli Sharing", "h2": "for Nepali Hindu Families", "p": 2},
     {"f": "00-family-qr-native.png",          "tag": "TRUSTED SHARING", "h1": "Share Your Kundli", "h2": "Only When You Choose",   "p": 0},
     {"f": "06-family-kundali-native.png",     "tag": "SAVED KUNDLIS",  "h1": "Open Trusted Charts", "h2": "Without Retyping",       "p": 3},
     {"f": "01-home-native.png",               "tag": "RELIGIOUS",      "h1": "Nepali Religious Life", "h2": "in One Daily View",      "p": 1},
