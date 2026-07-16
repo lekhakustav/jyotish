@@ -1,0 +1,37 @@
+# Marketing binaries live in Google Drive, never ordinary Git.
+**/*.mp4
+**/*.mov
+**/*.m4v
+**/*.avi
+**/*.mkv
+**/*.webm
+**/*.wav
+**/*.mp3
+**/*.m4a
+**/*.aac
+**/*.aiff
+**/*.flac
+**/*.psd
+**/*.prproj
+**/*.drp
+**/*.dra
+**/*.capcut
+**/*.fcpxml
+**/*.zip
+**/*.7z
+**/*.rar
+**/*.tar
+**/*.tgz
+**/*.gz
+**/.DS_Store
+**/Cache*/
+**/Render*/
+**/Proxy*/
+
+# Keep text manifests and documentation even when they describe ignored media.
+!**/*.md
+!**/*.csv
+!**/*.json
+!**/*.jsonl
+!**/*.yaml
+!**/*.yml
