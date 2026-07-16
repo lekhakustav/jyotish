@@ -22,10 +22,11 @@
     },
     "organic_post_snapshot": {
       "type": "object",
-      "required": ["schema_version", "observed_at_utc", "publication_id", "post_age_hours", "impressions"],
+      "required": ["schema_version", "observed_at_utc", "source_export_id", "publication_id", "post_age_hours", "impressions"],
       "properties": {
         "schema_version": {"const": 1},
         "observed_at_utc": {"type": "string", "format": "date-time"},
+        "source_export_id": {"type": "string", "pattern": "^ing_"},
         "publication_id": {"type": "string", "pattern": "^pub_"},
         "post_age_hours": {"type": "number", "minimum": 0},
         "impressions": {"type": "integer", "minimum": 0}
@@ -33,9 +34,10 @@
     },
     "acquisition_cohort_snapshot": {
       "type": "object",
-      "required": ["schema_version", "install_cohort_date", "as_of_date", "app_platform", "is_modeled", "installs"],
+      "required": ["schema_version", "source_export_id", "install_cohort_date", "as_of_date", "app_platform", "is_modeled", "installs"],
       "properties": {
         "schema_version": {"const": 1},
+        "source_export_id": {"type": "string", "pattern": "^ing_"},
         "install_cohort_date": {"type": "string", "format": "date"},
         "as_of_date": {"type": "string", "format": "date"},
         "app_platform": {"enum": ["ios", "android"]},
@@ -45,9 +47,10 @@
     },
     "product_events_daily": {
       "type": "object",
-      "required": ["schema_version", "event_date", "app_platform", "canonical_event", "event_count"],
+      "required": ["schema_version", "source_export_id", "event_date", "app_platform", "canonical_event", "event_count"],
       "properties": {
         "schema_version": {"const": 1},
+        "source_export_id": {"type": "string", "pattern": "^ing_"},
         "event_date": {"type": "string", "format": "date"},
         "app_platform": {"enum": ["ios", "android"]},
         "canonical_event": {"type": "string", "minLength": 1},

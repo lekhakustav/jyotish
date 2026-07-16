@@ -2,9 +2,10 @@
 
 ## Mission
 
-Make Jyotish Baje the trusted family-first Jyotish companion for Nepali households and the
-people who care for them, using culturally specific short-form storytelling backed by the
-app's real calculation, family, Patro, and bilingual guidance capabilities.
+Make Jyotish Baje the trusted private Kundli-sharing app and family Jyotish companion for Nepali
+Hindu households and the people who care for them, using culturally specific short-form
+storytelling backed by the app's real QR exchange, calculation, family, Patro, and bilingual
+guidance capabilities.
 
 ## What we are building
 
@@ -32,7 +33,8 @@ measured separately rather than collapsed into one imaginary “astrology user.�
 The app is currently free, with no subscription or in-app purchase. Therefore revenue, ROAS,
 and profit are not valid launch optimization metrics.
 
-1. **Creative diagnostic:** hold, completion, shares, saves, qualified comments.
+1. **Creative diagnostic:** hold, completion, shares, saves, and comments; use a separately
+   documented privacy-safe coding process before calling any comment “qualified.”
 2. **Acquisition:** outbound clicks and attributable installs where available.
 3. **Activation:** birth profile saved plus first completed personalized answer or report
    within 24 hours of first open.
@@ -47,7 +49,8 @@ store install path.
 ## Operating principles
 
 - Truth beats spectacle. Every promise must be visible in the shipped app.
-- Family is the moat. Generic zodiac content is a discovery surface, not the strategy.
+- Private, intentional Kundli sharing is the entry promise; trusted household context is the
+  moat. Generic zodiac content is a discovery surface, not the strategy.
 - Emotion earns the next second; app proof earns the install.
 - Change one dominant factor per controlled test.
 - Preserve failed ads and null results. They are training data for the next decision.
@@ -58,5 +61,5 @@ store install path.
 
 Build a reliable baseline across at least four audience roles, six hook families, two
 languages, and multiple proof features; verify the data pipeline with an A/A test; then run
-pre-registered creative tests until the team can predict which concepts improve qualified
-watching and activated-household cost relative to its own baseline.
+pre-registered creative tests until the team can predict which concepts improve defined
+attention metrics and activated-household cost relative to their own baselines.

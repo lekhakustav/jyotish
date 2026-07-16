@@ -126,8 +126,11 @@ records an `as_of_date` so delayed attribution and retention maturity remain vis
   arbitrary impression count.
 - Run at least one complete seven-day cycle unless a pre-registered safety or spend stop fires.
 - Do not repeatedly peek at a fixed-horizon significance test.
-- Use Wilson intervals for rates. For cost and revenue, bootstrap at the day/ad cluster rather
-  than pretending impressions are independent observations.
+- Use Wilson intervals only for defensible binomial outcomes with an independent-enough unit of
+  analysis, such as one outcome per randomly assigned user or household. Do not apply them
+  automatically to organic impressions, repeated views, or comment/share counts: those outcomes
+  are clustered, repeated, or count-valued. For those outcomes—and for cost and revenue—use a
+  predeclared cluster bootstrap, count model, or randomization inference at the assignment unit.
 - Apply Benjamini--Hochberg correction to exploratory metric families.
 - Test subgroup interactions directly; significance in one age group and not another does not
   itself demonstrate a difference between groups.

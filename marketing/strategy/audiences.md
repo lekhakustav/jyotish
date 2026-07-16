@@ -7,7 +7,7 @@ vision; all installer/channel mappings must be validated with campaign and activ
 
 - **Context:** parent managing children, relationships, rituals, dates, and household decisions.
 - **Question:** “What does this period mean for my child or family, and what should we do?”
-- **Proof:** Parivar profiles, Dasha, relationships, Muhurat, personalized Pandit answer.
+- **Proof:** My Kundli & QR profiles, Dasha, relationships, Muhurat, personalized Pandit answer.
 - **Emotional register:** care, preparedness, reassurance without certainty.
 - **Likely channels:** Facebook/Reels first; Instagram as a test; family shares and Messenger.
 - **Activation signal:** self profile plus one family member and one completed personalized report.
@@ -26,7 +26,7 @@ vision; all installer/channel mappings must be validated with campaign and activ
 
 - **Context:** digitally fluent adult child who discovers tools for parents or for family use.
 - **Question:** “Is there finally a clean Nepali app I can set up for my parents and also use?”
-- **Proof:** fast onboarding/reveal, bilingual switch, family profile addition, shareable Parivar QR.
+- **Proof:** fast onboarding/reveal, bilingual switch, family profile addition, intentional private Kundli QR.
 - **Emotional register:** pride, usefulness, intergenerational care.
 - **Likely channels:** Instagram Reels and TikTok; test Facebook/YouTube Shorts cross-posts.
 - **Activation signal:** self profile plus another family profile or QR action.

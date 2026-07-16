@@ -63,5 +63,5 @@ Use a balanced portfolio rather than thirty unrelated ideas:
 
 “Viral” is an observed outlier, not a target promise. Define it relative to the account's own
 history: unusually high reach velocity plus top-decile or top-five-percent share/save rate while
-qualified app actions do not collapse. A high-view post that attracts the wrong audience is a
+downstream app actions do not collapse. A high-view post that attracts the wrong audience is a
 creative observation, not business success.

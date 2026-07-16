@@ -40,7 +40,7 @@ for Nepali treatments, and have every Nepali frame reviewed in the final exporte
 | ---: | --- | --- |
 | 0.0–0.4 | Veo macro: three tea cups land together. Start on movement. | Dry cup-set sound. Hook appears immediately; voice begins on “Astrology questions…” |
 | 0.4–2.2 | Veo pulls back to the three generations. | Keep hook fixed; emphasize `WHO` in saffron. Proposition must be clear by 2.2s. |
-| 2.2–4.6 | Hard cut to real `SH-FAM-01`: Parivar list with Sita, Aarav, Priya. | Label: `Save the family profiles you choose`. Tactile cut sound. |
+| 2.2–4.6 | Hard cut to real `SH-FAM-01`: My Kundli & QR list with Sita, Aarav, Priya. | Label: `Save the family profiles you choose`. Tactile cut sound. |
 | 4.6–5.4 | Return to Veo as grandmother looks between family members. | No new text; preserve emotional continuity. |
 | 5.4–7.6 | `SH-FAM-02`: select Aarav; show relation label and real profile context. | Label: `Choose the person`. Never show birth details. |
 | 7.6–12.2 | `SH-FAM-03`: preloaded family question enters Jyotish Baje; show member-aware answer header/evidence. | Label: `Ask about them`. Do not show raw private chat or promise an outcome. |
@@ -59,7 +59,7 @@ for Nepali treatments, and have every Nepali frame reviewed in the final exporte
 | 0.5–2.2 | Mother receives the phone and concentrates. | Voice completes the language proposition; highlight `Nepali`. |
 | 2.2–4.8 | Hard cut to `SH-LANG-01`: switch from English to नेपाली in one uninterrupted real capture. | On-screen micro-label: `English ↔ नेपाली`. Do not cover actual changed labels. |
 | 4.8–5.6 | Return to Veo recognition smile. | Music lifts slightly; no applause or “old person succeeds” cue. |
-| 5.6–11.6 | `SH-LANG-02`: real Nepali Home → open Patro or Parivar; show multiple authentic Devanagari labels. | Caption: `One app. Your language.` Fluent reviewer checks every visible string. |
+| 5.6–11.6 | `SH-LANG-02`: real Nepali My Kundli & QR → Religious/Patro; show multiple authentic Devanagari labels. | Caption: `One app. Your language.` Fluent reviewer checks every visible string. |
 | 11.6–14.3 | Split edit, not split-screen: two 1.35s real screen selects, English then Nepali, same path. | Label: `Switch anytime`. Make no Hindi-language claim. |
 | 14.3–16.5 | Approved icon/wordmark on warm canvas. | `ज्योतिष बाजे हेर्नुहोस्` or reviewed Nepali CTA. |
 
@@ -67,7 +67,7 @@ for Nepali treatments, and have every Nepali frame reviewed in the final exporte
 
 **Source:** `prm_20260716_pat001`
 **Proof:** `SH-PAT-01`, `SH-PAT-02`, `SH-PAT-03`
-**Hook text:** `The calendar your family actually uses.`
+**Hook text:** `A calendar made for Nepali family life.`
 
 | Time | Picture and edit | Audio / on-screen job |
 | ---: | --- | --- |
@@ -171,18 +171,18 @@ for Nepali treatments, and have every Nepali frame reviewed in the final exporte
 | ---: | --- | --- |
 | 0.0–1.1 | Veo Sydney tea-cup placement. | Hook appears immediately; subtle room tone. |
 | 1.1–2.3 | Veo match cut to Kathmandu cup. | Voice lands `distance` / `family context`. |
-| 2.3–4.8 | `SH-QR-01`: real My QR explainer; crop/cover the code region so no payload is readable. | Label: `Share with someone you trust`. Never expose QR pixels in delivery. |
+| 2.3–4.8 | `SH-QR-01`: real Share My Kundli explainer; crop/cover the code region so no payload is readable. | Label: `Share with someone you trust`. Never expose QR pixels in delivery. |
 | 4.8–5.6 | Brief Veo mother smile. | Music bridge only. |
 | 5.6–9.3 | `SH-QR-02`: real Scan/Paste path and receiver relationship selection, using QA fixture. | Label: `They choose the relationship`. Do not show encoded text. |
-| 9.3–12.5 | `SH-QR-03`: confirm synthetic profile saved in Parivar. | Label: `Then save`. No claim of automatic device sync. |
-| 12.5–14.8 | Hold Parivar result. | Required disclosure: `Birth data is sensitive. Share only with someone you trust.` |
+| 9.3–12.5 | `SH-QR-03`: confirm synthetic profile saved in My Kundli & QR. | Label: `Then save`. No claim of automatic device sync. |
+| 12.5–14.8 | Hold My Kundli & QR result. | Required disclosure: `Birth data is sensitive. Share only with someone you trust.` |
 | 14.8–17.0 | Approved app icon/wordmark. | `Keep family context close.` |
 
-## 10 — `rel001` / When the question is about your child
+## 10 — `rel001` / A family question needs family context
 
 **Source:** `prm_20260716_rel001`
 **Proof:** `SH-REL-01`, `SH-REL-02`
-**Hook text:** `When the question is about your child…`
+**Hook text:** `A family question needs family context.`
 
 | Time | Picture and edit | Audio / on-screen job |
 | ---: | --- | --- |

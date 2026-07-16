@@ -8,7 +8,7 @@
   "properties": {
     "schema_version": {"const": 1},
     "report_id": {"type": "string", "pattern": "^rpt_[0-9]{8}_[a-z0-9]{6,12}$"},
-    "report_type": {"enum": ["daily", "weekly", "monthly", "experiment"]},
+    "report_type": {"enum": ["readiness", "daily", "weekly", "monthly", "experiment"]},
     "period_start": {"type": "string", "format": "date"},
     "period_end": {"type": "string", "format": "date"},
     "data_cutoff_utc": {"type": "string", "format": "date-time"},

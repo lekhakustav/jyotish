@@ -11,15 +11,16 @@ voiceover, burned-in captions, light editorial motion, and one CTA
 
 ## What this pack is for
 
-This is the first executable creative backlog for Jyotish Baje. It turns the product position
-"a trusted family-first Jyotish companion" into twelve distinct short-form concepts. The Veo
-scene supplies a recognizable human moment. Real app footage immediately proves the feature.
-The generated scene must never impersonate the product UI.
+This is the first executable creative backlog for Jyotish Baje. It turns the primary product
+position—private Kundli sharing for Nepali Hindu families, followed by trusted household Jyotish
+value—into twelve distinct short-form concepts. The Veo scene supplies a recognizable human
+moment. Real app footage immediately proves the feature. The generated scene must never
+impersonate the product UI.
 
 The first learning objective is not "which ad went viral?" It is:
 
-> Which truthful audience tension and shipped proof feature earns qualified watching, action,
-> and eventually an activated household?
+> Which truthful audience tension and shipped proof feature earns sustained watching,
+> app-relevant action, and eventually an activated household?
 
 The twelve concepts are deliberately broad seed treatments. Their first organic publications
 are observational exploration, not a randomized experiment. Once a baseline treatment exists,
@@ -41,7 +42,7 @@ launch.
 
 | # | Concept ID | Working title | Primary audience role | Shipped proof |
 | ---: | --- | --- | --- | --- |
-| 01 | `cpt_20260716_fam001` | The question is about family | Diaspora adult child / household installer | Parivar profiles + member-aware Jyotish Baje question |
+| 01 | `cpt_20260716_fam001` | The question is about family | Diaspora adult child / household installer | My Kundli & QR profiles + member-aware Jyotish Baje question |
 | 02 | `cpt_20260716_nep001` | Made to be read in Nepali | Parent or grandparent in Nepal | Instant Nepali/English language switch |
 | 03 | `cpt_20260716_pat001` | The family date keeper | Household calendar keeper | Bikram Sambat Patro + tithi + saved event |
 | 04 | `cpt_20260716_kun001` | Built from a real Kundali | Calculation-depth seeker | Computed Kundali chart, Lagna, Rashi, Nakshatra, Dasha |
@@ -49,8 +50,8 @@ launch.
 | 06 | `cpt_20260716_muh001` | Before the family chooses a time | Household decision maker | Muhurat Finder + supporting Panchang factors |
 | 07 | `cpt_20260716_mat001` | A score is not the whole relationship | Couple / engaged adult | Traditional Kundli matching with explained evidence |
 | 08 | `cpt_20260716_voc001` | Ask without typing | Older primary user / accessibility installer | Optional voice input with editable transcript |
-| 09 | `cpt_20260716_dia001` | One family, two time zones | Diaspora adult child | Trusted-person Parivar QR profile handoff |
-| 10 | `cpt_20260716_rel001` | When the question is about your child | Parent / family coordinator | Relationship-aware guidance for a saved member |
+| 09 | `cpt_20260716_dia001` | One family, two time zones | Diaspora adult child | Trusted-person private Kundli QR handoff |
+| 10 | `cpt_20260716_rel001` | A family question needs family context | Parent / family coordinator | Relationship-aware guidance for a saved member |
 | 11 | `cpt_20260716_pan001` | Before the day begins | Daily ritual and planning user | Today's Panchang and detailed day timings |
 | 12 | `cpt_20260716_rev001` | From a birth detail to a Kundali | New user / adult child helping a parent | Paged birth flow, computation ceremony, Rashi/Nakshatra reveal |
 
@@ -99,20 +100,24 @@ that claim, but may not strengthen it. In particular:
 
 ## Recommended first production wave
 
-Produce these four before the remaining backlog because together they cover the product moat,
-language accessibility, daily cultural utility, and low-friction input:
+Produce these four before the remaining backlog because together they cover the primary private
+sharing promise, the household value that follows it, language accessibility, and low-friction
+input:
 
-1. `fam001` — family-aware value for the likely social installer.
-2. `nep001` — Nepali-language recognition for the documented primary user.
-3. `pat001` — practical recurring Patro value rather than generic horoscope content.
+1. `dia001` — the private Kundli QR handoff, which is the first product promise.
+2. `fam001` — family-aware value after a trusted profile is saved.
+3. `nep001` — Nepali-language recognition for the documented primary user.
 4. `voc001` — an accessibility-oriented interaction proof.
+
+Produce `pat001` next as the first supporting-retention concept: it demonstrates practical,
+recurring Patro value after the acquisition promise is understood.
 
 Use one Nepali and one English creative per concept, but treat language versions as separate
 creatives. Do not interpret organic reach differences as causal. After a baseline is stable,
 the cleanest controlled follow-ups are:
 
+- Same `dia001` edit, privacy-choice hook vs two-time-zones hook, all other elements held constant.
 - Same `fam001` edit, Nepali vs English voice/captions, audience and delivery held constant.
-- Same `pat001` edit, family-event hook vs today's-tithi hook, all other elements held constant.
 - Same `voc001` edit, older-user speaker vs adult-child installer speaker, all other elements
   held constant.
 

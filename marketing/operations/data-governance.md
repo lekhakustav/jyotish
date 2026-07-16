@@ -22,7 +22,7 @@ home for large platform exports and all binary media.
 - Aggregate product event counts grouped only by approved acquisition and app dimensions.
 - Currency conversion reference rates with retrieval source and date.
 
-## Never store in marketing Git or Drive
+## Never store real user data in marketing Git or Drive
 
 - `user_id`, `install_id`, `session_id`, device identifiers, advertising identifiers, IP
   addresses, authentication tokens, or account credentials.
@@ -32,6 +32,12 @@ home for large platform exports and all binary media.
 - Raw comments with usernames or profile links. Theme-code qualitative feedback and retain only
   aggregate counts or privacy-safe paraphrases.
 - Inferred religion, caste, health, finances, relationship status, or vulnerability.
+
+The approved synthetic QA household used for app-capture fixtures is not real user data, but it
+must remain unmistakably fictional, non-reusable as a login or QR secret, versioned, and free of
+any details copied from a real person. Synthetic fixture metadata may be registered; readable QR
+payloads, authentication material, and raw chat or voice content remain prohibited even when a
+fixture is used.
 
 Git history is difficult to erase. If prohibited information is found, stop ingestion, notify the
 repository owner, rotate exposed credentials if relevant, and follow an approved history-removal
@@ -45,12 +51,13 @@ Every export receives an `ingestion_id` before normalization. Add a row to
 
 - platform, export type, account time zone, coverage period, and export timestamp;
 - click and view attribution windows;
-- Drive/local source path, SHA-256, source row count, and source schema version;
+- Drive file ID, URL, canonical performance-export folder key, optional small local raw path,
+  SHA-256, source row count, and source schema version;
 - parser version, import timestamp, and validation status.
 
-Never edit an already tracked file under `data/raw/`. Platform restatements and corrected exports
-receive a new file and ingestion row. Normalized rows keep `source_export_id` so every number can
-be traced back.
+Never edit an already tracked file under `data/raw/` or overwrite a Drive source export. Platform
+restatements and corrected exports receive a new Drive file and ingestion row. Normalized rows
+keep `source_export_id` so every number can be traced back.
 
 ## Null, zero, and corrections
 

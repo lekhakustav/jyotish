@@ -14,7 +14,7 @@ astrologer or testimonial subject.
 
 **Prompt ID:** `prm_20260716_fam001`
 **Use:** intercut two selects totaling about 2.6 seconds—the cup placement and the grandmother's
-family-member look—with real Parivar footage visible by roughly second 2.2.
+family-member look—with real My Kundli & QR footage visible by roughly second 2.2.
 
 ```text
 Create one photorealistic 8.0-second vertical 9:16 social-video source scene, 1080x1920,
@@ -41,7 +41,7 @@ not customers or a testimonial.
 
 **Prompt ID:** `prm_20260716_nep001`
 **Use:** take the handoff and recognition beat, then cut directly to the real Nepali language
-toggle and Home screen.
+toggle and My Kundli & QR screen.
 
 ```text
 Create one photorealistic 8.0-second vertical 9:16 social-video source scene, 1080x1920,
@@ -212,7 +212,7 @@ generated man is a customer. Clean picture only.
 
 **Prompt ID:** `prm_20260716_dia001`
 **Use:** retain the match cut between identical tea-cup placements; cut from the second phone
-back to the real trusted-person Parivar QR flow. Never show a readable QR in the finished ad.
+back to the real trusted-person private Kundli QR flow. Never show a readable QR in the finished ad.
 
 ```text
 Create a photorealistic 8.0-second vertical 9:16 social-video source sequence, 1080x1920,
@@ -233,7 +233,7 @@ temple spectacle. Do not imply automatic account syncing. Clean picture only; fi
 not customers or a real call.
 ```
 
-## 10 — When the question is about your child
+## 10 — A family question needs family context
 
 **Prompt ID:** `prm_20260716_rel001`
 **Use:** take the notebook-pack and shoulder-touch beat, then cut to the real member selector

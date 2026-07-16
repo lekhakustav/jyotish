@@ -15,13 +15,13 @@
   edit recipes, 28 reproducible real-app proof shots, and a publication preflight gate.
 - Readiness baseline records the truthful zero-data state; no media, creative, publication,
   experiment, or performance result has been fabricated.
-- `npm run marketing:validate` passes: 21 CSV contracts, 123 contracted rows, 12 launch concepts,
-  and three verified Drive document snapshots.
+- `npm run marketing:validate` passes: 21 CSV contracts, 133 contracted rows, 12 launch concepts,
+  and seven verified Drive document snapshots after the Drive evidence sync.
 
 ## Launch blockers
 
 1. The privacy policy says the app does not collect analytics or use the camera, while the
-   shipped app has first-party product analytics and Parivar QR camera access. Legal/privacy
+   shipped app has first-party product analytics and private Kundli QR camera access. Legal/privacy
    copy and store disclosures require review before paid acquisition or attribution work.
 2. There is no app-store listing URL recorded in the repo, so final install CTAs and link QA
    cannot be completed yet.
@@ -33,7 +33,7 @@
 
 ## Next operational milestone
 
-Produce Nepali and English variants of `fam001`, `nep001`, `pat001`, and `voc001`: record clean
+Produce Nepali and English variants of `dia001`, `fam001`, `nep001`, and `voc001`: record clean
 iOS and Android app proof clips at a known Git SHA, generate at least three Veo seeds per prompt,
 register all source media in Drive, assemble unpublished drafts, and pass the preflight gate.
 Register and run an A/A pipeline test only after its paid-platform, destination, assignment, and

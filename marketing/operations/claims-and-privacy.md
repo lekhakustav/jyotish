@@ -12,14 +12,23 @@ This is an operating checklist, not legal advice.
 ## Allowed directions
 
 - “See your Kundali, Dasha, Rashifal, and Nepali Patro in one place.”
-- “Ask Jyotish Baje about your family using the profiles you choose to add.”
+- “Ask Jyotish Baje using a family profile you choose to add.”
 - “Explore traditional Kundli matching with the evidence explained.”
 - “Find a Muhurat and understand why the time is considered supportive.”
 - “Available in Nepali and English.”
-- “Keep your Kundli private and share it by QR with people you choose.”
-- “Private Kundli sharing for Nepali Hindu families.”
+- “Share your Kundli by QR only when you choose.”
+- “Private Kundli sharing for Nepali Hindu families.” This is category positioning; paid copy
+  must not assert or imply that a particular viewer is Hindu or has a specific family status.
 
 Each claim still requires a current app capture proving it.
+
+In this marketing system, **private** means the exchange is intentional and not posted to a
+public feed: the sender chooses to display or send the QR, and the receiver chooses whether and
+how to save it. It does not mean encrypted end-to-end, anonymous, revocable after sharing,
+invisible to every service operator, or guaranteed inaccessible to someone who receives or
+photographs the QR. The QR contains a name and birth details. Prefer the paid-safe action claim
+“Share your Kundli by QR with people you choose” unless legal/product review approves a stronger
+privacy statement for the exact surface and market.
 
 ## Prohibited directions
 
@@ -38,7 +47,7 @@ Each claim still requires a current app capture proving it.
 ## Current privacy launch blocker
 
 `docs/legal/privacy-policy.md` currently says the app does not access the camera and does not
-collect usage analytics. The repository now contains Parivar QR camera access and first-party
+collect usage analytics. The repository now contains private Kundli QR camera access and first-party
 product analytics uploaded to Supabase. Before paid acquisition, install attribution, or public
 claims about privacy:
 
@@ -53,7 +62,8 @@ incidental marketing change.
 
 ## Capture privacy
 
-Only synthetic marketing households may appear in app footage. Never show a real person's name,
+Only synthetic marketing households may appear in app footage. Never show any real person's name,
 birth date/time/place, family relationship, QR payload, chat content, notification, email,
-account token, or analytics identifier. Keep the synthetic fixture definition versioned so the
-same proof can be reproduced.
+account token, or analytics identifier. Approved versioned synthetic names and relationships may
+appear only when a shot recipe requires them; crop synthetic birth details and mask every QR
+payload anyway. Keep the fixture definition versioned so the same proof can be reproduced.

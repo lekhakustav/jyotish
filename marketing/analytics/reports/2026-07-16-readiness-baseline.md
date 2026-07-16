@@ -74,7 +74,7 @@ event counts, clicks, or a different denominator are not acceptable substitutes.
 ## Publication and paid-launch gates
 
 1. **Privacy/legal alignment:** the current privacy policy says the app does not use the camera or
-   collect analytics, while the shipped repository has Parivar QR camera access and first-party
+   collect analytics, while the shipped repository has private Kundli QR camera access and first-party
    product analytics. Legal copy and store disclosures require review.
 2. **Store destination:** no verified App Store or Google Play listing URL is registered, so final
    install CTA and destination QA cannot pass.
@@ -102,12 +102,16 @@ review drafts.
 Produce the four already prioritized concepts, one Nepali and one English creative each. Language
 versions are separate `creative_id` treatments:
 
-1. `cpt_20260716_fam001` — family-aware value for a diaspora/family installer; primary diagnostic
+1. `cpt_20260716_dia001` — the primary private Kundli-sharing promise for a diaspora/family
+   installer; primary diagnostic `shares_per_1000`.
+2. `cpt_20260716_fam001` — family-aware value after a trusted profile is saved; primary diagnostic
    `shares_per_1000`.
-2. `cpt_20260716_nep001` — Nepali-language recognition for the primary user;
+3. `cpt_20260716_nep001` — Nepali-language recognition for the primary user;
    `video_view_3s_rate` where the platform exposes the exact three-second field.
-3. `cpt_20260716_pat001` — recurring Patro/family-date utility; `save_rate`.
 4. `cpt_20260716_voc001` — low-friction voice-input proof; `shares_per_1000`.
+
+`pat001` is the first supporting-retention concept after the four acquisition treatments above;
+its primary diagnostic remains `save_rate`.
 
 The first organic publications are observational exploration. They may establish source-specific
 baselines and reveal production failures, but organic reach differences do not identify causal

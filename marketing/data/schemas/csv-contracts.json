@@ -24,10 +24,10 @@
     {
       "name": "audiences",
       "path": "marketing/registry/audiences.csv",
-      "header": ["schema_version", "audience_id", "name", "persona_role", "installer_role", "country_code", "region", "language", "age_min", "age_max", "diaspora_status", "targeting_method", "platform_audience_id", "exclusions", "created_at_utc", "notes"],
+      "header": ["schema_version", "audience_id", "name", "persona_role", "installer_role", "origin_country_code", "residence_country_code", "region", "language", "age_min", "age_max", "diaspora_status", "targeting_method", "platform_audience_id", "exclusions", "created_at_utc", "notes"],
       "primary_key": ["audience_id"],
-      "required": ["schema_version", "audience_id", "name", "persona_role", "installer_role", "country_code", "language", "age_min", "age_max", "diaspora_status", "targeting_method", "created_at_utc"],
-      "types": {"schema_version": "integer", "audience_id": "id", "country_code": "country_code", "age_min": "integer", "age_max": "integer", "created_at_utc": "datetime"},
+      "required": ["schema_version", "audience_id", "name", "persona_role", "installer_role", "origin_country_code", "language", "age_min", "age_max", "diaspora_status", "targeting_method", "created_at_utc"],
+      "types": {"schema_version": "integer", "audience_id": "id", "origin_country_code": "country_code", "residence_country_code": "country_code", "age_min": "nonnegative_integer", "age_max": "nonnegative_integer", "created_at_utc": "datetime"},
       "enums": {"schema_version": ["1"], "installer_role": ["primary_user", "family_enabler", "gifter", "self_or_family", "unknown"], "diaspora_status": ["nepal", "diaspora", "mixed", "not_applicable"], "targeting_method": ["broad", "interest", "lookalike", "retargeting", "organic_hypothesis", "platform_split"]}
     },
     {
@@ -36,7 +36,7 @@
       "header": ["schema_version", "campaign_id", "name", "objective", "market_id", "audience_id", "app_platform", "channel", "status", "planned_start_date", "planned_end_date", "budget_amount", "budget_currency", "landing_destination", "owner", "created_at_utc", "ended_at_utc", "notes"],
       "primary_key": ["campaign_id"],
       "required": ["schema_version", "campaign_id", "name", "objective", "market_id", "audience_id", "app_platform", "channel", "status", "owner", "created_at_utc"],
-      "types": {"schema_version": "integer", "campaign_id": "id", "planned_start_date": "date", "planned_end_date": "date", "budget_amount": "number", "budget_currency": "currency", "landing_destination": "url", "created_at_utc": "datetime", "ended_at_utc": "datetime"},
+      "types": {"schema_version": "integer", "campaign_id": "id", "planned_start_date": "date", "planned_end_date": "date", "budget_amount": "nonnegative_number", "budget_currency": "currency", "landing_destination": "url", "created_at_utc": "datetime", "ended_at_utc": "datetime"},
       "enums": {"schema_version": ["1"], "objective": ["awareness", "qualified_attention", "traffic", "installs", "activation", "retention", "research"], "app_platform": ["ios", "android", "both"], "channel": ["instagram", "tiktok", "meta_ads", "tiktok_ads", "cross_platform"], "status": ["draft", "planned", "active", "paused", "completed", "cancelled"]},
       "foreign_keys": [{"field": "audience_id", "target": "audiences", "target_field": "audience_id"}]
     },
@@ -53,20 +53,20 @@
     {
       "name": "prompts",
       "path": "marketing/registry/prompts.csv",
-      "header": ["schema_version", "prompt_id", "concept_id", "title", "prompt_path", "scene_duration_seconds", "aspect_ratio", "language", "status", "created_at_utc", "supersedes_prompt_id"],
+      "header": ["schema_version", "prompt_id", "concept_id", "title", "prompt_path", "prompt_version", "prompt_content_sha256", "scene_duration_seconds", "aspect_ratio", "language", "status", "created_at_utc", "supersedes_prompt_id"],
       "primary_key": ["prompt_id"],
-      "required": ["schema_version", "prompt_id", "concept_id", "title", "prompt_path", "scene_duration_seconds", "aspect_ratio", "language", "status", "created_at_utc"],
-      "types": {"schema_version": "integer", "prompt_id": "id", "concept_id": "id", "scene_duration_seconds": "number", "created_at_utc": "datetime", "supersedes_prompt_id": "id", "prompt_path": "repo_path"},
+      "required": ["schema_version", "prompt_id", "concept_id", "title", "prompt_path", "prompt_version", "prompt_content_sha256", "scene_duration_seconds", "aspect_ratio", "language", "status", "created_at_utc"],
+      "types": {"schema_version": "integer", "prompt_id": "id", "concept_id": "id", "prompt_version": "nonnegative_integer", "prompt_content_sha256": "sha256", "scene_duration_seconds": "number", "created_at_utc": "datetime", "supersedes_prompt_id": "id", "prompt_path": "repo_path"},
       "enums": {"schema_version": ["1"], "scene_duration_seconds": ["8", "12"], "aspect_ratio": ["9:16"], "status": ["draft", "approved", "generated", "retired", "rejected"]},
       "foreign_keys": [{"field": "concept_id", "target": "concepts", "target_field": "concept_id"}, {"field": "supersedes_prompt_id", "target": "prompts", "target_field": "prompt_id", "allow_blank": true}]
     },
     {
       "name": "media",
       "path": "marketing/registry/media-manifest.csv",
-      "header": ["schema_version", "media_id", "parent_media_id", "kind", "role", "filename", "mime_type", "drive_file_id", "drive_web_url", "drive_folder_key", "sha256", "bytes", "duration_ms", "width_px", "height_px", "fps", "video_codec", "audio_codec", "rights_basis", "license_source", "license_expiry", "model_provider", "model_name", "model_version", "seed", "prompt_id", "app_git_sha", "recorded_device", "recorded_locale", "created_at_utc", "status"],
+      "header": ["schema_version", "media_id", "parent_media_id", "kind", "role", "filename", "mime_type", "drive_file_id", "drive_web_url", "drive_folder_key", "sha256", "bytes", "duration_ms", "width_px", "height_px", "fps", "video_codec", "audio_codec", "rights_basis", "license_source", "license_expiry", "model_provider", "model_name", "model_version", "seed", "prompt_id", "app_git_sha", "app_version", "app_build", "recorded_device", "recorded_os", "recorded_locale", "recorded_timezone", "fixture_version", "network_mode", "operator_code", "recorded_at_utc", "created_at_utc", "status"],
       "primary_key": ["media_id"],
       "required": ["schema_version", "media_id", "kind", "role", "filename", "drive_file_id", "drive_web_url", "drive_folder_key", "sha256", "bytes", "rights_basis", "created_at_utc", "status"],
-      "types": {"schema_version": "integer", "media_id": "id", "parent_media_id": "id", "drive_web_url": "url", "sha256": "sha256", "bytes": "integer", "duration_ms": "integer", "width_px": "integer", "height_px": "integer", "fps": "number", "license_expiry": "date", "prompt_id": "id", "app_git_sha": "git_sha", "created_at_utc": "datetime"},
+      "types": {"schema_version": "integer", "media_id": "id", "parent_media_id": "id", "drive_web_url": "url", "sha256": "sha256", "bytes": "nonnegative_integer", "duration_ms": "nonnegative_integer", "width_px": "nonnegative_integer", "height_px": "nonnegative_integer", "fps": "nonnegative_number", "license_expiry": "date", "prompt_id": "id", "app_git_sha": "git_sha", "recorded_timezone": "timezone", "recorded_at_utc": "datetime", "created_at_utc": "datetime"},
       "enums": {"schema_version": ["1"], "kind": ["veo_render", "app_capture", "ai_voice", "stock_video", "stock_image", "brand_asset", "music", "sfx", "edit_project", "draft_export", "final_master", "published_file", "reference"], "rights_basis": ["owned", "generated", "licensed", "public_domain", "reference_only", "unknown"], "status": ["inbox", "verified", "approved", "rejected", "published", "archived"]},
       "foreign_keys": [{"field": "parent_media_id", "target": "media", "target_field": "media_id", "allow_blank": true}, {"field": "drive_folder_key", "target": "drive_folders", "target_field": "folder_key"}, {"field": "prompt_id", "target": "prompts", "target_field": "prompt_id", "allow_blank": true}]
     },
@@ -76,7 +76,7 @@
       "header": ["schema_version", "creative_id", "concept_id", "prompt_id", "language", "market_id", "hook_text", "voiceover_media_id", "final_media_id", "edit_recipe_path", "duration_ms", "aspect_ratio", "status", "created_at_utc", "supersedes_creative_id", "content_sha256"],
       "primary_key": ["creative_id"],
       "required": ["schema_version", "creative_id", "concept_id", "prompt_id", "language", "market_id", "hook_text", "edit_recipe_path", "duration_ms", "aspect_ratio", "status", "created_at_utc"],
-      "types": {"schema_version": "integer", "creative_id": "id", "concept_id": "id", "prompt_id": "id", "voiceover_media_id": "id", "final_media_id": "id", "edit_recipe_path": "repo_path", "duration_ms": "integer", "created_at_utc": "datetime", "supersedes_creative_id": "id", "content_sha256": "sha256"},
+      "types": {"schema_version": "integer", "creative_id": "id", "concept_id": "id", "prompt_id": "id", "voiceover_media_id": "id", "final_media_id": "id", "edit_recipe_path": "repo_path", "duration_ms": "nonnegative_integer", "created_at_utc": "datetime", "supersedes_creative_id": "id", "content_sha256": "sha256"},
       "enums": {"schema_version": ["1"], "aspect_ratio": ["9:16"], "status": ["draft", "ready_for_review", "approved", "published", "retired", "rejected"]},
       "foreign_keys": [{"field": "concept_id", "target": "concepts", "target_field": "concept_id"}, {"field": "prompt_id", "target": "prompts", "target_field": "prompt_id"}, {"field": "voiceover_media_id", "target": "media", "target_field": "media_id", "allow_blank": true}, {"field": "final_media_id", "target": "media", "target_field": "media_id", "allow_blank": true}, {"field": "supersedes_creative_id", "target": "creatives", "target_field": "creative_id", "allow_blank": true}]
     },
@@ -96,7 +96,7 @@
       "header": ["schema_version", "creative_id", "media_id", "role", "timeline_start_ms", "timeline_end_ms", "source_in_ms", "source_out_ms", "layer"],
       "primary_key": ["creative_id", "media_id", "role", "timeline_start_ms"],
       "required": ["schema_version", "creative_id", "media_id", "role", "timeline_start_ms", "timeline_end_ms", "layer"],
-      "types": {"schema_version": "integer", "creative_id": "id", "media_id": "id", "timeline_start_ms": "integer", "timeline_end_ms": "integer", "source_in_ms": "integer", "source_out_ms": "integer", "layer": "integer"},
+      "types": {"schema_version": "integer", "creative_id": "id", "media_id": "id", "timeline_start_ms": "nonnegative_integer", "timeline_end_ms": "nonnegative_integer", "source_in_ms": "nonnegative_integer", "source_out_ms": "nonnegative_integer", "layer": "nonnegative_integer"},
       "enums": {"schema_version": ["1"]},
       "foreign_keys": [{"field": "creative_id", "target": "creatives", "target_field": "creative_id"}, {"field": "media_id", "target": "media", "target_field": "media_id"}]
     },
@@ -116,7 +116,7 @@
       "header": ["schema_version", "publication_id", "creative_id", "campaign_id", "audience_id", "experiment_id", "arm_id", "platform", "delivery_type", "account_id", "platform_campaign_id", "platform_adgroup_id", "platform_ad_id", "platform_post_id", "public_url", "published_at_utc", "timezone", "status", "destination_url", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "attribution_model", "click_window_days", "view_window_days"],
       "primary_key": ["publication_id"],
       "required": ["schema_version", "publication_id", "creative_id", "campaign_id", "audience_id", "platform", "delivery_type", "account_id", "timezone", "status", "utm_source", "utm_medium", "utm_campaign", "utm_content"],
-      "types": {"schema_version": "integer", "publication_id": "id", "creative_id": "id", "campaign_id": "id", "audience_id": "id", "experiment_id": "id", "arm_id": "id", "public_url": "url", "published_at_utc": "datetime", "timezone": "timezone", "destination_url": "url", "click_window_days": "integer", "view_window_days": "integer"},
+      "types": {"schema_version": "integer", "publication_id": "id", "creative_id": "id", "campaign_id": "id", "audience_id": "id", "experiment_id": "id", "arm_id": "id", "public_url": "url", "published_at_utc": "datetime", "timezone": "timezone", "destination_url": "url", "click_window_days": "nonnegative_integer", "view_window_days": "nonnegative_integer"},
       "enums": {"schema_version": ["1"], "platform": ["instagram", "tiktok", "facebook", "youtube_shorts"], "delivery_type": ["organic", "paid", "boosted"], "status": ["planned", "scheduled", "published", "paused", "deleted", "archived"], "attribution_model": ["", "none", "platform_reported", "click_through", "view_through", "skan", "modeled", "mmp"]},
       "foreign_keys": [{"field": "creative_id", "target": "creatives", "target_field": "creative_id"}, {"field": "campaign_id", "target": "campaigns", "target_field": "campaign_id"}, {"field": "audience_id", "target": "audiences", "target_field": "audience_id"}, {"field": "experiment_id", "target": "experiments", "target_field": "experiment_id", "allow_blank": true}]
     },
@@ -132,11 +132,12 @@
     {
       "name": "ingestion_runs",
       "path": "marketing/registry/ingestion-runs.csv",
-      "header": ["schema_version", "ingestion_id", "platform", "export_type", "exported_at_utc", "coverage_start", "coverage_end", "account_timezone", "click_window_days", "view_window_days", "raw_relative_path", "sha256", "row_count", "source_schema_version", "parser_version", "imported_at_utc", "status", "notes"],
+      "header": ["schema_version", "ingestion_id", "platform", "export_type", "exported_at_utc", "coverage_start", "coverage_end", "account_timezone", "click_window_days", "view_window_days", "drive_file_id", "drive_web_url", "drive_folder_key", "raw_relative_path", "sha256", "row_count", "source_schema_version", "parser_version", "imported_at_utc", "status", "notes"],
       "primary_key": ["ingestion_id"],
-      "required": ["schema_version", "ingestion_id", "platform", "export_type", "exported_at_utc", "coverage_start", "coverage_end", "account_timezone", "raw_relative_path", "sha256", "row_count", "parser_version", "imported_at_utc", "status"],
-      "types": {"schema_version": "integer", "ingestion_id": "id", "exported_at_utc": "datetime", "coverage_start": "date", "coverage_end": "date", "account_timezone": "timezone", "click_window_days": "integer", "view_window_days": "integer", "raw_relative_path": "repo_path", "sha256": "sha256", "row_count": "integer", "imported_at_utc": "datetime"},
-      "enums": {"schema_version": ["1"], "platform": ["instagram", "tiktok", "meta_ads", "tiktok_ads", "app_store", "google_play", "supabase", "manual_reference"], "status": ["received", "validated", "normalized", "rejected", "superseded"]}
+      "required": ["schema_version", "ingestion_id", "platform", "export_type", "exported_at_utc", "coverage_start", "coverage_end", "account_timezone", "drive_file_id", "drive_web_url", "drive_folder_key", "sha256", "row_count", "parser_version", "imported_at_utc", "status"],
+      "types": {"schema_version": "integer", "ingestion_id": "id", "exported_at_utc": "datetime", "coverage_start": "date", "coverage_end": "date", "account_timezone": "timezone", "click_window_days": "nonnegative_integer", "view_window_days": "nonnegative_integer", "drive_web_url": "url", "raw_relative_path": "repo_path", "sha256": "sha256", "row_count": "nonnegative_integer", "imported_at_utc": "datetime"},
+      "enums": {"schema_version": ["1"], "platform": ["instagram", "tiktok", "meta_ads", "tiktok_ads", "app_store", "google_play", "supabase", "manual_reference"], "status": ["received", "validated", "normalized", "rejected", "superseded"]},
+      "foreign_keys": [{"field": "drive_folder_key", "target": "drive_folders", "target_field": "folder_key"}]
     },
     {
       "name": "metrics",
@@ -161,7 +162,7 @@
       "header": ["schema_version", "date_local", "timezone", "source_export_id", "publication_id", "platform", "platform_account_id", "platform_campaign_id", "platform_adgroup_id", "platform_ad_id", "currency", "spend", "impressions", "reach", "video_starts", "video_views_2s", "video_views_3s", "video_views_6s", "video_plays_25pct", "video_plays_50pct", "video_plays_75pct", "video_plays_95pct", "video_plays_100pct", "total_watch_time_seconds", "avg_watch_time_seconds", "clicks_all", "outbound_clicks", "landing_page_views", "click_attributed_installs", "view_attributed_installs", "activated_installs", "trials", "purchases", "net_revenue", "likes", "comments", "shares", "saves", "follows", "negative_feedback"],
       "primary_key": ["date_local", "publication_id"],
       "required": ["schema_version", "date_local", "timezone", "source_export_id", "publication_id", "platform", "platform_account_id", "platform_ad_id", "currency", "spend", "impressions"],
-      "types": {"schema_version": "integer", "date_local": "date", "timezone": "timezone", "source_export_id": "id", "publication_id": "id", "currency": "currency", "spend": "number", "impressions": "integer"},
+      "types": {"schema_version": "integer", "date_local": "date", "timezone": "timezone", "source_export_id": "id", "publication_id": "id", "currency": "currency", "spend": "nonnegative_number", "impressions": "nonnegative_integer", "reach": "nonnegative_integer", "video_starts": "nonnegative_integer", "video_views_2s": "nonnegative_integer", "video_views_3s": "nonnegative_integer", "video_views_6s": "nonnegative_integer", "video_plays_25pct": "nonnegative_integer", "video_plays_50pct": "nonnegative_integer", "video_plays_75pct": "nonnegative_integer", "video_plays_95pct": "nonnegative_integer", "video_plays_100pct": "nonnegative_integer", "total_watch_time_seconds": "nonnegative_number", "avg_watch_time_seconds": "nonnegative_number", "clicks_all": "nonnegative_integer", "outbound_clicks": "nonnegative_integer", "landing_page_views": "nonnegative_integer", "click_attributed_installs": "nonnegative_integer", "view_attributed_installs": "nonnegative_integer", "activated_installs": "nonnegative_integer", "trials": "nonnegative_integer", "purchases": "nonnegative_integer", "net_revenue": "number", "likes": "nonnegative_integer", "comments": "nonnegative_integer", "shares": "nonnegative_integer", "saves": "nonnegative_integer", "follows": "nonnegative_integer", "negative_feedback": "nonnegative_integer"},
       "enums": {"schema_version": ["1"]},
       "foreign_keys": [{"field": "source_export_id", "target": "ingestion_runs", "target_field": "ingestion_id"}, {"field": "publication_id", "target": "publications", "target_field": "publication_id"}]
     },
@@ -171,39 +172,39 @@
       "header": ["schema_version", "date_local", "timezone", "source_export_id", "publication_id", "platform", "breakdown_set", "age_bucket", "gender", "country_code", "region", "placement", "device_os", "currency", "spend", "impressions", "reach", "video_starts", "video_views_2s", "video_views_3s", "video_plays_100pct", "outbound_clicks", "click_attributed_installs", "view_attributed_installs", "activated_installs", "likes", "comments", "shares", "saves"],
       "primary_key": ["date_local", "publication_id", "breakdown_set", "age_bucket", "gender", "country_code", "region", "placement", "device_os"],
       "required": ["schema_version", "date_local", "timezone", "source_export_id", "publication_id", "platform", "breakdown_set", "currency", "spend", "impressions"],
-      "types": {"schema_version": "integer", "date_local": "date", "timezone": "timezone", "source_export_id": "id", "publication_id": "id", "country_code": "country_code", "currency": "currency", "spend": "number", "impressions": "integer"},
+      "types": {"schema_version": "integer", "date_local": "date", "timezone": "timezone", "source_export_id": "id", "publication_id": "id", "country_code": "country_code", "currency": "currency", "spend": "nonnegative_number", "impressions": "nonnegative_integer", "reach": "nonnegative_integer", "video_starts": "nonnegative_integer", "video_views_2s": "nonnegative_integer", "video_views_3s": "nonnegative_integer", "video_plays_100pct": "nonnegative_integer", "outbound_clicks": "nonnegative_integer", "click_attributed_installs": "nonnegative_integer", "view_attributed_installs": "nonnegative_integer", "activated_installs": "nonnegative_integer", "likes": "nonnegative_integer", "comments": "nonnegative_integer", "shares": "nonnegative_integer", "saves": "nonnegative_integer"},
       "enums": {"schema_version": ["1"]},
       "foreign_keys": [{"field": "source_export_id", "target": "ingestion_runs", "target_field": "ingestion_id"}, {"field": "publication_id", "target": "publications", "target_field": "publication_id"}]
     },
     {
       "name": "organic_snapshot_template",
       "path": "marketing/templates/organic-post-snapshot.csv",
-      "header": ["schema_version", "observed_at_utc", "publication_id", "post_age_hours", "followers_at_observation", "impressions", "reach", "video_starts", "video_views_2s", "video_views_3s", "video_plays_25pct", "video_plays_50pct", "video_plays_75pct", "video_plays_95pct", "video_plays_100pct", "total_watch_time_seconds", "avg_watch_time_seconds", "profile_visits", "bio_link_clicks", "likes", "comments", "shares", "saves", "follows"],
+      "header": ["schema_version", "observed_at_utc", "source_export_id", "publication_id", "post_age_hours", "followers_at_observation", "impressions", "reach", "video_starts", "video_views_2s", "video_views_3s", "video_plays_25pct", "video_plays_50pct", "video_plays_75pct", "video_plays_95pct", "video_plays_100pct", "total_watch_time_seconds", "avg_watch_time_seconds", "profile_visits", "bio_link_clicks", "likes", "comments", "shares", "saves", "follows"],
       "primary_key": ["observed_at_utc", "publication_id"],
-      "required": ["schema_version", "observed_at_utc", "publication_id", "post_age_hours", "impressions"],
-      "types": {"schema_version": "integer", "observed_at_utc": "datetime", "publication_id": "id", "post_age_hours": "number", "impressions": "integer"},
+      "required": ["schema_version", "observed_at_utc", "source_export_id", "publication_id", "post_age_hours", "impressions"],
+      "types": {"schema_version": "integer", "observed_at_utc": "datetime", "source_export_id": "id", "publication_id": "id", "post_age_hours": "nonnegative_number", "followers_at_observation": "nonnegative_integer", "impressions": "nonnegative_integer", "reach": "nonnegative_integer", "video_starts": "nonnegative_integer", "video_views_2s": "nonnegative_integer", "video_views_3s": "nonnegative_integer", "video_plays_25pct": "nonnegative_integer", "video_plays_50pct": "nonnegative_integer", "video_plays_75pct": "nonnegative_integer", "video_plays_95pct": "nonnegative_integer", "video_plays_100pct": "nonnegative_integer", "total_watch_time_seconds": "nonnegative_number", "avg_watch_time_seconds": "nonnegative_number", "profile_visits": "nonnegative_integer", "bio_link_clicks": "nonnegative_integer", "likes": "nonnegative_integer", "comments": "nonnegative_integer", "shares": "nonnegative_integer", "saves": "nonnegative_integer", "follows": "nonnegative_integer"},
       "enums": {"schema_version": ["1"]},
-      "foreign_keys": [{"field": "publication_id", "target": "publications", "target_field": "publication_id"}]
+      "foreign_keys": [{"field": "source_export_id", "target": "ingestion_runs", "target_field": "ingestion_id"}, {"field": "publication_id", "target": "publications", "target_field": "publication_id"}]
     },
     {
       "name": "acquisition_cohort_template",
       "path": "marketing/templates/acquisition-cohort-snapshot.csv",
-      "header": ["schema_version", "install_cohort_date", "as_of_date", "app_platform", "app_version", "country_code", "language", "attribution_source", "attribution_model", "campaign_id", "creative_id", "publication_id", "click_window_days", "view_window_days", "is_modeled", "installs", "onboarding_completed", "activated_d1", "activated_d7", "d1_retained", "d7_retained", "d30_retained", "trials", "payers", "net_revenue", "currency"],
+      "header": ["schema_version", "source_export_id", "install_cohort_date", "as_of_date", "app_platform", "app_version", "country_code", "language", "attribution_source", "attribution_model", "campaign_id", "creative_id", "publication_id", "click_window_days", "view_window_days", "is_modeled", "installs", "onboarding_completed", "activated_d1", "activated_d7", "d1_retained", "d7_retained", "d30_retained", "trials", "payers", "net_revenue", "currency"],
       "primary_key": ["install_cohort_date", "as_of_date", "app_platform", "country_code", "language", "attribution_source", "campaign_id", "creative_id", "publication_id"],
-      "required": ["schema_version", "install_cohort_date", "as_of_date", "app_platform", "country_code", "language", "attribution_source", "attribution_model", "is_modeled", "installs"],
-      "types": {"schema_version": "integer", "install_cohort_date": "date", "as_of_date": "date", "country_code": "country_code", "campaign_id": "id", "creative_id": "id", "publication_id": "id", "click_window_days": "integer", "view_window_days": "integer", "is_modeled": "boolean", "installs": "integer", "net_revenue": "number", "currency": "currency"},
+      "required": ["schema_version", "source_export_id", "install_cohort_date", "as_of_date", "app_platform", "country_code", "language", "attribution_source", "attribution_model", "is_modeled", "installs"],
+      "types": {"schema_version": "integer", "source_export_id": "id", "install_cohort_date": "date", "as_of_date": "date", "country_code": "country_code", "campaign_id": "id", "creative_id": "id", "publication_id": "id", "click_window_days": "nonnegative_integer", "view_window_days": "nonnegative_integer", "is_modeled": "boolean", "installs": "nonnegative_integer", "onboarding_completed": "nonnegative_integer", "activated_d1": "nonnegative_integer", "activated_d7": "nonnegative_integer", "d1_retained": "nonnegative_integer", "d7_retained": "nonnegative_integer", "d30_retained": "nonnegative_integer", "trials": "nonnegative_integer", "payers": "nonnegative_integer", "net_revenue": "number", "currency": "currency"},
       "enums": {"schema_version": ["1"], "app_platform": ["ios", "android"], "is_modeled": ["true", "false"]},
-      "foreign_keys": [{"field": "campaign_id", "target": "campaigns", "target_field": "campaign_id", "allow_blank": true}, {"field": "creative_id", "target": "creatives", "target_field": "creative_id", "allow_blank": true}, {"field": "publication_id", "target": "publications", "target_field": "publication_id", "allow_blank": true}]
+      "foreign_keys": [{"field": "source_export_id", "target": "ingestion_runs", "target_field": "ingestion_id"}, {"field": "campaign_id", "target": "campaigns", "target_field": "campaign_id", "allow_blank": true}, {"field": "creative_id", "target": "creatives", "target_field": "creative_id", "allow_blank": true}, {"field": "publication_id", "target": "publications", "target_field": "publication_id", "allow_blank": true}]
     },
     {
       "name": "product_events_template",
       "path": "marketing/templates/product-events-daily.csv",
-      "header": ["schema_version", "event_date", "app_platform", "app_version", "country_code", "language", "attribution_source", "campaign_id", "creative_id", "publication_id", "canonical_event", "unique_households", "event_count"],
+      "header": ["schema_version", "source_export_id", "event_date", "app_platform", "app_version", "country_code", "language", "attribution_source", "campaign_id", "creative_id", "publication_id", "canonical_event", "unique_households", "event_count"],
       "primary_key": ["event_date", "app_platform", "app_version", "country_code", "language", "attribution_source", "campaign_id", "creative_id", "publication_id", "canonical_event"],
-      "required": ["schema_version", "event_date", "app_platform", "canonical_event", "event_count"],
-      "types": {"schema_version": "integer", "event_date": "date", "country_code": "country_code", "campaign_id": "id", "creative_id": "id", "publication_id": "id", "unique_households": "integer", "event_count": "integer"},
+      "required": ["schema_version", "source_export_id", "event_date", "app_platform", "canonical_event", "event_count"],
+      "types": {"schema_version": "integer", "source_export_id": "id", "event_date": "date", "country_code": "country_code", "campaign_id": "id", "creative_id": "id", "publication_id": "id", "unique_households": "nonnegative_integer", "event_count": "nonnegative_integer"},
       "enums": {"schema_version": ["1"], "app_platform": ["ios", "android"]},
-      "foreign_keys": [{"field": "campaign_id", "target": "campaigns", "target_field": "campaign_id", "allow_blank": true}, {"field": "creative_id", "target": "creatives", "target_field": "creative_id", "allow_blank": true}, {"field": "publication_id", "target": "publications", "target_field": "publication_id", "allow_blank": true}, {"field": "canonical_event", "target": "event_crosswalk", "target_field": "canonical_event"}]
+      "foreign_keys": [{"field": "source_export_id", "target": "ingestion_runs", "target_field": "ingestion_id"}, {"field": "campaign_id", "target": "campaigns", "target_field": "campaign_id", "allow_blank": true}, {"field": "creative_id", "target": "creatives", "target_field": "creative_id", "allow_blank": true}, {"field": "publication_id", "target": "publications", "target_field": "publication_id", "allow_blank": true}, {"field": "canonical_event", "target": "event_crosswalk", "target_field": "canonical_event"}]
     }
   ]
 }

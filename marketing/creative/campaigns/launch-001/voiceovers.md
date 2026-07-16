@@ -34,7 +34,7 @@ three tracks to combine. A language change creates a new `creative_id`.
 **Delivery:** immediate recognition; primary-user dignity, never a patronizing child voice.
 
 - **Nepali:** “एप बुझ्न आमाले आफ्नो भाषा छोड्नु पर्दैन। ज्योतिष बाजे नेपाली र English दुवैमा छ। भाषा बदल्नुहोस्, अनि आफ्नै स्क्रिनमा हेर्नुहोस्।”
-- **English:** “Your family should not have to leave its language at the app door. Switch Jyotish Baje between Nepali and English, and see the real screen for yourself.”
+- **English:** “A family should not have to leave its language at the app door. Switch Jyotish Baje between Nepali and English, and see the real screen for yourself.”
 - **Hinglish:** “App samajhne ke liye Maa ko apni language chhodni nahin chahiye. Jyotish Baje Nepali aur English mein hai—language switch kijiye aur real screen dekhiye.”
 
 ## 03 — `pat001` / The family date keeper
@@ -89,16 +89,16 @@ three tracks to combine. A language change creates a new `creative_id`.
 
 **Delivery:** intimate connection rather than homesickness or guilt.
 
-- **Nepali:** “दूरीले परिवारको सन्दर्भ छुट्नुपर्दैन। भरोसा गर्ने व्यक्तिसँग Parivar QR बाट जन्म प्रोफाइल बाँड्नुहोस्; पाउने व्यक्तिले सम्बन्ध रोजेर मात्र राख्छ।”
-- **English:** “Distance does not have to break the family context. Share a birth profile by Parivar QR with someone you trust; they choose the relationship before saving it.”
-- **Hinglish:** “Distance se family context tootna zaroori nahin. Kisi trusted person ke saath Parivar QR se birth profile share kijiye; woh relationship choose karke hi save karte hain.”
+- **Nepali:** “दूरीले परिवारको सन्दर्भ छुट्नुपर्दैन। भरोसा गर्ने व्यक्तिसँग निजी कुण्डली QR बाट जन्म प्रोफाइल बाँड्नुहोस्; पाउने व्यक्तिले सम्बन्ध रोजेर मात्र राख्छ।”
+- **English:** “Distance does not have to break the family context. Share a birth profile by private Kundli QR with someone you trust; they choose the relationship before saving it.”
+- **Hinglish:** “Distance se family context tootna zaroori nahin. Kisi trusted person ke saath private Kundli QR se birth profile share kijiye; woh relationship choose karke hi save karte hain.”
 
-## 10 — `rel001` / When the question is about your child
+## 10 — `rel001` / A family question needs family context
 
 **Delivery:** attentive parental care without anxiety.
 
 - **Nepali:** “प्रश्न आफ्नो छोराबारे हो भने उत्तर पनि उसकै प्रोफाइलबाट आउनुपर्छ। परिवारको सही सदस्य रोज्नुहोस्, अनि ज्योतिष बाजेलाई सोध्नुहोस्।”
-- **English:** “When the question is about your child, the context should come from the profile you selected for them. Choose the family member, then ask Jyotish Baje.”
+- **English:** “A family question needs the right context. Choose the saved family profile, then ask Jyotish Baje.”
 - **Hinglish:** “Sawaal aapke child ke baare mein hai, toh context bhi unke selected profile se aana chahiye. Family member choose kijiye, phir Jyotish Baje se poochhiye.”
 
 ## 11 — `pan001` / Before the day begins
@@ -114,7 +114,7 @@ three tracks to combine. A language change creates a new `creative_id`.
 **Delivery:** quiet intergenerational continuity, followed by a restrained payoff.
 
 - **Nepali:** “परिवारले सम्झेर राखेको जन्म विवरणबाट व्यक्तिगत कुण्डली सुरु हुन्छ। विवरण भर्नुहोस्, गणना हेर्नुहोस्, अनि आफ्नो राशि र नक्षत्रको वास्तविक एप नतिजा खोल्नुहोस्।”
-- **English:** “A personal Kundali starts with the birth details your family remembers. Enter them, watch the calculation, and reveal the Rashi and Nakshatra in the real app.”
+- **English:** “A personal Kundali starts with remembered birth details. Enter them, watch the calculation, and reveal the Rashi and Nakshatra in the real app.”
 - **Hinglish:** “Personal Kundali family ke yaad rakhe birth details se shuru hoti hai. Details bhariye, calculation dekhiye, aur real app mein Rashi aur Nakshatra reveal kijiye.”
 
 ## Required small-print caption variants

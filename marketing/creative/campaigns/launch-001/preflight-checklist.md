@@ -47,7 +47,7 @@ in `marketing/research/sources.csv`. Policy approval is platform- and market-spe
 - [ ] The finished ad uses no more than 2–4 seconds total of generated human footage unless a
       documented test intentionally varies this factor.
 - [ ] Every stated feature is shipped in the recorded Git SHA and matches the current platform.
-- [ ] The exact tap, action, and result are shown—not a generic Home screen.
+- [ ] The exact tap, action, and result are shown—not a generic landing screen.
 - [ ] Copy is equal to or weaker than the safe claim in `creative-test-matrix.csv`.
 - [ ] Astrology is framed as calculation plus traditional interpretation, not scientific proof
       or deterministic prediction.
