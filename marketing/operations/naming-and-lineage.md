@@ -2,11 +2,11 @@
 
 ## Stable IDs
 
-Use `<prefix>_<YYYYMMDD>_<six-lowercase-alphanumeric>`:
+Use `<prefix>_<YYYYMMDD>_<six-to-twelve-lowercase-alphanumeric>`:
 
 | Entity | Prefix | Example |
 | --- | --- | --- |
-| Campaign | `cmp` | `cmp_20260716_launch01` |
+| Campaign | `cmp` | `cmp_20260716_lch001` |
 | Audience | `aud` | `aud_20260716_np4054` |
 | Concept | `cpt` | `cpt_20260716_family` |
 | Prompt | `prm` | `prm_20260716_a1b2c3` |

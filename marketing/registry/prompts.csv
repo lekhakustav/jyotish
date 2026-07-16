@@ -1,0 +1,13 @@
+schema_version,prompt_id,concept_id,title,prompt_path,scene_duration_seconds,aspect_ratio,language,status,created_at_utc,supersedes_prompt_id
+1,prm_20260716_fam001,cpt_20260716_fam001,The question is about family,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_nep001,cpt_20260716_nep001,Made to be read in Nepali,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_pat001,cpt_20260716_pat001,The family date keeper,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_kun001,cpt_20260716_kun001,Built from a real Kundali,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_dsh001,cpt_20260716_dsh001,Which life chapter is this,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_muh001,cpt_20260716_muh001,Before the family chooses a time,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_mat001,cpt_20260716_mat001,A score is not the whole relationship,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_voc001,cpt_20260716_voc001,Ask without typing,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_dia001,cpt_20260716_dia001,One family two time zones,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_rel001,cpt_20260716_rel001,When the question is about your child,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_pan001,cpt_20260716_pan001,Before the day begins,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,
+1,prm_20260716_rev001,cpt_20260716_rev001,From a birth detail to a Kundali,marketing/creative/campaigns/launch-001/veo-prompts.md,8,9:16,visual_no_dialogue,approved,2026-07-16T12:45:00Z,

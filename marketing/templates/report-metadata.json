@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "report_id": "__REPORT_ID__",
+  "report_type": "weekly",
+  "period_start": "__YYYY_MM_DD__",
+  "period_end": "__YYYY_MM_DD__",
+  "data_cutoff_utc": "__ISO_8601_UTC__",
+  "data_maturity": "mixed",
+  "source_export_ids": [],
+  "input_hashes": [],
+  "analysis_script_git_sha": "__GIT_SHA__",
+  "platform_account_timezones": [],
+  "attribution": [],
+  "known_data_issues": [],
+  "generated_at_utc": "__ISO_8601_UTC__"
+}

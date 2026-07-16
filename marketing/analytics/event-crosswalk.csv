@@ -1,0 +1,17 @@
+canonical_event,ios_event,android_event,stage,required_for_marketing,implementation_status,ios_source,android_source,notes
+app_first_open,,,install,true,missing,,,Must emit exactly once per local install before activation can be measured.
+session_started,app_lifecycle,,retention,true,partial,Jyotish/App/JyotishApp.swift,,The iOS source event requires phase filtering; Android has no canonical equivalent recorded.
+screen_view,screen_view,screen_viewed,engagement,false,alias_mapping_required,Jyotish/App/JyotishApp.swift,src/app-state.tsx,Converge the Android name or preserve a source-to-canonical mapping.
+onboarding_started,auth_started,,onboarding,true,partial,Jyotish/App/AppState.swift,,Authentication start is not a complete cross-platform onboarding boundary.
+birth_profile_saved,birth_profile_saved,profile_saved,activation,true,alias_mapping_required,Jyotish/App/AppState.swift,src/app-state.tsx,Canonicalize before cross-platform reporting.
+personalized_value_received,,,activation,true,missing,,,Emit or derive only after the personalized answer or report is visibly completed.
+activation_completed,,,activation,true,derived_not_implemented,,,Derive from first open plus profile plus personalized value within 24 hours.
+chat_question_sent,chat_question_sent,chat_question_sent,engagement,false,implemented,Jyotish/App/AppState.swift,src/app-state.tsx,Raw question text must never be an event property.
+chat_answer_completed,chat_answer_completed,chat_answer_completed,personalized_value,true,implemented,Jyotish/App/AppState.swift,src/app-state.tsx,May become one input to personalized_value_received after source and completion checks.
+feature_opened,feature_opened,feature_opened,engagement,false,implemented,Jyotish/Features/Home/JyotishFeatureCatalog.swift,src/screens/FeatureHub.tsx,Use stable feature IDs only.
+feature_report_completed,,,personalized_value,true,missing,,,Needed to count completed non-chat personalized value.
+parivar_member_added,parivar_member_added,family_member_added,family,false,alias_mapping_required,Jyotish/App/AppState.swift,src/app-state.tsx,Canonicalize before cross-platform reporting.
+signed_out,signed_out,auth_signed_out,account,false,alias_mapping_required,Jyotish/App/AppState.swift,src/app-state.tsx,Canonicalize before cross-platform reporting.
+guided_session_completed,,,retention,true,derived_not_implemented,,,A later session with a completed personalized answer or report.
+purchase_completed,,,monetization,false,future,,,The current app has no payment product.
+refund_completed,,,monetization,false,future,,,The current app has no payment product.

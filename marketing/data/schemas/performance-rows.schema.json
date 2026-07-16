@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sodhera.com/schemas/jyotish-marketing-performance-rows-v1.json",
+  "title": "Normalized aggregate marketing fact rows",
+  "description": "The executable CSV headers are in csv-contracts.json. These definitions document row meaning and core numeric constraints.",
+  "$defs": {
+    "nonnegative_integer_or_null": {"type": ["integer", "null"], "minimum": 0},
+    "nonnegative_number_or_null": {"type": ["number", "null"], "minimum": 0},
+    "paid_delivery_daily": {
+      "type": "object",
+      "required": ["schema_version", "date_local", "source_export_id", "publication_id", "platform", "currency", "spend", "impressions"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "date_local": {"type": "string", "format": "date"},
+        "source_export_id": {"type": "string", "pattern": "^ing_"},
+        "publication_id": {"type": "string", "pattern": "^pub_"},
+        "platform": {"type": "string"},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "spend": {"type": "number", "minimum": 0},
+        "impressions": {"type": "integer", "minimum": 0}
+      }
+    },
+    "organic_post_snapshot": {
+      "type": "object",
+      "required": ["schema_version", "observed_at_utc", "publication_id", "post_age_hours", "impressions"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "observed_at_utc": {"type": "string", "format": "date-time"},
+        "publication_id": {"type": "string", "pattern": "^pub_"},
+        "post_age_hours": {"type": "number", "minimum": 0},
+        "impressions": {"type": "integer", "minimum": 0}
+      }
+    },
+    "acquisition_cohort_snapshot": {
+      "type": "object",
+      "required": ["schema_version", "install_cohort_date", "as_of_date", "app_platform", "is_modeled", "installs"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "install_cohort_date": {"type": "string", "format": "date"},
+        "as_of_date": {"type": "string", "format": "date"},
+        "app_platform": {"enum": ["ios", "android"]},
+        "is_modeled": {"type": "boolean"},
+        "installs": {"type": "integer", "minimum": 0}
+      }
+    },
+    "product_events_daily": {
+      "type": "object",
+      "required": ["schema_version", "event_date", "app_platform", "canonical_event", "event_count"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "event_date": {"type": "string", "format": "date"},
+        "app_platform": {"enum": ["ios", "android"]},
+        "canonical_event": {"type": "string", "minLength": 1},
+        "unique_households": {"$ref": "#/$defs/nonnegative_integer_or_null"},
+        "event_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

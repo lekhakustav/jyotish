@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sodhera.com/schemas/jyotish-marketing-experiment-amendment-v1.json",
+  "title": "One append-only experiment amendment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "amendment_id", "experiment_id", "occurred_at_utc", "author", "change", "reason", "results_seen", "analysis_impact"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "amendment_id": {"type": "string", "pattern": "^amd_[0-9]{8}_[a-z0-9]{6,12}$"},
+    "experiment_id": {"type": "string", "pattern": "^exp_[0-9]{8}_[a-z0-9]{6,12}$"},
+    "occurred_at_utc": {"type": "string", "format": "date-time"},
+    "author": {"type": "string", "minLength": 1},
+    "change": {"type": "string", "minLength": 1},
+    "reason": {"type": "string", "minLength": 1},
+    "results_seen": {"type": "boolean"},
+    "analysis_impact": {"enum": ["none", "annotate", "exclude_after_change", "post_hoc_only", "invalidate"]}
+  }
+}

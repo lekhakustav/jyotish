@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "experiment_id": "__EXPERIMENT_ID__",
+  "title": "__TITLE__",
+  "status": "draft",
+  "hypothesis": "__IF_A_SINGLE_DOMINANT_FACTOR_CHANGES_THEN_PRIMARY_METRIC_CHANGES_BECAUSE__",
+  "design_type": "platform_split_test",
+  "causal_claim_allowed": true,
+  "assignment_unit": "platform_user",
+  "campaign_id": "__CAMPAIGN_ID__",
+  "audience_id": "__AUDIENCE_ID__",
+  "population": {
+    "platform": "instagram",
+    "market_id": "__MARKET_ID__",
+    "app_platform": "both",
+    "inclusion": [],
+    "exclusions": []
+  },
+  "independent_variable": "__ONE_DOMINANT_CREATIVE_FACTOR__",
+  "arms": [
+    {
+      "arm_id": "__ARM_A_ID__",
+      "label": "control",
+      "creative_ids": ["__CONTROL_CREATIVE_ID__"],
+      "traffic_weight": 0.5
+    },
+    {
+      "arm_id": "__ARM_B_ID__",
+      "label": "treatment",
+      "creative_ids": ["__TREATMENT_CREATIVE_ID__"],
+      "traffic_weight": 0.5
+    }
+  ],
+  "primary_metric": {
+    "metric_key": "__METRIC_KEY__",
+    "window": "__MEASUREMENT_WINDOW__",
+    "baseline": null,
+    "minimum_detectable_effect_absolute": null,
+    "minimum_detectable_effect_relative": null
+  },
+  "secondary_metrics": [],
+  "guardrail_metrics": [],
+  "alpha": 0.05,
+  "power": 0.8,
+  "planned_sample_per_arm": null,
+  "minimum_duration_days": 7,
+  "maximum_duration_days": 14,
+  "planned_start_at_utc": null,
+  "planned_end_at_utc": null,
+  "stopping_rule": "__FIXED_HORIZON_OR_VALID_SEQUENTIAL_RULE__",
+  "exclusion_rules": [],
+  "analysis_method": "__PREDECLARED_METHOD__",
+  "multiple_testing_method": "none_primary_only",
+  "attribution": {
+    "model": "none",
+    "click_window_days": null,
+    "view_window_days": null,
+    "modeled_conversions_allowed": false
+  },
+  "data_maturity_rule": "__WHEN_THE_PRIMARY_OUTCOME_IS_MATURE__",
+  "owner": "__OWNER__",
+  "created_at_utc": "__ISO_8601_UTC__",
+  "notes": ""
+}

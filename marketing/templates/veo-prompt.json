@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "prompt_id": "__PROMPT_ID__",
+  "concept_id": "__CONCEPT_ID__",
+  "title": "__TITLE__",
+  "objective": "__ATTENTION_JOB__",
+  "audience_role": "__AUDIENCE_ROLE__",
+  "market_id": "__MARKET_ID__",
+  "language": "__LANGUAGE__",
+  "scene": {
+    "duration_seconds": 8,
+    "aspect_ratio": "9:16",
+    "generation_prompt": "__VEO_PROMPT_WITH_SUBJECT_ACTION_SETTING_CAMERA_LIGHT_MOTION_AND_CULTURAL_SPECIFICITY__",
+    "negative_constraints": [
+      "no visible text or logos",
+      "no fabricated phone UI",
+      "no fear or supernatural-harm imagery",
+      "do not imply a real customer or real event"
+    ]
+  },
+  "post_production": {
+    "voiceover": "__VOICEOVER__",
+    "caption_text": "__BURNED_IN_CAPTION__",
+    "app_proof_feature": "__SHIPPED_FEATURE__",
+    "cta": "__SINGLE_CTA__",
+    "timeline": [
+      {"start_ms": 0, "end_ms": 600, "layer": "hook", "instruction": "__FIRST_FRAME_AND_HOOK__"},
+      {"start_ms": 600, "end_ms": 2200, "layer": "scene", "instruction": "__GENERATED_SCENE_SETUP__"},
+      {"start_ms": 2200, "end_ms": 14000, "layer": "app_proof", "instruction": "__REAL_APP_CAPTURE_WITH_OPTIONAL_SHORT_SCENE_INTERCUT__"},
+      {"start_ms": 14000, "end_ms": 17000, "layer": "cta", "instruction": "__RESULT_AND_CTA__"}
+    ]
+  },
+  "claims": [],
+  "status": "draft",
+  "created_at_utc": "__ISO_8601_UTC__",
+  "supersedes_prompt_id": null
+}

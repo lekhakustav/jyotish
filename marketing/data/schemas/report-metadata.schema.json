@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sodhera.com/schemas/jyotish-marketing-report-metadata-v1.json",
+  "title": "Reproducible marketing report metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "report_id", "report_type", "period_start", "period_end", "data_cutoff_utc", "data_maturity", "source_export_ids", "input_hashes", "analysis_script_git_sha", "platform_account_timezones", "attribution", "known_data_issues", "generated_at_utc"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "report_id": {"type": "string", "pattern": "^rpt_[0-9]{8}_[a-z0-9]{6,12}$"},
+    "report_type": {"enum": ["daily", "weekly", "monthly", "experiment"]},
+    "period_start": {"type": "string", "format": "date"},
+    "period_end": {"type": "string", "format": "date"},
+    "data_cutoff_utc": {"type": "string", "format": "date-time"},
+    "data_maturity": {"enum": ["provisional", "click_mature", "conversion_mature", "retention_mature", "mixed"]},
+    "source_export_ids": {"type": "array", "items": {"type": "string", "pattern": "^ing_[0-9]{8}_[a-z0-9]{6,12}$"}},
+    "input_hashes": {"type": "array", "items": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "analysis_script_git_sha": {"type": "string", "pattern": "^[a-f0-9]{7,40}$"},
+    "platform_account_timezones": {"type": "array", "items": {"type": "string"}},
+    "attribution": {"type": "array", "items": {"type": "string"}},
+    "known_data_issues": {"type": "array", "items": {"type": "string"}},
+    "generated_at_utc": {"type": "string", "format": "date-time"}
+  }
+}
