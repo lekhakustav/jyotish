@@ -2,9 +2,9 @@
 
 **Jyotish baje (ज्योतिष बाजे)**
 **Effective Date:** July 8, 2026
-**Last Updated:** July 11, 2026
+**Last Updated:** July 17, 2026
 
-Sodhera ("**we**," "**us**," or "**our**") operates the Jyotish baje mobile application (the "**App**"). This Privacy Policy explains how we collect, use, store, share, and protect your information when you use the App. By using Jyotish baje, you agree to the practices described in this Privacy Policy.
+Sodhera ("**we**," "**us**," or "**our**") operates the Jyotish baje mobile application (the "**App**") — a private family companion for Nepali households, built around keeping and intentionally sharing family birth records (Kundli), the Bikram Sambat calendar, and Nepali religious and cultural life. This Privacy Policy explains how we collect, use, store, share, and protect your information when you use the App. By using Jyotish baje, you agree to the practices described in this Privacy Policy.
 
 We are committed to transparency and to safeguarding your personal data. Please read this Privacy Policy carefully. If you do not agree with any part of it, please do not use the App.
 
@@ -18,10 +18,12 @@ When you use Jyotish baje, you may voluntarily provide the following information
 
 | Data Category | Specific Data | Purpose |
 |---|---|---|
-| **Personal Profile** | Full name, gender (male / female / other) | Identify you within the app and generate personalized astrological readings |
-| **Birth Details** | Date of birth, time of birth (optional), birthplace (selected from a preset list of cities) | Compute your Vedic kundali (birth chart), dasha periods, panchanga, and rashifal |
-| **Family Member Profiles** | Name, gender, family relation, date of birth, time of birth, birthplace — for each family member you add | Generate astrological readings for your family members |
-| **Chat Messages** | Questions you type or dictate to "Pandit-ji" (the AI assistant), along with Pandit-ji's replies | Provide personalized astrological guidance; maintain conversational context |
+| **Account Information** | If you sign in with email: your email address and a password. If you sign in with Google or Apple: the identity your provider shares with us (such as your email address and name) | Create and secure your account and keep your household data synced across reinstalls |
+| **Personal Profile** | Full name, gender (male / female / other) | Identify you within the app and personalize your household experience |
+| **Birth Details** | Date of birth, time of birth (optional), birthplace (selected from a preset list of cities) | Maintain your Kundli (birth record) and compute the traditional readings the App offers |
+| **Family Member Profiles** | Name, gender, family relation, date of birth, time of birth, birthplace — for each family member you add | Keep your household's Kundli records together and generate readings for the profiles you save |
+| **Kundli QR Imports** | When you scan a trusted person's Kundli QR: their name, gender, and birth details, plus the relationship label you choose | Save that person's profile in your household without retyping their details |
+| **Chat Messages** | Questions you type or dictate to Jyotish Baje (the AI assistant), along with its replies | Provide personalized guidance; maintain conversational context |
 | **Calendar Events** | Event titles, optional notes, Bikram Sambat dates, yearly-repeat preferences | Display your personal events on the Nepali patro (calendar) |
 | **Preferences** | Language, theme, notification opt-in, wake time, daily frequency, family-insight toggle, calendar-reminder toggle | Customize your app experience and requested notification schedule |
 
@@ -29,25 +31,40 @@ When you use Jyotish baje, you may voluntarily provide the following information
 
 | Data Category | Specific Data | Purpose |
 |---|---|---|
-| **Anonymous User ID** | A universally unique identifier (UUID) generated when you first open the App | Securely link your data to your account without requiring an email or phone number |
+| **User ID** | A unique account identifier created when you sign in | Securely link your household data to your account |
 | **Authentication Tokens** | Session access token and refresh token | Maintain your signed-in session and sync data to the cloud |
-| **Computed Astrological Data** | Kundali (lagna, moon rashi, sun rashi, moon nakshatra, planetary positions), dasha periods, rashifal text, personality readings | These are derived from your birth details using on-device Vedic astronomical calculations |
+| **Computed Astrological Data** | Kundali (lagna, moon rashi, sun rashi, moon nakshatra, planetary positions), dasha periods, rashifal text, personality readings | These are derived from your birth details using on-device calculations |
+| **Product Analytics Events** | First-party usage events (for example, which screen or feature was opened), each with an event name, timestamp, a random install identifier, a random per-launch session identifier, and your user ID | Understand which features are used so we can improve the App (see Section 1.4) |
 
-### 1.3 Information We Do NOT Collect
+### 1.3 Camera Access (Kundli QR Scanning Only)
+
+The App requests camera permission for exactly one purpose: scanning another person's Kundli QR code so you can save their profile without retyping their details.
+
+- The camera is used only while the QR scanner screen is open, and only after you grant permission.
+- Camera frames are processed on your device to detect the QR code. **No photo or video is captured, stored, or uploaded**, and the App does not access your photo library.
+- You can decline or revoke camera permission at any time in your device settings; every other feature keeps working, and profiles can still be added by typing.
+
+### 1.4 First-Party Product Analytics
+
+The App records first-party product analytics so we can understand which features matter and improve them.
+
+- Events describe product usage (for example, "rashifal opened") with a timestamp, a random install identifier, a random per-launch session identifier, and your user ID.
+- Event properties are sanitized and size-limited; they do not include your name, birth details, chat text, calendar contents, or the contents of any Kundli.
+- Events are stored on your device first and uploaded to our own Supabase database over HTTPS. **No third-party analytics SDK, tracking pixel, or advertising identifier is involved**, and analytics data is never shared with or sold to anyone.
+
+### 1.5 Information We Do NOT Collect
 
 We want to be explicit about what Jyotish baje **does not** collect:
 
-- ❌ **Email address** — not required for any feature
 - ❌ **Phone number** — not required for any feature
-- ❌ **Password** — authentication is anonymous; no password is created
 - ❌ **GPS location or precise location data** — birthplace is selected from a preset list; we never access your device's location services
-- ❌ **Photos or camera data** — the App does not access your camera or photo library
+- ❌ **Photos or photo library** — the camera is used only for live QR scanning (see Section 1.3); no photos or videos are captured or stored
 - ❌ **Contacts** — the App does not access your address book
 - ❌ **Financial or payment information** — the App has no in-app purchases or subscriptions
-- ❌ **Device identifiers or advertising IDs (IDFA)** — we do not collect or use any device advertising identifiers
-- ❌ **Analytics or usage data** — we do not use any analytics SDKs, tracking pixels, or behavioral tracking tools
+- ❌ **Advertising identifiers (IDFA / AAID)** — we do not collect or use any advertising identifiers, and we do not track you across apps or websites
+- ❌ **Third-party analytics or tracking** — we do not embed any third-party analytics SDKs, tracking pixels, or behavioral tracking tools (our first-party analytics are described in Section 1.4)
 - ❌ **Browsing history** — the App does not track your activity outside the App
-- ❌ **Health or biometric data** — voice input is processed entirely on your device (see Section 3)
+- ❌ **Health or biometric data** — voice input is processed on your device (see Section 3)
 
 ---
 
@@ -57,9 +74,11 @@ We use the information we collect for the following purposes:
 
 1. **Astrological Computations:** Your birth details are used to compute your Vedic kundali, planetary positions, dasha cycles, panchanga, and rashifal — all calculated on your device using genuine sidereal astronomical algorithms.
 
-2. **AI-Powered Guidance:** When you ask Jyotish Baje a question, your query, relevant family birth data, computed kundali, current dasha, daily rashifal, saved calendar events, and recent chat history (up to the last 16 messages) are sent to our server-side backend to generate a personalized response.
+2. **AI-Powered Guidance:** When you ask Jyotish Baje (the AI assistant) a question, your query, relevant family birth data, computed kundali, current dasha, daily rashifal, saved calendar events, and recent chat history (up to the last 16 messages) are sent to our server-side backend to generate a personalized response.
 
-3. **Family Astrology:** Family member profiles you add are used to generate kundalis and readings for your entire family, enabling family-centric astrological features.
+3. **Household Kundli Records:** Family member profiles you add — whether typed by hand or imported from a trusted person's Kundli QR — are used to keep your household's birth records together and generate readings for the profiles you save.
+
+    **Kundli QR sharing is user-to-user, not through us.** When you choose to show or send your Kundli QR, the QR image itself carries your name, gender, and birth details to whoever scans it. It does not include your computed chart, relationship labels, account credentials, chat history, or any identifier tied to your account. Share your QR only with people you trust: once someone has scanned or copied it, the App cannot recall the information from their device.
 
 4. **Calendar & Events:** Calendar events you create are stored to display personalized reminders on the Bikram Sambat calendar.
 
@@ -67,7 +86,9 @@ We use the information we collect for the following purposes:
 
 6. **Language & Theme:** Your preference choices are stored to deliver the App in your chosen language (English or Nepali) and visual theme.
 
-7. **Optional Notifications:** If you opt in, the App schedules a rolling set of local notifications for personal rashifal, Pandit-ji questions, family guidance, and Patro events. Notification text is generated on device from the profiles and preferences already stored in the App. You can change the frequency or turn notifications off in Settings at any time.
+7. **Optional Notifications:** If you opt in, the App schedules a rolling set of local notifications for personal rashifal, Jyotish Baje questions, family guidance, and Patro events. Notification text is generated on device from the profiles and preferences already stored in the App. You can change the frequency or turn notifications off in Settings at any time.
+
+8. **Product Improvement:** First-party analytics events (Section 1.4) tell us which features are used and where the App can improve. They are used for aggregate product decisions only.
 
 We do **not** use your data for advertising, marketing, profiling, sale to third parties, or any purpose other than providing and improving the Jyotish baje experience.
 
@@ -75,13 +96,13 @@ We do **not** use your data for advertising, marketing, profiling, sale to third
 
 ## 3. Voice Input and Speech Recognition
 
-Jyotish baje offers an optional voice input feature that lets you speak questions to Pandit-ji instead of typing.
+Jyotish baje offers an optional voice input feature that lets you speak questions to Jyotish Baje instead of typing.
 
 - **Microphone Access:** When you tap the microphone button, the App requests your permission to access the device microphone. You may decline, and the App will continue to work with text input only.
 
-- **On-Device Processing Only:** All speech recognition is performed **entirely on your device** using Apple's built-in Speech framework. **No audio recordings are sent to our servers, to any third party, or over the internet.** The audio is converted to text on your device, and only the resulting text is used.
+- **Device-Level Processing:** Speech recognition is performed by your device's built-in speech services — Apple's Speech framework on iOS, and the system speech recognizer on Android. **No audio recordings are ever sent to our servers.** The audio is converted to text by your device's speech service, and only the resulting text is used by the App.
 
-- **Text-to-Speech:** Pandit-ji's replies can optionally be spoken aloud using your device's built-in text-to-speech engine (Apple AVSpeechSynthesizer). This is also fully on-device. This feature is off by default.
+- **Text-to-Speech:** Jyotish Baje's replies can optionally be spoken aloud using your device's built-in text-to-speech engine. This is also processed on the device. This feature is off by default.
 
 - **Supported Languages:** Voice recognition supports Nepali (ne-NP), Hindi (hi-IN), English India (en-IN), and English US (en-US).
 
@@ -100,7 +121,7 @@ We share your data only with the following service providers, strictly for the p
 | Detail | Description |
 |---|---|
 | **What is shared** | Your chat question, family members' birth data and computed astrological data, your current dasha and daily rashifal, saved calendar events, and recent chat history (up to 16 messages) |
-| **Why** | To generate Pandit-ji's personalized astrological responses |
+| **Why** | To generate Jyotish Baje's personalized astrological responses |
 | **How** | Data is sent **from our server-side backend only** — never directly from your device. The OpenAI API key never leaves the server. |
 | **OpenAI's data policy** | OpenAI processes data per their [API Data Usage Policy](https://openai.com/policies/api-data-usage-policies). As of our last review, OpenAI does not use API inputs/outputs to train its models. |
 
@@ -108,17 +129,19 @@ We share your data only with the following service providers, strictly for the p
 
 | Detail | Description |
 |---|---|
-| **What is shared** | Your entire household data (profiles, family members, calendar events, chat history, and preferences), along with your anonymous user ID and authentication tokens |
-| **Why** | To provide cloud storage, data synchronization, anonymous authentication, and to host the server-side backend (Edge Functions) |
+| **What is shared** | Your entire household data (profiles, family members, calendar events, chat history, and preferences), your account identity and authentication tokens, and first-party analytics events |
+| **Why** | To provide cloud storage, data synchronization, account authentication, first-party analytics storage, and to host the server-side backend (Edge Functions) |
 | **How** | Data is transmitted over HTTPS (TLS encryption in transit). Data is stored in a PostgreSQL database protected by Row Level Security (RLS) — each user can only access their own data. |
 | **Supabase's data policy** | Supabase processes data per their [Privacy Policy](https://supabase.com/privacy). |
 
 ### 4.3 No Other Third Parties
 
-We do **not** integrate any of the following:
+If you sign in with Google or Apple, your sign-in is handled by that identity provider under its own privacy policy; we receive only the account identity described in Section 1.1.
+
+Beyond the providers above, we do **not** integrate any of the following:
 - Advertising networks or ad mediation platforms
-- Analytics or crash reporting SDKs (e.g., Firebase Analytics, Crashlytics, Amplitude, Mixpanel)
-- Social media SDKs (e.g., Facebook SDK, Google Sign-In)
+- Third-party analytics or crash reporting SDKs (e.g., Firebase Analytics, Crashlytics, Amplitude, Mixpanel)
+- Social media SDKs (e.g., the Facebook SDK)
 - Attribution or tracking services
 - Data brokers
 
@@ -135,7 +158,7 @@ We do **not** integrate any of the following:
 ### 5.2 Cloud Storage
 
 - Your household data is synced to a Supabase-hosted PostgreSQL database as a single JSON payload.
-- All data is associated with your anonymous user ID and protected by Row Level Security (RLS) policies — meaning only your authenticated session can read or modify your data.
+- All data is associated with your user ID and protected by Row Level Security (RLS) policies — meaning only your authenticated session can read or modify your data.
 - Data is encrypted in transit using HTTPS / TLS.
 - Supabase's infrastructure uses encryption at rest for stored data.
 
@@ -148,7 +171,7 @@ We do **not** integrate any of the following:
 We implement the following security measures:
 - **TLS encryption** for all data in transit between the App and our servers
 - **Row Level Security (RLS)** ensuring data isolation between users at the database level
-- **Anonymous authentication** minimizing the personal data footprint
+- **Provider-backed authentication** (Sign in with Apple, Google, or email) so your account is protected by your identity provider's safeguards
 - **Server-side API key management** preventing exposure of sensitive credentials
 - **JWT verification** on production endpoints to prevent unauthorized access
 
@@ -170,7 +193,7 @@ In the event of a data breach that poses a high risk to your rights and freedoms
 
 - **On-Device Data:** Your data remains on your device until you sign out (which clears all local data) or uninstall the App.
 
-- **Cloud Data:** Your cloud-stored household data is retained as long as your anonymous account exists. If you sign out, local data is erased but cloud data remains associated with your anonymous user ID. Since accounts are anonymous and cannot be re-authenticated after sign-out, orphaned cloud data may persist until we perform periodic cleanup.
+- **Cloud Data:** Your cloud-stored household data and analytics events are retained as long as your account exists. If you sign out, local data is erased from the device, but cloud data remains associated with your account so it is restored the next time you sign in.
 
 - **Chat History with OpenAI:** We do not independently store chat data on our servers beyond the Supabase database. Data sent to OpenAI for processing is handled per OpenAI's data retention policies — as of our last review, OpenAI retains API data for up to 30 days for abuse monitoring, then deletes it.
 
@@ -188,7 +211,7 @@ Depending on your jurisdiction, you may have the following rights regarding your
 - **Correction:** You can edit your personal and family member profiles directly in the App.
 - **Deletion (Local):** You can sign out of the App, which erases all local data from your device.
 - **Deletion (Cloud):** You can request deletion of your cloud-stored data by contacting us at **privacy@sodhera.com**.
-- **Withdraw Consent:** You can revoke microphone and speech recognition permissions at any time through your device's Settings → Jyotish baje.
+- **Withdraw Consent:** You can revoke camera, microphone, and speech recognition permissions at any time through your device's Settings → Jyotish baje.
 
 ### 7.2 European Economic Area (EEA), UK, and Switzerland Residents
 
@@ -269,7 +292,7 @@ If you have questions, concerns, or requests regarding this Privacy Policy or yo
 
 - **Email:** privacy@sodhera.com
 - **Developer:** Sodhera
-- **App:** Jyotish baje (com.sodhera.jyotish)
+- **App:** Jyotish baje (iOS: com.sodhera.jyotishbaje / Android: com.sodhera.jyotish)
 
 We aim to respond to all inquiries within 30 days.
 
@@ -286,25 +309,26 @@ The following summary aligns with Apple's App Store privacy label requirements:
 | Data Type | Purpose |
 |---|---|
 | Name | App Functionality |
-| Other User Content (birth details, family profiles, chat messages, calendar events) | App Functionality |
-| User ID (anonymous) | App Functionality |
+| Email Address (if you sign in with email, Google, or Apple) | App Functionality |
+| Other User Content (birth details, family profiles, imported Kundli QR profiles, chat messages, calendar events) | App Functionality |
+| User ID | App Functionality |
+| Product Interaction (first-party usage events) | Analytics (first-party only; no tracking) |
 
 ### Data Not Linked to You
 - **None.** All collected data is linked to your anonymous identity within the App.
 
 ### Data Not Collected
-- Contact Info (email, phone, physical address)
+- Phone Number and Physical Address
 - Health & Fitness
 - Financial Info
 - Location
-- Sensitive Info
 - Contacts
 - Browsing History
 - Search History
-- Identifiers (device ID, advertising ID)
+- Advertising Identifiers (IDFA / AAID)
 - Purchases
 - Diagnostics
-- Photos or Videos
+- Photos or Videos (camera is used for live QR scanning only; nothing is captured or stored)
 
 ---
 
