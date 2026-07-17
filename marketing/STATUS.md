@@ -1,6 +1,6 @@
 # Marketing readiness status
 
-**Status date:** 2026-07-16
+**Status date:** 2026-07-17
 **System status:** operating foundation ready; production and publication not started
 
 ## Ready
@@ -20,9 +20,10 @@
 
 ## Launch blockers
 
-1. The privacy policy says the app does not collect analytics or use the camera, while the
-   shipped app has first-party product analytics and private Kundli QR camera access. Legal/privacy
-   copy and store disclosures require review before paid acquisition or attribution work.
+1. ~~Privacy-policy contradictions~~ Resolved 2026-07-17: legal docs now disclose first-party
+   analytics, QR camera use, and real sign-in methods. Two successor blockers remain (see
+   `docs/22-STORE-SUBMISSION-CHECKLISTS.md`): the corrected policy still needs a live public
+   URL, and the app lacks the in-app account deletion Apple/Google require.
 2. There is no app-store listing URL recorded in the repo, so final install CTAs and link QA
    cannot be completed yet.
 3. There is no install-attribution mechanism. Do not claim creative-level app conversion
