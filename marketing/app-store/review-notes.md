@@ -1,6 +1,6 @@
-# App Review notes
+# App Review notes (Apple App Review / Google Play pre-launch notes)
 
-Hello App Review Team,
+Hello Review Team,
 
 Jyotish Baje's primary experience is private Kundli sharing for Nepali Hindu families. The app
 now opens directly to **My Kundli & QR**, where a user can keep their own Kundli, generate a QR
@@ -25,6 +25,17 @@ Suggested review path:
 Privacy boundary: the v1 QR includes the sharer's name and birth details. It does not include a
 calculated Kundli, relationship label, chat history, account credentials or analytics identifier.
 The app does not claim that the exchange creates a permanent mutual social connection.
+
+Sign-in and demo account: the app requires an account (Sign in with Apple, Google, or email and
+password). A working demo account **must** be entered in App Review Information before
+submission:
+
+- Email: `<fill in before submitting — create a dedicated review account>`
+- Password: `<fill in before submitting>`
+
+Permissions: camera is requested only when the user opens **Scan Kundli QR** and is used solely
+for live QR detection — no photo or video is captured or stored. Microphone and speech
+recognition are requested only when the user taps the voice-input button.
 
 We respectfully ask that this private, culturally specific Kundli-sharing workflow be evaluated
 as the app's primary experience under Guideline 4.3(b).

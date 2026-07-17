@@ -22,16 +22,22 @@ Connect unless a dated competitive search and legal review substantiate the exac
 
 ## Files
 
-- `ios-en-GB.md`: paste-ready English (U.K.) product-page fields.
-- `review-notes.md`: paste-ready App Review explanation and test path.
+- `ios-en-GB.md`: paste-ready English (U.K.) App Store product-page fields.
+- `ios-ne-NP.md`: Nepali reference copy for the listing (and ads/web reuse).
+- `android-en.md` / `android-ne.md`: paste-ready Google Play listing fields plus the
+  data-safety form answers.
+- `review-notes.md`: paste-ready review explanation, test path, and demo-account slot
+  (the password is held by the owner and is never committed).
 
-Generate the current screenshot set with:
+Generate the current screenshot sets with:
 
 ```sh
-python3 scripts/generate_appstore_screenshots.py \
-  --source marketing/media/appstore-private-kundli-source \
-  --output marketing/media/appstore-private-kundli-2026-07-16
+python3 scripts/generate_appstore_screenshots.py                     # iOS 1320x2868
+python3 scripts/generate_appstore_screenshots.py --platform android  # Play 1080x2160
 ```
+
+The Play set renders real Android emulator captures from
+`marketing/media/playstore-android-source/`.
 
 The output stays in ignored `marketing/media/`; large product-page binaries must not be added
 to Git.
