@@ -2,7 +2,7 @@ import type { Language } from "@/types";
 
 export const l10n: Record<string, { en: string; ne: string }> = {
   "app.name": { en: "Jyotish baje", ne: "ज्योतिष बाजे" },
-  "app.tagline": { en: "Your family's pandit, in your pocket", ne: "तपाईंको परिवारको पण्डित, तपाईंकै हातमा" },
+  "app.tagline": { en: "Your family's Kundli, in one private place", ne: "तपाईंको परिवारको कुण्डली, एकै निजी ठाउँमा" },
   "welcome.continue": { en: "Continue with account (demo)", ne: "खाता सहित अगाडि बढ्नुहोस् (डेमो)" },
   "tab.home": { en: "Religious", ne: "धार्मिक" },
   "tab.rashifal": { en: "Rashifal", ne: "राशिफल" },

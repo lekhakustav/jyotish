@@ -10,12 +10,12 @@ import { AuthScreen, type AuthMode } from "@/screens/AuthScreen";
 function welcomeCopy(language: "en" | "ne") {
   return language === "ne"
     ? {
-        tagline: "तपाईंको परिवारको पण्डित, तपाईंकै हातमा",
+        tagline: "तपाईंको परिवारको कुण्डली, एकै निजी ठाउँमा",
         createAccount: "खाता खोल्नुहोस्",
         signIn: "साइन इन गर्नुहोस्"
       }
     : {
-        tagline: "Your family's pandit, in your pocket",
+        tagline: "Your family's Kundli, in one private place",
         createAccount: "Create an account",
         signIn: "Sign in"
       };
