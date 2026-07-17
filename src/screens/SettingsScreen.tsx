@@ -1,5 +1,5 @@
 import React from "react";
-import { Linking, Switch, View } from "react-native";
+import { Alert, Linking, Switch, View } from "react-native";
 import { AppText, Hairline, PressableScale, SectionLabel, SerifText } from "../components";
 import { ScrollScreen } from "../layout";
 import { AppIcon, type AppIconName } from "../ornaments";
@@ -114,7 +114,43 @@ export function SettingsScreen({ onEditProfile, notificationPreferences, onNotif
       <PressableScale accessibilityRole="button" onPress={app.signOut} style={styles.signOut}>
         <AppText style={{ color: palette.sindoor, fontSize: 16 }}>{app.language === "ne" ? "साइन आउट" : "Sign out"}</AppText>
       </PressableScale>
+
+      <PressableScale
+        accessibilityRole="button"
+        onPress={() => confirmAccountDeletion(app.language === "ne", () => app.deleteAccount())}
+        style={styles.deleteAccount}
+      >
+        <AppText style={{ color: palette.inkSecondary, fontSize: 15 }}>
+          {app.language === "ne" ? "खाता मेटाउनुहोस्" : "Delete account"}
+        </AppText>
+      </PressableScale>
     </ScrollScreen>
+  );
+}
+
+/** Two-step destructive confirm; local state resets only after the server confirms. */
+function confirmAccountDeletion(ne: boolean, deleteAccount: () => Promise<void>) {
+  Alert.alert(
+    ne ? "आफ्नो खाता मेटाउने हो?" : "Delete your account?",
+    ne
+      ? "यसले तपाईंको खाता, घरपरिवारका कुण्डली अभिलेख र सबै सिङ्क गरिएको डेटा सधैंका लागि मेटाउँछ। यो फिर्ता हुँदैन।"
+      : "This permanently deletes your account, your household's Kundli records, and all synced data. This cannot be undone.",
+    [
+      { text: ne ? "रद्द गर्नुहोस्" : "Cancel", style: "cancel" },
+      {
+        text: ne ? "सधैंका लागि मेटाउनुहोस्" : "Delete permanently",
+        style: "destructive",
+        onPress: () => {
+          deleteAccount().catch(() => {
+            Alert.alert(
+              ne
+                ? "खाता मेटाउन सकिएन। इन्टरनेट जाँचेर फेरि प्रयास गर्नुहोस्।"
+                : "Could not delete your account. Check your connection and try again."
+            );
+          });
+        }
+      }
+    ]
   );
 }
 
@@ -178,5 +214,6 @@ const styles = {
   iconButton: { width: layoutMetrics.minimumTouchTarget, height: layoutMetrics.minimumTouchTarget, alignItems: "center" as const, justifyContent: "center" as const, marginRight: -8 },
   segmented: { minHeight: 52, flexDirection: "row" as const, gap: 4, borderRadius: 26, borderCurve: "continuous" as const, backgroundColor: palette.bgSunken, padding: 4 },
   row: { minHeight: 48, paddingVertical: 10, flexDirection: "row" as const, alignItems: "center" as const, gap: 12 },
-  signOut: { minHeight: 50, alignItems: "center" as const, justifyContent: "center" as const }
+  signOut: { minHeight: 50, alignItems: "center" as const, justifyContent: "center" as const },
+  deleteAccount: { minHeight: 44, alignItems: "center" as const, justifyContent: "center" as const }
 };

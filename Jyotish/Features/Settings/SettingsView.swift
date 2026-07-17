@@ -7,6 +7,9 @@ struct SettingsView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var editingProfile = false
     @State private var notificationError: String?
+    @State private var confirmingDeletion = false
+    @State private var isDeletingAccount = false
+    @State private var deletionFailed = false
 
     var body: some View {
         ZStack {
@@ -87,6 +90,17 @@ struct SettingsView: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 50)
                     }
+
+                    Button {
+                        confirmingDeletion = true
+                    } label: {
+                        Text(app.t("settings.deleteAccount"))
+                            .scaledFont(size: 15)
+                            .foregroundStyle(p.inkSecondary)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 44)
+                    }
+                    .disabled(isDeletingAccount)
                 }
                 .padding(.horizontal, LayoutMetrics.sheetGutter)
                 .padding(.bottom, 40)
@@ -103,6 +117,26 @@ struct SettingsView: View {
             Button(app.t("common.done")) { notificationError = nil }
         } message: {
             Text(notificationError ?? "")
+        }
+        .alert(app.t("settings.deleteAccount.title"), isPresented: $confirmingDeletion) {
+            Button(app.t("settings.deleteAccount.confirm"), role: .destructive) {
+                isDeletingAccount = true
+                Task {
+                    let deleted = await app.deleteAccount()
+                    isDeletingAccount = false
+                    if deleted {
+                        dismiss()
+                    } else {
+                        deletionFailed = true
+                    }
+                }
+            }
+            Button(app.t("common.cancel"), role: .cancel) {}
+        } message: {
+            Text(app.t("settings.deleteAccount.body"))
+        }
+        .alert(app.t("settings.deleteAccount.error"), isPresented: $deletionFailed) {
+            Button(app.t("common.done")) { deletionFailed = false }
         }
     }
 

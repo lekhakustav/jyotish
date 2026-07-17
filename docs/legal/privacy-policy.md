@@ -197,7 +197,7 @@ In the event of a data breach that poses a high risk to your rights and freedoms
 
 - **Chat History with OpenAI:** We do not independently store chat data on our servers beyond the Supabase database. Data sent to OpenAI for processing is handled per OpenAI's data retention policies — as of our last review, OpenAI retains API data for up to 30 days for abuse monitoring, then deletes it.
 
-- **Account Deletion:** To request deletion of your cloud data, please contact us at **privacy@sodhera.com**. We will process deletion requests within 30 days.
+- **Account Deletion:** You can permanently delete your account and all cloud data at any time in the App: **Settings → Delete account**. Deletion is immediate and cannot be undone. You may also email **privacy@sodhera.com** and we will process the request within 30 days.
 
 ---
 
@@ -210,7 +210,7 @@ Depending on your jurisdiction, you may have the following rights regarding your
 - **Access:** You can view all your data within the App at any time (profiles, family, events, chat history, preferences).
 - **Correction:** You can edit your personal and family member profiles directly in the App.
 - **Deletion (Local):** You can sign out of the App, which erases all local data from your device.
-- **Deletion (Cloud):** You can request deletion of your cloud-stored data by contacting us at **privacy@sodhera.com**.
+- **Deletion (Cloud):** You can permanently delete your account and cloud-stored data in the App via **Settings → Delete account**, or by contacting us at **privacy@sodhera.com**.
 - **Withdraw Consent:** You can revoke camera, microphone, and speech recognition permissions at any time through your device's Settings → Jyotish baje.
 
 ### 7.2 European Economic Area (EEA), UK, and Switzerland Residents

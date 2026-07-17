@@ -237,6 +237,13 @@ enum L10n {
         "settings.privacyPolicy": ("Privacy Policy", "गोपनीयता नीति"),
         "settings.termsOfService": ("Terms of Service", "सेवाका सर्तहरू"),
         "settings.signOut": ("Sign out", "साइन आउट"),
+        "settings.deleteAccount": ("Delete account", "खाता मेटाउनुहोस्"),
+        "settings.deleteAccount.title": ("Delete your account?", "आफ्नो खाता मेटाउने हो?"),
+        "settings.deleteAccount.body": ("This permanently deletes your account, your household's Kundli records, and all synced data. This cannot be undone.",
+                                        "यसले तपाईंको खाता, घरपरिवारका कुण्डली अभिलेख र सबै सिङ्क गरिएको डेटा सधैंका लागि मेटाउँछ। यो फिर्ता हुँदैन।"),
+        "settings.deleteAccount.confirm": ("Delete permanently", "सधैंका लागि मेटाउनुहोस्"),
+        "settings.deleteAccount.error": ("Could not delete your account. Check your connection and try again.",
+                                         "खाता मेटाउन सकिएन। इन्टरनेट जाँचेर फेरि प्रयास गर्नुहोस्।"),
     ]
 
     static func t(_ key: String, _ lang: Language) -> String {

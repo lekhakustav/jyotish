@@ -63,5 +63,5 @@ medical, legal or financial outcomes.
 | Collects location | No |
 | Data shared with third parties | No (OpenAI/Supabase act as processors for app functionality; no sale or ad sharing) |
 | Data encrypted in transit | Yes |
-| Users can request deletion | Yes — via privacy@sodhera.com (in-app deletion pending) |
+| Users can request deletion | Yes — in-app (Settings → Delete account) or via privacy@sodhera.com |
 | Data used for advertising | No |

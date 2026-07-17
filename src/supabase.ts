@@ -110,3 +110,13 @@ export async function signOutSupabase() {
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
 }
+
+// Server-side account deletion (Play User Data policy / Apple 5.1.1(v)):
+// the delete-account Edge Function wipes household and analytics rows, then
+// the auth user. The local session is cleared only after the server confirms.
+export async function deleteAccountSupabase() {
+  const { data, error } = await supabase.functions.invoke("delete-account", { body: {} });
+  if (error) throw error;
+  if (!data?.deleted) throw new Error("Account deletion was not confirmed");
+  await supabase.auth.signOut().catch(() => undefined);
+}

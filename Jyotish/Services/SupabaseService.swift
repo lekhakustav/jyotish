@@ -237,6 +237,21 @@ final class SupabaseAuthService: AuthService {
         sessionStore.clear()
     }
 
+    /// Server-side account deletion (Guideline 5.1.1(v)): the delete-account
+    /// Edge Function wipes household and analytics rows, then the auth user.
+    func deleteAccount() async throws {
+        guard let session = sessionStore.load() else { throw SupabaseError.missingSession }
+        var request = authRequest(path: "/functions/v1/delete-account", bearer: session.accessToken)
+        request.httpMethod = "POST"
+        request.httpBody = Data("{}".utf8)
+        let (data, response) = try await urlSession.data(for: request)
+        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+            let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+            throw SupabaseError.badResponse(status, String(data: data, encoding: .utf8) ?? "")
+        }
+        sessionStore.clear()
+    }
+
     private func authRequest(path: String, bearer: String? = nil) -> URLRequest {
         var request = URLRequest(url: endpoint(path))
         request.setValue(config.publishableKey, forHTTPHeaderField: "apikey")

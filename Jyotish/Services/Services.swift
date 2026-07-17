@@ -9,6 +9,7 @@ protocol AuthService {
     func signUpEmail(email: String, password: String) async throws -> UserAccount
     func signInEmail(email: String, password: String) async throws -> UserAccount
     func signOut() async throws
+    func deleteAccount() async throws
 }
 
 protocol DataStore {
@@ -35,6 +36,7 @@ struct DummyAuthService: AuthService {
         UserAccount(email: email, displayName: "", isDemo: true)
     }
     func signOut() async throws {}
+    func deleteAccount() async throws {}
 }
 
 /// Atomic JSON persistence in Documents/household.json.

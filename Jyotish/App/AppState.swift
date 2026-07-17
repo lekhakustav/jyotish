@@ -285,6 +285,33 @@ final class AppState: ObservableObject {
         persist()
     }
 
+    /// Server-side deletion runs first; local state is cleared only after the
+    /// backend confirms, so a failed attempt leaves the session usable.
+    func deleteAccount() async -> Bool {
+        AppAnalytics.track("account_delete_requested")
+        do {
+            try await auth.deleteAccount()
+        } catch {
+            syncStatus = error.localizedDescription
+            return false
+        }
+        let previousPreferences = engagementPreferences
+        Task {
+            try? await EngagementNotificationService.setEnabled(false, family: family, events: events,
+                                                                 preferences: previousPreferences,
+                                                                 language: language)
+        }
+        account = nil
+        family = []
+        events = []
+        chat = []
+        chatConversations = []
+        selectedChatConversationID = nil
+        engagementPreferences = EngagementPreferences()
+        persist()
+        return true
+    }
+
     /// Fetches the account's saved household (if any) before publishing `account`,
     /// so `isLoggedIn` and `hasBirthProfile` flip together — otherwise RootView
     /// briefly shows the birth-details flow before the real profile arrives.

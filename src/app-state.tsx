@@ -2,7 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import React from "react";
 import { useColorScheme } from "react-native";
 import { demoEvents, demoFamily, localPanditReply, recomputeMember, uuid } from "@/astro";
-import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase, completeAuthFromParams, type AuthCallbackParams } from "@/supabase";
+import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase, deleteAccountSupabase, completeAuthFromParams, type AuthCallbackParams } from "@/supabase";
 import type { AppModal, AppTab, BirthData, ChatConversation, ChatMessage, FamilyMember, Household, Language, PatroEvent, ThemeChoice, UserAccount } from "@/types";
 import { applyPalette } from "@/theme";
 import { track } from "@/analytics";
@@ -33,6 +33,7 @@ type AppContextValue = {
   signUpEmail: (email: string, password: string) => Promise<void>;
   skipAuth: () => void;
   signOut: () => void;
+  deleteAccount: () => Promise<void>;
   setLanguage: (language: Language) => void;
   setTheme: (theme: ThemeChoice) => void;
   setSelectedTab: (tab: AppTab) => void;
@@ -256,6 +257,16 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     setModal(null);
   }, []);
 
+  // Local state is reset only after the server confirms deletion, so a failed
+  // request leaves the signed-in session intact and retryable.
+  const deleteAccount = React.useCallback(async () => {
+    track("account_delete_requested");
+    await deleteAccountSupabase();
+    setHousehold(initialHousehold());
+    setSelectedTab("family");
+    setModal(null);
+  }, []);
+
   const setLanguage = React.useCallback((language: Language) => {
     track("preference_changed", { preference: "language", value: language });
     updateHousehold((current) => ({ ...current, language }));
@@ -457,6 +468,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     signUpEmail,
     skipAuth,
     signOut,
+    deleteAccount,
     setLanguage,
     setTheme,
     setSelectedTab: selectTab,
