@@ -3,8 +3,8 @@
 **Campaign:** `cmp_20260716_launch`  
 **Purpose:** durable, append-only record of the Jyotish Baje short-form video production work.  
 **Canonical prompt source:** [`veo-prompts.md`](veo-prompts.md)  
-**Current status:** `cou001` revision 2 is ready with the approved natural Nepali hook, full Veo
-scene, and truthful store end card; `cru001` now has a copy-paste young-teen Veo prompt.
+**Current status:** `cou001` revision 3 is ready with unchanged approved visuals, louder
+narration, quieter laughter, and a verified Jyotish Baje end card; `cru001` is prompt-ready.
 **Last updated:** 2026-07-18
 
 **User production rule:** one output per concept; never create three-seed variants or duplicate
@@ -41,7 +41,7 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 | `nep001` | `prm_20260716_nep001` | `SH-LANG-01` to `SH-LANG-02` | TBD | Veo source received | TBD | Fluent Nepali review required. |
 | `voc001` | `prm_20260716_voc001` | `SH-VOC-01` to `SH-VOC-02` | TBD | Veo source received | TBD | Final capability proof requires physical hardware. |
 | `pat001` | `prm_20260716_pat001` | `SH-PAT-01` to `SH-PAT-03` | Later | Not started | TBD | Supporting retention concept. |
-| `cou001` | `prm_20260718_cou001` | Full Veo; real two-profile proof later | Nepali | Revision 2 ready for review | `crv_20260718_cou001ne02` | Full 8-second source plus 2.5-second truthful store end card; no app demo yet. |
+| `cou001` | `prm_20260718_cou001` | Full Veo; real two-profile proof later | Nepali | Revision 3 ready for review | `crv_20260718_cou001ne03` | Revision 2 visuals unchanged; narration raised and laughter reduced; no app demo yet. |
 | `cru001` | `prm_20260718_cru001` | Young-teen Veo hook; consensual app proof later | Visual only | Prompt ready; one generation allowed | TBD | Age-appropriate 16–17 crush scene; no media generated. |
 
 ## Render register
@@ -67,6 +67,7 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 | 2026-07-18 | — | — | — | — | Not started | No voice, edit, or review assets yet. |
 | 2026-07-18 | `cou001` / `crv_20260718_cou001ne` | Nepali | `med_20260718_cou001vo1` / Drive `1pSPJ9tTElg2KGNyinEfivZX5082xzzVu` | `med_20260718_cou001v1` / Drive `1OXIuyYzkCK6qYylwLQBD90korRwLuCb7` | Ready for user voice/mood review | Full 8.000-second Veo source; voice at 0.55–6.79; original ambience restored for the ending. |
 | 2026-07-18 | `cou001` / `crv_20260718_cou001ne02` | Nepali | `med_20260718_cou001vo2` / Drive `1colBffLuYGhNYXe6XKFdTjEkzoGpuaWI` | `med_20260718_cou001v2` / Drive `1rzVUWHKyA_ZzIarNyRLgiOmk5hPNnzXX` | Ready for user review | Approved `ए, तिमी त ठ्याक्कै यस्तै छौ!` hook; mispronounced spoken brand trimmed; full Veo plus 2.5-second coming-soon card. |
+| 2026-07-18 | `cou001` / `crv_20260718_cou001ne03` | Nepali | Reuses `med_20260718_cou001vo2` with +2 dB mix gain | `med_20260718_cou001v3` / Drive `19WZpa-dEnv-iYqXNxUzCTt0Zm2QTVDG6` | Ready for user review | Video stream identical to revision 2; laughter approximately 8.5 dB quieter. |
 
 ## Decision and event history
 
@@ -300,6 +301,34 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
   `f07f49b153f41134d25080e50f1ede20749c42dfac768190e7f4b859798fa7ae`.
 - **Next action:** user reviews `cou001` revision 2 and generates exactly one `cru001` Veo
   output from the registered prompt.
+
+### 2026-07-18 19:25–19:30 Asia/Kathmandu — End-card check and narration-forward mix
+
+- **User verdict:** revision 2 visuals are good. Keep every visual frame and only confirm the
+  closing brand plus rebalance narration and laughter.
+- **End-card verification:** extracted and inspected the exported frame at 9.25 seconds. It
+  visibly contains the real logo, `Jyotish Baje`, `Understand each other better.`,
+  `Coming soon to`, `App Store`, and `Google Play`.
+- **Visual invariance:** revision 2 and revision 3 have the same compressed-video SHA-256,
+  `d62912366d79257234d9c8a0e66f0e8a08c55b6927f5363b619fcd6b7d4b9be1`. No picture,
+  timing, logo, text, or end-card change was introduced.
+- **Audio change:** raise the narration source from gain 1.00 to 1.28, approximately +2 dB.
+  Lower ambience under narration from 0.22 to 0.10 and lower the later laughter from 0.78 to
+  0.28.
+- **Measured result:** the 5.95–7.65-second laughter region changes from -34.5 dB mean /
+  -11.2 dB peak to -43.0 dB mean / -19.7 dB peak, approximately 8.5 dB quieter. The narration
+  source is about 2 dB louder while remaining limited below clipping.
+- **Speech verification:** Scribe v2 on revision 3 still returns exactly
+  `ए तिमी त ठ्याक्कै यस्तै छौ। एकअर्काको बानी र सोच अझ राम्रोसँग बुझ्न।`
+- **Revision:** `crv_20260718_cou001ne03` / `med_20260718_cou001v3`; 10.500 seconds, 252 frames,
+  720×1280, 24 fps, H.264/AAC, 2,775,385 bytes, SHA-256
+  `7a1a565904f00e3a335e647be80a4d7221e890712c78166bf9ee3469cbaf3d46`.
+- **Drive:** uploaded once to `exports_review`; file ID
+  `19WZpa-dEnv-iYqXNxUzCTt0Zm2QTVDG6`. Metadata readback verified the name, MIME type, byte
+  size, and parent folder.
+- **Renderer:** `marketing/scripts/render-cou001-nepali-insight-endcard-v3.sh`.
+- **Next action:** user listens to revision 3. If approved, treat its visual and audio treatment
+  as locked while the later real-app proof section is designed separately.
 
 ## Handoff checklist for the next chat
 

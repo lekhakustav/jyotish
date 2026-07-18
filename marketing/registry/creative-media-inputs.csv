@@ -7,3 +7,5 @@ schema_version,creative_id,media_id,role,timeline_start_ms,timeline_end_ms,sourc
 1,crv_20260718_cou001ne,med_20260718_cou001vo1,voiceover,550,6790,0,6240,2
 1,crv_20260718_cou001ne02,med_20260718_cou001,veo_scene,0,8000,0,8000,1
 1,crv_20260718_cou001ne02,med_20260718_cou001vo2,voiceover,350,5900,0,5550,2
+1,crv_20260718_cou001ne03,med_20260718_cou001,veo_scene,0,8000,0,8000,1
+1,crv_20260718_cou001ne03,med_20260718_cou001vo2,voiceover,350,5900,0,5550,2

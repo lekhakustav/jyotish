@@ -46,3 +46,14 @@ No promotional overlay appears over the Veo scene. The end card uses only:
 - `App Store`
 - `Google Play`
 - `iOS • Android`
+
+## Revision 3 audio-only mix
+
+- Keep the complete video stream identical to revision 2. The verified compressed-video SHA-256
+  for both exports is `d62912366d79257234d9c8a0e66f0e8a08c55b6927f5363b619fcd6b7d4b9be1`.
+- Raise the narration gain from `1.00` to `1.28`, approximately 2 dB.
+- Lower source ambience to `0.10` while the narration is active and `0.28` afterward.
+- Measured post-narration laughter changes from -34.5 dB mean / -11.2 dB peak in revision 2 to
+  -43.0 dB mean / -19.7 dB peak in revision 3.
+- Keep the verified 5.55-second voice trim and unchanged 2.5-second end card.
+- Renderer: `marketing/scripts/render-cou001-nepali-insight-endcard-v3.sh`.

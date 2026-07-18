@@ -29,3 +29,11 @@ schema_version,creative_id,factor_name,factor_level
 1,crv_20260718_cou001ne02,text,store-availability-endcard
 1,crv_20260718_cou001ne02,store_cta,coming-soon-not-download
 1,crv_20260718_cou001ne02,duration,10.5s
+1,crv_20260718_cou001ne03,hook,thyakkai-yastai-chhau
+1,crv_20260718_cou001ne03,identity,fictional-adult-couple
+1,crv_20260718_cou001ne03,proof,voice-plus-store-endcard-no-app-proof
+1,crv_20260718_cou001ne03,visual_language,identical-to-revision-2
+1,crv_20260718_cou001ne03,voice,karki-nepali-plus-2db
+1,crv_20260718_cou001ne03,ambience,laughter-minus-8.5db
+1,crv_20260718_cou001ne03,store_cta,coming-soon-not-download
+1,crv_20260718_cou001ne03,duration,10.5s
