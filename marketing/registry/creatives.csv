@@ -1,1 +1,2 @@
 schema_version,creative_id,concept_id,prompt_id,language,market_id,hook_text,voiceover_media_id,final_media_id,edit_recipe_path,duration_ms,aspect_ratio,status,created_at_utc,supersedes_creative_id,content_sha256
+1,crv_20260718_dia001en,cpt_20260716_dia001,prm_20260716_dia001,en,np-plus-diaspora,One family. Two time zones.,,,marketing/creative/campaigns/launch-001/product-motion/dia001.html,17200,9:16,draft,2026-07-18T11:54:20Z,,

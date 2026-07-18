@@ -30,3 +30,23 @@ A pass proves structural consistency, not source truth, policy eligibility, stat
 causality. Those require the review and decision gates documented under `marketing/operations/`.
 Drive snapshot drift is reported separately from structural failures because it requires updating
 the Drive copy and its registry checksum together, not weakening the data contract.
+
+## Render the `dia001` product-motion prototype
+
+The `dia001` renderer records a reusable Swift-faithful HTML motion source and combines it with
+the approved Veo family scene. It exports one compact review MP4 into the ignored media
+workspace and uses only the synthetic identity `Sita Sharma`.
+
+```sh
+node marketing/scripts/render-dia001-product-motion.mjs
+```
+
+Output:
+
+```text
+marketing/media/launch-001/prototypes/dia001/
+  med_20260718_dia001dr__cmp_20260716_launch__product-motion-draft__sita-sharma.mp4
+```
+
+The product visualization masks the QR-like visual and contains no real birth data. It remains
+a review draft until it passes the launch preflight checklist.

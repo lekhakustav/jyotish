@@ -3,8 +3,8 @@
 **Campaign:** `cmp_20260716_launch`  
 **Purpose:** durable, append-only record of the Jyotish Baje short-form video production work.  
 **Canonical prompt source:** [`veo-prompts.md`](veo-prompts.md)  
-**Current status:** four first-wave Veo source scenes uploaded and verified in Drive; app-proof
-capture and assembly are not started.
+**Current status:** four first-wave Veo source scenes are in Drive; the first `dia001`
+Swift-faithful product-motion review draft is rendered and uploaded.
 **Last updated:** 2026-07-18
 
 **User production rule:** one output per concept; never create three-seed variants or duplicate
@@ -36,10 +36,10 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 
 | Concept | Prompt ID | Proof shots | Language | Status | Creative ID | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dia001` | `prm_20260716_dia001` | `SH-QR-01` to `SH-QR-03` | TBD | Veo source received | `med_20260718_dia001` | First product promise; mask every QR frame. |
-| `fam001` | `prm_20260716_fam001` | `SH-FAM-01` to `SH-FAM-03` | TBD | Veo source received | `med_20260718_fam001` | Family profiles and selected-member context. |
-| `nep001` | `prm_20260716_nep001` | `SH-LANG-01` to `SH-LANG-02` | TBD | Veo source received | `med_20260718_nep001` | Fluent Nepali review required. |
-| `voc001` | `prm_20260716_voc001` | `SH-VOC-01` to `SH-VOC-02` | TBD | Veo source received | `med_20260718_voc001` | Final capability proof requires physical hardware. |
+| `dia001` | `prm_20260716_dia001` | Product-motion QR flow | English | Review draft ready | `crv_20260718_dia001en` | Swift-faithful visualization; Sita Sharma only; QR masked. |
+| `fam001` | `prm_20260716_fam001` | `SH-FAM-01` to `SH-FAM-03` | TBD | Veo source received | TBD | Family profiles and selected-member context. |
+| `nep001` | `prm_20260716_nep001` | `SH-LANG-01` to `SH-LANG-02` | TBD | Veo source received | TBD | Fluent Nepali review required. |
+| `voc001` | `prm_20260716_voc001` | `SH-VOC-01` to `SH-VOC-02` | TBD | Veo source received | TBD | Final capability proof requires physical hardware. |
 | `pat001` | `prm_20260716_pat001` | `SH-PAT-01` to `SH-PAT-03` | Later | Not started | TBD | Supporting retention concept. |
 
 ## Render register
@@ -98,6 +98,25 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
   being fabricated.
 - **Next action:** inspect the visual moments, then capture the exact real-app proof shots listed
   for each concept.
+
+### 2026-07-18 — `dia001` Swift-faithful product-motion draft
+
+- **Decision:** use a reproducible HTML product-motion renderer instead of repeatedly operating
+  the simulator for the review prototype.
+- **Identity:** every visible profile is `Sita Sharma`; no other synthetic or real person appears.
+- **Treatment:** 2.3 seconds of the approved Veo family scene followed by an ornamented,
+  Swift-faithful visualization of choose profile, masked QR, receiver-selected relationship,
+  saved profile, and end card.
+- **Privacy:** no real birth data appears and the QR-like graphic is intentionally blurred and
+  blocked by a privacy mark.
+- **Creative:** `crv_20260718_dia001en`.
+- **Draft media:** `med_20260718_dia001dr`; 17.2 seconds, 1080×1920, 30 fps, H.264, no audio,
+  2,087,302 bytes.
+- **Drive evidence:** `1zzsQ8Vr8DW6JmgHKSgNkxuTaRmtZxH--` in `exports_review`.
+- **Renderer:** `marketing/scripts/render-dia001-product-motion.mjs`.
+- **Source:** `marketing/creative/campaigns/launch-001/product-motion/dia001.html`.
+- **Next action:** user review of visual direction; if approved, add voice/music and apply the
+  same renderer pattern to `fam001`, `nep001`, and `voc001`.
 
 ## Handoff checklist for the next chat
 
