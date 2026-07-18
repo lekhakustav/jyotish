@@ -3,8 +3,8 @@
 **Campaign:** `cmp_20260716_launch`  
 **Purpose:** durable, append-only record of the Jyotish Baje short-form video production work.  
 **Canonical prompt source:** [`veo-prompts.md`](veo-prompts.md)  
-**Current status:** four first-wave Veo source scenes received locally; app-proof capture and
-assembly are not started.
+**Current status:** four first-wave Veo source scenes uploaded and verified in Drive; app-proof
+capture and assembly are not started.
 **Last updated:** 2026-07-18
 
 **User production rule:** one output per concept; never create three-seed variants or duplicate
@@ -46,10 +46,10 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 
 | Date | Concept | Prompt ID/version | Seed | `media_id` | Local path | Drive file ID | Checksum | Status | Reason/evidence |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-07-18 | `dia001` | `prm_20260716_dia001` v1 | Not supplied | `med_20260718_dia001` | `marketing/media/launch-001/veo-source/med_20260718_dia001__cmp_20260716_launch__veo-source__omni-flash__20260718-1433.mp4` | Pending upload | `edd3711a5536d7902a871b3e8bd93f9191e742ba8853c8092092d15b94d0f443` | Local inbox | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one local copy. |
-| 2026-07-18 | `fam001` | `prm_20260716_fam001` v1 | Not supplied | `med_20260718_fam001` | `marketing/media/launch-001/veo-source/med_20260718_fam001__cmp_20260716_launch__veo-source__omni-flash__20260718-1436.mp4` | Pending upload | `853dff9017cb024e586aae9502c93ec3366f787a5678855349009f6b18dfbc52` | Local inbox | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one local copy. |
-| 2026-07-18 | `nep001` | `prm_20260716_nep001` v1 | Not supplied | `med_20260718_nep001` | `marketing/media/launch-001/veo-source/med_20260718_nep001__cmp_20260716_launch__veo-source__omni-flash__20260718-1438.mp4` | Pending upload | `fca34062260d900eb49bc942e77902e8569957410eacb9a8e11b4e75b7637367` | Local inbox | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one local copy. |
-| 2026-07-18 | `voc001` | `prm_20260716_voc001` v1 | Not supplied | `med_20260718_voc001` | `marketing/media/launch-001/veo-source/med_20260718_voc001__cmp_20260716_launch__veo-source__omni-flash__20260718-1440.mp4` | Pending upload | `52848ab0bfeaf33ad0aa1ac8d8619e59d5f1c982035240bb0a5f28ba552cf045` | Local inbox | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one local copy. |
+| 2026-07-18 | `dia001` | `prm_20260716_dia001` v1 | Not supplied | `med_20260718_dia001` | `marketing/media/launch-001/veo-source/med_20260718_dia001__cmp_20260716_launch__veo-source__omni-flash__20260718-1433.mp4` | `15FavDZISXcLW1MVCH2AtYnB_vxu5xkPa` | `edd3711a5536d7902a871b3e8bd93f9191e742ba8853c8092092d15b94d0f443` | Uploaded/verified | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one source per concept. |
+| 2026-07-18 | `fam001` | `prm_20260716_fam001` v1 | Not supplied | `med_20260718_fam001` | `marketing/media/launch-001/veo-source/med_20260718_fam001__cmp_20260716_launch__veo-source__omni-flash__20260718-1436.mp4` | `1qaWoHwNRw63T8kjlxCDrjXbDcn6kCekV` | `853dff9017cb024e586aae9502c93ec3366f787a5678855349009f6b18dfbc52` | Uploaded/verified | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one source per concept. |
+| 2026-07-18 | `nep001` | `prm_20260716_nep001` v1 | Not supplied | `med_20260718_nep001` | `marketing/media/launch-001/veo-source/med_20260718_nep001__cmp_20260716_launch__veo-source__omni-flash__20260718-1438.mp4` | `1iJRA0924EU4zU8S6dSRGoNQvAJ1IkHAU` | `fca34062260d900eb49bc942e77902e8569957410eacb9a8e11b4e75b7637367` | Uploaded/verified | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one source per concept. |
+| 2026-07-18 | `voc001` | `prm_20260716_voc001` v1 | Not supplied | `med_20260718_voc001` | `marketing/media/launch-001/veo-source/med_20260718_voc001__cmp_20260716_launch__veo-source__omni-flash__20260718-1440.mp4` | `17SZw-R-Tgn77CeFCHOiZcvyiV764xXd-` | `52848ab0bfeaf33ad0aa1ac8d8619e59d5f1c982035240bb0a5f28ba552cf045` | Uploaded/verified | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one source per concept. |
 
 ## App-capture register
 
