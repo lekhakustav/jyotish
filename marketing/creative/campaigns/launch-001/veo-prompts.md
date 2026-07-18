@@ -2,8 +2,9 @@
 
 Each block is a standalone copy-paste prompt. Generate exactly 8 seconds in 9:16. The render
 is source footage, not the finished ad: voice, captions, branding, and real product footage are
-added in the edit. Generate at least three seeds per prompt and preserve every output under its
-own `media_id`.
+added in the edit. For the current production workflow, generate one output per prompt and
+preserve that single output under its own `media_id`. Do not create duplicate or three-seed
+variants unless the user explicitly changes the workflow.
 
 Reject any render with malformed hands or faces, legible invented text, a visible generated
 phone interface, mystical space imagery, a fake chart presented as evidence, a logo, a

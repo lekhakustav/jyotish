@@ -56,11 +56,15 @@ The current objective is to generate and document the first production wave: `di
 `prm_20260716_voc001`. Do not invent replacement prompts or overwrite the canonical pack without
 recording why.
 
-For every Veo output, including rejected outputs, record a unique `media_id`, prompt ID/version,
-seed, generation date, model/provenance, checksum, Drive location, and rejection/acceptance
-reason in the production log and media manifest. Keep all large media out of Git. Every material
-creative change receives a new `creative_id`. Keep the production log append-only and make a
-coherent Git checkpoint after documentation or registry changes.
+The current production rule is one Veo output per concept. Never generate three seeds or keep
+duplicate copies unless the user explicitly changes this rule. For every Veo output, including
+rejected outputs, record a unique `media_id`, prompt ID/version, seed if supplied by the model,
+generation date, model/provenance, checksum, Drive location when uploaded, and
+rejection/acceptance reason in the production log and media manifest. Keep all large media out
+of Git. Every material creative change receives a new `creative_id`. If the generated voice is
+not suitable, adapt the script/edit around the existing visual rather than regenerating solely
+for voice. Keep the production log append-only and make a coherent Git checkpoint after
+documentation or registry changes.
 
 The user wants this work to remain resumable across chats. At the start of each continuation,
 report the last logged state, inspect the next unfinished queue item, and ask only for missing

@@ -35,7 +35,7 @@
 ## Next operational milestone
 
 Produce Nepali and English variants of `dia001`, `fam001`, `nep001`, and `voc001`: record clean
-iOS and Android app proof clips at a known Git SHA, generate at least three Veo seeds per prompt,
+iOS and Android app proof clips at a known Git SHA, generate one Veo output per prompt,
 register all source media in Drive, assemble unpublished drafts, and pass the preflight gate.
 Register and run an A/A pipeline test only after its paid-platform, destination, assignment, and
 measurement prerequisites are real. Publish only when the applicable blockers above are resolved
