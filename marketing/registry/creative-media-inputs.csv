@@ -3,3 +3,5 @@ schema_version,creative_id,media_id,role,timeline_start_ms,timeline_end_ms,sourc
 1,crv_20260718_dia001en02,med_20260718_dia001,veo_scene,0,2292,0,2292,1
 1,crv_20260718_dia001en02,med_20260718_dia001,veo_scene,4708,5417,6000,6708,1
 1,crv_20260718_dia001en03,med_20260718_dia001,veo_scene,0,8000,0,8000,1
+1,crv_20260718_cou001ne,med_20260718_cou001,veo_scene,0,8000,0,8000,1
+1,crv_20260718_cou001ne,med_20260718_cou001vo1,voiceover,550,6790,0,6240,2

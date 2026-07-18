@@ -66,6 +66,17 @@ not suitable, adapt the script/edit around the existing visual rather than regen
 for voice. Keep the production log append-only and make a coherent Git checkpoint after
 documentation or registry changes.
 
+When a generated video arrives in Downloads, move the single original into the ignored
+`marketing/media/` workspace, rename it with its stable `media_id`, verify the Downloads source
+is gone, checksum and inspect it, upload it once to the correct Drive folder, and register the
+readback evidence. Do not create convenience duplicates. For Nepali social-video narration,
+reuse `marketing/scripts/generate-elevenlabs-marketing-voice.mjs`; it reads the existing
+ElevenLabs key from `/Users/sirishjoshi/Documents/New project 2` without copying or printing the
+secret. The current reusable voice is `Karki Nepali Marketing` (`6oN9zQt5lDqGi7wZn5p2`) with
+Eleven v3, Nepali language, and default speed `1.08`. Treat it as a starting voice treatment,
+not an approval to regenerate repeatedly. Use `Sita Sharma` for every visible synthetic person
+name in app footage and marketing compositions unless the user changes the identity rule.
+
 The user wants this work to remain resumable across chats. At the start of each continuation,
 report the last logged state, inspect the next unfinished queue item, and ask only for missing
 evidence such as Veo output IDs, Drive links, or generation results. Do not claim a scene was

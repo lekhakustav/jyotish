@@ -15,3 +15,9 @@ schema_version,creative_id,factor_name,factor_level
 1,crv_20260718_dia001en03,duration,long-demo-24s
 1,crv_20260718_dia001en03,text,minimal-contextual
 1,crv_20260718_dia001en03,qr_privacy,full-cover-lock-only
+1,crv_20260718_cou001ne,hook,that-is-so-us
+1,crv_20260718_cou001ne,identity,fictional-adult-couple
+1,crv_20260718_cou001ne,proof,veo-voice-review-no-app-proof
+1,crv_20260718_cou001ne,visual_language,full-veo-nepali-voice
+1,crv_20260718_cou001ne,voice,karki-nepali-casual
+1,crv_20260718_cou001ne,text,none-in-review

@@ -3,8 +3,8 @@
 **Campaign:** `cmp_20260716_launch`  
 **Purpose:** durable, append-only record of the Jyotish Baje short-form video production work.  
 **Canonical prompt source:** [`veo-prompts.md`](veo-prompts.md)  
-**Current status:** four first-wave Veo source scenes are in Drive; the first `dia001`
-Swift-faithful product-motion review draft is rendered and uploaded.
+**Current status:** four first-wave Veo source scenes are in Drive; `dia001` is script-first and
+blocked on native proof, while the exploratory `cou001` full-Veo Nepali voice review is ready.
 **Last updated:** 2026-07-18
 
 **User production rule:** one output per concept; never create three-seed variants or duplicate
@@ -41,6 +41,8 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 | `nep001` | `prm_20260716_nep001` | `SH-LANG-01` to `SH-LANG-02` | TBD | Veo source received | TBD | Fluent Nepali review required. |
 | `voc001` | `prm_20260716_voc001` | `SH-VOC-01` to `SH-VOC-02` | TBD | Veo source received | TBD | Final capability proof requires physical hardware. |
 | `pat001` | `prm_20260716_pat001` | `SH-PAT-01` to `SH-PAT-03` | Later | Not started | TBD | Supporting retention concept. |
+| `cou001` | `prm_20260718_cou001` | Full Veo; real two-profile proof later | Nepali | Voice review ready | `crv_20260718_cou001ne` | One 8-second Omni Flash source; full source retained; no app demo yet. |
+| `cru001` | TBD | Consensual two-profile relationship flow | English/Nepali | Script only | TBD | Late-teen 18–19+ crush concept; no prompt or media generated. |
 
 ## Render register
 
@@ -50,6 +52,7 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 | 2026-07-18 | `fam001` | `prm_20260716_fam001` v1 | Not supplied | `med_20260718_fam001` | `marketing/media/launch-001/veo-source/med_20260718_fam001__cmp_20260716_launch__veo-source__omni-flash__20260718-1436.mp4` | `1qaWoHwNRw63T8kjlxCDrjXbDcn6kCekV` | `853dff9017cb024e586aae9502c93ec3366f787a5678855349009f6b18dfbc52` | Uploaded/verified | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one source per concept. |
 | 2026-07-18 | `nep001` | `prm_20260716_nep001` v1 | Not supplied | `med_20260718_nep001` | `marketing/media/launch-001/veo-source/med_20260718_nep001__cmp_20260716_launch__veo-source__omni-flash__20260718-1438.mp4` | `1iJRA0924EU4zU8S6dSRGoNQvAJ1IkHAU` | `fca34062260d900eb49bc942e77902e8569957410eacb9a8e11b4e75b7637367` | Uploaded/verified | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one source per concept. |
 | 2026-07-18 | `voc001` | `prm_20260716_voc001` v1 | Not supplied | `med_20260718_voc001` | `marketing/media/launch-001/veo-source/med_20260718_voc001__cmp_20260716_launch__veo-source__omni-flash__20260718-1440.mp4` | `17SZw-R-Tgn77CeFCHOiZcvyiV764xXd-` | `52848ab0bfeaf33ad0aa1ac8d8619e59d5f1c982035240bb0a5f28ba552cf045` | Uploaded/verified | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; one source per concept. |
+| 2026-07-18 | `cou001` | `prm_20260718_cou001` v1 | Not supplied | `med_20260718_cou001` | `marketing/media/launch-001/veo-source/med_20260718_cou001__cmp_20260716_launch__veo-source__omni-flash__20260718-1836.mp4` | `1RV8Fw4I0CqnGubrFbG15wr3C451r9gQw` | `46305d97b17dbb7eb30ec311350aa90734928813ef1cc2a1a2642e56ea9d9de6` | Uploaded/verified | Omni Flash; 8.000s; 720×1280; 24fps; H.264/AAC; visually verified breakfast and shared-phone beat. |
 
 ## App-capture register
 
@@ -62,6 +65,7 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 | Date | Concept / `creative_id` | Language | Voice asset | Edit/master | Review status | Evidence/notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-07-18 | — | — | — | — | Not started | No voice, edit, or review assets yet. |
+| 2026-07-18 | `cou001` / `crv_20260718_cou001ne` | Nepali | `med_20260718_cou001vo1` / Drive `1pSPJ9tTElg2KGNyinEfivZX5082xzzVu` | `med_20260718_cou001v1` / Drive `1OXIuyYzkCK6qYylwLQBD90korRwLuCb7` | Ready for user voice/mood review | Full 8.000-second Veo source; voice at 0.55–6.79; original ambience restored for the ending. |
 
 ## Decision and event history
 
@@ -201,6 +205,55 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 - **Production rule:** generate one couple output only if the user proceeds with this prompt.
 - **Next action:** give the user the copy-paste couple prompt and the revised three-line
   narration/sound/text plan. Do not render `dia001` yet.
+
+### 2026-07-18 18:36–18:47 Asia/Kathmandu — Couple source, Nepali voice review, and crush script
+
+- **Prompt-location correction:** the previous event correctly records the generated prompt and
+  checksum but its location is no longer canonical. `prm_20260718_cou001` was moved from the
+  Launch 001 pack to `marketing/creative/explorations/cou001/veo-prompt.md` so the fixed launch
+  matrix remains unchanged. The exact fenced prompt checksum remains
+  `ac4d99950fbe216861c914adadd37c3e49b8d6912d4bd92fab0638d60f2cdd16`.
+- **Source handling:** moved, not copied, from
+  `/Users/sirishjoshi/Downloads/Couple_making_breakfast_together_202607181836.mp4` to the
+  ignored media path registered as `med_20260718_cou001`; verified the Downloads source is
+  absent and only the renamed local source remains.
+- **Source evidence:** SHA-256
+  `46305d97b17dbb7eb30ec311350aa90734928813ef1cc2a1a2642e56ea9d9de6`;
+  2,227,671 bytes; 8.000 seconds; 720×1280; 24 fps; exactly 192 H.264/AAC frames. Contact-sheet
+  inspection confirmed the breakfast, hidden-phone, and playful shared-laugh sequence.
+- **Source Drive:** uploaded once to `ai_veo`; file ID
+  `1RV8Fw4I0CqnGubrFbG15wr3C451r9gQw`. Metadata readback verified name, MIME type, size, and
+  parent folder.
+- **Reusable voice mechanism:** added
+  `marketing/scripts/generate-elevenlabs-marketing-voice.mjs`. It reads the existing
+  `ELEVENLABS_API_KEY` from `/Users/sirishjoshi/Documents/New project 2` without copying or
+  printing the secret.
+- **Voice selection:** added the shared ElevenLabs voice `Karki - Nepali voice Artist` as
+  `Karki Nepali Marketing` (`6oN9zQt5lDqGi7wZn5p2`). Use Eleven v3 because the multilingual-v2
+  endpoint rejected Nepali language code `ne`. Default speed is 1.08 with a casual social-video
+  treatment.
+- **Voice line:** “यो त हामी जस्तै छ! ज्योतिष पनि सँगै हेर्दा झन् रमाइलो हुन्छ। ज्योतिष
+  बाजेसँग।” The one generated output is `med_20260718_cou001vo1`, SHA-256
+  `388ad37ae3e834fc0de47d1c182474e532fc78abbf0f41150be820e630d9be44`, 6.240 seconds.
+  ElevenLabs Scribe returned the intended Nepali wording exactly.
+- **Voice Drive:** uploaded once to `ai_voice`; file ID
+  `1pSPJ9tTElg2KGNyinEfivZX5082xzzVu`. Metadata readback verified name, MIME type, size, and
+  parent folder.
+- **Review edit:** `med_20260718_cou001v1` uses all 192 source frames in order. The voice begins
+  at 0.55 seconds; source ambience is ducked only under speech and restored for the final
+  laughter. There is no overlay text, time-stretch, source cut, or app-proof claim.
+- **Review evidence:** SHA-256
+  `a43c7eacad6f8d5af790057336607421b2d0bfdeb202129daf5953bde9df7508`;
+  2,287,253 bytes; 8.000 seconds; 720×1280; 24 fps; H.264/AAC; Drive file ID
+  `1OXIuyYzkCK6qYylwLQBD90korRwLuCb7` in `exports_review`, with metadata readback verified.
+- **Identity continuity:** use `Sita Sharma` for every visible synthetic name when real app
+  footage is appended. No real names or birth details may appear.
+- **New crush script:** `marketing/creative/explorations/cru001/script.md` targets 18–19-year-old
+  late teens and young adults with a playful crush hook, consensual two-profile proof, no score,
+  and no claim that astrology discovers feelings or decides a relationship.
+- **Next action:** user reviews the full couple voice/mood treatment. If the voice is accepted,
+  append a readable real-app relationship-astrology demonstration in a new creative rather than
+  shortening the Veo source.
 
 ## Handoff checklist for the next chat
 
