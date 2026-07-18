@@ -36,7 +36,7 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 
 | Concept | Prompt ID | Proof shots | Language | Status | Creative ID | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dia001` | `prm_20260716_dia001` | Product-motion QR flow | English | Review draft ready | `crv_20260718_dia001en` | Swift-faithful visualization; Sita Sharma only; QR masked. |
+| `dia001` | `prm_20260716_dia001` | Veo + Swift screenshot QR proof | English | Corrected draft uploaded for review | `crv_20260718_dia001en02` | Actual Veo video/audio; real Swift screenshots; Sita Sharma primary; QR fully covered. |
 | `fam001` | `prm_20260716_fam001` | `SH-FAM-01` to `SH-FAM-03` | TBD | Veo source received | TBD | Family profiles and selected-member context. |
 | `nep001` | `prm_20260716_nep001` | `SH-LANG-01` to `SH-LANG-02` | TBD | Veo source received | TBD | Fluent Nepali review required. |
 | `voc001` | `prm_20260716_voc001` | `SH-VOC-01` to `SH-VOC-02` | TBD | Veo source received | TBD | Final capability proof requires physical hardware. |
@@ -117,6 +117,42 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 - **Source:** `marketing/creative/campaigns/launch-001/product-motion/dia001.html`.
 - **Next action:** user review of visual direction; if approved, add voice/music and apply the
   same renderer pattern to `fam001`, `nep001`, and `voc001`.
+
+### 2026-07-18 17:50 Asia/Kathmandu — Browser-rendered revision rejected
+
+- **Render:** `med_20260718_dia001v2`; 9.400 seconds, 1080×1920, 25 fps, H.264, no audio,
+  1,901,894 bytes.
+- **Checksum:** `77438e06af3ae34ffac102c38933e1e387a5bdfb64be2f39a64b30600a25a403`.
+- **Status:** rejected before upload and not entered in the Drive-backed media registry.
+- **Reason:** the browser-recording method produced visibly incomplete/laggy frame rendering
+  and did not visibly incorporate the actual Veo source. The user correctly rejected it.
+- **Decision:** stop browser-recorded video rendering for this creative. Preserve the old
+  renderer only for lineage; do not use it for future review exports.
+
+### 2026-07-18 18:03–18:18 Asia/Kathmandu — Corrected deterministic Veo + Swift proof cut
+
+- **Creative:** `crv_20260718_dia001en02`, which supersedes the rejected
+  `crv_20260718_dia001en`.
+- **Render:** `med_20260718_dia001v3`; 8.000 seconds, exactly 192 frames, 1080×1920, 24 fps,
+  H.264 video plus the original Veo AAC audio, 1,511,214 bytes.
+- **Checksum:** `0b8ef20622ea3e738c30fe623f37dd49814bca5b630fe9d325076eb3112989d4`.
+- **Actual Veo use:** frames 0–54 use source frames 0–54; frames 113–129 use source frames
+  144–160. The original 8-second Veo audio remains intact.
+- **Proof treatment:** the other frames use App Store compositions made from real Swift
+  screenshots. The synthetic fixture's Sita Sharma profile is visible. The complete QR region
+  is covered by a solid editorial privacy card in every exported proof frame.
+- **Edit:** hard cuts only; no browser capture, fake tap, simulator claim, or frame interpolation.
+- **Inspection:** sampled frames at 0.50, 2.00, 2.40, 4.60, 4.90, 5.60, and 7.50 seconds;
+  verified 192-frame 24 fps output and 8.000-second matching audio/video streams.
+- **Renderer:** `marketing/scripts/render-dia001-veo-swift-proof.sh`.
+- **Drive:** uploaded once to `exports_review`; file ID
+  `1UmDqGWh4NLptz-WmHiv1_y-aLeDrKZr3`; readback verified name, MIME type, byte size, and parent
+  folder.
+- **Status:** uploaded draft for user review, not registry-ready or approved for publication.
+  Continuous real-app `SH-QR-02` and `SH-QR-03` action captures remain required before a public
+  final.
+- **Next action:** get the user's visual verdict on this corrected cut. If accepted, capture the
+  missing continuous native actions and replace the screenshot proof section in a new creative.
 
 ## Handoff checklist for the next chat
 

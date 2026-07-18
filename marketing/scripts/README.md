@@ -31,22 +31,27 @@ causality. Those require the review and decision gates documented under `marketi
 Drive snapshot drift is reported separately from structural failures because it requires updating
 the Drive copy and its registry checksum together, not weakening the data contract.
 
-## Render the `dia001` product-motion prototype
+## Render the corrected `dia001` Veo + Swift proof cut
 
-The `dia001` renderer records a reusable Swift-faithful HTML motion source and combines it with
-the approved Veo family scene. It exports one compact review MP4 into the ignored media
-workspace and uses only the synthetic identity `Sita Sharma`.
+The active `dia001` renderer is a deterministic FFmpeg edit. It uses the approved Veo source,
+retains its original audio, and cuts to App Store compositions made from real Swift screenshots.
+The QR payload is completely covered by an editorial privacy mask. No browser recording is used.
 
 ```sh
-node marketing/scripts/render-dia001-product-motion.mjs
+marketing/scripts/render-dia001-veo-swift-proof.sh
 ```
 
 Output:
 
 ```text
 marketing/media/launch-001/prototypes/dia001/
-  med_20260718_dia001dr__cmp_20260716_launch__product-motion-draft__sita-sharma.mp4
+  med_20260718_dia001v3__cmp_20260716_launch__veo-swift-proof-cut__sita-sharma.mp4
 ```
 
-The product visualization masks the QR-like visual and contains no real birth data. It remains
-a review draft until it passes the launch preflight checklist.
+The export is exactly 192 frames: 1080×1920, 24 fps, 8 seconds, H.264/AAC. The first 55 frames
+and frames 144–160 come from the Veo source. The remaining frames use the real Swift screenshot
+compositions. `Sita Sharma` is the primary synthetic identity from `demoSeed-v1`.
+
+The previous Playwright product-motion renderer is retained only as lineage for the rejected
+`med_20260718_dia001dr` draft. Do not use it for new review exports. Final publication still
+requires the continuous raw capture actions listed in `app-capture-shot-list.md`.

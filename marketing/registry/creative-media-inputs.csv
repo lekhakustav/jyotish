@@ -1,2 +1,4 @@
 schema_version,creative_id,media_id,role,timeline_start_ms,timeline_end_ms,source_in_ms,source_out_ms,layer
 1,crv_20260718_dia001en,med_20260718_dia001,veo_scene,0,2300,0,2300,1
+1,crv_20260718_dia001en02,med_20260718_dia001,veo_scene,0,2292,0,2292,1
+1,crv_20260718_dia001en02,med_20260718_dia001,veo_scene,4708,5417,6000,6708,1

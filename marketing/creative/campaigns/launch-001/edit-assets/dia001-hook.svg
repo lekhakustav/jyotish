@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <rect x="64" y="84" width="952" height="230" rx="44" fill="#073d36" fill-opacity="0.92"/>
+  <text x="540" y="166" text-anchor="middle"
+        font-family="Helvetica Neue, Arial, sans-serif" font-size="42"
+        font-weight="600" letter-spacing="5" fill="#9ce5c9">ONE FAMILY</text>
+  <text x="540" y="254" text-anchor="middle"
+        font-family="Georgia, serif" font-size="74"
+        font-weight="700" fill="#fffaf1">Two time zones.</text>
+</svg>
