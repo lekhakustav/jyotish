@@ -1,8 +1,8 @@
 # `cru001` — crushes, butterflies, and choice
 
-**Status:** script concept; no prompt or media generated
-**Audience:** 18–19-year-olds and young adults only; do not target minors
-**Tone:** playful, social, self-aware, and non-deterministic
+**Status:** Veo prompt ready; no media generated
+**Audience:** young teens around 16–17; age-appropriate contextual creative only
+**Tone:** playful, shy, social, and non-deterministic
 **Target duration:** 18–20 seconds
 
 ## Tagline script
@@ -32,7 +32,7 @@ predicts whether someone likes the viewer, or tells anyone to begin or end a rel
 
 | Time | Picture | Narration/text |
 | ---: | --- | --- |
-| 0.0–2.5 | Three college-age friends, all clearly 18–19+, sit in a casual café. One sees a message on a face-down/hidden phone and cannot hide a smile; the friends notice. No message is visible. | `Got a crush?` |
+| 0.0–2.5 | Three 16–17-year-old friends sit in an after-school café. One sneaks a glance at their arriving crush and cannot hide a smile; the friends notice. No message is visible. | `Got a crush?` |
 | 2.5–7.5 | The friends exchange a playful look and laugh. The person with the crush stays confident rather than embarrassed. | Natural café sound and a light modern beat. |
 | 7.5–13.5 | Cut to a real consensual two-profile relationship-astrology flow. Both people have chosen to participate. Show one light conversation prompt or strength, never a score or verdict. | `Explore the astrology together.` |
 | 13.5–17.0 | Hold the real app result long enough to read. | No extra labels over the UI. |
@@ -48,7 +48,8 @@ predicts whether someone likes the viewer, or tells anyone to begin or end a rel
 
 ## Safety and truth gate
 
-- Age-gate the audience to 18+ even though the creative speaks to late-teen social culture.
+- Keep the creative age-appropriate and use broad contextual placement rather than targeting
+  individual minors from inferred romantic interests or vulnerabilities.
 - Do not infer romantic status, sexual orientation, religion, or emotional vulnerability for ad
   targeting.
 - The app demo must use synthetic, consenting profiles, with `Sita Sharma` as every visible

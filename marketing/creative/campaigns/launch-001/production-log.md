@@ -3,8 +3,8 @@
 **Campaign:** `cmp_20260716_launch`  
 **Purpose:** durable, append-only record of the Jyotish Baje short-form video production work.  
 **Canonical prompt source:** [`veo-prompts.md`](veo-prompts.md)  
-**Current status:** four first-wave Veo source scenes are in Drive; `dia001` is script-first and
-blocked on native proof, while the exploratory `cou001` full-Veo Nepali voice review is ready.
+**Current status:** `cou001` revision 2 is ready with the approved natural Nepali hook, full Veo
+scene, and truthful store end card; `cru001` now has a copy-paste young-teen Veo prompt.
 **Last updated:** 2026-07-18
 
 **User production rule:** one output per concept; never create three-seed variants or duplicate
@@ -41,8 +41,8 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 | `nep001` | `prm_20260716_nep001` | `SH-LANG-01` to `SH-LANG-02` | TBD | Veo source received | TBD | Fluent Nepali review required. |
 | `voc001` | `prm_20260716_voc001` | `SH-VOC-01` to `SH-VOC-02` | TBD | Veo source received | TBD | Final capability proof requires physical hardware. |
 | `pat001` | `prm_20260716_pat001` | `SH-PAT-01` to `SH-PAT-03` | Later | Not started | TBD | Supporting retention concept. |
-| `cou001` | `prm_20260718_cou001` | Full Veo; real two-profile proof later | Nepali | Voice review ready | `crv_20260718_cou001ne` | One 8-second Omni Flash source; full source retained; no app demo yet. |
-| `cru001` | TBD | Consensual two-profile relationship flow | English/Nepali | Script only | TBD | Late-teen 18–19+ crush concept; no prompt or media generated. |
+| `cou001` | `prm_20260718_cou001` | Full Veo; real two-profile proof later | Nepali | Revision 2 ready for review | `crv_20260718_cou001ne02` | Full 8-second source plus 2.5-second truthful store end card; no app demo yet. |
+| `cru001` | `prm_20260718_cru001` | Young-teen Veo hook; consensual app proof later | Visual only | Prompt ready; one generation allowed | TBD | Age-appropriate 16–17 crush scene; no media generated. |
 
 ## Render register
 
@@ -66,6 +66,7 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-07-18 | — | — | — | — | Not started | No voice, edit, or review assets yet. |
 | 2026-07-18 | `cou001` / `crv_20260718_cou001ne` | Nepali | `med_20260718_cou001vo1` / Drive `1pSPJ9tTElg2KGNyinEfivZX5082xzzVu` | `med_20260718_cou001v1` / Drive `1OXIuyYzkCK6qYylwLQBD90korRwLuCb7` | Ready for user voice/mood review | Full 8.000-second Veo source; voice at 0.55–6.79; original ambience restored for the ending. |
+| 2026-07-18 | `cou001` / `crv_20260718_cou001ne02` | Nepali | `med_20260718_cou001vo2` / Drive `1colBffLuYGhNYXe6XKFdTjEkzoGpuaWI` | `med_20260718_cou001v2` / Drive `1rzVUWHKyA_ZzIarNyRLgiOmk5hPNnzXX` | Ready for user review | Approved `ए, तिमी त ठ्याक्कै यस्तै छौ!` hook; mispronounced spoken brand trimmed; full Veo plus 2.5-second coming-soon card. |
 
 ## Decision and event history
 
@@ -254,6 +255,51 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 - **Next action:** user reviews the full couple voice/mood treatment. If the voice is accepted,
   append a readable real-app relationship-astrology demonstration in a new creative rather than
   shortening the Veo source.
+
+### 2026-07-18 19:10–19:20 Asia/Kathmandu — Natural Nepali revision, store card, and teen Veo prompt
+
+- **User correction:** reject the translated `यो त हामी जस्तै छ!` opening in
+  `crv_20260718_cou001ne`. It does not sound natural in Nepali context. Mark that creative
+  rejected without deleting its registered evidence.
+- **Approved hook:** use `ए, तिमी त ठ्याक्कै यस्तै छौ!`, followed by the concrete couple value
+  `एकअर्काको बानी र सोच अझ राम्रोसँग बुझ्न।`
+- **Voice source:** generated one new Eleven v3 take, `med_20260718_cou001vo2`, using Karki Nepali
+  Marketing at speed 1.08. SHA-256
+  `454b0f3c0c76e0d660465d4c21e6b4f84d4bbb0ef0be0a8661aba78141c6b426`;
+  111,221 bytes; 6.880 seconds.
+- **Pronunciation verification:** Scribe v2 recognized the approved hook and couple-benefit
+  wording, but heard the generated brand as `ज्योतिस बाजे`. Keep the take and trim it at source
+  time 5.55 seconds after `बुझ्न`; let the real on-screen logo identify the brand. This avoids
+  another voice generation solely for one unsuitable word.
+- **Voice Drive:** uploaded once to `ai_voice`; file ID
+  `1colBffLuYGhNYXe6XKFdTjEkzoGpuaWI`. Metadata readback verified name, MIME type, byte size,
+  and parent folder.
+- **End card:** native Swift renderer uses the repository's real transparent Jyotish Baje logo
+  on a cream card for 2.5 seconds. It says `Understand each other better.` and names both
+  `App Store` and `Google Play`.
+- **Store-truth decision:** the local release checklist still has owner submission work and
+  blockers for both stores. The required web checker was not installed, so no live listing was
+  independently verified. The card therefore says `Coming soon to`, not `Download now`.
+- **Revised export:** `med_20260718_cou001v2` / `crv_20260718_cou001ne02`; all 192 Veo frames
+  remain in order, followed by the card. The 10.500-second output has exactly 252 frames at
+  24 fps, 720×1280 H.264 video, AAC audio, and SHA-256
+  `0fb25a3af193ff07eec3511cedd74882b70541c2a699d5a209af1e208799041f`.
+- **Final-audio verification:** Scribe v2 on the mixed MP4 returned only
+  `ए तिमी त ठ्याक्कै यस्तै छौ। एकअर्काको बानी र सोच अझ राम्रोसँग बुझ्न।`; the rejected
+  brand pronunciation is absent from the final export.
+- **Review Drive:** uploaded once to `exports_review`; file ID
+  `1rzVUWHKyA_ZzIarNyRLgiOmk5hPNnzXX`. Metadata readback verified name, MIME type, byte size,
+  and parent folder.
+- **Render mechanism:** `marketing/scripts/render-cou001-nepali-insight-endcard.sh` orchestrates
+  the audio/video edit; `marketing/scripts/render-jyotish-store-endcard.swift` creates the card
+  without browser recording or frame-render lag.
+- **Young-teen clarification:** `cru001` is now a 16–17-year-old, age-appropriate crush concept,
+  not an 18–19 college concept. The exact one-output Veo prompt is
+  `marketing/creative/explorations/cru001/veo-prompt.md`, prompt ID
+  `prm_20260718_cru001`, fenced-content SHA-256
+  `f07f49b153f41134d25080e50f1ede20749c42dfac768190e7f4b859798fa7ae`.
+- **Next action:** user reviews `cou001` revision 2 and generates exactly one `cru001` Veo
+  output from the registered prompt.
 
 ## Handoff checklist for the next chat
 

@@ -21,3 +21,11 @@ schema_version,creative_id,factor_name,factor_level
 1,crv_20260718_cou001ne,visual_language,full-veo-nepali-voice
 1,crv_20260718_cou001ne,voice,karki-nepali-casual
 1,crv_20260718_cou001ne,text,none-in-review
+1,crv_20260718_cou001ne02,hook,thyakkai-yastai-chhau
+1,crv_20260718_cou001ne02,identity,fictional-adult-couple
+1,crv_20260718_cou001ne02,proof,voice-plus-store-endcard-no-app-proof
+1,crv_20260718_cou001ne02,visual_language,full-veo-then-store-endcard
+1,crv_20260718_cou001ne02,voice,karki-nepali-casual-trimmed
+1,crv_20260718_cou001ne02,text,store-availability-endcard
+1,crv_20260718_cou001ne02,store_cta,coming-soon-not-download
+1,crv_20260718_cou001ne02,duration,10.5s
