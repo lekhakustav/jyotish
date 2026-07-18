@@ -176,6 +176,32 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
   physical-device sender/receiver captures exist.
 - **Next action:** review and revise the written script with the user. Do not edit video yet.
 
+### 2026-07-18 18:30 Asia/Kathmandu — Tagline narration, sound plan, and couple prompt
+
+- **Narration decision:** reduce `dia001` to three lines: “One family. Two time zones.”,
+  “Distance should not mean losing family context.”, and “Keep your family's astrology close
+  with Jyotish Baje.”
+- **Consumer-language decision:** do not use the user's rejected family-profile term in
+  narration, editorial text, or visible capture copy. The current native family-sharing labels
+  still contain it, so the next capture is blocked until neutral labels such as **My Family**,
+  **Share My Birth Profile**, and **Add to Family** are approved and implemented.
+- **Text decision:** only the first line, second line, and final value line appear editorially.
+  Do not place labels or instructions over native UI.
+- **Sound decision:** preserve the full Veo ambience; add a restrained modern acoustic bed,
+  real-action tap accents only, and a warm resolution on the saved Sita result. No scanner beep,
+  temple bell, chant, cosmic shimmer, or mystical cliché.
+- **Updated script:** `marketing/creative/campaigns/launch-001/dia001-full-veo-demo-script.md`;
+  checksum `b4b13a1218a2ebe00c2f40992e73d2bfb778de10b59c3f678d58a9ac129d23e2`.
+- **New exploratory couple prompt:** `prm_20260718_cou001`, “That is so us,” appended to
+  `veo-prompts.md`; prompt-block checksum
+  `ac4d99950fbe216861c914adadd37c3e49b8d6912d4bd92fab0638d60f2cdd16`.
+- **Couple direction:** a playful Nepali couple shares a harmless “that is so us” astrology
+  moment while making breakfast. It is not marriage matching, a compatibility score, a verdict,
+  or a testimonial.
+- **Production rule:** generate one couple output only if the user proceeds with this prompt.
+- **Next action:** give the user the copy-paste couple prompt and the revised three-line
+  narration/sound/text plan. Do not render `dia001` yet.
+
 ## Handoff checklist for the next chat
 
 - Read this log and report the last event before doing anything else.
