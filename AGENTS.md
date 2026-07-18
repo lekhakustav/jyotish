@@ -35,6 +35,38 @@ and material caveats in `marketing/research/sources.csv` for every source used i
   guaranteed outcomes, caste discrimination, or pressure to buy remedies.
 - Run `npm run marketing:validate` before committing marketing registry or experiment changes.
 
+## Active Jyotish marketing-video handoff
+
+This repository is the continuing workspace for the Jyotish Baje marketing-video production
+conversation. When a later Codex chat references this work, read these files before taking
+action:
+
+1. `marketing/creative/campaigns/launch-001/production-log.md` — append-only decisions,
+   actions, evidence, render IDs, blockers, and next steps.
+2. `marketing/creative/campaigns/launch-001/README.md` — approved campaign sequence and
+   production contract.
+3. `marketing/creative/campaigns/launch-001/veo-prompts.md` — canonical copy-paste Veo prompts.
+4. `marketing/creative/campaigns/launch-001/app-capture-shot-list.md` — exact real-app proof
+   footage required for each concept.
+5. `marketing/creative/campaigns/launch-001/preflight-checklist.md` — release gate.
+
+The current objective is to generate and document the first production wave: `dia001`, `fam001`,
+`nep001`, and `voc001`; `pat001` follows. Start with the existing prompt IDs
+`prm_20260716_dia001`, `prm_20260716_fam001`, `prm_20260716_nep001`, and
+`prm_20260716_voc001`. Do not invent replacement prompts or overwrite the canonical pack without
+recording why.
+
+For every Veo output, including rejected outputs, record a unique `media_id`, prompt ID/version,
+seed, generation date, model/provenance, checksum, Drive location, and rejection/acceptance
+reason in the production log and media manifest. Keep all large media out of Git. Every material
+creative change receives a new `creative_id`. Keep the production log append-only and make a
+coherent Git checkpoint after documentation or registry changes.
+
+The user wants this work to remain resumable across chats. At the start of each continuation,
+report the last logged state, inspect the next unfinished queue item, and ask only for missing
+evidence such as Veo output IDs, Drive links, or generation results. Do not claim a scene was
+generated, uploaded, approved, or published without a logged artifact or verification.
+
 ## gstack
 
 Available gstack skills include `/office-hours`, `/plan-ceo-review`, `/plan-eng-review`,
