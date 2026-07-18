@@ -36,7 +36,7 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 
 | Concept | Prompt ID | Proof shots | Language | Status | Creative ID | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dia001` | `prm_20260716_dia001` | Veo + Swift screenshot QR proof | English | Corrected draft uploaded for review | `crv_20260718_dia001en02` | Actual Veo video/audio; real Swift screenshots; Sita Sharma primary; QR fully covered. |
+| `dia001` | `prm_20260716_dia001` | Full Veo + continuous native QR handoff | English | Script awaiting review; render blocked | `crv_20260718_dia001en03` | 24-second script; all 8 Veo seconds first; real sender/receiver demo follows. |
 | `fam001` | `prm_20260716_fam001` | `SH-FAM-01` to `SH-FAM-03` | TBD | Veo source received | TBD | Family profiles and selected-member context. |
 | `nep001` | `prm_20260716_nep001` | `SH-LANG-01` to `SH-LANG-02` | TBD | Veo source received | TBD | Fluent Nepali review required. |
 | `voc001` | `prm_20260716_voc001` | `SH-VOC-01` to `SH-VOC-02` | TBD | Veo source received | TBD | Final capability proof requires physical hardware. |
@@ -153,6 +153,28 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
   final.
 - **Next action:** get the user's visual verdict on this corrected cut. If accepted, capture the
   missing continuous native actions and replace the screenshot proof section in a new creative.
+
+### 2026-07-18 18:19 Asia/Kathmandu — Eight-second cut rejected; script-first reset
+
+- **User verdict:** reject `crv_20260718_dia001en02` / `med_20260718_dia001v3`. The edit was too
+  short, cut the Veo scene abruptly, did not let the product remain readable, and used
+  unnecessary overlay text.
+- **Root cause:** the edit imposed an eight-second total duration even though the user's intended
+  structure was the complete eight-second Veo story followed by a separate screen-recorded
+  demonstration.
+- **Story correction:** the Veo source is one complete two-shot sequence: Sydney at 0–3.8 seconds
+  and Kathmandu at 3.8–8.0 seconds. The generated match cut is the concept's emotional hook and
+  must remain intact.
+- **New treatment:** `crv_20260718_dia001en03`, a 24-second script using all 192 Veo frames in
+  order, followed by continuous native sender, receiver, relationship-choice, and saved-result
+  actions.
+- **Script:** `marketing/creative/campaigns/launch-001/dia001-full-veo-demo-script.md`.
+- **Script checksum:** `2f69fe840b5c7133efc34e5514cae96fe820966ee818198e2125a2cf7830e9b4`.
+- **Text rule:** one light hook over the Veo quiet area, no labels over explanatory native UI,
+  lock symbol only over the QR payload, and one restrained CTA/disclosure over the held result.
+- **Render gate:** no new video may be rendered until the script is accepted and continuous
+  physical-device sender/receiver captures exist.
+- **Next action:** review and revise the written script with the user. Do not edit video yet.
 
 ## Handoff checklist for the next chat
 

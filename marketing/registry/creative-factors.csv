@@ -8,3 +8,10 @@ schema_version,creative_id,factor_name,factor_level
 1,crv_20260718_dia001en02,proof,real-swift-screenshot-composition
 1,crv_20260718_dia001en02,visual_language,veo-plus-swift-hard-cut
 1,crv_20260718_dia001en02,qr_privacy,full-cover
+1,crv_20260718_dia001en03,hook,full-veo-two-time-zones
+1,crv_20260718_dia001en03,identity,sita-sharma
+1,crv_20260718_dia001en03,proof,continuous-native-qr-handoff
+1,crv_20260718_dia001en03,visual_language,full-veo-then-native-demo
+1,crv_20260718_dia001en03,duration,long-demo-24s
+1,crv_20260718_dia001en03,text,minimal-contextual
+1,crv_20260718_dia001en03,qr_privacy,full-cover-lock-only
