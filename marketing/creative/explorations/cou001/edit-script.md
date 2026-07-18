@@ -57,3 +57,16 @@ No promotional overlay appears over the Veo scene. The end card uses only:
   -43.0 dB mean / -19.7 dB peak in revision 3.
 - Keep the verified 5.55-second voice trim and unchanged 2.5-second end card.
 - Renderer: `marketing/scripts/render-cou001-nepali-insight-endcard-v3.sh`.
+
+## Revision 4 spoken brand correction
+
+- Revision 3 visibly names Jyotish Baje but its audible narration ends after `राम्रोसँग बुझ्न`.
+  The user requires the brand to be spoken as well as visible.
+- Generate one short Karki tag from the phonetic source `ज्योतिश बाजे।` at speed 1.02.
+  Scribe v2 verifies the standalone asset as `ज्योतिषबाजे`.
+- Place source 0.05–1.05 seconds at timeline 6.00–7.00 seconds, after the main narration and
+  before the end card.
+- Preserve revision 3's quieter laughter, louder main narration, and exact video stream.
+- Final mixed-video Scribe verification must contain
+  `ए तिमी त ठ्याक्कै यस्तै छौ। एकअर्काको बानी र सोच अझ राम्रोसँग बुझ्न, ज्योतिष बाजे।`
+- Renderer: `marketing/scripts/render-cou001-nepali-insight-endcard-v4.sh`.

@@ -3,8 +3,8 @@
 **Campaign:** `cmp_20260716_launch`  
 **Purpose:** durable, append-only record of the Jyotish Baje short-form video production work.  
 **Canonical prompt source:** [`veo-prompts.md`](veo-prompts.md)  
-**Current status:** `cou001` revision 3 is ready with unchanged approved visuals, louder
-narration, quieter laughter, and a verified Jyotish Baje end card; `cru001` is prompt-ready.
+**Current status:** `cou001` revision 4 now says Jyotish Baje both aloud and on screen while
+preserving the approved quieter-laughter mix and visuals; `cru001` is prompt-ready.
 **Last updated:** 2026-07-18
 
 **User production rule:** one output per concept; never create three-seed variants or duplicate
@@ -41,7 +41,7 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 | `nep001` | `prm_20260716_nep001` | `SH-LANG-01` to `SH-LANG-02` | TBD | Veo source received | TBD | Fluent Nepali review required. |
 | `voc001` | `prm_20260716_voc001` | `SH-VOC-01` to `SH-VOC-02` | TBD | Veo source received | TBD | Final capability proof requires physical hardware. |
 | `pat001` | `prm_20260716_pat001` | `SH-PAT-01` to `SH-PAT-03` | Later | Not started | TBD | Supporting retention concept. |
-| `cou001` | `prm_20260718_cou001` | Full Veo; real two-profile proof later | Nepali | Revision 3 ready for review | `crv_20260718_cou001ne03` | Revision 2 visuals unchanged; narration raised and laughter reduced; no app demo yet. |
+| `cou001` | `prm_20260718_cou001` | Full Veo; real two-profile proof later | Nepali | Revision 4 ready for review | `crv_20260718_cou001ne04` | Spoken `ज्योतिष बाजे` verified; quieter laughter and approved visuals preserved. |
 | `cru001` | `prm_20260718_cru001` | Young-teen Veo hook; consensual app proof later | Visual only | Prompt ready; one generation allowed | TBD | Age-appropriate 16–17 crush scene; no media generated. |
 
 ## Render register
@@ -68,6 +68,7 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 | 2026-07-18 | `cou001` / `crv_20260718_cou001ne` | Nepali | `med_20260718_cou001vo1` / Drive `1pSPJ9tTElg2KGNyinEfivZX5082xzzVu` | `med_20260718_cou001v1` / Drive `1OXIuyYzkCK6qYylwLQBD90korRwLuCb7` | Ready for user voice/mood review | Full 8.000-second Veo source; voice at 0.55–6.79; original ambience restored for the ending. |
 | 2026-07-18 | `cou001` / `crv_20260718_cou001ne02` | Nepali | `med_20260718_cou001vo2` / Drive `1colBffLuYGhNYXe6XKFdTjEkzoGpuaWI` | `med_20260718_cou001v2` / Drive `1rzVUWHKyA_ZzIarNyRLgiOmk5hPNnzXX` | Ready for user review | Approved `ए, तिमी त ठ्याक्कै यस्तै छौ!` hook; mispronounced spoken brand trimmed; full Veo plus 2.5-second coming-soon card. |
 | 2026-07-18 | `cou001` / `crv_20260718_cou001ne03` | Nepali | Reuses `med_20260718_cou001vo2` with +2 dB mix gain | `med_20260718_cou001v3` / Drive `19WZpa-dEnv-iYqXNxUzCTt0Zm2QTVDG6` | Ready for user review | Video stream identical to revision 2; laughter approximately 8.5 dB quieter. |
+| 2026-07-18 | `cou001` / `crv_20260718_cou001ne04` | Nepali | Main `med_20260718_cou001vo2` plus `med_20260718_cou001tag1` | `med_20260718_cou001v4` / Drive `1xXHfVpVaBIRF_m4eUUyUbXLiKfcTovcR` | Ready for user review | Spoken `ज्योतिष बाजे` added and Scribe-verified; visuals and revision 3 mix preserved. |
 
 ## Decision and event history
 
@@ -329,6 +330,37 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 - **Renderer:** `marketing/scripts/render-cou001-nepali-insight-endcard-v3.sh`.
 - **Next action:** user listens to revision 3. If approved, treat its visual and audio treatment
   as locked while the later real-app proof section is designed separately.
+
+### 2026-07-18 20:15–20:22 Asia/Kathmandu — Spoken-brand correction
+
+- **User correction:** the previous check answered whether `Jyotish Baje` was visible, but the
+  user was asking whether it was spoken. Revision 3 audibly ended at `राम्रोसँग बुझ्न`; mark
+  `crv_20260718_cou001ne03` rejected for the missing spoken brand.
+- **First attempted reuse:** the earlier voice source contained a separately verified
+  `ज्योतिष बाजेसँग` phrase, but its first mixed splice was transcribed as `ज्योतिस बाजेसँग`.
+  That intermediate local render was overwritten before upload or registration.
+- **Correction:** generate one short brand-tag asset, `med_20260718_cou001tag1`, from the
+  phonetic source `ज्योतिश बाजे।` at speed 1.02. Scribe v2 returns `ज्योतिषबाजे`.
+- **Tag evidence:** SHA-256
+  `1ebcae59f1aa0dbe08b4034e3f977fe97355e72fbd59faf22c40df352dc97be1`;
+  38,078 bytes; 2.320 seconds. Use only source 0.05–1.05 seconds at timeline 6.00–7.00.
+- **Tag Drive:** uploaded once to `ai_voice`; file ID
+  `11T-Lt6ohss7oiYKw7nO7zvh6dhEqxSom`. Metadata readback verified name, MIME type, byte size,
+  and parent folder.
+- **Final narration verification:** Scribe v2 on revision 4 returns
+  `ए तिमी त ठ्याक्कै यस्तै छौ। एकअर्काको बानी र सोच अझ राम्रोसँग बुझ्न, ज्योतिष बाजे।`
+- **Visual and mix continuity:** the revision 4 compressed-video SHA-256 remains
+  `d62912366d79257234d9c8a0e66f0e8a08c55b6927f5363b619fcd6b7d4b9be1`, identical to
+  revisions 2 and 3. The louder-main-narration and quieter-laughter settings remain unchanged.
+- **Revision:** `crv_20260718_cou001ne04` / `med_20260718_cou001v4`; 10.500 seconds, 252 frames,
+  720×1280, 24 fps, H.264/AAC, 2,775,138 bytes, SHA-256
+  `52d778469a004d92a69d54076d50a663b59c648f531252fcd68543f3fed3164e`.
+- **Drive:** uploaded once to `exports_review`; file ID
+  `1xXHfVpVaBIRF_m4eUUyUbXLiKfcTovcR`. Metadata readback verified name, MIME type, byte size,
+  and parent folder.
+- **Renderer:** `marketing/scripts/render-cou001-nepali-insight-endcard-v4.sh`.
+- **Next action:** user listens specifically for the final spoken `ज्योतिष बाजे`. If accepted,
+  lock revision 4's visual and audio treatment.
 
 ## Handoff checklist for the next chat
 
