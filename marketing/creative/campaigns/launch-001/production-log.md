@@ -362,6 +362,27 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 - **Next action:** user listens specifically for the final spoken `ज्योतिष बाजे`. If accepted,
   lock revision 4's visual and audio treatment.
 
+### 2026-07-19 12:52–12:53 Asia/Kathmandu — Facebook and Instagram account bootstrap
+
+- **Approved positioning:** use `AI-powered Jyotish App` as the concise Facebook lead rather
+  than the earlier feature-list sentence.
+- **Facebook:** Page `Jyotish Baje` (`61591885419550`) now uses the owned 1024 × 1024 app logo
+  and bio `AI-powered Jyotish App. Nepali & English. Coming soon.` The first public logo post,
+  captioned `Coming soon.`, was read back on the Page timeline as post
+  `122103124563396180`; reserved handle `pub_20260719_fbbrand`.
+- **Instagram:** professional account `@jyotishbajeapp` now uses the same logo and the approved
+  three-line Kundli, Rashifal, Nepali Patro, language, and coming-soon bio. Instagram confirmed
+  the first public logo post and exact `Coming soon.` caption at shortcode `Da9yYvFiOij`;
+  reserved handle `pub_20260719_igbrand`.
+- **Asset evidence:** `assets/brand/jyotish-baje-logo-1024.png`, 236,256 bytes, SHA-256
+  `09f6e91ffafc8731f9aede1250429237d46338d1cf5a3d6f9ed890c3fd45ada7`.
+- **Scope:** no unrelated Facebook location or contact details were changed. These bootstrap
+  posts are documented in `marketing/operations/social-accounts.md`; they remain outside the
+  analytics publication registry until it supports brand-only bootstrap creatives without
+  weakening the real-app-proof gate.
+- **Next action:** review and correct the pre-existing Facebook contact/location fields before
+  sending launch traffic, then continue the approved Launch 001 production queue.
+
 ## Handoff checklist for the next chat
 
 - Read this log and report the last event before doing anything else.
