@@ -383,6 +383,22 @@ Produce the first wave of truthful 9:16 short-form videos using the existing Lau
 - **Next action:** review and correct the pre-existing Facebook contact/location fields before
   sending launch traffic, then continue the approved Launch 001 production queue.
 
+### 2026-07-19 14:33–14:35 Asia/Kathmandu — Social profile refinement
+
+- **TikTok:** `@jyotishbaje_app` profile photo was set to the approved Jyotish Baje logo and
+  bio saved as `AI-powered Jyotish App. Nepali & English. Coming soon.` Public readback showed
+  the exact bio.
+- **Facebook:** the existing profile image was opened in Facebook's thumbnail editor and
+  enlarged one zoom step; Facebook confirmed the profile-picture update. A redundant re-upload
+  attempt returned Facebook's generic `Oops` error and was dismissed; the existing-thumbnail
+  edit completed successfully afterward.
+- **Instagram:** the web UI has no zoom control, so a temporary centered 900×900 crop resized
+  to 1024×1024 was uploaded to enlarge the same logo visually. The editor closed successfully;
+  the approved bio and existing launch post remained intact. The temporary crop is not stored
+  in Git or `marketing/media/`.
+- **Next action:** review the pre-existing Facebook contact/location fields before traffic and
+  continue the approved Launch 001 production queue.
+
 ## Handoff checklist for the next chat
 
 - Read this log and report the last event before doing anything else.

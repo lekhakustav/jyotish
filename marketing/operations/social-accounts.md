@@ -61,3 +61,16 @@ not weaken the product-proof gate to accommodate them.
 
 The pre-existing Facebook contact details and location were outside this task and were not
 changed. Review those fields separately before driving traffic to the Page.
+
+## 2026-07-19 profile refinement
+
+- **TikTok:** `@jyotishbaje_app` now uses the approved logo and bio
+  `AI-powered Jyotish App. Nepali & English. Coming soon.` The public profile readback shows
+  the exact bio after saving.
+- **Facebook:** the existing logo thumbnail was enlarged by one zoom step through Facebook's
+  thumbnail editor. Facebook confirmed the profile-picture update.
+- **Instagram:** because Instagram's web editor exposes no thumbnail zoom control, the same
+  owned logo was uploaded as a temporary tighter centered crop for the profile image. The
+  profile editor closed successfully and the public profile still shows the approved bio and
+  launch post. The temporary crop is not retained in the repository.
+- **Scope:** no posts, captions, account names, contact details, or permissions were changed.
