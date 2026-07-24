@@ -135,8 +135,92 @@
       "storagePath": "2083/2026-07-17_guhyeshwari-tritiya.png",
       "sourceScheduleReason": "Tritiya leans toward Gauri and Devi vrata logic; Guhyeshwari is the Shakti anchor.",
       "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-17_guhyeshwari-tritiya.png"
+    },
+    {
+      "adDate": "2026-07-24",
+      "bsDate": "2083-04-08",
+      "tithi": "Shukla Dashami",
+      "deity": "Bhagwati and Kali",
+      "templeId": "gorkha_kalika",
+      "templeName": "Gorkha Kalika Temple",
+      "file": "2026-07-24_gorkha-kalika.png",
+      "storagePath": "2083/2026-07-24_gorkha-kalika.png",
+      "sourceScheduleReason": "Dashami carries victory and Durga logic, so Gorkha Kalika is the Nepal anchor.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-24_gorkha-kalika.png"
+    },
+    {
+      "adDate": "2026-07-25",
+      "bsDate": "2083-04-09",
+      "tithi": "Shukla Ekadashi",
+      "deity": "Narayana and Vishnu",
+      "templeId": "budhanilkantha",
+      "templeName": "Budhanilkantha Temple",
+      "file": "2026-07-25_budhanilkantha.png",
+      "storagePath": "2083/2026-07-25_budhanilkantha.png",
+      "sourceScheduleReason": "The Chaturmas Vishnu Ekadashi cycle points to reclining Narayana at Budhanilkantha.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-25_budhanilkantha.png"
+    },
+    {
+      "adDate": "2026-07-26",
+      "bsDate": "2083-04-10",
+      "tithi": "Shukla Dwadashi",
+      "deity": "Shiva",
+      "templeId": "pashupatinath",
+      "templeName": "Pashupatinath Temple",
+      "file": "2026-07-26_pashupatinath.png",
+      "storagePath": "2083/2026-07-26_pashupatinath.png",
+      "sourceScheduleReason": "Pradosh is a Shiva vrata observed around Trayodashi; Pashupatinath is the default Nepal Shiva anchor.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-26_pashupatinath.png"
+    },
+    {
+      "adDate": "2026-07-27",
+      "bsDate": "2083-04-11",
+      "tithi": "Shukla Trayodashi",
+      "deity": "Shiva",
+      "templeId": "pashupatinath",
+      "templeName": "Pashupatinath Temple",
+      "file": "2026-07-27_pashupatinath.png",
+      "storagePath": "2083/2026-07-27_pashupatinath.png",
+      "sourceScheduleReason": "It is Monday, the weekly Shiva day, so Pashupatinath overrides the neutral tithi fallback.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-27_pashupatinath.png"
+    },
+    {
+      "adDate": "2026-07-28",
+      "bsDate": "2083-04-12",
+      "tithi": "Shukla Chaturdashi",
+      "deity": "Shiva",
+      "templeId": "doleshwar",
+      "templeName": "Doleshwar Mahadev Temple",
+      "file": "2026-07-28_doleshwar.png",
+      "storagePath": "2083/2026-07-28_doleshwar.png",
+      "sourceScheduleReason": "Chaturdashi is close to Shiva vrata logic; Doleshwar gives a second Nepal Shiva anchor.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-28_doleshwar.png"
+    },
+    {
+      "adDate": "2026-07-29",
+      "bsDate": "2083-04-13",
+      "tithi": "Shukla Purnima",
+      "deity": "Buddha and illumination",
+      "templeId": "swayambhu",
+      "templeName": "Swayambhunath Stupa",
+      "file": "2026-07-29_swayambhu.png",
+      "storagePath": "2083/2026-07-29_swayambhu.png",
+      "sourceScheduleReason": "Purnima favors full-moon pilgrimage and illumination; Swayambhu is the Kathmandu valley anchor.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-29_swayambhu.png"
+    },
+    {
+      "adDate": "2026-07-30",
+      "bsDate": "2083-04-14",
+      "tithi": "Krishna Pratipada",
+      "deity": "Vishnu",
+      "templeId": "changu_narayan",
+      "templeName": "Changu Narayan Temple",
+      "file": "2026-07-30_changu-narayan.png",
+      "storagePath": "2083/2026-07-30_changu-narayan.png",
+      "sourceScheduleReason": "Pratipada opens a fresh lunar phase, anchored by Changu Narayan for auspicious continuity.",
+      "publicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/2026-07-30_changu-narayan.png"
     }
   ],
-  "uploadedAt": "2026-07-12",
+  "uploadedAt": "2026-07-24",
   "manifestPublicUrl": "https://ghfcssxptpazfbtiwshz.supabase.co/storage/v1/object/public/temple-of-day/2083/manifest.json"
 }
