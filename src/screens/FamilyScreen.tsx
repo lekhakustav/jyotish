@@ -247,14 +247,14 @@ function MemberRow({ member, language, onPress }: { member: FamilyMember; langua
       {member.kundali ? (
         <RashiMark rashi={member.kundali.moonRashi} size={46} />
       ) : (
-        <View style={styles.emptySeal}><AppIcon name="profile" size={21} color={palette.inkSecondary} /></View>
+        <View style={[styles.emptySeal, { borderColor: palette.hairline }]}><AppIcon name="profile" size={21} color={palette.inkSecondary} /></View>
       )}
       <View style={{ flex: 1, gap: 2 }}>
         <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 18 }}>{displayName(member.name, language)}</SerifText>
         <AppText style={{ color: palette.inkSecondary, fontSize: 13 }}>{relationLabel(member.relation, language)}</AppText>
       </View>
       {member.kundali ? (
-        <View style={styles.kundaliAction}>
+        <View style={[styles.kundaliAction, { backgroundColor: palette.bgSunken }]}>
           <AppIcon name="sparkle" size={15} color={palette.sindoor} />
           <AppText style={{ color: palette.sindoor, fontFamily: "Inter-SemiBold", fontSize: 13 }}>
             {language === "ne" ? "कुण्डली हेर्नुहोस्" : "See Kundli"}
@@ -270,6 +270,6 @@ const styles = {
   title: { fontFamily: "Fraunces-Bold", fontSize: 34, flexShrink: 1 },
   headerAction: { width: layoutMetrics.minimumTouchTarget, height: layoutMetrics.minimumTouchTarget, alignItems: "center" as const, justifyContent: "center" as const },
   memberRow: { minHeight: 72, paddingVertical: 12, flexDirection: "row" as const, alignItems: "center" as const, gap: 14 },
-  emptySeal: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, borderStyle: "dashed" as const, borderColor: palette.hairline, alignItems: "center" as const, justifyContent: "center" as const },
-  kundaliAction: { minHeight: 40, borderRadius: 20, borderCurve: "continuous" as const, backgroundColor: palette.bgSunken, paddingHorizontal: 11, flexDirection: "row" as const, gap: 6, alignItems: "center" as const, justifyContent: "center" as const }
+  emptySeal: { width: 46, height: 46, borderRadius: 23, borderWidth: 1, borderStyle: "dashed" as const, alignItems: "center" as const, justifyContent: "center" as const },
+  kundaliAction: { minHeight: 40, borderRadius: 20, borderCurve: "continuous" as const, paddingHorizontal: 11, flexDirection: "row" as const, gap: 6, alignItems: "center" as const, justifyContent: "center" as const }
 };

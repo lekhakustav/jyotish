@@ -40,14 +40,14 @@ export function FixedScreen({
   gutter = layoutMetrics.screenGutter,
   safeTop = true,
   safeBottom = true,
-  backgroundColor = palette.bgCanvas,
+  backgroundColor,
   style,
   contentStyle,
   ...props
 }: FixedScreenProps) {
   const insets = useSafeAreaInsets();
   return (
-    <View style={[{ flex: 1, backgroundColor }, style]} {...props}>
+    <View style={[{ flex: 1, backgroundColor: backgroundColor ?? palette.bgCanvas }, style]} {...props}>
       <View
         style={[
           {
@@ -82,7 +82,7 @@ export function ScrollScreen({
   gutter = layoutMetrics.screenGutter,
   safeTop = true,
   safeBottom = true,
-  backgroundColor = palette.bgCanvas,
+  backgroundColor,
   topInset = spacing.md,
   bottomInset = spacing.xl,
   contentGap = spacing.lg,
@@ -96,7 +96,7 @@ export function ScrollScreen({
       keyboardShouldPersistTaps="handled"
       automaticallyAdjustContentInsets={false}
       automaticallyAdjustsScrollIndicatorInsets={false}
-      style={[{ flex: 1, backgroundColor }, style]}
+      style={[{ flex: 1, backgroundColor: backgroundColor ?? palette.bgCanvas }, style]}
       contentContainerStyle={[
         {
           paddingHorizontal: gutter,
@@ -178,12 +178,12 @@ export function BottomTabShell<T extends string>({
                 borderRadius: 28,
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: selected ? "rgba(242, 169, 59, 0.24)" : "transparent",
+                backgroundColor: selected ? palette.saffron : "transparent",
                 opacity: pressed ? 0.72 : 1,
                 transform: [{ scale: pressed && !reduceMotion ? motion.pressedScale : 1 }]
               })}
             >
-              <AppIcon name={item.icon} size={24} color={selected ? palette.sindoor : palette.inkSecondary} strokeWidth={selected ? 2.1 : 1.8} />
+              <AppIcon name={item.icon} size={24} color={selected ? palette.onAccent : palette.inkSecondary} strokeWidth={selected ? 2.1 : 1.8} />
             </Pressable>
           );
         })}

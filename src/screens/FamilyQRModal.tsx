@@ -116,7 +116,7 @@ export function FamilyQRModal({ mode, language, family, onAdd, onClose }: {
               <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
                 {importRelations.map((item) => (
                   <PressableScale key={item} onPress={() => setRelation(item)} style={{ minHeight: 44, justifyContent: "center", paddingHorizontal: 14, borderRadius: 22, backgroundColor: relation === item ? palette.saffron : palette.bgSunken }}>
-                    <AppText style={{ fontFamily: "Inter-SemiBold", color: relation === item ? palette.inkPrimary : palette.inkSecondary }}>{sharedRelationLabel(item as Exclude<Relation, "selfMember">, language)}</AppText>
+                    <AppText style={{ fontFamily: "Inter-SemiBold", color: relation === item ? palette.onAccent : palette.inkSecondary }}>{sharedRelationLabel(item as Exclude<Relation, "selfMember">, language)}</AppText>
                   </PressableScale>
                 ))}
               </View>
@@ -157,7 +157,7 @@ export function FamilyQRModal({ mode, language, family, onAdd, onClose }: {
 function PrimaryButton({ label, onPress, disabled = false }: { label: string; onPress: () => void; disabled?: boolean }) {
   return (
     <PressableScale disabled={disabled} onPress={onPress} style={{ minHeight: 56, borderRadius: 16, backgroundColor: palette.saffron, alignItems: "center", justifyContent: "center", opacity: disabled ? 0.45 : 1 }}>
-      <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 18 }}>{label}</SerifText>
+      <SerifText style={{ color: palette.onAccent, fontFamily: "Fraunces-Bold", fontSize: 18 }}>{label}</SerifText>
     </PressableScale>
   );
 }

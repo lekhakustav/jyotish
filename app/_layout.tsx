@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { AppStateProvider } from "@/app-state";
+import { AppStateProvider, useAppState } from "@/app-state";
 import { palette } from "@/theme";
 
 export default function RootLayout() {
@@ -21,13 +21,18 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <GestureHandlerRootView style={{ flex: 1, backgroundColor: palette.bgCanvas }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <AppStateProvider>
           <StatusBar style="auto" />
-          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: palette.bgCanvas } }} />
+          <RootStack />
         </AppStateProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
+}
+
+function RootStack() {
+  useAppState();
+  return <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: palette.bgCanvas } }} />;
 }

@@ -77,7 +77,7 @@ export function RashifalScreen() {
                 adjustsFontSizeToFit
                 minimumFontScale={0.78}
                 style={{
-                  color: selected ? palette.inkPrimary : palette.inkSecondary,
+                  color: selected ? palette.onAccent : palette.inkSecondary,
                   fontFamily: selected ? "Inter-SemiBold" : "Inter-Regular",
                   fontSize: 14
                 }}
@@ -155,7 +155,7 @@ export function RashifalScreen() {
           }}
         >
           <ChatIcon />
-          <AppText numberOfLines={2} style={{ flex: 1, color: palette.inkPrimary, fontFamily: "Inter-SemiBold", fontSize: 15 }}>
+          <AppText numberOfLines={2} style={{ flex: 1, color: palette.onAccent, fontFamily: "Inter-SemiBold", fontSize: 15 }}>
             {cta}
           </AppText>
           <ArrowUpRightIcon />
@@ -253,7 +253,7 @@ function panditTeaser(domain: (typeof domains)[number], score: number, period: P
 function ChatIcon() {
   return (
     <Svg width={18} height={18} viewBox="0 0 24 24" accessibilityElementsHidden>
-      <Path d="M4 5.5h11.5v8H9l-4 3v-3H4zM15 9h5v7.5h-2V19l-3.5-2.5H11" stroke={palette.inkPrimary} strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <Path d="M4 5.5h11.5v8H9l-4 3v-3H4zM15 9h5v7.5h-2V19l-3.5-2.5H11" stroke={palette.onAccent} strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" fill="none" />
     </Svg>
   );
 }
@@ -261,7 +261,7 @@ function ChatIcon() {
 function ArrowUpRightIcon() {
   return (
     <Svg width={14} height={14} viewBox="0 0 14 14" accessibilityElementsHidden>
-      <Path d="M3 11 11 3M5 3h6v6" stroke={palette.inkPrimary} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <Path d="M3 11 11 3M5 3h6v6" stroke={palette.onAccent} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" fill="none" />
     </Svg>
   );
 }

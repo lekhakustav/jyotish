@@ -32,8 +32,8 @@ export function PrimaryButton({ title, icon, onPress, disabled }: { title: strin
         paddingHorizontal: 18
       }}
     >
-      <ButtonIcon icon={icon} color={palette.inkPrimary} />
-      <SerifText style={{ fontSize: 19, color: palette.inkPrimary, fontFamily: "Fraunces-Bold", textAlign: "center" }}>{title}</SerifText>
+      <ButtonIcon icon={icon} color={palette.onAccent} />
+      <SerifText style={{ fontSize: 19, color: palette.onAccent, fontFamily: "Fraunces-Bold", textAlign: "center" }}>{title}</SerifText>
     </PressableScale>
   );
 }
@@ -52,11 +52,11 @@ export function GhostButton({ title, icon, onPress, selected }: { title: string;
         justifyContent: "center",
         flexDirection: "row",
         gap: 8,
-        backgroundColor: selected ? "rgba(242, 169, 59, 0.28)" : palette.bgSunken
+        backgroundColor: selected ? palette.saffron : palette.bgSunken
       }}
     >
-      <ButtonIcon icon={icon} color={selected ? palette.sindoor : palette.inkSecondary} />
-      <AppText style={{ color: selected ? palette.sindoor : palette.inkSecondary, fontFamily: selected ? "Inter-Bold" : "Inter-SemiBold" }}>{title}</AppText>
+      <ButtonIcon icon={icon} color={selected ? palette.onAccent : palette.inkSecondary} />
+      <AppText style={{ color: selected ? palette.onAccent : palette.inkSecondary, fontFamily: selected ? "Inter-Bold" : "Inter-SemiBold" }}>{title}</AppText>
     </PressableScale>
   );
 }

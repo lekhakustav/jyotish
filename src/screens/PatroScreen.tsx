@@ -142,7 +142,7 @@ export function PatroScreen() {
         <PressableScale accessibilityLabel="Previous month" onPress={() => setShown(moveMonth(shown, -1))} style={styles.iconButton}>
           <AppIcon name="chevron-left" size={20} color={palette.saffron} />
         </PressableScale>
-        <View style={styles.monthTitle}>
+        <View style={[styles.monthTitle, { backgroundColor: palette.bgSunken }]}>
           <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 24 }}>
             {`${MONTHS[app.language][shown.month - 1]} ${digits(shown.year, app.language)}`}
           </SerifText>
@@ -316,5 +316,5 @@ const styles = {
   title: { fontFamily: "Fraunces-Bold", fontSize: 34, flexShrink: 1 },
   iconButton: { width: layoutMetrics.minimumTouchTarget, height: layoutMetrics.minimumTouchTarget, alignItems: "center" as const, justifyContent: "center" as const },
   monthHeader: { minHeight: 56, flexDirection: "row" as const, alignItems: "center" as const, justifyContent: "space-between" as const, marginHorizontal: -12 },
-  monthTitle: { minHeight: 44, borderRadius: 22, borderCurve: "continuous" as const, backgroundColor: palette.bgSunken, paddingHorizontal: 18, alignItems: "center" as const, justifyContent: "center" as const }
+  monthTitle: { minHeight: 44, borderRadius: 22, borderCurve: "continuous" as const, paddingHorizontal: 18, alignItems: "center" as const, justifyContent: "center" as const }
 };

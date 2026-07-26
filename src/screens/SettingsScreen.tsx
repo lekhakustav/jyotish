@@ -47,7 +47,7 @@ export function SettingsScreen({ onEditProfile, notificationPreferences, onNotif
 
       <View style={{ gap: 10 }}>
         <SectionLabel>{app.language === "ne" ? "भाषा" : "Language"}</SectionLabel>
-        <View style={styles.segmented}>
+        <View style={[styles.segmented, { backgroundColor: palette.bgSunken }]}>
           <LanguageOption language="en" current={app.language} label="English" onPress={app.setLanguage} />
           <LanguageOption language="ne" current={app.language} label="नेपाली" onPress={app.setLanguage} />
         </View>
@@ -165,9 +165,9 @@ function LanguageOption({ language, current, label, onPress }: {
     <PressableScale
       accessibilityState={{ selected }}
       onPress={() => onPress(language)}
-      style={{ flex: 1, minHeight: 44, borderRadius: 22, borderCurve: "continuous", backgroundColor: selected ? "rgba(242,169,59,0.25)" : "transparent", alignItems: "center", justifyContent: "center" }}
+      style={{ flex: 1, minHeight: 44, borderRadius: 22, borderCurve: "continuous", backgroundColor: selected ? palette.saffron : "transparent", alignItems: "center", justifyContent: "center" }}
     >
-      <AppText style={{ color: selected ? palette.sindoor : palette.inkSecondary, fontFamily: selected ? "Inter-SemiBold" : "Inter-Regular", fontSize: 16 }}>{label}</AppText>
+      <AppText style={{ color: selected ? palette.onAccent : palette.inkSecondary, fontFamily: selected ? "Inter-SemiBold" : "Inter-Regular", fontSize: 16 }}>{label}</AppText>
     </PressableScale>
   );
 }
@@ -212,7 +212,7 @@ const styles = {
   header: { minHeight: 48, flexDirection: "row" as const, alignItems: "center" as const, justifyContent: "space-between" as const, gap: spacing.md },
   title: { fontFamily: "Fraunces-Bold", fontSize: 30, flexShrink: 1 },
   iconButton: { width: layoutMetrics.minimumTouchTarget, height: layoutMetrics.minimumTouchTarget, alignItems: "center" as const, justifyContent: "center" as const, marginRight: -8 },
-  segmented: { minHeight: 52, flexDirection: "row" as const, gap: 4, borderRadius: 26, borderCurve: "continuous" as const, backgroundColor: palette.bgSunken, padding: 4 },
+  segmented: { minHeight: 52, flexDirection: "row" as const, gap: 4, borderRadius: 26, borderCurve: "continuous" as const, padding: 4 },
   row: { minHeight: 48, paddingVertical: 10, flexDirection: "row" as const, alignItems: "center" as const, gap: 12 },
   signOut: { minHeight: 50, alignItems: "center" as const, justifyContent: "center" as const },
   deleteAccount: { minHeight: 44, alignItems: "center" as const, justifyContent: "center" as const }

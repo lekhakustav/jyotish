@@ -51,9 +51,9 @@ export function RelationshipAndFeatureHub() {
           />
         </View>
         <PressableScale onPress={() => app.openPandit()} style={{ minHeight: 56, borderRadius: 16, backgroundColor: palette.saffron, flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 18 }}>
-          <AppIcon name="sparkle" size={21} color={palette.inkPrimary} strokeWidth={2} />
-          <SerifText style={{ flex: 1, fontFamily: "Fraunces-SemiBold", fontSize: 18 }}>{app.language === "ne" ? "ज्योतिष बाजेलाई जे पनि सोध्नुहोस्" : "Ask Jyotish Baje anything"}</SerifText>
-          <AppIcon name="arrow-up-right" size={19} color={palette.inkPrimary} strokeWidth={2} />
+          <AppIcon name="sparkle" size={21} color={palette.onAccent} strokeWidth={2} />
+          <SerifText style={{ flex: 1, color: palette.onAccent, fontFamily: "Fraunces-SemiBold", fontSize: 18 }}>{app.language === "ne" ? "ज्योतिष बाजेलाई जे पनि सोध्नुहोस्" : "Ask Jyotish Baje anything"}</SerifText>
+          <AppIcon name="arrow-up-right" size={19} color={palette.onAccent} strokeWidth={2} />
         </PressableScale>
       </View>
 
@@ -102,7 +102,7 @@ function RelationshipSection({ member, relatives, language, onMember, onDetailed
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
           {relatives.map((candidate) => (
             <PressableScale key={candidate.id} onPress={() => onMember(candidate.id)} style={{ minHeight: 42, justifyContent: "center", paddingHorizontal: 15, borderRadius: 22, backgroundColor: candidate.id === member.id ? palette.saffron : palette.bgSunken }}>
-              <AppText style={{ fontFamily: "Inter-SemiBold", color: candidate.id === member.id ? palette.inkPrimary : palette.inkSecondary }}>{displayName(candidate.name, language)}</AppText>
+              <AppText style={{ fontFamily: "Inter-SemiBold", color: candidate.id === member.id ? palette.onAccent : palette.inkSecondary }}>{displayName(candidate.name, language)}</AppText>
             </PressableScale>
           ))}
         </ScrollView>
@@ -137,4 +137,4 @@ function FeatureLaunchModal({ feature, relatives, language, onClose, onAddPerson
 }
 
 function ModalHeader({ title, onClose }: { title: string; onClose: () => void }) { return <View style={{ minHeight: 76, paddingHorizontal: 24, flexDirection: "row", alignItems: "center", gap: 10 }}><SerifText numberOfLines={2} style={{ flex: 1, fontFamily: "Fraunces-Bold", fontSize: 27 }}>{title}</SerifText><PressableScale accessibilityLabel="Close" onPress={onClose} style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}><AppIcon name="close" color={palette.inkSecondary} /></PressableScale></View>; }
-function PrimaryButton({ label, onPress }: { label: string; onPress: () => void }) { return <PressableScale onPress={onPress} style={{ minHeight: 56, borderRadius: 16, backgroundColor: palette.saffron, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10, paddingHorizontal: 16 }}><AppIcon name="sparkle" size={19} color={palette.inkPrimary} /><SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 17, textAlign: "center" }}>{label}</SerifText></PressableScale>; }
+function PrimaryButton({ label, onPress }: { label: string; onPress: () => void }) { return <PressableScale onPress={onPress} style={{ minHeight: 56, borderRadius: 16, backgroundColor: palette.saffron, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10, paddingHorizontal: 16 }}><AppIcon name="sparkle" size={19} color={palette.onAccent} /><SerifText style={{ color: palette.onAccent, fontFamily: "Fraunces-Bold", fontSize: 17, textAlign: "center" }}>{label}</SerifText></PressableScale>; }

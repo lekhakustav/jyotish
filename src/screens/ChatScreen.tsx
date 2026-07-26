@@ -374,10 +374,10 @@ function Composer({ value, language, listening, disabled, onChangeText, onSubmit
           borderRadius: 24,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: hasText && !listening ? palette.saffron : listening ? "rgba(242, 169, 59, 0.28)" : palette.bgSunken
+          backgroundColor: hasText || listening ? palette.saffron : palette.bgSunken
         }}
       >
-        <AppIcon name={hasText && !listening ? "send" : "microphone"} size={21} color={hasText || listening ? palette.inkPrimary : palette.inkSecondary} strokeWidth={2} />
+        <AppIcon name={hasText && !listening ? "send" : "microphone"} size={21} color={hasText || listening ? palette.onAccent : palette.inkSecondary} strokeWidth={2} />
       </PressableScale>
     </View>
   );
@@ -425,8 +425,8 @@ function HistoryDrawer({ conversations, activeConversationId, language, onClose,
           onPress={onNew}
           style={{ minHeight: 56, borderRadius: 16, borderCurve: "continuous", backgroundColor: palette.saffron, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10, marginVertical: 12 }}
         >
-          <AppIcon name="plus" size={19} color={palette.inkPrimary} strokeWidth={2} />
-          <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 18 }}>{language === "ne" ? "नयाँ कुराकानी" : "New conversation"}</SerifText>
+          <AppIcon name="plus" size={19} color={palette.onAccent} strokeWidth={2} />
+          <SerifText style={{ color: palette.onAccent, fontFamily: "Fraunces-Bold", fontSize: 18 }}>{language === "ne" ? "नयाँ कुराकानी" : "New conversation"}</SerifText>
         </PressableScale>
         <FlatList
           data={sorted}

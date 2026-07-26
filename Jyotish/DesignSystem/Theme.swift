@@ -25,7 +25,7 @@ struct Palette {
 
     static let ratri = Palette( // dark — plain night paper
         bgCanvas: Color(hex: 0x17120C), bgElevated: Color(hex: 0x1F1710), bgSunken: Color(hex: 0x100B06),
-        inkPrimary: Color(hex: 0xF4E7CE), inkSecondary: Color(hex: 0xC4A886), onAccent: Color(hex: 0x3B1F14),
+        inkPrimary: Color(hex: 0xF4E7CE), inkSecondary: Color(hex: 0xC4A886), onAccent: Color(hex: 0x17120C),
         saffron: Color(hex: 0xF49B3A), marigold: Color(hex: 0xFFC15E), sindoor: Color(hex: 0xE05A41),
         templeGold: Color(hex: 0xD9A93F), peepalGreen: Color(hex: 0x7FA86B),
         lotusPink: Color(hex: 0xE68BA4), nightBlue: Color(hex: 0x8FA3C8))

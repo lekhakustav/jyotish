@@ -29,10 +29,10 @@ struct SettingsView: View {
                                 Button { app.setLanguage(l) } label: {
                                     Text(l.displayName)
                                         .scaledFont(size: 16, weight: app.language == l ? .semibold : .regular)
-                                        .foregroundStyle(app.language == l ? p.sindoor : p.inkSecondary)
+                                        .foregroundStyle(app.language == l ? p.onAccent : p.inkSecondary)
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 44)
-                                        .background(Capsule().fill(app.language == l ? p.marigold.opacity(0.25) : .clear))
+                                        .background(Capsule().fill(app.language == l ? p.saffron : .clear))
                                 }
                             }
                         }

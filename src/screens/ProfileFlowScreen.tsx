@@ -139,8 +139,8 @@ function RelationStep({ value, onChange, language }: { value: Relation; onChange
       {familyRelations.map((relation) => {
         const selected = relation === value;
         return (
-          <PressableScale key={relation} onPress={() => onChange(relation)} style={{ width: "48%", minHeight: 56, borderRadius: 14, borderCurve: "continuous", backgroundColor: selected ? "rgba(242,169,59,0.16)" : "transparent", alignItems: "center", justifyContent: "center", paddingHorizontal: 6 }}>
-            <SerifText style={{ color: selected ? palette.sindoor : palette.inkPrimary, fontFamily: selected ? "Fraunces-Bold" : "Fraunces-Regular", fontSize: 15, textAlign: "center" }}>{relationLabel(relation, language)}</SerifText>
+          <PressableScale key={relation} onPress={() => onChange(relation)} style={{ width: "48%", minHeight: 56, borderRadius: 14, borderCurve: "continuous", backgroundColor: selected ? palette.saffron : "transparent", alignItems: "center", justifyContent: "center", paddingHorizontal: 6 }}>
+            <SerifText style={{ color: selected ? palette.onAccent : palette.inkPrimary, fontFamily: selected ? "Fraunces-Bold" : "Fraunces-Regular", fontSize: 15, textAlign: "center" }}>{relationLabel(relation, language)}</SerifText>
           </PressableScale>
         );
       })}
@@ -149,7 +149,7 @@ function RelationStep({ value, onChange, language }: { value: Relation; onChange
 }
 
 function NameStep({ value, onChange, language }: { value: string; onChange: (value: string) => void; language: "en" | "ne" }) {
-  return <Field autoFocus value={value} onChangeText={onChange} placeholder={language === "ne" ? "नाम" : "Name"} style={styles.largeField} returnKeyType="next" />;
+  return <Field autoFocus value={value} onChangeText={onChange} placeholder={language === "ne" ? "नाम" : "Name"} style={[styles.largeField, { borderBottomColor: palette.hairline }]} returnKeyType="next" />;
 }
 
 function DateStep({ year, month, day, setYear, setMonth, setDay, language }: {
@@ -251,5 +251,5 @@ function clampNumber(value: string, minimum: number, maximum: number, fallback: 
 const styles = {
   topBar: { minHeight: 56, paddingHorizontal: 8, paddingTop: 4, flexDirection: "row" as const, alignItems: "center" as const, justifyContent: "space-between" as const },
   iconButton: { width: layoutMetrics.minimumTouchTarget, height: layoutMetrics.minimumTouchTarget, alignItems: "center" as const, justifyContent: "center" as const },
-  largeField: { minHeight: 62, borderRadius: 0, backgroundColor: "transparent", borderBottomWidth: 1, borderBottomColor: palette.hairline, paddingHorizontal: 0, fontFamily: "Fraunces-Bold", fontSize: 26 }
+  largeField: { minHeight: 62, borderRadius: 0, backgroundColor: "transparent", borderBottomWidth: 1, paddingHorizontal: 0, fontFamily: "Fraunces-Bold", fontSize: 26 }
 };

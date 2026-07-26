@@ -151,12 +151,12 @@ function LanguageControl({ value, onChange }: { value: "en" | "ne"; onChange: (l
               borderRadius: 24,
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: selected ? "rgba(242, 169, 59, 0.25)" : "transparent"
+              backgroundColor: selected ? palette.saffron : "transparent"
             }}
           >
             <AppText
               style={{
-                color: selected ? palette.sindoor : palette.inkSecondary,
+                color: selected ? palette.onAccent : palette.inkSecondary,
                 fontFamily: selected ? "Inter-SemiBold" : "Inter-Regular",
                 fontSize: 15
               }}

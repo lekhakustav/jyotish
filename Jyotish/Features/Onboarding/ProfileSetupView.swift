@@ -261,7 +261,7 @@ struct BirthFlowView: View {
                                 Button { Haptics.tap(); relation = r } label: {
                                     Text(ne ? r.labelNE : r.labelEN)
                                         .scaledFont(size: 15, weight: relation == r ? .semibold : .regular, design: .serif)
-                                        .foregroundStyle(relation == r ? p.sindoor : p.inkPrimary)
+                                        .foregroundStyle(relation == r ? p.onAccent : p.inkPrimary)
                                         .lineLimit(2)
                                         .minimumScaleFactor(0.75)
                                         .multilineTextAlignment(.center)
@@ -269,7 +269,7 @@ struct BirthFlowView: View {
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 56)
                                         .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                            .fill(relation == r ? p.marigold.opacity(0.16) : .clear))
+                                            .fill(relation == r ? p.saffron : .clear))
                                 }
                             }
                         }

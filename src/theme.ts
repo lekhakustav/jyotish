@@ -4,6 +4,7 @@ export type AppPalette = {
   bgSunken: string;
   inkPrimary: string;
   inkSecondary: string;
+  onAccent: string;
   saffron: string;
   marigold: string;
   sindoor: string;
@@ -19,6 +20,7 @@ export const palette: AppPalette = {
   bgSunken: "#F4ECDD",
   inkPrimary: "#3B1F14",
   inkSecondary: "#7A5C48",
+  onAccent: "#3B1F14",
   saffron: "#E8801A",
   marigold: "#F2A93B",
   sindoor: "#B9331F",
@@ -62,6 +64,7 @@ export const darkPalette = {
   bgSunken: "#100B06",
   inkPrimary: "#F4E7CE",
   inkSecondary: "#C4A886",
+  onAccent: "#17120C",
   saffron: "#F49B3A",
   marigold: "#FFC15E",
   sindoor: "#E05A41",

@@ -31,13 +31,13 @@ export type AppIconName =
   | "qr-code"
   | "scan";
 
-export function AppIcon({ name, size = 24, color = palette.inkPrimary, strokeWidth = 1.8 }: {
+export function AppIcon({ name, size = 24, color, strokeWidth = 1.8 }: {
   name: AppIconName;
   size?: number;
   color?: string;
   strokeWidth?: number;
 }) {
-  const common = { fill: "none", stroke: color, strokeWidth, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const common = { fill: "none", stroke: color ?? palette.inkPrimary, strokeWidth, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   let mark: React.ReactNode;
   switch (name) {
     case "home":
