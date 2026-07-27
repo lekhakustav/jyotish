@@ -28,7 +28,7 @@ Jyotish chat is backend-first with a local fallback:
 This means the OpenAI key belongs in a backend process, not in the iOS target.
 
 ## Local environment
-Create `.env.local` at the repo root:
+Create `.env.server.local` at the repo root:
 
 ```sh
 OPENAI_API_KEY=...
@@ -43,20 +43,20 @@ ELEVENLABS_FEMALE_AGENT_ID=...
 ELEVENLABS_MALE_AGENT_ID=...
 ```
 
-`.env.local` is intentionally ignored by git.
+`.env.server.local` is intentionally ignored by git and is never loaded by Expo.
 
 To import the OpenAI key from the user's Desktop/Sodhera checkout without printing it:
 
 ```sh
 src=/Users/sirishjoshi/Desktop/sodhera/.env.local
-dst=.env.local
+dst=.env.server.local
 key=$(awk -F= '$1=="OPENAI_API_KEY" {sub(/^[^=]*=/, ""); print; exit}' "$src")
 awk -v key="$key" 'BEGIN { done=0 } /^OPENAI_API_KEY=/ { print "OPENAI_API_KEY=" key; done=1; next } { print } END { if (!done) print "OPENAI_API_KEY=" key }' "$dst" > "$dst.tmp"
 mv "$dst.tmp" "$dst"
 git check-ignore -v .env.local
 ```
 
-Never echo the key, commit `.env.local`, place it in `Info.plist`, or put it in Xcode build
+Never echo the key, commit `.env.server.local`, place it in `Info.plist`, or put it in Xcode build
 settings.
 
 ## Run the backend
@@ -94,9 +94,9 @@ Production builds use:
 JYOTISH_AGENT_ENDPOINT_URL=https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent
 ```
 
-Keep Supabase function JWT verification enabled for production. The app includes the
-publishable `apikey` header and the user's Supabase Auth bearer token when a session exists.
-That prevents placing the OpenAI key in the app and avoids running a separate server.
+Keep Supabase function JWT verification enabled for production. The function also verifies the
+bearer token against Supabase Auth and applies a per-user request limit before calling OpenAI.
+The app includes the publishable `apikey` header and the user's Supabase Auth bearer token.
 
 ## Backend contract
 The backend exposes one narrow chat endpoint:

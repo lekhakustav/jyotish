@@ -36,6 +36,11 @@ export function ProfileFlowScreen({ mode = "family", editingMember, onClose, onD
   const [hour, setHour] = React.useState(String(birth?.hour ?? 6));
   const [minute, setMinute] = React.useState(String(birth?.minute ?? 0));
   const [place, setPlace] = React.useState<BirthPlace>(birth?.place ?? birthPlaces[0]);
+  const initialPreset = birth?.place && birthPlaces.some((candidate) => candidate.name === birth.place?.name && candidate.latitude === birth.place?.latitude && candidate.longitude === birth.place?.longitude && candidate.utcOffsetHours === birth.place?.utcOffsetHours);
+  const [manualName, setManualName] = React.useState(initialPreset ? "" : birth?.place?.name ?? "");
+  const [manualLatitude, setManualLatitude] = React.useState(initialPreset ? "" : String(birth?.place?.latitude ?? ""));
+  const [manualLongitude, setManualLongitude] = React.useState(initialPreset ? "" : String(birth?.place?.longitude ?? ""));
+  const [manualUtcOffset, setManualUtcOffset] = React.useState(initialPreset ? "" : String(birth?.place?.utcOffsetHours ?? ""));
   const [revealed, setRevealed] = React.useState<ReturnType<typeof computeKundali>>();
   const step = steps[index];
   const close = onClose ?? app.closeModal;
@@ -87,7 +92,7 @@ export function ProfileFlowScreen({ mode = "family", editingMember, onClose, onD
             {steps.map((item, dotIndex) => <View key={item} style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: dotIndex <= index ? palette.saffron : palette.hairline }} />)}
           </View>
           <PressableScale accessibilityLabel="Close" onPress={close} style={styles.iconButton}>
-            <AppIcon name="close" size={19} color={palette.inkSecondary} />
+            <AppIcon name="close" size={19} color={palette.inkPrimary} />
           </PressableScale>
         </View>
 
@@ -97,7 +102,7 @@ export function ProfileFlowScreen({ mode = "family", editingMember, onClose, onD
           {step === "name" ? <NameStep value={name} onChange={setName} language={app.language} /> : null}
           {step === "date" ? <DateStep year={year} month={month} day={day} setYear={setYear} setMonth={setMonth} setDay={setDay} language={app.language} /> : null}
           {step === "time" ? <TimeStep known={timeKnown} setKnown={setTimeKnown} hour={hour} minute={minute} setHour={setHour} setMinute={setMinute} language={app.language} /> : null}
-          {step === "place" ? <PlaceStep value={place} onChange={setPlace} language={app.language} /> : null}
+          {step === "place" ? <PlaceStep value={place} onChange={setPlace} language={app.language} manualName={manualName} setManualName={setManualName} manualLatitude={manualLatitude} setManualLatitude={setManualLatitude} manualLongitude={manualLongitude} setManualLongitude={setManualLongitude} manualUtcOffset={manualUtcOffset} setManualUtcOffset={setManualUtcOffset} /> : null}
         </ScrollView>
 
         <View style={{ paddingHorizontal: 24, paddingTop: 8, paddingBottom: 24 }}>
@@ -186,7 +191,19 @@ function TimeStep({ known, setKnown, hour, minute, setHour, setMinute, language 
   );
 }
 
-function PlaceStep({ value, onChange, language }: { value: BirthPlace; onChange: (place: BirthPlace) => void; language: "en" | "ne" }) {
+function PlaceStep({ value, onChange, language, manualName, setManualName, manualLatitude, setManualLatitude, manualLongitude, setManualLongitude, manualUtcOffset, setManualUtcOffset }: {
+  value: BirthPlace; onChange: (place: BirthPlace) => void; language: "en" | "ne";
+  manualName: string; setManualName: (value: string) => void;
+  manualLatitude: string; setManualLatitude: (value: string) => void;
+  manualLongitude: string; setManualLongitude: (value: string) => void;
+  manualUtcOffset: string; setManualUtcOffset: (value: string) => void;
+}) {
+  const updateManual = (name: string, latitude: string, longitude: string, utcOffset: string) => {
+    const lat = Number(latitude); const lon = Number(longitude); const offset = Number(utcOffset);
+    if (name.trim() && Number.isFinite(lat) && lat >= -90 && lat <= 90 && Number.isFinite(lon) && lon >= -180 && lon <= 180 && Number.isFinite(offset) && offset >= -14 && offset <= 14) {
+      onChange({ name: name.trim(), nameNE: name.trim(), latitude: lat, longitude: lon, utcOffsetHours: offset });
+    }
+  };
   return (
     <View>
       {birthPlaces.map((place, index) => {
@@ -201,17 +218,32 @@ function PlaceStep({ value, onChange, language }: { value: BirthPlace; onChange:
           </React.Fragment>
         );
       })}
+      <Hairline />
+      <View style={{ gap: 14, paddingTop: 18 }}>
+        <SectionLabel>{language === "ne" ? "स्थान आफैं लेख्नुहोस्" : "Enter another location"}</SectionLabel>
+        <Field value={manualName} onChangeText={(text) => { setManualName(text); updateManual(text, manualLatitude, manualLongitude, manualUtcOffset); }} placeholder={language === "ne" ? "शहर वा स्थान" : "City or place"} />
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          <NumberField allowDecimal label={language === "ne" ? "अक्षांश" : "Latitude"} value={manualLatitude} onChange={(text) => { setManualLatitude(text); updateManual(manualName, text, manualLongitude, manualUtcOffset); }} />
+          <NumberField allowDecimal label={language === "ne" ? "देशान्तर" : "Longitude"} value={manualLongitude} onChange={(text) => { setManualLongitude(text); updateManual(manualName, manualLatitude, text, manualUtcOffset); }} />
+        </View>
+        <NumberField allowDecimal label={language === "ne" ? "UTC समय फरक (घण्टा)" : "UTC offset (hours)"} value={manualUtcOffset} onChange={(text) => { setManualUtcOffset(text); updateManual(manualName, manualLatitude, manualLongitude, text); }} />
+        <AppText style={{ color: palette.inkSecondary, fontSize: 13 }}>{language === "ne" ? "अक्षांश, देशान्तर र UTC फरकले कुण्डलीको लग्न ठीक राख्छ।" : "Coordinates and UTC offset keep the ascendant calculation accurate."}</AppText>
+      </View>
     </View>
   );
 }
 
-function NumberField({ label, value, onChange, flex = 1 }: { label: string; value: string; onChange: (value: string) => void; flex?: number }) {
+function NumberField({ label, value, onChange, flex = 1, allowDecimal = false }: { label: string; value: string; onChange: (value: string) => void; flex?: number; allowDecimal?: boolean }) {
   return (
     <View style={{ flex, gap: 8 }}>
       <SectionLabel>{label}</SectionLabel>
-      <Field keyboardType="number-pad" value={value} onChangeText={(text) => onChange(text.replace(/\D/g, ""))} style={{ fontSize: 20, textAlign: "center" }} />
+      <Field keyboardType={allowDecimal ? "numbers-and-punctuation" : "number-pad"} value={value} onChangeText={(text) => onChange(allowDecimal ? decimalInput(text) : text.replace(/\D/g, ""))} style={{ fontSize: 20, textAlign: "center" }} />
     </View>
   );
+}
+
+function decimalInput(text: string): string {
+  return text.replace(/[^0-9.-]/g, "").replace(/(?!^)-/g, "").replace(/(\..*)\./g, "$1");
 }
 
 function finish({ mode, editingMember, relation, name, birthData, app, onDone, close }: {

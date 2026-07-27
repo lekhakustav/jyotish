@@ -48,6 +48,10 @@ final class AppState: ObservableObject {
     private let remoteStore: RemoteDataStore?
     private let agent: AgentService?
     private var remotePersistTask: Task<Void, Never>?
+    /// Prevents a failed remote restore from overwriting the server with the
+    /// local cache. A successful load, including a confirmed no-row result,
+    /// explicitly opens the remote write path.
+    private var remoteRestoreReady = false
     private var assistantStreamBuffers: [UUID: String] = [:]
     private var assistantStreamTasks: [UUID: Task<Void, Never>] = [:]
 
@@ -175,7 +179,7 @@ final class AppState: ObservableObject {
                                   engagementPreferences: engagementPreferences,
                                   language: language, theme: theme)
         store.save(household)
-        guard let account, let remoteStore else { return }
+        guard let account, let remoteStore, remoteRestoreReady else { return }
         remotePersistTask?.cancel()
         remotePersistTask = Task { [weak self] in
             try? await Task.sleep(nanoseconds: 750_000_000)
@@ -321,6 +325,7 @@ final class AppState: ObservableObject {
             persist()
             return
         }
+        remoteRestoreReady = false
         do {
             if let remote = try await remoteStore.load(for: acct) {
                 account = remote.account ?? acct
@@ -334,6 +339,7 @@ final class AppState: ObservableObject {
             } else {
                 account = acct
             }
+            remoteRestoreReady = true
             syncStatus = nil
             if engagementPreferences.enabled {
                 try? await refreshEngagementNotifications()
@@ -347,6 +353,7 @@ final class AppState: ObservableObject {
 
     private func loadRemoteHousehold() async {
         guard let account, let remoteStore else { return }
+        remoteRestoreReady = false
         do {
             if let remote = try await remoteStore.load(for: account) {
                 self.account = remote.account ?? account
@@ -358,6 +365,7 @@ final class AppState: ObservableObject {
                 engagementPreferences = remote.engagementPreferences ?? EngagementPreferences()
                 store.save(remote)
             }
+            remoteRestoreReady = true
             syncStatus = nil
             if engagementPreferences.enabled {
                 try? await refreshEngagementNotifications()

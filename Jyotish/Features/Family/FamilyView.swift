@@ -317,8 +317,9 @@ private struct TreeBranch: View {
 
 /// Adding a family member uses the same paged flow, prefixed with a relation step.
 struct AddMemberSheet: View {
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
-        BirthFlowView(mode: .familyMember)
+        BirthFlowView(mode: .familyMember, onClose: { dismiss() })
             .presentationDragIndicator(.visible)
     }
 }

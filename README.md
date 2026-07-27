@@ -20,8 +20,11 @@ Copy `OPENAI_API_KEY` into ignored `.env.local` first, then:
 npm run agent
 ```
 
-The iOS app posts chat context to `http://127.0.0.1:8788` by default and falls back to the
-local `PanditBrain` if the backend is unavailable. See `docs/06-BACKEND-AGENT.md`.
+The local agent listens on `http://127.0.0.1:8788`. Expo clients use
+`EXPO_PUBLIC_JYOTISH_AGENT_ENDPOINT_URL` from `.env.local` for the deployed Supabase Edge
+Function and send the public Supabase API key plus the signed-in session token when available.
+If the backend is unavailable, the app falls back to the deterministic local reading. See
+`docs/06-BACKEND-AGENT.md` and `docs/13-ANDROID-REACT-NATIVE.md`.
 
 For production without a dedicated server, deploy `supabase/functions/jyotish-agent` and set
 `JYOTISH_AGENT_ENDPOINT_URL` to the function URL.

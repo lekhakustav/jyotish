@@ -187,7 +187,7 @@ struct FamilyQRScannerSheet: View {
 
     private func importForm(_ payload: FamilySharePayload) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            Label(app.language == .ne ? NepaliNameTransliterator.transliterate(payload.name) : payload.name,
+            Label(payload.name,
                   systemImage: "person.crop.circle.badge.checkmark")
                 .scaledFont(size: 22, weight: .semibold, design: .serif)
                 .foregroundStyle(p.inkPrimary)

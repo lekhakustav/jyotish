@@ -17,5 +17,6 @@ Use this iOS setting for production builds:
 JYOTISH_AGENT_ENDPOINT_URL=https://ghfcssxptpazfbtiwshz.supabase.co/functions/v1/jyotish-agent
 ```
 
-Keep JWT verification enabled for production so public clients cannot anonymously spend
-OpenAI tokens. The app already sends the Supabase session bearer token when one exists.
+JWT verification is source-controlled in `supabase/config.toml`. The function also verifies
+the bearer token against Supabase Auth and applies a per-user request limit before spending
+OpenAI tokens.

@@ -8,6 +8,7 @@
     "android": "expo run:android",
     "android:prebuild": "expo prebuild --platform android",
     "android:export": "expo export --platform android",
+    "agent": "node server/jyotish-agent.mjs",
     "typecheck": "tsc --noEmit",
     "start": "expo start",
     "web:dev": "concurrently -k \"node server/index.js\" \"vite --host 127.0.0.1\"",

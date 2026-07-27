@@ -4,6 +4,11 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
+const MAX_BODY_BYTES = 128_000;
+const MAX_REQUESTS_PER_WINDOW = 20;
+const RATE_WINDOW_MS = 60_000;
+const rateBuckets = new Map<string, { startedAt: number; count: number }>();
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { status: 204, headers: corsHeaders });
@@ -14,17 +19,91 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const payload = await req.json();
+    const auth = await authenticate(req);
+    if (auth instanceof Response) return auth;
+
+    const retryAfter = takeRateLimit(auth.userId);
+    if (retryAfter !== null) {
+      return json({ error: "Too many requests" }, 429, { "Retry-After": String(retryAfter) });
+    }
+
+    const payload = await readPayload(req);
     if (req.headers.get("accept")?.includes("text/event-stream")) {
       return streamPanditReply(payload);
     }
     const reply = await generatePanditReply(payload);
     return json({ reply, usedLocalFallback: false });
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    return json({ error: message }, 500);
+    if (error instanceof RequestError) return json({ error: error.message }, error.status);
+    console.error("[jyotish-agent] request failed", error);
+    return json({ error: "Agent request failed" }, 500);
   }
 });
+
+class RequestError extends Error {
+  constructor(public readonly status: number, message: string) {
+    super(message);
+  }
+}
+
+async function authenticate(req: Request): Promise<{ userId: string } | Response> {
+  const authorization = req.headers.get("authorization");
+  const bearer = authorization?.match(/^Bearer\s+(\S+)$/i)?.[1];
+  if (!bearer) return json({ error: "Authentication required" }, 401);
+
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+  if (!supabaseUrl || !anonKey) {
+    console.error("[jyotish-agent] Supabase auth verification is not configured");
+    return json({ error: "Authentication is unavailable" }, 503);
+  }
+
+  const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
+    headers: { apikey: anonKey, authorization: `Bearer ${bearer}` },
+  });
+  if (!response.ok) return json({ error: "Invalid session" }, 401);
+  const user = await response.json();
+  if (typeof user?.id !== "string" || !user.id) return json({ error: "Invalid session" }, 401);
+  return { userId: user.id };
+}
+
+async function readPayload(req: Request): Promise<Record<string, unknown>> {
+  const contentLength = Number(req.headers.get("content-length") || 0);
+  if (contentLength > MAX_BODY_BYTES) throw new RequestError(413, "Request body too large");
+
+  const raw = await req.text();
+  if (raw.length > MAX_BODY_BYTES) throw new RequestError(413, "Request body too large");
+
+  let payload: unknown;
+  try {
+    payload = JSON.parse(raw);
+  } catch {
+    throw new RequestError(400, "Request body must be valid JSON");
+  }
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new RequestError(400, "Request body must be an object");
+  }
+  const record = payload as Record<string, unknown>;
+  if (typeof record.message !== "string" || !record.message.trim()) {
+    throw new RequestError(400, "message is required");
+  }
+  if (record.message.length > 4_000) throw new RequestError(400, "message is too long");
+  return record;
+}
+
+function takeRateLimit(userId: string): number | null {
+  const now = Date.now();
+  const bucket = rateBuckets.get(userId);
+  if (!bucket || now - bucket.startedAt >= RATE_WINDOW_MS) {
+    rateBuckets.set(userId, { startedAt: now, count: 1 });
+    return null;
+  }
+  if (bucket.count >= MAX_REQUESTS_PER_WINDOW) {
+    return Math.max(1, Math.ceil((RATE_WINDOW_MS - (now - bucket.startedAt)) / 1000));
+  }
+  bucket.count += 1;
+  return null;
+}
 
 async function generatePanditReply(payload: Record<string, unknown>): Promise<string> {
   const apiKey = Deno.env.get("OPENAI_API_KEY");
@@ -57,7 +136,8 @@ async function generatePanditReply(payload: Record<string, unknown>): Promise<st
 
   const text = await response.text();
   if (!response.ok) {
-    throw new Error(`OpenAI ${response.status}: ${text.slice(0, 600)}`);
+    console.error("[jyotish-agent] OpenAI request failed", response.status);
+    throw new Error("OpenAI request failed");
   }
 
   const data = JSON.parse(text);
@@ -124,8 +204,9 @@ async function* generatePanditReplyStream(payload: Record<string, unknown>): Asy
   });
 
   if (!response.ok || !response.body) {
-    const text = await response.text();
-    throw new Error(`OpenAI ${response.status}: ${text.slice(0, 600)}`);
+    await response.text();
+    console.error("[jyotish-agent] OpenAI stream request failed", response.status);
+    throw new Error("OpenAI request failed");
   }
 
   const decoder = new TextDecoder();
@@ -204,9 +285,9 @@ function extractStreamingDelta(event: string): string {
   return "";
 }
 
-function json(body: unknown, status = 200): Response {
+function json(body: unknown, status = 200, extraHeaders: Record<string, string> = {}): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
+    headers: { ...corsHeaders, "Content-Type": "application/json", ...extraHeaders },
   });
 }

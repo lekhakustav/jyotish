@@ -19,8 +19,19 @@ Start the Android app on an attached emulator/device:
 npm run android
 ```
 
-The JavaScript bundle can read the agent endpoint from either
-`EXPO_PUBLIC_JYOTISH_AGENT_ENDPOINT_URL` or the existing `JYOTISH_AGENT_ENDPOINT_URL`.
+The JavaScript bundle reads the agent endpoint from
+`EXPO_PUBLIC_JYOTISH_AGENT_ENDPOINT_URL` (the `JYOTISH_AGENT_ENDPOINT_URL` fallback is
+kept for existing local setups). Set it in the ignored root `.env.local`, for example:
+
+```sh
+EXPO_PUBLIC_JYOTISH_AGENT_ENDPOINT_URL=https://your-project-ref.supabase.co/functions/v1/jyotish-agent
+EXPO_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your-publishable-key
+```
+
+The chat request sends the publishable Supabase `apikey` and, when a session exists,
+its current access token as an `Authorization: Bearer` header. Never put service-role,
+database, OpenAI, or ElevenLabs secrets in Expo public variables or the app bundle.
 Do not expose OpenAI or ElevenLabs private keys to the Android client; keep those
 server-side in the Supabase Edge Function/local agent.
 

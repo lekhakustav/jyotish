@@ -319,12 +319,18 @@ struct HomeView: View {
                         AsyncImage(url: url) { phase in
                             switch phase {
                             case .success(let img):
-                                img.resizable().scaledToFill()
+                                img.resizable()
+                                    .scaledToFill()
+                                    .frame(width: proxy.size.width,
+                                           height: proxy.size.height,
+                                           alignment: .center)
                             default:
                                 Rectangle().fill(p.bgSunken)
                             }
                         }
-                        .frame(width: proxy.size.width, height: proxy.size.height)
+                        .frame(width: proxy.size.width,
+                               height: proxy.size.height,
+                               alignment: .center)
                         .clipped()
                     }
                     .frame(maxWidth: .infinity)

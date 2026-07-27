@@ -2,7 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import React from "react";
 import { useColorScheme } from "react-native";
 import { demoEvents, demoFamily, localPanditReply, recomputeMember, uuid } from "@/astro";
-import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase, deleteAccountSupabase, completeAuthFromParams, type AuthCallbackParams } from "@/supabase";
+import { signInWithGoogle, signInWithEmail, signUpWithEmail, signOutSupabase, deleteAccountSupabase, completeAuthFromParams, supabasePublicKey, supabase, type AuthCallbackParams } from "@/supabase";
 import type { AppModal, AppTab, BirthData, ChatConversation, ChatMessage, FamilyMember, Household, Language, PatroEvent, ThemeChoice, UserAccount } from "@/types";
 import { applyPalette } from "@/theme";
 import { track } from "@/analytics";
@@ -53,6 +53,7 @@ type AppContextValue = {
 };
 
 const storageKey = "jyotish.household.v1";
+const remoteHouseholdsTable = "households";
 const AppContext = React.createContext<AppContextValue | undefined>(undefined);
 
 function initialHousehold(): Household {
@@ -74,6 +75,21 @@ function conversationFromLegacy(messages: ChatMessage[]): ChatConversation {
   const createdAt = messages[0]?.timestamp || new Date().toISOString();
   const updatedAt = messages[messages.length - 1]?.timestamp || createdAt;
   return { id: uuid(), title: conversationTitle(messages, "Jyotish Baje"), messages, createdAt, updatedAt };
+}
+
+type SupabaseSession = Exclude<Awaited<ReturnType<typeof supabase.auth.getSession>>["data"]["session"], null>;
+
+function accountForSession(session: SupabaseSession, provider: "google" | "email", current?: UserAccount): UserAccount {
+  const user = session.user;
+  return {
+    ...(current ?? {}),
+    id: user.id,
+    email: user.email ?? current?.email,
+    displayName: current?.displayName || user.email?.split("@")[0] || "User",
+    isDemo: false,
+    authProvider: provider,
+    supabaseUserId: user.id
+  };
 }
 
 /** Converts schema-v1 storage without rewriting any existing entity/message IDs. */
@@ -131,6 +147,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [syncStatus, setSyncStatus] = React.useState<string | undefined>();
   const [pendingChatPrompt, setPendingChatPrompt] = React.useState<string | undefined>();
   const [pendingChatSourceKey, setPendingChatSourceKey] = React.useState<string | undefined>();
+  const authEpoch = React.useRef(0);
+  const remoteRestoreAttemptedFor = React.useRef<string | undefined>(undefined);
 
   const isDark = household.theme === "dark" || (household.theme === "system" && systemScheme === "dark");
   applyPalette(isDark);
@@ -150,12 +168,61 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       SecureStore.setItemAsync(storageKey, JSON.stringify(household)).catch((error: unknown) =>
         setSyncStatus(error instanceof Error ? error.message : "Could not save local household")
       );
+
+      const account = household.account;
+      if (!account || account.isDemo || !account.supabaseUserId || !supabasePublicKey || remoteRestoreAttemptedFor.current !== account.supabaseUserId) return;
+      const saveEpoch = authEpoch.current;
+      void supabase.auth.getSession().then(async ({ data, error }) => {
+        if (error) throw error;
+        const session = data.session;
+        if (!session || session.user.id !== account.supabaseUserId || saveEpoch !== authEpoch.current) return;
+        const payload = { ...household, account: accountForSession(session, account.authProvider === "google" ? "google" : "email", account) };
+        const result = await supabase.from(remoteHouseholdsTable).upsert(
+          { user_id: session.user.id, payload },
+          { onConflict: "user_id" }
+        );
+        if (result.error) throw result.error;
+        setSyncStatus(undefined);
+      }).catch((error: unknown) => {
+        if (saveEpoch === authEpoch.current) {
+          setSyncStatus(error instanceof Error ? error.message : "Could not sync household");
+        }
+      });
     }, 350);
     return () => clearTimeout(id);
   }, [household, isReady]);
 
   const updateHousehold = React.useCallback((updater: (current: Household) => Household) => {
     setHousehold((current) => updater(current));
+  }, []);
+
+  const completeSignedInSession = React.useCallback(async (session: SupabaseSession, provider: "google" | "email") => {
+    authEpoch.current += 1;
+    const signInEpoch = authEpoch.current;
+    let remote: Household | undefined;
+
+    if (supabasePublicKey) {
+      try {
+        const { data, error } = await supabase
+          .from(remoteHouseholdsTable)
+          .select("payload")
+          .eq("user_id", session.user.id)
+          .maybeSingle();
+        if (error) throw error;
+        if (data?.payload) remote = migrateHousehold(data.payload);
+      } catch (error: unknown) {
+        setSyncStatus(error instanceof Error ? error.message : "Could not load synced household; using local data");
+      }
+    }
+
+    if (signInEpoch !== authEpoch.current) return;
+    remoteRestoreAttemptedFor.current = session.user.id;
+    track("auth_completed", { provider });
+    setHousehold((current) => {
+      const account = accountForSession(session, provider, remote?.account ?? current.account);
+      if (remote) return { ...remote, account };
+      return { ...current, account };
+    });
   }, []);
 
   const streamAssistantMessage = React.useCallback((conversationId: string, messageId: string, answer: string) => {
@@ -199,47 +266,42 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const signInGoogle = React.useCallback(async () => {
     const session = await signInWithGoogle();
     if (session) {
-      track("auth_completed", { provider: "google" });
-      updateHousehold((current) => ({
-        ...current,
-        account: current.account ? { ...current.account, authProvider: "google", supabaseUserId: session.user.id } : { id: uuid(), displayName: session.user.email?.split("@")[0] || "User", isDemo: false, authProvider: "google", supabaseUserId: session.user.id }
-      }));
+      await completeSignedInSession(session, "google");
     }
-  }, [updateHousehold]);
+  }, [completeSignedInSession]);
 
   const completeOAuth = React.useCallback(async (params: AuthCallbackParams) => {
     const session = await completeAuthFromParams(params);
     if (session) {
-      track("auth_completed", { provider: "google" });
-      updateHousehold((current) => ({
-        ...current,
-        account: current.account ? { ...current.account, authProvider: "google", supabaseUserId: session.user.id, isDemo: false } : { id: uuid(), displayName: session.user.email?.split("@")[0] || "User", isDemo: false, authProvider: "google", supabaseUserId: session.user.id }
-      }));
+      await completeSignedInSession(session, "google");
     }
-  }, [updateHousehold]);
+  }, [completeSignedInSession]);
 
   const signInEmail = React.useCallback(async (email: string, password: string) => {
     const session = await signInWithEmail(email, password);
     if (session) {
-      track("auth_completed", { provider: "email" });
-      updateHousehold((current) => ({
-        ...current,
-        account: current.account ? { ...current.account, authProvider: "email", supabaseUserId: session.user.id } : { id: uuid(), displayName: session.user.email?.split("@")[0] || "User", isDemo: false, authProvider: "email", supabaseUserId: session.user.id }
-      }));
+      await completeSignedInSession(session, "email");
     }
-  }, [updateHousehold]);
+  }, [completeSignedInSession]);
 
   const signUpEmail = React.useCallback(async (email: string, password: string) => {
     const data = await signUpWithEmail(email, password);
     const user = data.user;
     if (user) {
-      track("auth_completed", { provider: "email_signup" });
-      updateHousehold((current) => ({
-        ...current,
-        account: current.account ? { ...current.account, authProvider: "email", supabaseUserId: user.id } : { id: uuid(), displayName: user.email?.split("@")[0] || "User", isDemo: false, authProvider: "email", supabaseUserId: user.id }
-      }));
+      const session = data.session ?? (await supabase.auth.getSession()).data.session;
+      if (session) {
+        await completeSignedInSession(session, "email");
+      } else {
+        track("auth_completed", { provider: "email_signup" });
+        updateHousehold((current) => ({
+          ...current,
+          account: current.account
+            ? { ...current.account, id: user.id, authProvider: "email", supabaseUserId: user.id, isDemo: false }
+            : { id: user.id, displayName: user.email?.split("@")[0] || "User", isDemo: false, authProvider: "email", supabaseUserId: user.id }
+        }));
+      }
     }
-  }, [updateHousehold]);
+  }, [completeSignedInSession, updateHousehold]);
 
   const skipAuth = React.useCallback(() => {
     track("auth_skipped");
@@ -251,6 +313,8 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = React.useCallback(() => {
     track("auth_signed_out");
+    authEpoch.current += 1;
+    remoteRestoreAttemptedFor.current = undefined;
     signOutSupabase().catch(() => undefined);
     setHousehold(initialHousehold());
     setSelectedTab("family");
@@ -396,9 +460,17 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     let source = "local";
     if (endpoint) {
       try {
+        const { data: sessionData } = await supabase.auth.getSession();
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+          apikey: supabasePublicKey,
+        };
+        if (sessionData.session?.access_token) {
+          headers.Authorization = `Bearer ${sessionData.session.access_token}`;
+        }
         const response = await fetch(endpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify({
             language: languageSnapshot,
             message: trimmed,

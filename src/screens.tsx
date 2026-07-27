@@ -111,7 +111,7 @@ function AppModal({ profileMode, onEditProfile }: {
             {modal === "settings" ? (
               <SettingsScreen onEditProfile={onEditProfile} />
             ) : (
-              <ProfileFlowScreen mode={profileMode} />
+              <ProfileFlowScreen mode={profileMode} onClose={app.closeModal} />
             )}
           </View>
         </View>

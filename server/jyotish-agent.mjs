@@ -4,14 +4,14 @@ import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
 const root = process.cwd();
-loadEnv(resolve(root, ".env.local"));
+loadEnv(resolve(root, process.env.JYOTISH_SERVER_ENV_FILE || ".env.server.local"));
 
 const port = Number(process.env.JYOTISH_AGENT_PORT || 8788);
 const model = process.env.OPENAI_JYOTISH_AGENT_MODEL || "gpt-5.4-mini";
 const apiKey = process.env.OPENAI_API_KEY;
 
 if (!apiKey) {
-  console.error("OPENAI_API_KEY is missing. Copy it into ignored .env.local before starting the backend.");
+  console.error("OPENAI_API_KEY is missing. Copy it into ignored .env.server.local before starting the backend.");
   process.exit(1);
 }
 
@@ -37,8 +37,8 @@ createServer(async (req, res) => {
     const reply = await generatePanditReply(payload);
     sendJSON(res, 200, { reply, usedLocalFallback: false });
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    sendJSON(res, 500, { error: message });
+    console.error("[jyotish-agent] request failed", error);
+    sendJSON(res, 500, { error: "Agent request failed" });
   }
 }).listen(port, "127.0.0.1", () => {
   console.log(`Jyotish agent backend listening on http://127.0.0.1:${port}`);
@@ -65,7 +65,7 @@ async function readBody(req) {
   let body = "";
   for await (const chunk of req) {
     body += chunk;
-    if (body.length > 1_000_000) throw new Error("Request body too large");
+    if (body.length > 128_000) throw new Error("Request body too large");
   }
   return body;
 }
@@ -86,8 +86,8 @@ async function streamPanditReply(payload, res) {
     res.write("data: [DONE]\n\n");
     res.end();
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    res.write(`data: ${JSON.stringify({ error: message })}\n\n`);
+    console.error("[jyotish-agent] stream failed", error);
+    res.write(`data: ${JSON.stringify({ error: "Agent request failed" })}\n\n`);
     res.end();
   }
 }
@@ -131,7 +131,8 @@ async function generatePanditReply(payload) {
 
   const text = await response.text();
   if (!response.ok) {
-    throw new Error(`OpenAI ${response.status}: ${text.slice(0, 600)}`);
+    console.error("[jyotish-agent] OpenAI request failed", response.status);
+    throw new Error("OpenAI request failed");
   }
 
   const data = JSON.parse(text);
@@ -169,8 +170,9 @@ async function* generatePanditReplyStream(payload) {
   });
 
   if (!response.ok || !response.body) {
-    const text = await response.text();
-    throw new Error(`OpenAI ${response.status}: ${text.slice(0, 600)}`);
+    await response.text();
+    console.error("[jyotish-agent] OpenAI stream request failed", response.status);
+    throw new Error("OpenAI request failed");
   }
 
   const decoder = new TextDecoder();

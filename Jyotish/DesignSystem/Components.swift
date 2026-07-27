@@ -96,12 +96,13 @@ struct SheetCloseButton: View {
     @EnvironmentObject private var app: AppState
     @Environment(\.palette) private var p
     @Environment(\.dismiss) private var dismiss
+    var action: (() -> Void)? = nil
     var body: some View {
-        Button { dismiss() } label: {
+        Button { (action ?? { dismiss() })() } label: {
             Image(systemName: "xmark.circle.fill")
                 .scaledFont(size: 26)
                 .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(p.inkSecondary.opacity(0.6))
+                .foregroundStyle(p.inkPrimary)
                 .frame(width: 48, height: 48)
         }
         .accessibilityLabel(app.t("common.close"))

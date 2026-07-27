@@ -113,13 +113,15 @@ export function HomeScreen() {
         </View>
 
         <PressableScale onPress={() => undefined} style={{ gap: 12 }}>
-          <Image
-            source={require("../../assets/expo/images/temple-pashupatinath-card.jpg")}
-            resizeMode="cover"
-            resizeMethod="resize"
-            fadeDuration={0}
-            style={{ width: "100%", aspectRatio: 4 / 3, borderRadius: 20 }}
-          />
+          <View style={{ width: "100%", aspectRatio: 4 / 3, borderRadius: 20, overflow: "hidden" }}>
+            <Image
+              source={require("../../assets/expo/images/temple-pashupatinath-card.jpg")}
+              resizeMode="cover"
+              resizeMethod="resize"
+              fadeDuration={0}
+              style={{ width: "100%", height: "100%", alignSelf: "center" }}
+            />
+          </View>
           <SerifText style={{ color: palette.templeGold, fontFamily: "Fraunces-Medium", fontSize: 14, lineHeight: 22 }}>
             {templeTithiConnection(tithi.name, panchanga.tithiNumber, app.language)}
           </SerifText>

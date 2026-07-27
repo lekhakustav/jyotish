@@ -23,6 +23,7 @@ struct BirthFlowView: View {
     @Environment(\.dismiss) private var dismiss
     let mode: BirthFlowMode
     var prefill: FamilyMember? = nil
+    var onClose: (() -> Void)? = nil
 
     private enum Step: Int, CaseIterable {
         case relation, name, gender, dob, tob, place, ceremony
@@ -42,10 +43,15 @@ struct BirthFlowView: View {
     @State private var revealed: Kundali?
     @FocusState private var nameFocused: Bool
 
-    init(mode: BirthFlowMode, prefill: FamilyMember? = nil) {
+    init(mode: BirthFlowMode, prefill: FamilyMember? = nil, onClose: (() -> Void)? = nil) {
         self.mode = mode
         self.prefill = prefill
+        self.onClose = onClose
         _step = State(initialValue: mode == .familyMember ? .relation : .name)
+    }
+
+    private func close() {
+        (onClose ?? { dismiss() })()
     }
 
     private var steps: [Step] {
@@ -105,7 +111,9 @@ struct BirthFlowView: View {
                 }
                 Spacer()
                 // Presented as a sheet when adding family — needs explicit dismiss.
-                if mode == .familyMember { SheetCloseButton() }
+                if mode == .familyMember {
+                    SheetCloseButton(action: close)
+                }
             }
             HStack(spacing: 8) {
                 ForEach(steps, id: \.rawValue) { s in

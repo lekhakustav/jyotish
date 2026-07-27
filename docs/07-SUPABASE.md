@@ -23,7 +23,12 @@ run local-only.
 Enable anonymous sign-ins in Supabase Auth before testing this app path.
 
 ## Schema
-Run this SQL in Supabase SQL Editor:
+The canonical migration is `supabase/migrations/20260726000000_harden_households_rls.sql`.
+It creates the table if needed, enables RLS, revokes anonymous table access, and enforces
+`auth.uid() = user_id` for every client operation. Run migrations through the normal Supabase
+deployment flow; do not rely on a manually copied SQL snippet.
+
+Equivalent schema reference:
 
 ```sql
 create table if not exists public.households (

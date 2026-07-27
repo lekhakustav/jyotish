@@ -2,6 +2,10 @@
 .env
 .env.*
 !.env.example
+!.env.server.example
+*.keystore
+*.jks
+*.p12
 xcuserdata/
 *.xcuserstate
 DerivedData/

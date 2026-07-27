@@ -95,11 +95,14 @@ struct PatroView: View {
     }
 
     private var weekdayRow: some View {
-        HStack(spacing: 0) {
+        // Keep the labels on the same column geometry as the day grid below.
+        // The grid has 4pt inter-column gaps, so omitting them here makes the
+        // outer columns drift out of alignment (especially Saturday).
+        HStack(spacing: 4) {
             ForEach(0..<7, id: \.self) { i in
                 Text(ne ? L10n.weekdaysNE[i] : L10n.weekdaysEN[i])
                     .scaledFont(size: 12, weight: .semibold)
-                    .foregroundStyle(i == 6 ? p.sindoor : p.inkSecondary)
+                    .foregroundStyle(i == 0 || i == 6 ? p.sindoor : p.inkSecondary)
                     .frame(maxWidth: .infinity)
             }
         }
@@ -121,7 +124,8 @@ struct PatroView: View {
                 let ad = BikramSambat.toAD(bs)
                 let pan = Panchanga.forDay(ad)
                 let isToday = bs == today
-                let isSat = (firstWeekday + d - 1) % 7 == 6
+                let weekday = (firstWeekday + d - 1) % 7
+                let isHoliday = weekday == 0 || weekday == 6
                 let hasEvent = app.events.contains { $0.occurs(on: bs) }
                 Button {
                     Haptics.tap()
@@ -132,7 +136,7 @@ struct PatroView: View {
                     VStack(spacing: 1) {
                         Text(app.digits(d))
                             .font(.custom(AppFont.name(weight: .semibold, design: .serif), size: 18))
-                            .foregroundStyle(isSat ? p.sindoor : p.inkPrimary)
+                            .foregroundStyle(isHoliday ? p.sindoor : p.inkPrimary)
                         Text(pan.tithiName(ne: ne))
                             .font(.custom(AppFont.name(weight: .regular, design: .default), size: isToday ? 9.5 : 11))
                             .lineLimit(1)

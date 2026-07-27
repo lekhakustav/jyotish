@@ -4,15 +4,16 @@ import AppKit
 import Foundation
 
 let arguments = CommandLine.arguments
-guard arguments.count == 3 else {
+guard arguments.count == 3 || arguments.count == 4 else {
     FileHandle.standardError.write(
-        Data("Usage: render-jyotish-store-endcard.swift OUTPUT_PNG LOGO_PNG\n".utf8)
+        Data("Usage: render-jyotish-store-endcard.swift OUTPUT_PNG LOGO_PNG [transparent]\n".utf8)
     )
     exit(2)
 }
 
 let outputPath = arguments[1]
 let logoPath = arguments[2]
+let transparentBackground = arguments.count == 4 && arguments[3] == "transparent"
 let canvasSize = NSSize(width: 720, height: 1280)
 
 guard let logo = NSImage(contentsOfFile: logoPath) else {
@@ -58,10 +59,12 @@ func drawCentered(
 let image = NSImage(size: canvasSize)
 image.lockFocus()
 
-color(250, 246, 239).setFill()
-NSBezierPath(rect: NSRect(origin: .zero, size: canvasSize)).fill()
+if !transparentBackground {
+    color(250, 246, 239).setFill()
+    NSBezierPath(rect: NSRect(origin: .zero, size: canvasSize)).fill()
+}
 
-let logoRect = NSRect(x: 225, y: 860, width: 270, height: 270)
+let logoRect = NSRect(x: 210, y: 820, width: 300, height: 300)
 logo.draw(
     in: logoRect,
     from: .zero,
@@ -71,57 +74,86 @@ logo.draw(
     hints: [.interpolation: NSImageInterpolation.high]
 )
 
+let titleFont =
+    NSFont(name: "AvenirNext-Bold", size: 74)
+    ?? NSFont.systemFont(ofSize: 74, weight: .bold)
+
 drawCentered(
     "Jyotish Baje",
-    top: 470,
-    font: .systemFont(ofSize: 52, weight: .semibold),
-    foreground: color(38, 31, 27),
+    top: 445,
+    font: titleFont,
+    foreground: color(30, 24, 20),
     canvasHeight: canvasSize.height
 )
 drawCentered(
-    "Understand each other better.",
-    top: 550,
-    font: .systemFont(ofSize: 30, weight: .regular),
-    foreground: color(102, 92, 85),
+    "AI-powered Jyotish App",
+    top: 555,
+    font: .systemFont(ofSize: 30, weight: .medium),
+    foreground: color(110, 100, 92),
     canvasHeight: canvasSize.height
 )
 drawCentered(
-    "Coming soon to",
-    top: 705,
-    font: .systemFont(ofSize: 26, weight: .medium),
-    foreground: color(138, 61, 47),
+    "Coming soon",
+    top: 660,
+    font: .systemFont(ofSize: 22, weight: .regular),
+    foreground: color(150, 140, 132),
     canvasHeight: canvasSize.height
 )
 
-let buttonColor = color(38, 31, 27)
-let appStoreRect = NSRect(x: 82, y: 426, width: 260, height: 84)
-let googlePlayRect = NSRect(x: 378, y: 426, width: 260, height: 84)
-buttonColor.setFill()
-NSBezierPath(roundedRect: appStoreRect, xRadius: 18, yRadius: 18).fill()
-NSBezierPath(roundedRect: googlePlayRect, xRadius: 18, yRadius: 18).fill()
-
-func drawButton(_ text: String, rect: NSRect, size: CGFloat) {
-    let paragraph = NSMutableParagraphStyle()
-    paragraph.alignment = .center
-    (text as NSString).draw(
-        in: NSRect(x: rect.minX, y: rect.minY + 22, width: rect.width, height: 42),
-        withAttributes: [
-            .font: NSFont.systemFont(ofSize: size, weight: .semibold),
-            .foregroundColor: NSColor.white,
-            .paragraphStyle: paragraph,
-        ]
+// Apple mark, drawn in near-black ink, no button chrome.
+func drawAppleGlyph(center: NSPoint, pointSize: CGFloat, fill: NSColor) {
+    guard let symbol = NSImage(
+        systemSymbolName: "apple.logo",
+        accessibilityDescription: nil
+    ) else { return }
+    let config = NSImage.SymbolConfiguration(pointSize: pointSize, weight: .regular)
+    guard let tinted = symbol.withSymbolConfiguration(config) else { return }
+    let size = tinted.size
+    let rect = NSRect(
+        x: center.x - size.width / 2,
+        y: center.y - size.height / 2,
+        width: size.width,
+        height: size.height
     )
+    fill.set()
+    tinted.isTemplate = true
+    tinted.draw(in: rect, from: .zero, operation: .sourceOver, fraction: 1)
 }
 
-drawButton("App Store", rect: appStoreRect, size: 30)
-drawButton("Google Play", rect: googlePlayRect, size: 28)
+// Simplified four-color Play triangle mark, no button chrome.
+func drawPlayGlyph(center: NSPoint, size: CGFloat) {
+    let half = size / 2
+    let top = NSPoint(x: center.x - half * 0.6, y: center.y + half)
+    let bottom = NSPoint(x: center.x - half * 0.6, y: center.y - half)
+    let right = NSPoint(x: center.x + half, y: center.y)
+    let leftMid = NSPoint(x: center.x - half * 0.6, y: center.y)
 
-drawCentered(
-    "iOS  •  Android",
-    top: 905,
-    font: .systemFont(ofSize: 23, weight: .regular),
-    foreground: color(138, 129, 122),
-    canvasHeight: canvasSize.height
+    func quadrant(_ p1: NSPoint, _ p2: NSPoint, _ p3: NSPoint, _ fill: NSColor) {
+        let path = NSBezierPath()
+        path.move(to: p1)
+        path.line(to: p2)
+        path.line(to: p3)
+        path.close()
+        fill.setFill()
+        path.fill()
+    }
+
+    quadrant(top, leftMid, right, color(0, 172, 193))
+    quadrant(leftMid, bottom, right, color(56, 142, 60))
+    quadrant(top, leftMid, NSPoint(x: leftMid.x, y: top.y), color(255, 193, 7))
+    let redPoint = NSPoint(x: right.x, y: right.y + (top.y - right.y) * 0.02)
+    quadrant(top, redPoint, right, color(229, 57, 53))
+}
+
+let markY: CGFloat = 490
+drawAppleGlyph(
+    center: NSPoint(x: canvasSize.width / 2 - 70, y: markY),
+    pointSize: 56,
+    fill: color(30, 24, 20)
+)
+drawPlayGlyph(
+    center: NSPoint(x: canvasSize.width / 2 + 70, y: markY),
+    size: 52
 )
 
 image.unlockFocus()

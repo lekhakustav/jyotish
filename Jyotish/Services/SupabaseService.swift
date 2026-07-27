@@ -1,6 +1,7 @@
 import AuthenticationServices
 import CryptoKit
 import Foundation
+import Security
 import UIKit
 
 struct SupabaseConfig {
@@ -72,19 +73,57 @@ private struct SupabaseAuthErrorBody: Decodable {
 final class SupabaseSessionStore {
     private let defaults = UserDefaults.standard
     private let sessionKey = "jyotish.supabase.session"
+    private let keychainService = "com.sodhera.jyotishbaje.supabase"
 
     func load() -> SupabaseSession? {
-        guard let data = defaults.data(forKey: sessionKey) else { return nil }
-        return try? JSONDecoder().decode(SupabaseSession.self, from: data)
+        if let data = keychainData(), let session = try? JSONDecoder().decode(SupabaseSession.self, from: data) {
+            return session
+        }
+
+        // Migrate legacy sessions out of UserDefaults without retaining token copies there.
+        guard let data = defaults.data(forKey: sessionKey),
+              let session = try? JSONDecoder().decode(SupabaseSession.self, from: data) else { return nil }
+        save(session)
+        defaults.removeObject(forKey: sessionKey)
+        return session
     }
 
     func save(_ session: SupabaseSession) {
         guard let data = try? JSONEncoder().encode(session) else { return }
-        defaults.set(data, forKey: sessionKey)
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: keychainService,
+            kSecAttrAccount as String: sessionKey,
+        ]
+        SecItemDelete(query as CFDictionary)
+        let item: [String: Any] = query.merging([
+            kSecValueData as String: data,
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+        ]) { _, new in new }
+        SecItemAdd(item as CFDictionary, nil)
     }
 
     func clear() {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: keychainService,
+            kSecAttrAccount as String: sessionKey,
+        ]
+        SecItemDelete(query as CFDictionary)
         defaults.removeObject(forKey: sessionKey)
+    }
+
+    private func keychainData() -> Data? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: keychainService,
+            kSecAttrAccount as String: sessionKey,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne,
+        ]
+        var result: CFTypeRef?
+        guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess else { return nil }
+        return result as? Data
     }
 }
 

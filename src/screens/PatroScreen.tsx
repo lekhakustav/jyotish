@@ -128,6 +128,9 @@ export function PatroScreen() {
   const firstWeekday = bsToAd({ ...shown, day: 1 }).getDay();
   const days = daysInBsMonth(shown.year, shown.month);
   const cells = [...Array.from({ length: firstWeekday }, () => 0), ...Array.from({ length: days }, (_, index) => index + 1)];
+  // The weekday row and day grid share the same 4pt column gaps. Using the
+  // same measured width for both keeps the outer columns aligned on Android
+  // as well as iOS (the previous percentage row made Saturday drift).
   const cellWidth = gridWidth > 0 ? (gridWidth - 24) / 7 : 44;
   return (
     <ScrollScreen topInset={8} bottomInset={96} contentGap={16}>
@@ -153,9 +156,9 @@ export function PatroScreen() {
       </View>
 
       <View style={{ gap: 12 }} onLayout={(event: LayoutChangeEvent) => setGridWidth(event.nativeEvent.layout.width)}>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", gap: 4 }}>
           {WEEKDAYS[app.language].map((label, index) => (
-            <AppText key={label} style={{ width: `${100 / 7}%`, textAlign: "center", color: index === 6 ? palette.sindoor : palette.inkSecondary, fontFamily: "Inter-SemiBold", fontSize: 12 }}>
+            <AppText key={label} style={{ width: cellWidth, textAlign: "center", color: index === 0 || index === 6 ? palette.sindoor : palette.inkSecondary, fontFamily: "Inter-SemiBold", fontSize: 12 }}>
               {label}
             </AppText>
           ))}
@@ -169,7 +172,7 @@ export function PatroScreen() {
               bs={{ ...shown, day }}
               width={cellWidth}
               isToday={sameBs(today, { ...shown, day })}
-              isSaturday={(firstWeekday + day - 1) % 7 === 6}
+              isHoliday={isHolidayWeekday(firstWeekday, day)}
               events={app.events}
               language={app.language}
               onPress={() => setSelected({ ...shown, day })}
@@ -181,11 +184,11 @@ export function PatroScreen() {
   );
 }
 
-function DayCell({ bs, width, isToday, isSaturday, events, language, onPress }: {
+function DayCell({ bs, width, isToday, isHoliday, events, language, onPress }: {
   bs: NepaliDate;
   width: number;
   isToday: boolean;
-  isSaturday: boolean;
+  isHoliday: boolean;
   events: PatroEvent[];
   language: Language;
   onPress: () => void;
@@ -199,7 +202,7 @@ function DayCell({ bs, width, isToday, isSaturday, events, language, onPress }: 
       onPress={onPress}
       style={{ width, height: 72, borderRadius: 12, borderCurve: "continuous", backgroundColor: isToday ? palette.bgSunken : "transparent", alignItems: "center", justifyContent: "center", gap: 2, paddingHorizontal: 2 }}
     >
-      <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 18, color: isSaturday ? palette.sindoor : palette.inkPrimary }}>{digits(bs.day, language)}</SerifText>
+      <SerifText style={{ fontFamily: "Fraunces-Bold", fontSize: 18, color: isHoliday ? palette.sindoor : palette.inkPrimary }}>{digits(bs.day, language)}</SerifText>
       <AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.62} style={{ width: "100%", textAlign: "center", color: palette.inkSecondary, fontSize: isToday ? 10 : 11 }}>{tithi}</AppText>
       <View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: hasEvent ? palette.marigold : "transparent" }} />
     </PressableScale>
@@ -305,6 +308,11 @@ function eventOccurs(event: PatroEvent, date: NepaliDate) {
 
 function sameBs(first: NepaliDate, second: NepaliDate) {
   return first.year === second.year && first.month === second.month && first.day === second.day;
+}
+
+function isHolidayWeekday(firstWeekday: number, day: number) {
+  const weekday = (firstWeekday + day - 1) % 7;
+  return weekday === 0 || weekday === 6;
 }
 
 function tithiName(number: number, language: Language) {

@@ -232,13 +232,13 @@ final class PanditToolsTests: XCTestCase {
         XCTAssertEqual(decoded.birth.place.name, BirthPlace.kathmandu.name)
     }
 
-    func testNepaliModeTransliteratesLatinNamesWithoutChangingStoredIdentity() {
+    func testLocalizedModePreservesUserEnteredNamesWithoutChangingStoredIdentity() {
         let aarav = FamilyMember(name: "Aarav", gender: .male, relation: .friend)
         let priya = FamilyMember(name: "Priya", gender: .female, relation: .friend)
         let native = FamilyMember(name: "माया", gender: .female, relation: .friend)
 
-        XCTAssertEqual(aarav.displayName(.ne), "आरव")
-        XCTAssertEqual(priya.displayName(.ne), "प्रिया")
+        XCTAssertEqual(aarav.displayName(.ne), "Aarav")
+        XCTAssertEqual(priya.displayName(.ne), "Priya")
         XCTAssertEqual(native.displayName(.ne), "माया")
         XCTAssertEqual(aarav.displayName(.en), "Aarav")
         XCTAssertEqual(aarav.name, "Aarav")
