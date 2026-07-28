@@ -76,8 +76,13 @@ def releaseKeyAlias = findProperty('RELEASE_KEY_ALIAS') ?: System.getenv('ANDROI
 def releaseKeyPassword = findProperty('RELEASE_KEY_PASSWORD') ?: System.getenv('ANDROID_RELEASE_KEY_PASSWORD')
 def releaseSigningConfigured = [releaseStoreFile, releaseStorePassword, releaseKeyAlias, releaseKeyPassword].every { it }
 
+// EAS Build supplies the keystore through its own generated gradle file rather
+// than these properties, so the guard below must not fire there — it exists to
+// stop a local release build from silently producing an unsigned artifact.
+def isEasBuild = ['EAS_BUILD', 'EAS_BUILD_RUNNER', 'EAS_BUILD_PLATFORM'].any { System.getenv(it) }
+
 gradle.taskGraph.whenReady { graph ->
-    if (graph.allTasks.any { it.name.toLowerCase().contains('release') } && !releaseSigningConfigured) {
+    if (!isEasBuild && graph.allTasks.any { it.name.toLowerCase().contains('release') } && !releaseSigningConfigured) {
         throw new GradleException('Release signing is not configured. Supply RELEASE_* Gradle properties or ANDROID_RELEASE_* environment variables.')
     }
 }
