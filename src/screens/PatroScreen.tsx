@@ -131,7 +131,10 @@ export function PatroScreen() {
   // The weekday row and day grid share the same 4pt column gaps. Using the
   // same measured width for both keeps the outer columns aligned on Android
   // as well as iOS (the previous percentage row made Saturday drift).
-  const cellWidth = gridWidth > 0 ? (gridWidth - 24) / 7 : 44;
+  // Floor the width so seven cells plus six 4pt gaps always stay inside the
+  // measured row. An exact fit overflows once Android rounds each child up to
+  // a whole physical pixel, which wraps Saturday onto the next line.
+  const cellWidth = gridWidth > 0 ? Math.floor((gridWidth - 24) / 7) : 44;
   return (
     <ScrollScreen topInset={8} bottomInset={96} contentGap={16}>
       <View style={styles.header}>
