@@ -8,6 +8,9 @@ module.exports = {
     ...app.expo,
     extra: {
       ...(app.expo.extra || {}),
+      eas: {
+        projectId: "b709ad0a-161c-442f-b5e7-a80591e94706",
+      },
       jyotishPublicConfig: {
         supabaseUrl: "https://ghfcssxptpazfbtiwshz.supabase.co",
         supabasePublishableKey: "sb_publishable_2HN-eNePLicYuxRhCKKAFw_dm74f0SW",
