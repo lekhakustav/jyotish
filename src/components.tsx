@@ -84,20 +84,23 @@ export function Hairline() {
   return <View style={{ height: 1, backgroundColor: palette.hairline }} />;
 }
 
-export function Field(props: TextInputProps) {
+export function Field({ style, ...props }: TextInputProps) {
   return (
     <TextInput
       placeholderTextColor={palette.inkSecondary}
-      style={{
-        minHeight: 52,
-        borderRadius: 16,
-        borderCurve: "continuous",
-        backgroundColor: palette.bgSunken,
-        color: palette.inkPrimary,
-        paddingHorizontal: 16,
-        fontFamily: "Inter-Regular",
-        fontSize: 16
-      }}
+      style={[
+        {
+          minHeight: 52,
+          borderRadius: 16,
+          borderCurve: "continuous",
+          backgroundColor: palette.bgSunken,
+          color: palette.inkPrimary,
+          paddingHorizontal: 16,
+          fontFamily: "Inter-Regular",
+          fontSize: 16
+        },
+        style
+      ]}
       {...props}
     />
   );
