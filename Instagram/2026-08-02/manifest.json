@@ -8,6 +8,8 @@
     "tiktok": { "folder": "exports/01-tiktok", "size": "1080x1920" }
   },
   "source": "Jyotish app local daily rotation",
-  "style": "warm cream, editorial serif headings, minimal app-native layout",
+  "style": "Aug 1 constellation background, editorial serif headings, flowing lower-page guidance layout",
+  "format_reference": "Instagram/2026-08-01/weekly-mantra",
+  "renderer": "scripts/render_daily_carousel_platforms.cjs",
   "disclaimer": "General reflection guidance, not a guaranteed prediction."
 }
