@@ -16,6 +16,20 @@ SCRIPT = ROOT / "scripts" / "verify_carousel_provenance.py"
 HANDOFF_SCRIPT = ROOT / "scripts" / "validate_handoff.py"
 
 
+def pushed_source_commit():
+    """Use the base branch locally or GitHub's checked-out merge parent in CI."""
+    for revision in ("origin/main", "HEAD^1", "HEAD"):
+        result = subprocess.run(
+            ["git", "rev-parse", "--verify", revision],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+        if result.returncode == 0:
+            return result.stdout.strip()
+    raise RuntimeError("cannot resolve a committed provenance source")
+
+
 def png(width=1080, height=1350):
     return b"\x89PNG\r\n\x1a\n" + (13).to_bytes(4, "big") + b"IHDR" + width.to_bytes(4, "big") + height.to_bytes(4, "big")
 
@@ -42,7 +56,7 @@ class CarouselProvenanceTests(unittest.TestCase):
         # The provenance gate intentionally requires a commit that is already
         # reachable from origin. Use the pushed base commit so this fixture
         # also works while a migration branch is still local.
-        self.source_sha = subprocess.run(["git", "rev-parse", "origin/main"], cwd=ROOT, text=True, capture_output=True, check=True).stdout.strip()
+        self.source_sha = pushed_source_commit()
         self.manifest = self.package / "provenance-daily.json"
         self.build()
 
