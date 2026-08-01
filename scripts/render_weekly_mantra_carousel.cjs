@@ -8,13 +8,23 @@ const content = JSON.parse(fs.readFileSync(path.join(base, "carousel-copy.json")
 const sharp = require(process.env.SHARP_MODULE || "sharp");
 
 const palette = {
-  bg: "#FCF7ED",
-  ink: "#3B1F14",
-  muted: "#7A5C48",
-  gold: "#B8860B",
-  red: "#B9331F",
-  accents: ["#244A72", "#A04A1B", "#526B32", "#8E5B22", "#A72F50", "#243E72", "#9B4A1C"]
+  bg: "#030923",
+  ink: "#F7F4FF",
+  muted: "#D6DDF4",
+  gold: "#F6D483",
+  accent: "#A8D7FF"
 };
+
+const constellationMaps = [
+  { points: [[.18,.12],[.32,.28],[.45,.22],[.58,.36],[.72,.28],[.83,.48],[.65,.57],[.49,.50],[.34,.68]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,3],[7,8],[1,7]] },
+  { points: [[.16,.28],[.29,.18],[.43,.31],[.57,.18],[.70,.30],[.82,.22],[.68,.49],[.49,.58],[.31,.48]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,0],[2,7]] },
+  { points: [[.20,.20],[.38,.14],[.55,.26],[.73,.18],[.84,.40],[.63,.47],[.48,.62],[.29,.52]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,5]] },
+  { points: [[.14,.35],[.27,.18],[.44,.24],[.62,.14],[.78,.30],[.70,.52],[.51,.60],[.32,.51]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,6]] },
+  { points: [[.23,.14],[.40,.25],[.59,.16],[.79,.32],[.68,.50],[.49,.44],[.34,.62],[.18,.50]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[1,5]] },
+  { points: [[.17,.19],[.34,.33],[.50,.17],[.68,.28],[.84,.20],[.74,.45],[.55,.54],[.36,.49]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[1,6]] },
+  { points: [[.19,.30],[.31,.16],[.48,.29],[.64,.17],[.81,.34],[.66,.53],[.46,.60],[.27,.51]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,6]] },
+  { points: [[.16,.22],[.33,.13],[.51,.25],[.69,.16],[.85,.32],[.72,.53],[.52,.46],[.35,.64]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,5]] }
+];
 
 const fontCss = `
   @font-face{font-family:FrauncesLocal;src:url('../../brand/fonts/Fraunces-Regular.ttf') format('truetype');font-weight:400}
@@ -34,18 +44,24 @@ const escapeXml = (value) => String(value)
 
 function dimensions(kind) {
   return kind === "tiktok"
-    ? { width: 1080, height: 1920, headerY: 82, ruleY: 120, pageY: 82, logoY: 155, titleY: 360, titleSize: 72, titleGap: 100, omY: 635, cardY: 980, cardH: 620, dayY: 1120, mantraY: 1260, mantraSize: 66, mantraGap: 92 }
-    : { width: 1080, height: 1350, headerY: 75, ruleY: 110, pageY: 75, logoY: 145, titleY: 280, titleSize: 70, titleGap: 90, omY: 465, cardY: 700, cardH: 500, dayY: 825, mantraY: 965, mantraSize: 52, mantraGap: 78 };
+    ? { width: 1080, height: 1920, headerY: 88, pageY: 88, logoY: 52, titleY: 1240, titleSize: 76, titleGap: 104, omY: 1515, dayY: 1280, mantraY: 1430, mantraSize: 72, mantraGap: 100, descriptionY: 1660, progressY: 1840 }
+    : { width: 1080, height: 1350, headerY: 72, pageY: 72, logoY: 42, titleY: 875, titleSize: 60, titleGap: 82, omY: 1080, dayY: 900, mantraY: 1025, mantraSize: 56, mantraGap: 78, descriptionY: 1200, progressY: 1295 };
 }
 
 function shell(inner, page, kind) {
   const d = dimensions(kind);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${d.width}" height="${d.height}" viewBox="0 0 ${d.width} ${d.height}">
-    <defs><style>${fontCss}</style></defs>
-    <rect width="${d.width}" height="${d.height}" fill="${palette.bg}"/>
-    <text x="72" y="${d.headerY}" class="sans" font-size="20" font-weight="700" letter-spacing="3" fill="${palette.muted}">JYOTISH</text>
-    <text x="1008" y="${d.pageY}" text-anchor="end" class="sans" font-size="20" fill="${palette.muted}">${String(page).padStart(2, "0")} / 07</text>
-    <line x1="72" y1="${d.ruleY}" x2="1008" y2="${d.ruleY}" stroke="${palette.gold}" stroke-opacity=".22"/>
+    <defs>
+      <style>${fontCss}</style>
+      <linearGradient id="bottomFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020718" stop-opacity="0"/><stop offset=".58" stop-color="#020718" stop-opacity=".08"/><stop offset="1" stop-color="#020718" stop-opacity=".88"/></linearGradient>
+      <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000616" flood-opacity=".8"/></filter>
+    </defs>
+    <image href="${backgroundData()}" x="0" y="0" width="${d.width}" height="${d.height}" preserveAspectRatio="xMidYMid slice"/>
+    <rect width="${d.width}" height="${d.height}" fill="#020718" opacity=".18"/>
+    <rect width="${d.width}" height="${d.height}" fill="url(#bottomFade)"/>
+    <image href="${logoData()}" x="52" y="${d.logoY}" width="58" height="58" opacity=".96"/>
+    <text x="1008" y="${d.pageY}" text-anchor="end" class="sans" font-size="20" font-weight="600" fill="${palette.muted}" opacity=".88">${String(page).padStart(2, "0")} / 08</text>
+    ${constellationSvg(page - 1, kind)}
     ${inner}
   </svg>`;
 }
@@ -55,29 +71,52 @@ function logoData() {
   return `data:image/png;base64,${fs.readFileSync(logoPath).toString("base64")}`;
 }
 
+let cachedBackgroundData;
+function backgroundData() {
+  if (!cachedBackgroundData) {
+    const backgroundPath = path.join(base, "assets", "constellation-background.png");
+    cachedBackgroundData = `data:image/png;base64,${fs.readFileSync(backgroundPath).toString("base64")}`;
+  }
+  return cachedBackgroundData;
+}
+
 function progress(page, kind) {
-  const y = kind === "tiktok" ? 1775 : 1240;
-  return Array.from({ length: 7 }, (_, index) => {
-    const x = 72 + index * 130;
+  const y = dimensions(kind).progressY;
+  return Array.from({ length: 8 }, (_, index) => {
+    const x = 72 + index * 118;
     const active = index < page;
-    return `<line x1="${x}" y1="${y}" x2="${x + 92}" y2="${y}" stroke="${active ? palette.red : palette.gold}" stroke-opacity="${active ? ".8" : ".18"}" stroke-width="4"/>`;
+    return `<line x1="${x}" y1="${y}" x2="${x + 86}" y2="${y}" stroke="${active ? palette.gold : palette.muted}" stroke-opacity="${active ? ".88" : ".28"}" stroke-width="4"/>`;
   }).join("");
+}
+
+function constellationSvg(index, kind) {
+  const d = dimensions(kind);
+  const map = constellationMaps[index % constellationMaps.length];
+  const top = kind === "tiktok" ? 155 : 110;
+  const mapHeight = kind === "tiktok" ? 980 : 700;
+  const xy = ([x, y]) => [Math.round(72 + x * 936), Math.round(top + y * mapHeight)];
+  const lines = map.lines.map(([from, to]) => {
+    const [x1, y1] = xy(map.points[from]);
+    const [x2, y2] = xy(map.points[to]);
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${palette.accent}" stroke-opacity=".56" stroke-width="2"/>`;
+  }).join("");
+  const stars = map.points.map((point, starIndex) => {
+    const [cx, cy] = xy(point);
+    return `<circle cx="${cx}" cy="${cy}" r="${starIndex % 3 === 0 ? 6 : 4}" fill="#EAF5FF" opacity=".95"/><circle cx="${cx}" cy="${cy}" r="14" fill="${palette.accent}" opacity=".10"/>`;
+  }).join("");
+  return `<g>${lines}${stars}</g>`;
 }
 
 function cover(kind) {
   const d = dimensions(kind);
-  const logo = logoData();
   const center = d.width / 2;
   const titleSize = d.titleSize;
   return shell(`
-    <image href="${logo}" x="72" y="${d.logoY}" width="60" height="60"/>
-    <text x="${center}" y="${d.titleY}" text-anchor="middle" class="serif" font-size="${titleSize}" font-weight="700" fill="${palette.red}">
+    <text x="${center}" y="${d.titleY}" text-anchor="middle" class="serif" font-size="${titleSize}" font-weight="700" fill="${palette.ink}" filter="url(#textShadow)">
       <tspan x="${center}" dy="0">${escapeXml(content.title[0])}</tspan>
       <tspan x="${center}" dy="${d.titleGap}">${escapeXml(content.title[1])}</tspan>
     </text>
-    <text x="${center}" y="${d.omY}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 92 : 82}" fill="${palette.gold}">&#x0950;</text>
-    <line x1="250" y1="${d.omY + 55}" x2="830" y2="${d.omY + 55}" stroke="${palette.gold}" stroke-opacity=".36"/>
-    ${dayCard(content.days.at(-1), 6, kind)}
+    <text x="${center}" y="${d.omY}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 92 : 82}" fill="${palette.gold}" filter="url(#textShadow)">&#x0950;</text>
     ${progress(1, kind)}
   `, 1, kind);
 }
@@ -91,34 +130,22 @@ function mantraLines(mantra) {
   return [mantra];
 }
 
-function dayCard(day, index, kind, overrides = {}) {
+function daySlide(day, index, kind) {
   const d = dimensions(kind);
-  const color = palette.accents[index];
   const lines = mantraLines(day.mantra);
   const center = d.width / 2;
   const lineGap = kind === "tiktok" ? 102 : 82;
-  const cardY = overrides.cardY ?? d.cardY;
-  const cardH = overrides.cardH ?? d.cardH;
-  const dayY = overrides.dayY ?? d.dayY;
-  const mantraY = overrides.mantraY ?? d.mantraY;
-  const firstMantraY = lines.length === 1 ? mantraY + 45 : mantraY;
+  const firstMantraY = lines.length === 1 ? d.mantraY + 42 : d.mantraY;
   const mantra = lines.map((line, lineIndex) => `<tspan x="${center}" dy="${lineIndex === 0 ? 0 : lineGap}">${escapeXml(line)}</tspan>`).join("");
-  const daySize = overrides.daySize ?? (kind === "tiktok" ? 108 : 94);
-  const mantraSize = overrides.mantraSize ?? (kind === "tiktok" ? 70 : d.mantraSize);
-  const descriptionY = lines.length === 1 ? cardY + cardH - 88 : cardY + cardH - 48;
-  const descriptionLabelY = descriptionY - 34;
-  return `
-    <rect x="72" y="${cardY}" width="936" height="${cardH}" rx="28" fill="${color}" opacity=".10"/>
-    <rect x="72" y="${cardY}" width="14" height="${cardH}" rx="7" fill="${color}"/>
-    <text x="${center}" y="${dayY}" text-anchor="middle" class="serif" font-size="${daySize}" font-weight="700" fill="${color}">${escapeXml(day.day)}</text>
-    <line x1="270" y1="${dayY + 56}" x2="810" y2="${dayY + 56}" stroke="${color}" stroke-opacity=".35"/>
-    <text x="${center}" y="${firstMantraY}" text-anchor="middle" class="serif" font-size="${mantraSize}" fill="${palette.ink}">${mantra}</text>
-    <text x="${center}" y="${descriptionLabelY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 20 : 18}" font-weight="700" letter-spacing="3" fill="${color}">TRY THIS</text>
-    <text x="${center}" y="${descriptionY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 27 : 23}" fill="${palette.muted}">${escapeXml(day.description)}</text>`;
-}
-
-function daySlide(day, index, kind) {
-  return shell(`${dayCard(day, index, kind)}${progress(index + 2, kind)}`, index + 2, kind);
+  const descriptionY = lines.length === 1 ? d.descriptionY : d.descriptionY + (kind === "tiktok" ? 58 : 45);
+  return shell(`
+    <text x="${center}" y="${d.dayY}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 112 : 92}" font-weight="700" fill="${palette.gold}" filter="url(#textShadow)">${escapeXml(day.day)}</text>
+    <line x1="270" y1="${d.dayY + 62}" x2="810" y2="${d.dayY + 62}" stroke="${palette.gold}" stroke-opacity=".55"/>
+    <text x="${center}" y="${firstMantraY}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 74 : d.mantraSize}" fill="${palette.ink}" filter="url(#textShadow)">${mantra}</text>
+    <text x="${center}" y="${descriptionY - 34}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 21 : 18}" font-weight="700" letter-spacing="3" fill="${palette.gold}" filter="url(#textShadow)">TRY THIS</text>
+    <text x="${center}" y="${descriptionY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 28 : 23}" fill="${palette.muted}" filter="url(#textShadow)">${escapeXml(day.description)}</text>
+    ${progress(index + 2, kind)}
+  `, index + 2, kind);
 }
 
 async function renderContactSheet(pngPaths, kind) {
@@ -149,7 +176,8 @@ async function renderKind(kind) {
       fs.unlinkSync(path.join(directory, stale));
     }
   }
-  const slides = [cover(kind), ...content.days.slice(0, -1).map((day, index) => daySlide(day, index, kind))];
+  const weeklyDays = [content.days.at(-1), ...content.days.slice(0, -1)];
+  const slides = [cover(kind), ...weeklyDays.map((day, index) => daySlide(day, index, kind))];
   const pngPaths = [];
   for (let index = 0; index < slides.length; index += 1) {
     const number = String(index + 1).padStart(2, "0");
@@ -178,7 +206,7 @@ async function main() {
   }
   const results = {};
   for (const kind of ["tiktok", "instagram"]) results[kind] = await renderKind(kind);
-  console.log(JSON.stringify({ date, slideCount: content.days.length, results }, null, 2));
+  console.log(JSON.stringify({ date, slideCount: content.days.length + 1, results }, null, 2));
 }
 
 main().catch((error) => {
