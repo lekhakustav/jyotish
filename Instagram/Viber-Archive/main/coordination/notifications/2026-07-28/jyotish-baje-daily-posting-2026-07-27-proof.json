@@ -1,0 +1,25 @@
+{
+  "event_id": "jyotish-baje-daily-posting-2026-07-27-proof",
+  "project_id": "jyotish-baje",
+  "status": "resolved",
+  "created_at": "2026-07-27T19:17:36Z",
+  "severity": "info",
+  "title": "Instagram posting proof received for daily 2026-07-27",
+  "summary": "Sirish supplied two screenshots showing the 14-slide Instagram carousel posted under @jyotishbajeapp. Proof is readable; the screenshots are timestamped 00:46 NPT on 2026-07-28, after the 2026-07-27 deadline, and no direct post URL is visible.",
+  "source": "sirish_user_proof",
+  "requires_action": false,
+  "owner": "Sirish",
+  "artifact_paths": [
+    "reports/daily/2026-07-27.json",
+    "coordination/handoffs/daily-2026-07-27-utsav-instagram.json"
+  ],
+  "proof_paths": [
+    "proof/2026-07-27/README.md",
+    "proof/2026-07-27/WhatsApp Image 2026-07-28 at 12.46.36 AM.jpeg",
+    "proof/2026-07-27/WhatsApp Image 2026-07-28 at 12.46.37 AM.jpeg"
+  ],
+  "urls": [
+    "https://github.com/Sirish24/sirish-utsav-collaboration/issues/21",
+    "https://www.instagram.com/jyotishbajeapp/"
+  ]
+}

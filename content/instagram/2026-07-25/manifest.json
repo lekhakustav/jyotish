@@ -1,0 +1,13 @@
+{
+  "platform": "instagram",
+  "generated_at": "2026-07-25T22:40:00+05:45",
+  "source_issues": [1, 2, 3],
+  "scope": "Instagram carousel export; no Jyotish app source changes",
+  "status": "ready_for_upload",
+  "external_posting": false,
+  "posts": [
+    {"name": "daily-rashifal-carousel", "folder": "daily", "slides": "01.png-14.png", "size": "1080x1350", "language": "English", "brand_source": "Jyotish app theme and font assets", "style": "extreme minimalism; flat app background; no cards or shadows", "slide_13": "Pisces reading only", "final_slide": "AI-based Jyotish App promotion with Try, Comment, Save and Share actions", "caption": "captions.md#daily-rashifal"},
+    {"name": "weekly-rashifal-carousel", "folder": "weekly", "slides": "01.png-14.png", "size": "1080x1350", "language": "English", "brand_source": "Jyotish app theme and font assets", "style": "extreme minimalism; flat app background; no cards or shadows", "slide_13": "Pisces reading only", "final_slide": "AI-based Jyotish App promotion with Try, Comment, Save and Share actions", "caption": "captions.md#weekly-rashifal"},
+    {"name": "nepal-temples-reference-carousel", "folder": "temples", "slides": "pashupatinath.png,muktinath.png,janaki-mandir.png", "caption": "captions.md#temple-visual-post", "ai_disclosure_required": true}
+  ]
+}

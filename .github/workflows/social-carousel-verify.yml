@@ -1,0 +1,35 @@
+name: Social carousel verification
+
+on:
+  pull_request:
+    paths:
+      - "Instagram/**"
+      - "content/**"
+      - "proof/**"
+      - "reports/**"
+      - "inventory/**"
+      - "assets/temples/**"
+      - "scripts/*carousel*"
+      - "scripts/verify_jyotish_migration.py"
+      - "scripts/validate_social_carousel.py"
+      - ".github/workflows/social-carousel-verify.yml"
+  push:
+    branches: [main]
+    paths:
+      - "Instagram/**"
+      - "content/**"
+      - "proof/**"
+      - "reports/**"
+      - "inventory/**"
+      - "assets/temples/**"
+      - "scripts/*carousel*"
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/validate_social_carousel.py
+      - run: python3 scripts/verify_jyotish_migration.py verify
+      - run: python3 -m unittest tests/test_carousel_provenance.py

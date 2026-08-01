@@ -1,0 +1,33 @@
+{
+  "handoff_key": "daily:2026-07-26",
+  "project_id": "jyotish-baje",
+  "owner": "Utsav Codex",
+  "status": "complete",
+  "created_at": "2026-07-26T19:34:25+05:45",
+  "completed_at": "2026-07-26T23:54:07+05:45",
+  "artifacts": [
+    "content/instagram/2026-07-26/manifest.json",
+    "content/instagram/2026-07-26/README.md",
+    "content/instagram/2026-07-26/captions.md",
+    "content/instagram/2026-07-26/daily/",
+    "content/instagram/2026-07-26/design-source/daily/"
+  ],
+  "proof": [
+    "proof/2026-07-26/instagram-carousel-readback.md",
+    "proof/2026-07-26/daily-carousel-14-slide-contact-sheet.png",
+    "proof/2026-07-26/whatsapp-posting-receipt.png",
+    "proof/2026-07-26/WhatsApp Image 2026-07-26 at 10.12.51 PM.jpeg"
+  ],
+  "notification": {
+    "channel": "github_issue",
+    "handoff_key": "daily:2026-07-26",
+    "issue_reference": "user-provided-whatsapp-proof: 2026-07-26",
+    "attempted": true,
+    "assignment_status": "unknown",
+    "notes": "The external posting was verified by a user-provided WhatsApp self-chat receipt; no direct Instagram action was performed from this workspace."
+  },
+  "blockers": [],
+  "deviations": [
+    "This package is a deterministic social creative export and does not change Jyotish app source or claim a live birth-chart calculation."
+  ]
+}

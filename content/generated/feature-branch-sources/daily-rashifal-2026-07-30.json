@@ -1,0 +1,379 @@
+{
+  "edition": "daily",
+  "date": "2026-07-30",
+  "engine": {
+    "name": "Jyotish Rashifal Engine",
+    "version": "portable-v1",
+    "source": "Jyotish TypeScript period/rashi scoring contract",
+    "calculated": true
+  },
+  "summary": {
+    "highest": {
+      "rashi": "धनु",
+      "rashi_name": "Dhanu",
+      "score": 4.0
+    },
+    "lowest": {
+      "rashi": "वृषभ",
+      "rashi_name": "Vrish",
+      "score": 2.0
+    },
+    "average": 2.9
+  },
+  "slides": [
+    {
+      "rashi": "मेष",
+      "rashi_name": "Mesh",
+      "nepali": "मेष",
+      "glyph": "♈",
+      "score": 2.6,
+      "energy_label": "LOW",
+      "scores": {
+        "career": 2,
+        "family": 2,
+        "health": 4,
+        "wealth": 1,
+        "love": 4
+      },
+      "strongest_domain": "health",
+      "weakest_domain": "wealth",
+      "engine_signal": "Pause before you answer; the right timing matters.",
+      "emotional_statement": "You are finding your pace. Do not buy certainty in a hurry.",
+      "love": "A softer answer opens the door that pressure would close.",
+      "work": "Choose the clearest next step and let the rest unfold after it.",
+      "energy": "Quiet and reflective; protect your energy from unnecessary demands.",
+      "lucky_color": "Gold",
+      "lucky_number": 8,
+      "sentences": [
+        "Pause before you answer; the right timing matters.",
+        "A softer answer opens the door that pressure would close.",
+        "Choose the clearest next step and let the rest unfold after it."
+      ]
+    },
+    {
+      "rashi": "वृषभ",
+      "rashi_name": "Vrish",
+      "nepali": "वृषभ",
+      "glyph": "♉",
+      "score": 2.0,
+      "energy_label": "LOW",
+      "scores": {
+        "career": 2,
+        "family": 1,
+        "health": 1,
+        "wealth": 4,
+        "love": 2
+      },
+      "strongest_domain": "wealth",
+      "weakest_domain": "family",
+      "engine_signal": "One steady choice today can make the rest of the day lighter.",
+      "emotional_statement": "Your money is opening. Let your family unfold at its own pace.",
+      "love": "Care deeply, but leave room for everyone to answer for themselves.",
+      "work": "Make the practical choice before a tempting shortcut changes the cost.",
+      "energy": "Quiet and reflective; protect your money from unnecessary demands.",
+      "lucky_color": "Gold",
+      "lucky_number": 7,
+      "sentences": [
+        "One steady choice today can make the rest of the day lighter.",
+        "Care deeply, but leave room for everyone to answer for themselves.",
+        "Make the practical choice before a tempting shortcut changes the cost."
+      ]
+    },
+    {
+      "rashi": "मिथुन",
+      "rashi_name": "Mithun",
+      "nepali": "मिथुन",
+      "glyph": "♊",
+      "score": 3.2,
+      "energy_label": "STEADY",
+      "scores": {
+        "career": 2,
+        "family": 5,
+        "health": 3,
+        "wealth": 1,
+        "love": 5
+      },
+      "strongest_domain": "family",
+      "weakest_domain": "wealth",
+      "engine_signal": "Pause before you answer; the right timing matters.",
+      "emotional_statement": "Your family is opening. Let your money unfold at its own pace.",
+      "love": "A softer answer opens the door that pressure would close.",
+      "work": "Choose the clearest next step and let the rest unfold after it.",
+      "energy": "Balanced and capable, but better with patience than pressure around money.",
+      "lucky_color": "Gold",
+      "lucky_number": 5,
+      "sentences": [
+        "Pause before you answer; the right timing matters.",
+        "A softer answer opens the door that pressure would close.",
+        "Choose the clearest next step and let the rest unfold after it."
+      ]
+    },
+    {
+      "rashi": "कर्कट",
+      "rashi_name": "Karkat",
+      "nepali": "कर्कट",
+      "glyph": "♋",
+      "score": 3.6,
+      "energy_label": "STEADY",
+      "scores": {
+        "career": 2,
+        "family": 4,
+        "health": 5,
+        "wealth": 4,
+        "love": 3
+      },
+      "strongest_domain": "health",
+      "weakest_domain": "career",
+      "engine_signal": "One steady choice today can make the rest of the day lighter.",
+      "emotional_statement": "Your rhythm is returning. Urgency is not the same as direction.",
+      "love": "A softer answer opens the door that pressure would close.",
+      "work": "The new idea can wait; finish the unfinished task first.",
+      "energy": "Balanced and capable, but better with patience than pressure around work.",
+      "lucky_color": "Gold",
+      "lucky_number": 3,
+      "sentences": [
+        "One steady choice today can make the rest of the day lighter.",
+        "A softer answer opens the door that pressure would close.",
+        "The new idea can wait; finish the unfinished task first."
+      ]
+    },
+    {
+      "rashi": "सिंह",
+      "rashi_name": "Simha",
+      "nepali": "सिंह",
+      "glyph": "♌",
+      "score": 2.2,
+      "energy_label": "LOW",
+      "scores": {
+        "career": 3,
+        "family": 3,
+        "health": 2,
+        "wealth": 2,
+        "love": 1
+      },
+      "strongest_domain": "career",
+      "weakest_domain": "love",
+      "engine_signal": "Pause before you answer; the right timing matters.",
+      "emotional_statement": "Momentum is real. Your heart still needs a slower answer.",
+      "love": "Say what you need before resentment starts speaking for you.",
+      "work": "Close the visible task before the next idea steals the day.",
+      "energy": "Quiet and reflective; protect your work from unnecessary demands.",
+      "lucky_color": "Gold",
+      "lucky_number": 1,
+      "sentences": [
+        "Pause before you answer; the right timing matters.",
+        "Say what you need before resentment starts speaking for you.",
+        "Close the visible task before the next idea steals the day."
+      ]
+    },
+    {
+      "rashi": "कन्या",
+      "rashi_name": "Kanya",
+      "nepali": "कन्या",
+      "glyph": "♍",
+      "score": 3.8,
+      "energy_label": "STEADY",
+      "scores": {
+        "career": 3,
+        "family": 2,
+        "health": 4,
+        "wealth": 5,
+        "love": 5
+      },
+      "strongest_domain": "wealth",
+      "weakest_domain": "family",
+      "engine_signal": "One steady choice today can make the rest of the day lighter.",
+      "emotional_statement": "Your money is opening. Let your family unfold at its own pace.",
+      "love": "Care deeply, but leave room for everyone to answer for themselves.",
+      "work": "Make the practical choice before a tempting shortcut changes the cost.",
+      "energy": "Balanced and capable, but better with patience than pressure around family.",
+      "lucky_color": "Gold",
+      "lucky_number": 9,
+      "sentences": [
+        "One steady choice today can make the rest of the day lighter.",
+        "Care deeply, but leave room for everyone to answer for themselves.",
+        "Make the practical choice before a tempting shortcut changes the cost."
+      ]
+    },
+    {
+      "rashi": "तुला",
+      "rashi_name": "Tula",
+      "nepali": "तुला",
+      "glyph": "♎",
+      "score": 2.2,
+      "energy_label": "LOW",
+      "scores": {
+        "career": 3,
+        "family": 1,
+        "health": 1,
+        "wealth": 3,
+        "love": 3
+      },
+      "strongest_domain": "career",
+      "weakest_domain": "family",
+      "engine_signal": "Pause before you answer; the right timing matters.",
+      "emotional_statement": "Your work is opening. Let your family unfold at its own pace.",
+      "love": "Care deeply, but leave room for everyone to answer for themselves.",
+      "work": "Close the visible task before the next idea steals the day.",
+      "energy": "Quiet and reflective; protect your work from unnecessary demands.",
+      "lucky_color": "Gold",
+      "lucky_number": 7,
+      "sentences": [
+        "Pause before you answer; the right timing matters.",
+        "Care deeply, but leave room for everyone to answer for themselves.",
+        "Close the visible task before the next idea steals the day."
+      ]
+    },
+    {
+      "rashi": "वृश्चिक",
+      "rashi_name": "Vrischik",
+      "nepali": "वृश्चिक",
+      "glyph": "♏",
+      "score": 2.6,
+      "energy_label": "LOW",
+      "scores": {
+        "career": 3,
+        "family": 5,
+        "health": 3,
+        "wealth": 1,
+        "love": 1
+      },
+      "strongest_domain": "family",
+      "weakest_domain": "wealth",
+      "engine_signal": "One steady choice today can make the rest of the day lighter.",
+      "emotional_statement": "Your family is opening. Let your money unfold at its own pace.",
+      "love": "A softer answer opens the door that pressure would close.",
+      "work": "Choose the clearest next step and let the rest unfold after it.",
+      "energy": "Quiet and reflective; protect your family from unnecessary demands.",
+      "lucky_color": "Gold",
+      "lucky_number": 5,
+      "sentences": [
+        "One steady choice today can make the rest of the day lighter.",
+        "A softer answer opens the door that pressure would close.",
+        "Choose the clearest next step and let the rest unfold after it."
+      ]
+    },
+    {
+      "rashi": "धनु",
+      "rashi_name": "Dhanu",
+      "nepali": "धनु",
+      "glyph": "♐",
+      "score": 4.0,
+      "energy_label": "HIGH",
+      "scores": {
+        "career": 3,
+        "family": 4,
+        "health": 5,
+        "wealth": 4,
+        "love": 4
+      },
+      "strongest_domain": "health",
+      "weakest_domain": "career",
+      "engine_signal": "Today favors clear priorities and calmer conversations.",
+      "emotional_statement": "Your rhythm is returning. Urgency is not the same as direction.",
+      "love": "A softer answer opens the door that pressure would close.",
+      "work": "The new idea can wait; finish the unfinished task first.",
+      "energy": "Bright, ambitious and tempted to move before the work answer is ready.",
+      "lucky_color": "Gold",
+      "lucky_number": 4,
+      "sentences": [
+        "Today favors clear priorities and calmer conversations.",
+        "A softer answer opens the door that pressure would close.",
+        "The new idea can wait; finish the unfinished task first."
+      ]
+    },
+    {
+      "rashi": "मकर",
+      "rashi_name": "Makar",
+      "nepali": "मकर",
+      "glyph": "♑",
+      "score": 2.8,
+      "energy_label": "LOW",
+      "scores": {
+        "career": 4,
+        "family": 3,
+        "health": 2,
+        "wealth": 2,
+        "love": 3
+      },
+      "strongest_domain": "career",
+      "weakest_domain": "health",
+      "engine_signal": "One steady choice today can make the rest of the day lighter.",
+      "emotional_statement": "The opportunity is real. Do not spend your energy proving it.",
+      "love": "A softer answer opens the door that pressure would close.",
+      "work": "Close the visible task before the next idea steals the day.",
+      "energy": "Quiet and reflective; protect your work from unnecessary demands.",
+      "lucky_color": "Gold",
+      "lucky_number": 2,
+      "sentences": [
+        "One steady choice today can make the rest of the day lighter.",
+        "A softer answer opens the door that pressure would close.",
+        "Close the visible task before the next idea steals the day."
+      ]
+    },
+    {
+      "rashi": "कुम्भ",
+      "rashi_name": "Kumbha",
+      "nepali": "कुम्भ",
+      "glyph": "♒",
+      "score": 3.2,
+      "energy_label": "STEADY",
+      "scores": {
+        "career": 4,
+        "family": 2,
+        "health": 4,
+        "wealth": 5,
+        "love": 1
+      },
+      "strongest_domain": "wealth",
+      "weakest_domain": "love",
+      "engine_signal": "Today favors clear priorities and calmer conversations.",
+      "emotional_statement": "The practical choice is clear. Wanting more can blur the conversation.",
+      "love": "Say what you need before resentment starts speaking for you.",
+      "work": "Make the practical choice before a tempting shortcut changes the cost.",
+      "energy": "Balanced and capable, but better with patience than pressure around relationships.",
+      "lucky_color": "Gold",
+      "lucky_number": 9,
+      "sentences": [
+        "Today favors clear priorities and calmer conversations.",
+        "Say what you need before resentment starts speaking for you.",
+        "Make the practical choice before a tempting shortcut changes the cost."
+      ]
+    },
+    {
+      "rashi": "मीन",
+      "rashi_name": "Meen",
+      "nepali": "मीन",
+      "glyph": "♓",
+      "score": 2.6,
+      "energy_label": "LOW",
+      "scores": {
+        "career": 4,
+        "family": 1,
+        "health": 1,
+        "wealth": 3,
+        "love": 4
+      },
+      "strongest_domain": "career",
+      "weakest_domain": "family",
+      "engine_signal": "One steady choice today can make the rest of the day lighter.",
+      "emotional_statement": "Your work is opening. Let your family unfold at its own pace.",
+      "love": "Care deeply, but leave room for everyone to answer for themselves.",
+      "work": "Close the visible task before the next idea steals the day.",
+      "energy": "Quiet and reflective; protect your work from unnecessary demands.",
+      "lucky_color": "Gold",
+      "lucky_number": 7,
+      "sentences": [
+        "One steady choice today can make the rest of the day lighter.",
+        "Care deeply, but leave room for everyone to answer for themselves.",
+        "Close the visible task before the next idea steals the day."
+      ]
+    }
+  ],
+  "caption": "Daily Rashifal — 2026-07-30. Jyotish-engine guidance for reflection, not certainty.",
+  "generation": {
+    "strategy": "deterministic-template-engine",
+    "provider": "jyotish-engine",
+    "model": "none"
+  }
+}

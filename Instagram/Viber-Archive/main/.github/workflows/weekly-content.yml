@@ -1,0 +1,78 @@
+name: Weekly carousel preparation
+on:
+  schedule:
+    - cron: '15 17 * * 0'
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/validate.py
+      - run: |
+          DAY="$(date -u +%F)"
+          python3 scripts/generate_content.py --edition weekly --date "$DAY"
+          python3 scripts/validate.py
+          python3 scripts/generate_report.py --date "$DAY" > content/generated/weekly-report.json
+      - name: Render and fail-closed verify the pinned carousel package
+        run: |
+          DAY="$(date -u +%F)"
+          SOURCE_SHA="$(git rev-parse HEAD)"
+          test -f "content/instagram/${DAY}/carousel-copy.json"
+          test -f "content/instagram/${DAY}/brand/jyotish-logo-transparent.png"
+          node scripts/render_instagram_carousel_14.js "$DAY"
+          python3 scripts/verify_carousel_provenance.py build \
+            --date "$DAY" --edition weekly --source-sha "$SOURCE_SHA" \
+            --source-json "content/instagram/${DAY}/carousel-copy.json" \
+            --renderer scripts/render_instagram_carousel_14.js \
+            --renderer-command "node scripts/render_instagram_carousel_14.js ${DAY}" \
+            --renderer-version "$(node --version)" \
+            --brand-asset "content/instagram/${DAY}/brand/jyotish-logo-transparent.png" \
+            --contact-sheet "proof/${DAY}/weekly-carousel-14-slide-contact-sheet.png"
+          python3 scripts/verify_carousel_provenance.py verify \
+            --manifest "content/instagram/${DAY}/provenance-weekly.json" \
+            --expected-source-sha "$SOURCE_SHA"
+      - name: Commit generated package for phone access
+        run: |
+          DAY="$(date -u +%F)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/generated/ content/instagram/ proof/ reports/daily/
+          if git diff --cached --quiet; then echo "No generated content changes to commit"; else git commit -m "chore: publish weekly Rashifal package ${DAY}"; git push; fi
+      - name: Create idempotent Utsav handoff issue
+        env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          DAY="$(date -u +%F)"
+          TITLE="Weekly Rashifal handoff — ${DAY} [weekly]"
+          HANDOFF_KEY="weekly:${DAY}"
+          ISSUE_NUMBER="$(gh issue list --state open --json number,title --limit 100 | jq -r --arg title "$TITLE" '.[] | select(.title == $title) | .number' | head -n 1)"
+          if [ -z "$ISSUE_NUMBER" ]; then
+            cat > handoff-body.md <<EOF
+          Handoff key: ${HANDOFF_KEY}
+          ## Utsav handoff
+          Prepare and post the generated weekly carousel before midnight Nepal (23:59 NPT).
+
+          Package: content/generated/weekly-rashifal-${DAY}.json
+          Source SHA: $(jq -r '.source.commit_sha' "content/instagram/${DAY}/provenance-weekly.json")
+          Provenance manifest: content/instagram/${DAY}/provenance-weekly.json
+          Upload path: content/instagram/${DAY}/weekly/
+          Verifier: $(jq -r '.verifier_command' "content/instagram/${DAY}/provenance-weekly.json")
+          Receiver acknowledgement is required before upload: record this exact Source SHA and PASS from the verifier. Generic carousel handoffs without both are rejected.
+          SVG slides and summary: content/generated/
+          Sirish-facing work report: reports/daily/${DAY}.json
+          Proof: proof/${DAY}/
+          Add posting screenshots and a short README to the proof path.
+          Assignment provides normal GitHub notifications only; it is not a guaranteed phone notification.
+          EOF
+            ISSUE_URL="$(gh issue create --title "$TITLE" --body-file handoff-body.md)"
+            ISSUE_NUMBER="$(gh issue view "$ISSUE_URL" --json number --jq .number)"
+            echo "Created weekly handoff issue #${ISSUE_NUMBER} without assignment; invitation may be pending"
+          else
+            echo "Open weekly handoff already exists: #${ISSUE_NUMBER}"
+          fi
+          if ! gh issue edit "$ISSUE_NUMBER" --add-assignee lekhakustav; then echo "Assignment pending: lekhakustav is not yet an available collaborator; issue remains usable"; fi
+      - uses: actions/upload-artifact@v4
+        with: {name: weekly-content-package, path: content/generated/}

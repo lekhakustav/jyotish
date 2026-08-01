@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+    <defs><style>
+  @font-face{font-family:FrauncesLocal;src:url('../../brand/fonts/Fraunces-Regular.ttf') format('truetype');font-weight:400}
+  @font-face{font-family:FrauncesLocal;src:url('../../brand/fonts/Fraunces-Bold.ttf') format('truetype');font-weight:700}
+  @font-face{font-family:InterLocal;src:url('../../brand/fonts/Inter-Regular.ttf') format('truetype');font-weight:400}
+  @font-face{font-family:InterLocal;src:url('../../brand/fonts/Inter-SemiBold.ttf') format('truetype');font-weight:600}
+  @font-face{font-family:InterLocal;src:url('../../brand/fonts/Inter-Bold.ttf') format('truetype');font-weight:700}
+  .serif{font-family:FrauncesLocal,serif}
+  .sans{font-family:InterLocal,sans-serif}
+</style></defs>
+    <rect width="1080" height="1350" fill="#FCF7ED"/>
+    <text x="72" y="75" class="sans" font-size="20" font-weight="700" letter-spacing="3" fill="#7A5C48">JYOTISH &#8226; DAILY ENERGY</text>
+    <text x="1008" y="75" text-anchor="end" class="sans" font-size="20" fill="#7A5C48">09 / 14</text>
+    <line x1="72" y1="110" x2="1008" y2="110" stroke="#B8860B" stroke-opacity=".18"/>
+    <text x="72" y="245" class="serif" font-size="88" font-weight="700" fill="#B9331F">Scorpio</text>
+    <text x="76" y="300" class="sans" font-size="19" font-weight="600" letter-spacing="4" fill="#7A5C48">OCT 23 – NOV 21</text>
+    <text x="1008" y="242" text-anchor="end" class="serif" font-size="52" font-weight="700" fill="#B9331F">4.0 &#9733;</text>
+    <text x="72" y="430" class="sans" font-size="21" font-weight="700" letter-spacing="2" fill="#B9331F">LOVE</text>
+    <text x="250" y="430" class="sans" font-size="31" fill="#3B1F14">Say the truth without testing people.</text>
+    <line x1="72" y1="522" x2="1008" y2="522" stroke="#B8860B" stroke-opacity=".20"/>
+    <text x="72" y="590" class="sans" font-size="21" font-weight="700" letter-spacing="2" fill="#B9331F">WORK</text>
+    <text x="250" y="590" class="sans" font-size="31" fill="#3B1F14">Quiet focus protects momentum.</text>
+    <line x1="72" y1="682" x2="1008" y2="682" stroke="#B8860B" stroke-opacity=".20"/>
+    <text x="72" y="750" class="sans" font-size="21" font-weight="700" letter-spacing="2" fill="#B9331F">ENERGY</text>
+    <text x="250" y="750" class="sans" font-size="31" fill="#3B1F14">Private, deep and determined.</text>
+    <line x1="72" y1="842" x2="1008" y2="842" stroke="#B8860B" stroke-opacity=".20"/>
+    <text x="72" y="910" class="sans" font-size="21" font-weight="700" letter-spacing="2" fill="#B9331F">LUCKY CUE</text>
+    <text x="250" y="910" class="sans" font-size="31" fill="#3B1F14">Maroon • 8</text>
+    <line x1="72" y1="1002" x2="1008" y2="1002" stroke="#B8860B" stroke-opacity=".20"/>
+    <text x="72" y="1105" class="serif" font-size="31" font-weight="700" fill="#B9331F">gentle note</text>
+    <text x="310" y="1105" class="sans" font-size="23" fill="#7A5C48">This rating reflects a mood, not a rule. Keep what feels useful.</text>
+    <line x1="72" y1="1242" x2="128" y2="1242" stroke="#B9331F" stroke-opacity=".82" stroke-width="3"/><line x1="150" y1="1242" x2="206" y2="1242" stroke="#B9331F" stroke-opacity=".82" stroke-width="3"/><line x1="228" y1="1242" x2="284" y2="1242" stroke="#B9331F" stroke-opacity=".82" stroke-width="3"/><line x1="306" y1="1242" x2="362" y2="1242" stroke="#B9331F" stroke-opacity=".82" stroke-width="3"/><line x1="384" y1="1242" x2="440" y2="1242" stroke="#B9331F" stroke-opacity=".82" stroke-width="3"/><line x1="462" y1="1242" x2="518" y2="1242" stroke="#B9331F" stroke-opacity=".82" stroke-width="3"/><line x1="540" y1="1242" x2="596" y2="1242" stroke="#B9331F" stroke-opacity=".82" stroke-width="3"/><line x1="618" y1="1242" x2="674" y2="1242" stroke="#B9331F" stroke-opacity=".82" stroke-width="3"/><line x1="696" y1="1242" x2="752" y2="1242" stroke="#B8860B" stroke-opacity=".18" stroke-width="3"/><line x1="774" y1="1242" x2="830" y2="1242" stroke="#B8860B" stroke-opacity=".18" stroke-width="3"/><line x1="852" y1="1242" x2="908" y2="1242" stroke="#B8860B" stroke-opacity=".18" stroke-width="3"/><line x1="930" y1="1242" x2="986" y2="1242" stroke="#B8860B" stroke-opacity=".18" stroke-width="3"/>
+    <text x="1008" y="1295" text-anchor="end" class="sans" font-size="20" font-weight="600" fill="#7A5C48">save &#8226; share &#8226; swipe  &#8594;</text>
+  </svg>

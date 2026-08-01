@@ -1,0 +1,23 @@
+{
+  "project_id": "jyotish-baje",
+  "platform": "instagram",
+  "date": "2026-07-26",
+  "generated_at": "2026-07-26T19:40:00+05:45",
+  "scope": "Daily Rashifal carousel export; no Jyotish app source changes",
+  "status": "ready_for_upload",
+  "external_posting": false,
+  "post": {
+    "name": "daily-rashifal-carousel",
+    "folder": "daily",
+    "slides": "01.png-14.png",
+    "size": "1080x1350",
+    "language": "English",
+    "brand_source": "Jyotish app theme and font assets",
+    "style": "extreme minimalism; flat app background; no cards or shadows",
+    "slide_13": "Pisces reading only",
+    "final_slide": "AI-based Jyotish App promotion with Try, Comment, Save and Share actions",
+    "caption": "captions.md#daily-rashifal"
+  },
+  "upload_note": "Upload all 14 slides from the phone. Desktop upload may stop at 10 photos.",
+  "disclaimer": "General AI-assisted guidance for reflection, not a certain prediction."
+}

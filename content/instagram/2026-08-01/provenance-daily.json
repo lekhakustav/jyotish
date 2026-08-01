@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "project_id": "jyotish-baje",
+  "edition": "daily",
+  "date": "2026-08-01",
+  "source": {
+    "commit_sha": "de1bfb6c6b7d78927eb41cd4217b2fc2864efdc4",
+    "json": {
+      "path": "content/instagram/2026-08-01/carousel-copy.json",
+      "sha256": "50045e90dbd148c0bdeed2a007172dc85feb956154c0948fbc21c5c3bc1fa22f"
+    }
+  },
+  "renderer": {
+    "path": "scripts/render_instagram_carousel_14.js",
+    "sha256": "aef8a855e9153102dceeb0d24c1a0f309dfd0fc881ba8b5f3ff0909664aa4653",
+    "command": "node scripts/render_instagram_carousel_14.js --date 2026-08-01 --edition daily --platform both --content content/instagram/2026-08-01/carousel-copy.json --asset-date 2026-08-01",
+    "version": "v2.1.0-date-pinned"
+  },
+  "brand_assets": [
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Inter-Regular.ttf",
+      "sha256": "8acaf6eb3be8a87f733d6ebe870243f3c85f58038408b34ccf3907c61a0ccbd8"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Inter-SemiBold.ttf",
+      "sha256": "620912e0a7eba84a91c9e66bf24063e697b14c312cc5c9c05a3397e5948d5627"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Inter-Bold.ttf",
+      "sha256": "301094d29ce8b80e45f8bca27e20a3cafdc2cd62fdcca660d9a2ff1ad807f05d"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Fraunces-Regular.ttf",
+      "sha256": "ccf1e450c7f4881258b0bd8472d1fb1cb4db69834095624fbbca2adf9b166301"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Fraunces-Bold.ttf",
+      "sha256": "d5fb04bc45fceaaca53965b1e945af9e8b04c9643886f5adeda1879bb091a384"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/jyotish-logo-transparent.png",
+      "sha256": "0a44ee22f5ec218b06f1796739890370f4dd04b11d182e1ef538e23769e9cf62"
+    }
+  ],
+  "contact_sheet": {
+    "path": "proof/2026-08-01/daily-carousel-14-slide-contact-sheet.png",
+    "sha256": "c760c38971765a2aec13d80ce6185d3c3aa6e2ab75980a4c6a42350e496a0e38"
+  },
+  "slides": [
+    {
+      "path": "content/instagram/2026-08-01/daily/01.png",
+      "sha256": "3a1bca2f1227bee7f4d431442b1e82992a46951777275dddb2c5d1da09a98a05",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/02.png",
+      "sha256": "709b27e4e516334b9ce0068cd1adf534722b964d2ca469710c726ad4d6c4851b",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/03.png",
+      "sha256": "a36a956ece7d936f9775f1d12d569345e13882ddab9038f22740a4485de9979b",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/04.png",
+      "sha256": "2b0f0acb7c2fe403f010e696fcb067862c7ea62043e729c56f96b8cdd08d9323",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/05.png",
+      "sha256": "9cd7aedba0fdd4dda1df3b1bc768d438314ffed3c3a1d2a2a0c0ed6a731fa1b8",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/06.png",
+      "sha256": "52bcad846fbe25015dcfe03f4a07d11a759be4a5d205ab373fe96d832c7e019a",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/07.png",
+      "sha256": "50c99830bd8f64aa5dc19bc5b2633ba4830073edf493f7369243a01ec9c30286",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/08.png",
+      "sha256": "009815b74c4f9b85d1e9b1fc9c57e0917110c4d37a0052c463c76a9af5e25c5d",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/09.png",
+      "sha256": "ae0601a963007bcb41775b8acd1b60b0439436b797fa1512df1e425e59c92af5",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/10.png",
+      "sha256": "044f0dab4dd33bbbb8dc175ae3ee87f3d37a32223f8bcc3b87bb0c8c3c880ab7",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/11.png",
+      "sha256": "899fe61ee8c35d33713abd22978e928517ffda9c5f88b4c6a5beef6cbe925c07",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/12.png",
+      "sha256": "8805ae2d5ee39c0a5d761b0b8486abf2781a68dbe789d64af8482919647b9b3a",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/13.png",
+      "sha256": "9d46f762bc5600db00969e9dc76c456bf93f9d4da4b98157fa586bcf48192437",
+      "width": 1080,
+      "height": 1350
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/14.png",
+      "sha256": "b053b20361b3a1ecb482717c550c37d8abe6b587711aa5d54271b584872b3f6b",
+      "width": 1080,
+      "height": 1350
+    }
+  ],
+  "upload_path": "content/instagram/2026-08-01/daily",
+  "verifier_command": "python3 scripts/verify_carousel_provenance.py verify --manifest content/instagram/2026-08-01/provenance-daily.json --expected-source-sha de1bfb6c6b7d78927eb41cd4217b2fc2864efdc4"
+}

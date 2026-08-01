@@ -1,0 +1,33 @@
+{
+  "handoff_key": "daily:2026-07-31",
+  "project_id": "jyotish-baje",
+  "owner": "Utsav",
+  "status": "complete",
+  "created_at": "2026-07-31T01:17:01+05:45",
+  "completed_at": "2026-07-31T01:17:01+05:45",
+  "artifacts": [
+    "reports/daily/2026-07-31.json",
+    "coordination/notifications/2026-07-31/jyotish-baje-daily-posting-2026-07-31-proof.json"
+  ],
+  "proof": [
+    "proof/2026-07-31/README.md",
+    "proof/2026-07-31/instagram-carousel-readback.md",
+    "proof/2026-07-31/social-upload-proof.png",
+    "proof/2026-07-31/social-upload-proof-latest.png"
+  ],
+  "notification": {
+    "channel": "github_issue",
+    "handoff_key": "daily:2026-07-31",
+    "issue_reference": "https://github.com/Sirish24/sirish-utsav-collaboration/issues/30",
+    "attempted": true,
+    "assignment_status": "assigned",
+    "notes": "The July 31 proof and completion readback are attached to issue 30; the screenshot supports Instagram posted confirmation and TikTok at 1/14, with no direct post URLs claimed."
+  },
+  "blockers": [],
+  "deviations": [
+    "The screenshot is user-supplied device evidence; this workspace did not sign in to or publish on either platform.",
+    "Direct Instagram and TikTok post URLs are not visible, so no direct post URL is claimed.",
+    "TikTok evidence visibly supports the first slide and 1/14, not independent verification of all 14 slides or their order.",
+    "The source carousel was prepared in the separate Jyotish app checkout; this repository records the proof and handoff only."
+  ]
+}

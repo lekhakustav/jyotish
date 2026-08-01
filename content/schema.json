@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["edition", "date", "summary", "slides", "caption"],
+  "properties": {
+    "edition": {"enum": ["daily", "weekly"]},
+    "date": {"type": "string", "format": "date"},
+    "summary": {"type": "object", "required": ["highest", "lowest", "average"]},
+    "slides": {"type": "array", "minItems": 12, "maxItems": 12},
+    "caption": {"type": "string", "maxLength": 2200}
+  }
+}
