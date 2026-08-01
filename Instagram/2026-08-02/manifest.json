@@ -1,0 +1,13 @@
+{
+  "date": "2026-08-02",
+  "content_type": "daily-rashifal-carousel",
+  "language": "English",
+  "slides": 14,
+  "platforms": {
+    "instagram": { "folder": "exports/02-instagram", "size": "1080x1350" },
+    "tiktok": { "folder": "exports/01-tiktok", "size": "1080x1920" }
+  },
+  "source": "Jyotish app local daily rotation",
+  "style": "warm cream, editorial serif headings, minimal app-native layout",
+  "disclaimer": "General reflection guidance, not a guaranteed prediction."
+}

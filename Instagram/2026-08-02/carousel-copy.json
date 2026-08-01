@@ -1,0 +1,120 @@
+{
+  "daily": {
+    "label": "AUGUST 2, 2026 - DAILY RASHIFAL",
+    "hook": [
+      "What is your sign's",
+      "guidance today?"
+    ],
+    "subhook": "Love, work, energy and one grounded cue - made simple.",
+    "signs": [
+      {
+        "name": "Aries",
+        "dates": "MAR 21 - APR 19",
+        "rating": 3.8,
+        "love": "Pause before making a private worry public.",
+        "work": "Keep money and private matters simple.",
+        "energy": "Deep, thoughtful and observant.",
+        "cue": "Brown - 6"
+      },
+      {
+        "name": "Taurus",
+        "dates": "APR 20 - MAY 20",
+        "rating": 2.4,
+        "love": "Warmth matters more than a perfect answer.",
+        "work": "Finish duty before taking on more.",
+        "energy": "Steady, practical and responsible.",
+        "cue": "Red - 4"
+      },
+      {
+        "name": "Gemini",
+        "dates": "MAY 21 - JUN 20",
+        "rating": 3.8,
+        "love": "Let patience soften stubborn words.",
+        "work": "Check money, documents and promises.",
+        "energy": "Slow, steady and focused.",
+        "cue": "Saffron - 2"
+      },
+      {
+        "name": "Cancer",
+        "dates": "JUN 21 - JUL 22",
+        "rating": 2.4,
+        "love": "Choose gentle words with family.",
+        "work": "Plan learning or travel calmly.",
+        "energy": "Wise, caring and reflective.",
+        "cue": "Green - 9"
+      },
+      {
+        "name": "Leo",
+        "dates": "JUL 23 - AUG 22",
+        "rating": 1.8,
+        "love": "Keep criticism kind and useful.",
+        "work": "Improve one detail and stop there.",
+        "energy": "Careful, creative and improving.",
+        "cue": "Yellow - 7"
+      },
+      {
+        "name": "Virgo",
+        "dates": "AUG 23 - SEP 22",
+        "rating": 4.4,
+        "love": "Listen first, then answer simply.",
+        "work": "Do one thing before starting another.",
+        "energy": "Curious, practical and clear.",
+        "cue": "Sky blue - 5"
+      },
+      {
+        "name": "Libra",
+        "dates": "SEP 23 - OCT 22",
+        "rating": 3.0,
+        "love": "Rest before replaying every detail.",
+        "work": "Keep spending and agreements clear.",
+        "energy": "Quiet, balanced and restorative.",
+        "cue": "Blue - 3"
+      },
+      {
+        "name": "Scorpio",
+        "dates": "OCT 23 - NOV 21",
+        "rating": 3.4,
+        "love": "Ask for support instead of testing it.",
+        "work": "Write important agreements down.",
+        "energy": "Private, supported and thoughtful.",
+        "cue": "Cream - 1"
+      },
+      {
+        "name": "Sagittarius",
+        "dates": "NOV 22 - DEC 21",
+        "rating": 3.0,
+        "love": "Give close people a little more softness.",
+        "work": "Plan study or travel without rushing.",
+        "energy": "Peaceful, open and family-focused.",
+        "cue": "White - 8"
+      },
+      {
+        "name": "Capricorn",
+        "dates": "DEC 22 - JAN 19",
+        "rating": 3.4,
+        "love": "Speak softly at home.",
+        "work": "Finish one important duty first.",
+        "energy": "Normal, useful and steady.",
+        "cue": "Brown - 6"
+      },
+      {
+        "name": "Aquarius",
+        "dates": "JAN 20 - FEB 18",
+        "rating": 2.8,
+        "love": "Name the worry instead of hiding it.",
+        "work": "Keep future plans simple.",
+        "energy": "Deep, quiet and observant.",
+        "cue": "Red - 4"
+      },
+      {
+        "name": "Pisces",
+        "dates": "FEB 19 - MAR 20",
+        "rating": 3.2,
+        "love": "Let warmth accompany your responsibility.",
+        "work": "Finish the duty, then rest.",
+        "energy": "Practical, gentle and composed.",
+        "cue": "Saffron - 2"
+      }
+    ]
+  }
+}
