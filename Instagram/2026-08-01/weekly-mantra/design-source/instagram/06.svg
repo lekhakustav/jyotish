@@ -13,9 +13,11 @@
     <text x="1008" y="75" text-anchor="end" class="sans" font-size="20" fill="#7A5C48">06 / 07</text>
     <line x1="72" y1="110" x2="1008" y2="110" stroke="#B8860B" stroke-opacity=".22"/>
 
-    <rect x="72" y="760" width="936" height="360" rx="28" fill="#A72F50" opacity=".10"/>
-    <rect x="72" y="760" width="14" height="360" rx="7" fill="#A72F50"/>
-    <text x="540" y="865" text-anchor="middle" class="serif" font-size="94" font-weight="700" fill="#A72F50">FRIDAY</text>
-    <line x1="270" y1="921" x2="810" y2="921" stroke="#A72F50" stroke-opacity=".35"/>
-    <text x="540" y="1010" text-anchor="middle" class="serif" font-size="55" fill="#3B1F14"><tspan x="540" dy="0">Om Shreem</tspan><tspan x="540" dy="82">Mahalakshmyai Namah</tspan></text><line x1="72" y1="1240" x2="164" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="202" y1="1240" x2="294" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="332" y1="1240" x2="424" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="462" y1="1240" x2="554" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="592" y1="1240" x2="684" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="722" y1="1240" x2="814" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="852" y1="1240" x2="944" y2="1240" stroke="#B8860B" stroke-opacity=".18" stroke-width="4"/>
+    <rect x="72" y="700" width="936" height="500" rx="28" fill="#A72F50" opacity=".10"/>
+    <rect x="72" y="700" width="14" height="500" rx="7" fill="#A72F50"/>
+    <text x="540" y="825" text-anchor="middle" class="serif" font-size="94" font-weight="700" fill="#A72F50">FRIDAY</text>
+    <line x1="270" y1="881" x2="810" y2="881" stroke="#A72F50" stroke-opacity=".35"/>
+    <text x="540" y="965" text-anchor="middle" class="serif" font-size="52" fill="#3B1F14"><tspan x="540" dy="0">Om Shreem</tspan><tspan x="540" dy="82">Mahalakshmyai Namah</tspan></text>
+    <text x="540" y="1118" text-anchor="middle" class="sans" font-size="18" font-weight="700" letter-spacing="3" fill="#A72F50">TRY THIS</text>
+    <text x="540" y="1152" text-anchor="middle" class="sans" font-size="23" fill="#7A5C48">Repeat 11 times with gratitude for harmony.</text><line x1="72" y1="1240" x2="164" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="202" y1="1240" x2="294" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="332" y1="1240" x2="424" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="462" y1="1240" x2="554" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="592" y1="1240" x2="684" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="722" y1="1240" x2="814" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="852" y1="1240" x2="944" y2="1240" stroke="#B8860B" stroke-opacity=".18" stroke-width="4"/>
   </svg>

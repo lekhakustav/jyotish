@@ -21,11 +21,13 @@
     <text x="540" y="635" text-anchor="middle" class="serif" font-size="92" fill="#B8860B">&#x0950;</text>
     <line x1="250" y1="690" x2="830" y2="690" stroke="#B8860B" stroke-opacity=".36"/>
 
-    <rect x="72" y="820" width="936" height="570" rx="28" fill="#9B4A1C" opacity=".10"/>
-    <rect x="72" y="820" width="14" height="570" rx="7" fill="#9B4A1C"/>
-    <text x="540" y="965" text-anchor="middle" class="serif" font-size="108" font-weight="700" fill="#9B4A1C">SUNDAY</text>
-    <line x1="270" y1="1021" x2="810" y2="1021" stroke="#9B4A1C" stroke-opacity=".35"/>
-    <text x="540" y="1155" text-anchor="middle" class="serif" font-size="70" fill="#3B1F14"><tspan x="540" dy="0">Om Suryaya Namah</tspan></text>
+    <rect x="72" y="980" width="936" height="620" rx="28" fill="#9B4A1C" opacity=".10"/>
+    <rect x="72" y="980" width="14" height="620" rx="7" fill="#9B4A1C"/>
+    <text x="540" y="1120" text-anchor="middle" class="serif" font-size="108" font-weight="700" fill="#9B4A1C">SUNDAY</text>
+    <line x1="270" y1="1176" x2="810" y2="1176" stroke="#9B4A1C" stroke-opacity=".35"/>
+    <text x="540" y="1305" text-anchor="middle" class="serif" font-size="70" fill="#3B1F14"><tspan x="540" dy="0">Om Suryaya Namah</tspan></text>
+    <text x="540" y="1478" text-anchor="middle" class="sans" font-size="20" font-weight="700" letter-spacing="3" fill="#9B4A1C">TRY THIS</text>
+    <text x="540" y="1512" text-anchor="middle" class="sans" font-size="27" fill="#7A5C48">Repeat 11 times at sunrise for confidence.</text>
     <line x1="72" y1="1775" x2="164" y2="1775" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="202" y1="1775" x2="294" y2="1775" stroke="#B8860B" stroke-opacity=".18" stroke-width="4"/><line x1="332" y1="1775" x2="424" y2="1775" stroke="#B8860B" stroke-opacity=".18" stroke-width="4"/><line x1="462" y1="1775" x2="554" y2="1775" stroke="#B8860B" stroke-opacity=".18" stroke-width="4"/><line x1="592" y1="1775" x2="684" y2="1775" stroke="#B8860B" stroke-opacity=".18" stroke-width="4"/><line x1="722" y1="1775" x2="814" y2="1775" stroke="#B8860B" stroke-opacity=".18" stroke-width="4"/><line x1="852" y1="1775" x2="944" y2="1775" stroke="#B8860B" stroke-opacity=".18" stroke-width="4"/>
 
   </svg>

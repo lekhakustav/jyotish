@@ -3,6 +3,7 @@
 One shared weekly mantra carousel for Instagram and TikTok, adapted to the current Jyotish visual format.
 
 - 7 slides: title plus Sunday on the first slide, then Monday through Saturday
+- Every day block uses the same size and includes a short “Try this” instruction.
 - Instagram: `exports/02-instagram/01.png` through `07.png`, 1080 x 1350
 - TikTok: `exports/01-tiktok/01.png` through `07.png`, 1080 x 1920
 - The title, day names, and mantras are copied exactly from the supplied image.
