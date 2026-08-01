@@ -1,0 +1,38 @@
+{
+  "task_key": "jyotish-baje:2026-07-31:carousel-provenance-gate",
+  "project_id": "jyotish-baje",
+  "requester": "Sirish",
+  "owner": "Utsav",
+  "status": "accepted",
+  "issue_reference": "https://github.com/Sirish24/sirish-utsav-collaboration/issues/31",
+  "created_at": "2026-07-31T12:00:00+05:45",
+  "updated_at": "2026-07-31T21:15:00+05:45",
+  "updated_by": "owner",
+  "deadline": "2026-08-01T12:00:00+05:45",
+  "acceptance_criteria": [
+    "Daily and weekly handoffs fail closed unless a dated 14-slide PNG package has a passing provenance manifest",
+    "Manifest pins a full source SHA, source JSON, renderer, brand assets, contact sheet, ordered slide hashes, and 1080x1350 dimensions",
+    "Receiver acknowledgement records the matching source SHA and verifier PASS before carousel completion is accepted",
+    "The issue body contains the source SHA, manifest path, upload path, and verifier command"
+  ],
+  "acknowledgement": {
+    "status": "accepted",
+    "at": "2026-07-31T21:15:00+05:45",
+    "issue_comment_reference": "https://github.com/Sirish24/sirish-utsav-collaboration/issues/31#issuecomment-5144643894"
+  },
+  "next_action": "Before every prepare carousel request, fetch origin/main and inspect the latest dated carousel package and provenance manifest; generate only from the matching source SHA, renderer, brand assets, contact sheet, and ordered 14-slide PNG package, then run the pinned verifier before handoff.",
+  "next_check": "2026-08-01T07:00:00+05:45",
+  "decision_needed": null,
+  "commit_sha": null,
+  "artifacts": [],
+  "proof": [],
+  "validation": [],
+  "blockers": [],
+  "reminder": {
+    "last_reminder_at": "2026-07-31T06:12:51Z",
+    "reminder_count": 0,
+    "delivered_keys": [
+      "handoff:jyotish-baje:2026-07-31:carousel-provenance-gate:2026-07-31T12:00:00+05:45"
+    ]
+  }
+}

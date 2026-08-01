@@ -1,0 +1,47 @@
+{
+  "project_id": "jyotish-baje",
+  "date": "2026-07-31",
+  "status": "complete",
+  "content": {
+    "daily": "Jyotish app checkout: Instagram/2026-07-31",
+    "proof": "proof/2026-07-31/"
+  },
+  "temple_inventory": {
+    "remaining_uses": 9,
+    "threshold": 1,
+    "action_due": false
+  },
+  "integrations": {
+    "version": 1,
+    "last_verified": "2026-07-31",
+    "social_media": {
+      "status": "posted-proof-received",
+      "owner": "Utsav",
+      "last_verified": "2026-07-31",
+      "last_action": "User-supplied screenshot shows the July 31 Instagram carousel posted under @jyotishbajeapp and the Jyotish Baje carousel visible in TikTok at 1/14.",
+      "proof_reference": "proof/2026-07-31/README.md",
+      "platforms": {
+        "tiktok": "posted-proof-supplied",
+        "instagram": "posted-proof-verified"
+      }
+    }
+  },
+  "handoff": {
+    "project_id": "jyotish-baje",
+    "owner": "Utsav",
+    "proof_path": "proof/2026-07-31/",
+    "deviations": [
+      "The screenshot is user-supplied device evidence; this workspace did not sign in to or publish on either platform.",
+      "Direct Instagram and TikTok post URLs are not visible, so no direct post URL is claimed.",
+      "TikTok evidence visibly supports the first slide and 1/14, not independent verification of all 14 slides or their order.",
+      "The source carousel was prepared in the separate Jyotish app checkout; this repository records the proof and handoff only."
+    ]
+  },
+  "blockers": [],
+  "deviations": [
+    "The screenshot is user-supplied device evidence; this workspace did not sign in to or publish on either platform.",
+    "Direct Instagram and TikTok post URLs are not visible, so no direct post URL is claimed.",
+    "TikTok evidence visibly supports the first slide and 1/14, not independent verification of all 14 slides or their order.",
+    "The source carousel was prepared in the separate Jyotish app checkout; this repository records the proof and handoff only."
+  ]
+}

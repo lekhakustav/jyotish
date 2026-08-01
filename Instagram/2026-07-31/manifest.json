@@ -1,0 +1,23 @@
+{
+  "project_id": "jyotish-baje",
+  "content_type": "daily-rashifal-carousel",
+  "date": "2026-07-31",
+  "generated_at": "2026-07-30",
+  "status": "ready_for_phone_upload",
+  "language": "en",
+  "slide_count": 14,
+  "formats": {
+    "tiktok": {
+      "dimensions": "1080x1920",
+      "folder": "exports/01-tiktok"
+    },
+    "instagram": {
+      "dimensions": "1080x1350",
+      "folder": "exports/02-instagram"
+    }
+  },
+  "copy": "carousel-copy.json",
+  "caption": "captions.md",
+  "disclaimer": "AI guidance for reflection, not certainty.",
+  "external_posting": false
+}

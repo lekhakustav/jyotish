@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+    <defs><style>
+  @font-face{font-family:FrauncesLocal;src:url('../../brand/fonts/Fraunces-Regular.ttf') format('truetype');font-weight:400}
+  @font-face{font-family:FrauncesLocal;src:url('../../brand/fonts/Fraunces-Bold.ttf') format('truetype');font-weight:700}
+  @font-face{font-family:InterLocal;src:url('../../brand/fonts/Inter-Regular.ttf') format('truetype');font-weight:400}
+  @font-face{font-family:InterLocal;src:url('../../brand/fonts/Inter-SemiBold.ttf') format('truetype');font-weight:600}
+  @font-face{font-family:InterLocal;src:url('../../brand/fonts/Inter-Bold.ttf') format('truetype');font-weight:700}
+  .serif{font-family:FrauncesLocal,serif}
+  .sans{font-family:InterLocal,sans-serif}
+</style></defs>
+    <rect width="1080" height="1350" fill="#FCF7ED"/>
+    <text x="72" y="75" class="sans" font-size="20" font-weight="700" letter-spacing="3" fill="#7A5C48">JYOTISH</text>
+    <text x="1008" y="75" text-anchor="end" class="sans" font-size="20" fill="#7A5C48">07 / 07</text>
+    <line x1="72" y1="110" x2="1008" y2="110" stroke="#B8860B" stroke-opacity=".22"/>
+
+    <rect x="72" y="700" width="936" height="500" rx="28" fill="#243E72" opacity=".10"/>
+    <rect x="72" y="700" width="14" height="500" rx="7" fill="#243E72"/>
+    <text x="540" y="825" text-anchor="middle" class="serif" font-size="94" font-weight="700" fill="#243E72">SATURDAY</text>
+    <line x1="270" y1="881" x2="810" y2="881" stroke="#243E72" stroke-opacity=".35"/>
+    <text x="540" y="1010" text-anchor="middle" class="serif" font-size="52" fill="#3B1F14"><tspan x="540" dy="0">Om Sham Shanicharaya Namah</tspan></text>
+    <text x="540" y="1078" text-anchor="middle" class="sans" font-size="18" font-weight="700" letter-spacing="3" fill="#243E72">TRY THIS</text>
+    <text x="540" y="1112" text-anchor="middle" class="sans" font-size="23" fill="#7A5C48">Repeat 11 times with patience for discipline.</text><line x1="72" y1="1240" x2="164" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="202" y1="1240" x2="294" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="332" y1="1240" x2="424" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="462" y1="1240" x2="554" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="592" y1="1240" x2="684" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="722" y1="1240" x2="814" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/><line x1="852" y1="1240" x2="944" y2="1240" stroke="#B9331F" stroke-opacity=".8" stroke-width="4"/>
+  </svg>

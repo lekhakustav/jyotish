@@ -1,0 +1,16 @@
+{
+  "project_id": "jyotish-baje",
+  "platform": "instagram",
+  "content_type": "daily-rashifal-carousel",
+  "date": "2026-07-27",
+  "generated_at": "2026-07-27",
+  "status": "ready_for_upload",
+  "slide_count": 14,
+  "dimensions": "1080x1350",
+  "language": "en",
+  "external_posting": false,
+  "caption": "captions.md",
+  "copy": "carousel-copy.json",
+  "proof": "proof/daily-carousel-14-slide-contact-sheet.png",
+  "disclaimer": "AI guidance for reflection, not certainty."
+}

@@ -1,0 +1,28 @@
+{
+  "event_id": "jyotish-baje-daily-posting-2026-07-26",
+  "project_id": "jyotish-baje",
+  "status": "resolved",
+  "created_at": "2026-07-26T00:51:00Z",
+  "severity": "info",
+  "title": "Daily TikTok and Instagram posts reported uploaded",
+  "summary": "Sirish reported that today's TikTok and Instagram posts were uploaded. Screenshot proof is waived for 2026-07-26; screenshot proof is required for posts from 2026-07-27 onward.",
+  "source": "sirish_user_report",
+  "requires_action": false,
+  "owner": "Sirish",
+  "artifact_paths": [
+    "docs/utsav-communication-protocol.md"
+  ],
+  "proof_paths": [],
+  "proof_required": false,
+  "proof_due_date": "2026-07-27",
+  "deviations": [
+    "No screenshot required for today's posts by Sirish's instruction"
+  ],
+  "platforms": {
+    "tiktok": "posted",
+    "instagram": "posted"
+  },
+  "urls": [
+    "https://github.com/Sirish24/sirish-utsav-collaboration/issues/6"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "handoff_key": "daily:2026-07-25",
+  "project_id": "jyotish-baje",
+  "owner": "Utsav",
+  "status": "complete",
+  "created_at": "2026-07-25T13:55:53Z",
+  "completed_at": "2026-07-25T13:55:53Z",
+  "artifacts": [
+    "AGENTS.md",
+    "README.md",
+    "docs/codex-architecture-and-utsav-onboarding.md",
+    "coordination/README.md"
+  ],
+  "proof": [
+    "proof/2026-07-25/codex-onboarding-readback.md"
+  ],
+  "notification": {
+    "channel": "github_issue",
+    "handoff_key": "daily:2026-07-25",
+    "issue_reference": "https://github.com/Sirish24/sirish-utsav-collaboration/issues/6",
+    "attempted": true,
+    "assignment_status": "pending",
+    "notes": "Completion record and commit will be posted to the assigned GitHub issue."
+  },
+  "blockers": [],
+  "deviations": [
+    "Windows validation was run with Python UTF-8 mode enabled because the repository contains UTF-8 text."
+  ]
+}

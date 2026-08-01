@@ -1,0 +1,99 @@
+{
+  "project_id": "jyotish-baje",
+  "date": "2026-07-30",
+  "status": "scaffold",
+  "content": {
+    "daily": "content/generated/daily-rashifal-2026-07-30.json",
+    "weekly": "content/generated/weekly-rashifal-2026-07-30.json",
+    "proof": "pending"
+  },
+  "temple_inventory": {
+    "remaining_uses": 9,
+    "threshold": 1,
+    "action_due": false
+  },
+  "model": {
+    "strategy": "deterministic-first",
+    "provider": "unconfigured",
+    "model": "unconfigured"
+  },
+  "integrations": {
+    "version": 1,
+    "last_verified": "2026-07-26",
+    "integrations": {
+      "google_calendar": {
+        "status": "browser-authenticated",
+        "owner": "sirishjoshi24@gmail.com",
+        "context": "Sirish Codex",
+        "token_persisted": false,
+        "last_verified": "2026-07-25",
+        "last_action": null,
+        "proof_reference": null
+      },
+      "apple_calendar": {
+        "status": "delegated-awaiting-device-readback",
+        "owner": "Utsav Codex",
+        "last_verified": null,
+        "last_action": null,
+        "proof_reference": null
+      },
+      "alarms": {
+        "status": "delegated-awaiting-device-readback",
+        "owner": "Utsav Codex",
+        "last_verified": null,
+        "last_action": null,
+        "proof_reference": null
+      },
+      "social_media": {
+        "status": "posted-proof-pending",
+        "owner": "Utsav",
+        "last_verified": "2026-07-26",
+        "last_action": "Posted the content to TikTok and Instagram",
+        "proof_reference": null,
+        "platforms": {
+          "tiktok": "posted",
+          "instagram": "posted"
+        }
+      }
+    }
+  },
+  "handoff": {
+    "project_id": "jyotish-baje",
+    "owner": "Utsav",
+    "proof_path": "proof/2026-07-30/",
+    "deviations": []
+  },
+  "schedule_calendar_actions": {
+    "version": 1,
+    "timezone": "Asia/Kathmandu",
+    "owner": "Sirish",
+    "visibility": "private",
+    "report_focus": [
+      "work priorities",
+      "open handoffs",
+      "blockers",
+      "calendar actions",
+      "proof state"
+    ],
+    "events": [
+      {
+        "name": "Morning Briefing",
+        "frequency": "daily",
+        "start_date": "2026-07-26",
+        "start_time": "07:00",
+        "end_time": "07:30",
+        "event_id": "q4g60chj5blesborvv3jfu2v64"
+      },
+      {
+        "name": "Evening Briefing",
+        "frequency": "daily",
+        "start_date": "2026-07-25",
+        "start_time": "20:30",
+        "end_time": "20:45",
+        "event_id": "1slq0n241d1bc1mdc05gkk95ek"
+      }
+    ]
+  },
+  "blockers": [],
+  "deviations": []
+}

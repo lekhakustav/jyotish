@@ -1,0 +1,3669 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-01T05:49:03.819222+00:00",
+  "source": {
+    "repository": "Sirish24/sirish-utsav-collaboration",
+    "main_commit": "118168f393b7ddc884c8a670c0a2d2179e77c53d",
+    "carousel_feature_commit": "da179dffb8d574691f457994faabb6c1ac239337"
+  },
+  "destination": "lekhakustav/jyotish",
+  "file_count": 731,
+  "total_bytes": 248799792,
+  "files": [
+    {
+      "path": ".github/workflows/social-carousel-verify.yml",
+      "bytes": 919,
+      "sha256": "e9a5771e1593eadf9ff8f656b20081018d005f26de9fa268805b073919763884"
+    },
+    {
+      "path": "Instagram/2026-07-25/README.md",
+      "bytes": 1397,
+      "sha256": "73ee3ce7edd8e5cccee1ae589e7f794f3560a34946d6f06de71c0fa282de3abb"
+    },
+    {
+      "path": "Instagram/2026-07-25/brand/fonts/Fraunces-Bold.ttf",
+      "bytes": 73124,
+      "sha256": "d5fb04bc45fceaaca53965b1e945af9e8b04c9643886f5adeda1879bb091a384"
+    },
+    {
+      "path": "Instagram/2026-07-25/brand/fonts/Fraunces-Regular.ttf",
+      "bytes": 73052,
+      "sha256": "ccf1e450c7f4881258b0bd8472d1fb1cb4db69834095624fbbca2adf9b166301"
+    },
+    {
+      "path": "Instagram/2026-07-25/brand/fonts/Inter-Bold.ttf",
+      "bytes": 343208,
+      "sha256": "301094d29ce8b80e45f8bca27e20a3cafdc2cd62fdcca660d9a2ff1ad807f05d"
+    },
+    {
+      "path": "Instagram/2026-07-25/brand/fonts/Inter-Regular.ttf",
+      "bytes": 341492,
+      "sha256": "8acaf6eb3be8a87f733d6ebe870243f3c85f58038408b34ccf3907c61a0ccbd8"
+    },
+    {
+      "path": "Instagram/2026-07-25/brand/fonts/Inter-SemiBold.ttf",
+      "bytes": 342796,
+      "sha256": "620912e0a7eba84a91c9e66bf24063e697b14c312cc5c9c05a3397e5948d5627"
+    },
+    {
+      "path": "Instagram/2026-07-25/brand/jyotish-logo-transparent.png",
+      "bytes": 423909,
+      "sha256": "0a44ee22f5ec218b06f1796739890370f4dd04b11d182e1ef538e23769e9cf62"
+    },
+    {
+      "path": "Instagram/2026-07-25/captions.md",
+      "bytes": 1124,
+      "sha256": "de82fb02a7d8c37450c4a423c0581f6f135fab29e436568d47fc169e4e2b15d5"
+    },
+    {
+      "path": "Instagram/2026-07-25/carousel-copy.json",
+      "bytes": 7485,
+      "sha256": "896d80a2e66ceb14dc7f16ae2600e1735438fe5b4f7a818fd7bed3e5ff1e2be6"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/01.png",
+      "bytes": 95929,
+      "sha256": "6266e14d128bf219d0eebaa7697caf73fa59b11e338893c3ddcfdfa74e7ee932"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/02.png",
+      "bytes": 83326,
+      "sha256": "602f14dc1aa9683a93b25a9a503dca83af1432b0375aad4669381ec3dcb35d10"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/03.png",
+      "bytes": 83908,
+      "sha256": "e87da09ebce9c05e9d486ab1f6025177725bb129425eaeb0ac442de476578359"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/04.png",
+      "bytes": 85724,
+      "sha256": "4ac7d4e485ba6157580db07a83b0a97c0d9a5ca3668970dd2c29ed0a7b8f8b26"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/05.png",
+      "bytes": 84848,
+      "sha256": "e5f733bdcb6da79d6acb8683970855844931ba788db43d6ea825f2adefadc5d8"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/06.png",
+      "bytes": 81380,
+      "sha256": "93d922aded68e12a5e0974c57805f3313009a2fcb45f469570efbcd9ccb007f4"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/07.png",
+      "bytes": 83409,
+      "sha256": "d7235f61712ae4110a82c675d812faa0f92e1f80a7c682fe4101e75859258bc1"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/08.png",
+      "bytes": 82641,
+      "sha256": "4762abd8c7fa87ce562ad2814e43650e31f2381c168f2fdc5f524fc4dcc92046"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/09.png",
+      "bytes": 86122,
+      "sha256": "8717c8d7b940d29f2c77bad7f63ea1f572a5a880b0257a9448f218c44d2b27c8"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/10.png",
+      "bytes": 86972,
+      "sha256": "e336ea045acae70efb16eff86d0aa9ddaf750f081fa81123dd0bb357227bc424"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/11.png",
+      "bytes": 87898,
+      "sha256": "d111ca497871921786dc318838409dae9e819dff83477fa802c251ca3430a2c3"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/12.png",
+      "bytes": 85125,
+      "sha256": "c7ea7d388eb30b94ec6ad4d4130a15a39acf198df9fa041a739d4a37faf9aef5"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/13.png",
+      "bytes": 83740,
+      "sha256": "d61893837f6889496dff6dcfb52c9df8a0650ae9a1dc22a6491630c356f58a09"
+    },
+    {
+      "path": "Instagram/2026-07-25/daily/14.png",
+      "bytes": 103526,
+      "sha256": "836ae2f65c3bae38da3d0a08e37931f05e148a080e4cde408ce10b03155104f5"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/01.svg",
+      "bytes": 567561,
+      "sha256": "02b656521c12b8a57f468df03964024f2bf486ef6fc092f4409a11ef3d88bc78"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/02.svg",
+      "bytes": 4387,
+      "sha256": "01e3402c22d7cb4d6bac417928fed5787b73e3db8dc291d4d447e2d5b25b3027"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/03.svg",
+      "bytes": 4396,
+      "sha256": "a50bc29e2559ab54eeece3081215b803416bfc6f7752618cfc714f4a1710c438"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/04.svg",
+      "bytes": 4410,
+      "sha256": "dcf1a43ef731e5a152084c40a121db47be7c184d9cd3f5c46fbafa699778ebfd"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/05.svg",
+      "bytes": 4400,
+      "sha256": "90164d511ef0350f0cfd7ac992827b905f7a8a3a75ac8c7eb8eb51957ffa507a"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/06.svg",
+      "bytes": 4386,
+      "sha256": "7600d09850010b492955fa03f0e873a88239aa3c85fc7e25111f0bf13d0db4e1"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/07.svg",
+      "bytes": 4391,
+      "sha256": "fe089632744d94b499041a742078b70a4acb989eaed459d8f1daaf0f31de51ae"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/08.svg",
+      "bytes": 4390,
+      "sha256": "0d940dab37eb43642a97f9823196f3e9a9ee46a9a46e3ae31b5b5ce19d1b983e"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/09.svg",
+      "bytes": 4397,
+      "sha256": "6ea1a0d9db5d019f89f0f1330593e402b06b5954b2f6e7e3ae5fe433518d4d5b"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/10.svg",
+      "bytes": 4392,
+      "sha256": "64b9eb916c38e495aca43d186ea62f96e86f9f244a44a36684bff69624114339"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/11.svg",
+      "bytes": 4406,
+      "sha256": "a5725bcc7f6bec6516bd91a9a70c75ef73d31721caf07961170a6dd9104805a4"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/12.svg",
+      "bytes": 4395,
+      "sha256": "9dcf8e4c07d8f9d46773b173d7838bf2e1b0aa6a0675e040c9aa3d685a43841d"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/13.svg",
+      "bytes": 4396,
+      "sha256": "200e40c7b134a7bdad0291c89c413beaa9b3534ad603fd3fcb4d0c0946149a04"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/daily/14.svg",
+      "bytes": 567657,
+      "sha256": "43eb5eb07b4e39c3bf6295c9bb2f809d6748944c089f115a1f4d2b0475d6971b"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/01.svg",
+      "bytes": 567572,
+      "sha256": "d289016c12f2397f166e9cee5538d513867058cb7c8952a01d33465bdf8f8dd8"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/02.svg",
+      "bytes": 4408,
+      "sha256": "407ac61df3c3779b2316f68bf974622447b34606134880069fde92ef9a96be49"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/03.svg",
+      "bytes": 4405,
+      "sha256": "41bc5af58cd9ffdb0cc99c928e69515452773413594ce98dfafdb8a0cef40908"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/04.svg",
+      "bytes": 4402,
+      "sha256": "714dcc0a3f4490df15a525073421f455d1c779b7289368882927c0f174738f82"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/05.svg",
+      "bytes": 4410,
+      "sha256": "3e87b470d622d786f55d4e34f3e4abdc91d55533832cea173b03ce44a2f5ff29"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/06.svg",
+      "bytes": 4400,
+      "sha256": "0f95dea1a756eb330801e1595325d8595ac68dec862215b3a9f22a6d404789a4"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/07.svg",
+      "bytes": 4402,
+      "sha256": "dcac2b615d751b0fab0ddb115a4188d650e7fa89e39cd16bb36b71514e71c960"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/08.svg",
+      "bytes": 4396,
+      "sha256": "a479e95fae4dae7362de17dd5a3710a5196ebb688d501d623d76328cf26a174f"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/09.svg",
+      "bytes": 4405,
+      "sha256": "0c691b232d09d375828ad268aa0a90972f32d159170ff8b7b196a208fbb8d292"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/10.svg",
+      "bytes": 4411,
+      "sha256": "d0b719a62f0a53de5e9fcb916021ae66f6a7f3a7d1f4d0a89b0bfbbe0a768899"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/11.svg",
+      "bytes": 4397,
+      "sha256": "ebc4bbfec072cb554f4bdcf49e4c556fc9a9a6d7639624630135a542587b96a3"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/12.svg",
+      "bytes": 4410,
+      "sha256": "5826f6458c491c32aeb16e385d2ef92aa28ccdf3afc36c1f16e19ce368ea9780"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/13.svg",
+      "bytes": 4416,
+      "sha256": "435b452b3999896e8a505d2534b05ec0ee0b51f2e0b9e22170848bf1b1e230b9"
+    },
+    {
+      "path": "Instagram/2026-07-25/design-source/weekly/14.svg",
+      "bytes": 567658,
+      "sha256": "95893d38c83c970b3c19117dab3ec90781c4cb3fef6d54f4503bc9c74068b30e"
+    },
+    {
+      "path": "Instagram/2026-07-25/manifest.json",
+      "bytes": 1318,
+      "sha256": "abf490bbc136bf6d545bee838a36bcb9af3e30158f7a50ee54e0e0fdc98cac3e"
+    },
+    {
+      "path": "Instagram/2026-07-25/temples/janaki-mandir.png",
+      "bytes": 2517731,
+      "sha256": "22c41d5401e6578c00d612b1c8e578ec10bfcaa27babd2cb8a8029103ed19887"
+    },
+    {
+      "path": "Instagram/2026-07-25/temples/muktinath.png",
+      "bytes": 3092340,
+      "sha256": "ba9a2153f8c574ae66795a13b1d07e3bdcf5324c13822959971df84b496634fb"
+    },
+    {
+      "path": "Instagram/2026-07-25/temples/pashupatinath.png",
+      "bytes": 2802482,
+      "sha256": "9e0389a5138d328b46704e90e479fe468213a8e2266f3fd10e1ee7f5370e7426"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/01.png",
+      "bytes": 98797,
+      "sha256": "94efbdba0f8a77b244fd86d9c1b17e34e2fbe5c454aa9ff45edb6e177016befb"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/02.png",
+      "bytes": 86204,
+      "sha256": "7ab5415b2501da5ce9daa477360db03a7885b5bff66f8ba26492cd3c0c944cf6"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/03.png",
+      "bytes": 86533,
+      "sha256": "1f7bbdcd7ff4dd578052dbc8c385ecdd05670236dbe049ba040f7444f61fde4f"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/04.png",
+      "bytes": 87108,
+      "sha256": "cf9efec3bf87a30fc74f782fc0a4a1f7f7745d22bfd3d165f94b7585911b3722"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/05.png",
+      "bytes": 87031,
+      "sha256": "b5417691a2b5d5509b67bbadc10040dfbed9706336323d3c5c195920b0f83286"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/06.png",
+      "bytes": 82769,
+      "sha256": "a52cf1c2f6d40c291a6e44a6279e0873333441af7c19c5a8627ed8e6127d0665"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/07.png",
+      "bytes": 86756,
+      "sha256": "a91e5a726cc988ffd9d1b274e9e2d059042e951f6adba0478fd178c690a16264"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/08.png",
+      "bytes": 84499,
+      "sha256": "62c4b84123ebd12890a39e979c15353dc540109f370bdd62c99c5d00bf93aaf5"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/09.png",
+      "bytes": 88162,
+      "sha256": "3fde4365e57ef71f6db3b0e946c5df5134e3a086db4c2ff5d491bb192049578c"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/10.png",
+      "bytes": 89487,
+      "sha256": "57246f282b4a8e4eaa709276bba241b87a618b8d4e5ba830dbaabae77d8c38b0"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/11.png",
+      "bytes": 86442,
+      "sha256": "68528813819ef774094cf5cf3cb4210ee011a003ccf939d4a4f2f477fcce3c21"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/12.png",
+      "bytes": 87061,
+      "sha256": "85020bd890c133ac0d68db436666d51ed67895ecfa6aa87ad8711d2bc5ef8dc3"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/13.png",
+      "bytes": 87151,
+      "sha256": "9a0565c0596e2b1a42a0d6e296ebc5fe22583bfbe9f05a4c431f93fcc3461f21"
+    },
+    {
+      "path": "Instagram/2026-07-25/weekly/14.png",
+      "bytes": 104002,
+      "sha256": "bd5f75cf7aa8567d7cfb4a82d82af286c2138dc6f8a7589436bd9b0f0df29fbd"
+    },
+    {
+      "path": "Instagram/2026-07-27/README.md",
+      "bytes": 577,
+      "sha256": "30f5be8ca3b98880a9cd59c566ac009815fb33ead5f550d7a82422e6e2011454"
+    },
+    {
+      "path": "Instagram/2026-07-27/brand/fonts/Fraunces-Bold.ttf",
+      "bytes": 73124,
+      "sha256": "d5fb04bc45fceaaca53965b1e945af9e8b04c9643886f5adeda1879bb091a384"
+    },
+    {
+      "path": "Instagram/2026-07-27/brand/fonts/Fraunces-Regular.ttf",
+      "bytes": 73052,
+      "sha256": "ccf1e450c7f4881258b0bd8472d1fb1cb4db69834095624fbbca2adf9b166301"
+    },
+    {
+      "path": "Instagram/2026-07-27/brand/fonts/Inter-Bold.ttf",
+      "bytes": 343208,
+      "sha256": "301094d29ce8b80e45f8bca27e20a3cafdc2cd62fdcca660d9a2ff1ad807f05d"
+    },
+    {
+      "path": "Instagram/2026-07-27/brand/fonts/Inter-Regular.ttf",
+      "bytes": 341492,
+      "sha256": "8acaf6eb3be8a87f733d6ebe870243f3c85f58038408b34ccf3907c61a0ccbd8"
+    },
+    {
+      "path": "Instagram/2026-07-27/brand/fonts/Inter-SemiBold.ttf",
+      "bytes": 342796,
+      "sha256": "620912e0a7eba84a91c9e66bf24063e697b14c312cc5c9c05a3397e5948d5627"
+    },
+    {
+      "path": "Instagram/2026-07-27/brand/jyotish-logo-transparent.png",
+      "bytes": 423909,
+      "sha256": "0a44ee22f5ec218b06f1796739890370f4dd04b11d182e1ef538e23769e9cf62"
+    },
+    {
+      "path": "Instagram/2026-07-27/captions.md",
+      "bytes": 344,
+      "sha256": "844af8160222b255c107ee6ba03408e73fcd4f96aa01a85ca8ba96d1ca654507"
+    },
+    {
+      "path": "Instagram/2026-07-27/carousel-copy.json",
+      "bytes": 3630,
+      "sha256": "070664253b4db84e850195684e9bcc70faf96963f10a9e6b3e184770fa716395"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/01.png",
+      "bytes": 96900,
+      "sha256": "1c33ddd5fcf6b79cbcb7c8fd8da56245a0a74975bb2ecd483682f650fbc2ecf3"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/02.png",
+      "bytes": 81167,
+      "sha256": "c5344c3ddbbcb13de950221761035622a97096b762d89fc11758bec381c410e0"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/03.png",
+      "bytes": 80224,
+      "sha256": "24a7ffdcc554222c657d9769630cd426a7d95c87536a1f452b786fc0512d1b81"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/04.png",
+      "bytes": 83428,
+      "sha256": "8001cd321ef536bcc9c80b48741e620b8f242af5b5c3af66815d90391cebf326"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/05.png",
+      "bytes": 82595,
+      "sha256": "ca6a7d7f75714a3b5279d18592691424be3cfd9d6b9515fa30acee79baad72dc"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/06.png",
+      "bytes": 81947,
+      "sha256": "bee7a8fd21d2038927315e13b959383ddce51bd6457daaa49a56f5aae634688b"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/07.png",
+      "bytes": 84478,
+      "sha256": "a516eb62086856244ab49356182448db97bb0afe8683d18ecbcd05bd603e12c1"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/08.png",
+      "bytes": 82774,
+      "sha256": "0e4e4e8b107734fcaed8f3d1ceba10b31f9cf1cf000d5bd9de6ad56ce477f68f"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/09.png",
+      "bytes": 86572,
+      "sha256": "ac290e71ee60fc88c98b5ff1bcf3cae0351f45e359e0c15bfc9dd2e9dec24453"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/10.png",
+      "bytes": 87829,
+      "sha256": "f61e13b3d2bcb3d78d31dd942fde241c6af6b488504689b29387b00d2411cdf5"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/11.png",
+      "bytes": 85845,
+      "sha256": "ca5d16e23bca35a4d910a5795276b95b4f9ab1543a37a78f1875cb5171bde620"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/12.png",
+      "bytes": 86679,
+      "sha256": "77fddcb4171633bc10988eeb926ec5afb56addf53a8ec51556bb6372f8cbab31"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/13.png",
+      "bytes": 84569,
+      "sha256": "d376f95633277f1fecc6a98ec52e059ed7195e53896005438882731f50ef8933"
+    },
+    {
+      "path": "Instagram/2026-07-27/daily/14.png",
+      "bytes": 103408,
+      "sha256": "0f38c3b745baf0bb2de64b6bedd7e4766536f783f210d0cc78a7d68f94ed8d88"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/01.svg",
+      "bytes": 567584,
+      "sha256": "589691b8d6ad39174edfcf6b9229b097b4be9d8bf985123873d50eea8785903b"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/02.svg",
+      "bytes": 4386,
+      "sha256": "35a22fad63ae4eb000a19802d772ff6e8ea2d7421118a57e4aff8bfead48b6a2"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/03.svg",
+      "bytes": 4381,
+      "sha256": "da8ce872c07a636eabf9fa04293bbf569d4c9a7f60fa7ed85dd98e72bff732ad"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/04.svg",
+      "bytes": 4394,
+      "sha256": "1a3d664327ef539b6e5c9f90b68492fc94c37a12b3c760de023c1fe2853c950e"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/05.svg",
+      "bytes": 4394,
+      "sha256": "a336981be4598a1fb488aeef9e1ab9221ec36dd9ecdecc2c355c90f54c464eeb"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/06.svg",
+      "bytes": 4398,
+      "sha256": "2f94fdb611bfa6532b7888537384b5d5464c552150db530ada668bfd582555c4"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/07.svg",
+      "bytes": 4394,
+      "sha256": "a1655eb90f5caaabc70223444e6a4f5c5a69575bcef602f8a93bffd718978567"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/08.svg",
+      "bytes": 4395,
+      "sha256": "8de9d91fcba5c3ddbe3e8793c47ae6162a874116271c79be4f4c295bd0b66edb"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/09.svg",
+      "bytes": 4407,
+      "sha256": "f63c8c9eb682906bec6b10bb6d144c325aebabdfb7c203610bf8c4aa7a03349d"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/10.svg",
+      "bytes": 4407,
+      "sha256": "6b9ef4f36227d733c0d3bc9f138f09dff59d640b535fa0df39ea3996243f1b65"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/11.svg",
+      "bytes": 4401,
+      "sha256": "f09ed0878368a4097872a9226844f99e449becce6723fbdcec76edbeee00b80d"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/12.svg",
+      "bytes": 4418,
+      "sha256": "411c52ed69976958b783b0ed8306875fb7f1fd572be873314e023ef37e201b5c"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/13.svg",
+      "bytes": 4408,
+      "sha256": "c3a77a9fcefc527f9ef50f2fe6953e4ecd6af6bece7bd74b3f39f997aa61403e"
+    },
+    {
+      "path": "Instagram/2026-07-27/design-source/daily/14.svg",
+      "bytes": 567673,
+      "sha256": "97ea3984e28117e1d6cce7a1f4bd463fd9670c711a30708fe396a255b176441a"
+    },
+    {
+      "path": "Instagram/2026-07-27/manifest.json",
+      "bytes": 478,
+      "sha256": "222d68278fb64dc9dc2bc529998c864bc42efa837e0f21d98fce2e962e8dc48c"
+    },
+    {
+      "path": "Instagram/2026-07-27/proof/daily-carousel-14-slide-contact-sheet.png",
+      "bytes": 622018,
+      "sha256": "e10aba749deffccb25be61fadee4eda5e368145ffcdf5b21db835cfee5d80ea3"
+    },
+    {
+      "path": "Instagram/2026-07-31/README.md",
+      "bytes": 720,
+      "sha256": "bd35755f0a68c23344a4aa7183bf56627a8aaffa8b57f8eaea5133036c01b37a"
+    },
+    {
+      "path": "Instagram/2026-07-31/brand/fonts/Fraunces-Bold.ttf",
+      "bytes": 73124,
+      "sha256": "d5fb04bc45fceaaca53965b1e945af9e8b04c9643886f5adeda1879bb091a384"
+    },
+    {
+      "path": "Instagram/2026-07-31/brand/fonts/Fraunces-Regular.ttf",
+      "bytes": 73052,
+      "sha256": "ccf1e450c7f4881258b0bd8472d1fb1cb4db69834095624fbbca2adf9b166301"
+    },
+    {
+      "path": "Instagram/2026-07-31/brand/fonts/Inter-Bold.ttf",
+      "bytes": 343208,
+      "sha256": "301094d29ce8b80e45f8bca27e20a3cafdc2cd62fdcca660d9a2ff1ad807f05d"
+    },
+    {
+      "path": "Instagram/2026-07-31/brand/fonts/Inter-Regular.ttf",
+      "bytes": 341492,
+      "sha256": "8acaf6eb3be8a87f733d6ebe870243f3c85f58038408b34ccf3907c61a0ccbd8"
+    },
+    {
+      "path": "Instagram/2026-07-31/brand/fonts/Inter-SemiBold.ttf",
+      "bytes": 342796,
+      "sha256": "620912e0a7eba84a91c9e66bf24063e697b14c312cc5c9c05a3397e5948d5627"
+    },
+    {
+      "path": "Instagram/2026-07-31/brand/jyotish-logo-transparent.png",
+      "bytes": 423909,
+      "sha256": "0a44ee22f5ec218b06f1796739890370f4dd04b11d182e1ef538e23769e9cf62"
+    },
+    {
+      "path": "Instagram/2026-07-31/captions.md",
+      "bytes": 615,
+      "sha256": "c921959f5438ec929a54941606bc24ccff305008f27322b67cbcfc6b9d2caba1"
+    },
+    {
+      "path": "Instagram/2026-07-31/carousel-copy.json",
+      "bytes": 3636,
+      "sha256": "9dae680affc234b0a3e1d36420e2dd3fdcd52cb25cacf08820ddfa65c68511ed"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/01.svg",
+      "bytes": 567600,
+      "sha256": "1022e0440822f384239ae9a65d25ba56886535570e1f8978f6cae9c3cd37faab"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/02.svg",
+      "bytes": 4416,
+      "sha256": "6f337733983e17129573aba041d185f3ed5b677b0fcda89c92e78395beda1add"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/03.svg",
+      "bytes": 4406,
+      "sha256": "4a110dcafc925d123ce41e372187d0022c41da5399623f817242a581fcc9c6b7"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/04.svg",
+      "bytes": 4408,
+      "sha256": "98ec1f832e4015f54daebe138211b21d8404bfd29aa98b09bfb0eb132c856c4b"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/05.svg",
+      "bytes": 4410,
+      "sha256": "415dbf8bce81dacc821c695994fea867933d49bcdbddfeb4edd32bd657683274"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/06.svg",
+      "bytes": 4406,
+      "sha256": "f03392543220767b486e16767c9b71a56ded2a9aadffae217a75817dc2b161f4"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/07.svg",
+      "bytes": 4417,
+      "sha256": "5ec0d94c67044fe990a2414a04d97fbd39258e65ec62d50ca006a906dbeb5367"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/08.svg",
+      "bytes": 4413,
+      "sha256": "fb0196f85da08359196284b00884a802bb271bd2708449c405a9e439e3317409"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/09.svg",
+      "bytes": 4410,
+      "sha256": "5b17fe18a22dd17be12876c5b02a88713a92abaafa78324c8c393e3d11469fe6"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/10.svg",
+      "bytes": 4415,
+      "sha256": "5b09e493b3896dfe36ba881fd65846b34047250cdcc84e872254beb11bc7f18a"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/11.svg",
+      "bytes": 4417,
+      "sha256": "341ff1f2d4fd857aeb3f1e527eb2807dbc22d46ab48ed9233a8f21f7bcb81ba2"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/12.svg",
+      "bytes": 4427,
+      "sha256": "db9b42fe0910fd7037f044b32230d30eae61e947509f9c42aee6546e63cbd1fa"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/13.svg",
+      "bytes": 4420,
+      "sha256": "ce6e982b9a1b777e8913f3d8af1be7edcda79414c6c59e2d2e7d6abbee4342af"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/instagram/14.svg",
+      "bytes": 567689,
+      "sha256": "8bc6c1cd01987e6920d9a153b9deecc541df185343a3f6295ee32893d08cd0ce"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/01.svg",
+      "bytes": 567605,
+      "sha256": "4dba22b7a88e5dec6969def864bcb489a8b5ebc877d48d7b3e745443f771dfb4"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/02.svg",
+      "bytes": 4420,
+      "sha256": "59be756d70f81765eb34b89e61508a0a9ea4512290039b875a5c7895e4c08450"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/03.svg",
+      "bytes": 4410,
+      "sha256": "6b6dbf34652e00a14ede4015870f73931b41a1b8aa007278a80248acb0248bd4"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/04.svg",
+      "bytes": 4412,
+      "sha256": "25c053e06ad716ee9bf42e724e141cb1f3820fa14b33248ac76675d50ef452d0"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/05.svg",
+      "bytes": 4414,
+      "sha256": "1dd41adeb899aa54d1c950e63f4756afe01aee2e168b8c54672b638a85ba1c54"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/06.svg",
+      "bytes": 4410,
+      "sha256": "e42c531bc34ffe579776b8e0a4f678b711bceb6031e54e021c7d60e299d94360"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/07.svg",
+      "bytes": 4421,
+      "sha256": "dc8725e173911d721203380910d4f41076f705016e3618f9071ad073d0d9ef2d"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/08.svg",
+      "bytes": 4417,
+      "sha256": "9ca32a52be5dcf523d8a19ae6eb11034a938340c6abb6bf82b941aae88e4f777"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/09.svg",
+      "bytes": 4414,
+      "sha256": "7a84ff99cdbfce3b866b0629ff99e6afd2ce75238e34abc9a185d373ae86c65c"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/10.svg",
+      "bytes": 4419,
+      "sha256": "8e17a4ee631634609f19b451f721ac204d8fb55337e5d31673eb9864c06f66e9"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/11.svg",
+      "bytes": 4421,
+      "sha256": "0c52f323bb4257e0de81ce1f81239c4c4d8630c81d360a59fc543e8f9cd46182"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/12.svg",
+      "bytes": 4431,
+      "sha256": "e49c5ffd08b9cd73be23b7c4a03e001b35b492149744fd18ba5789c9fb7510c2"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/13.svg",
+      "bytes": 4424,
+      "sha256": "b45f91029576a15368f85d75c3af7e123dc2c87407881a417b9901ac60d9155a"
+    },
+    {
+      "path": "Instagram/2026-07-31/design-source/tiktok/14.svg",
+      "bytes": 567692,
+      "sha256": "c90d51d02038d0f884488a5dea1418736e93b6dbb71713fe9b05f5b50706f136"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/01.png",
+      "bytes": 119470,
+      "sha256": "9aee4db59abea437862e450ed79d0a93b31423baf0e3daea856f1d627b431c33"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/02.png",
+      "bytes": 102620,
+      "sha256": "678c0365f9b0ddd29725afcfae4c16c57f8f56e7e8daf83da8218be021300245"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/03.png",
+      "bytes": 100507,
+      "sha256": "242b9bee670c257f4d50d07694b250b3b98e38a0f3a05ad651d964448a892db9"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/04.png",
+      "bytes": 101839,
+      "sha256": "80953a94c1ccb48447a2965e69ce8fb559e76febfef6ab7d8db7db53eddb1f60"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/05.png",
+      "bytes": 100850,
+      "sha256": "62455b4c9d7c8eded1920583c2e2459fdd7ecf730ca1c843d3ee313d7d5a5655"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/06.png",
+      "bytes": 101133,
+      "sha256": "34ffa821bfa3611ed1df32dac765e06cb712b91b78f01a587d61160f03e5e111"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/07.png",
+      "bytes": 105027,
+      "sha256": "7dc9683f37b769912e16d29d06635f7c7320b574af8ca6483854b4ede79dc609"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/08.png",
+      "bytes": 102780,
+      "sha256": "8e46f05b22d1fffb70080eed7e674a39cc1a90ce946226887f26046eaae224bd"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/09.png",
+      "bytes": 103826,
+      "sha256": "dda6cc4120b8b202f95ed026ce0406485312776242bb9276160fd94fbac109cf"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/10.png",
+      "bytes": 106864,
+      "sha256": "faea1e7fd1628b6701187128506dda7766be4a77a9f6decf4561e0e0012f3242"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/11.png",
+      "bytes": 106212,
+      "sha256": "4cdafa96d7f06508b7dfdc00d8c7a317f568cbfa39545e7bb6669ef5e7ae24a8"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/12.png",
+      "bytes": 105204,
+      "sha256": "bd1100c0effef44b7f75237267ca74236c6439e3c08c3005d07db81e51798d7b"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/13.png",
+      "bytes": 104014,
+      "sha256": "ef31877d6ea8f7f69a98f87a4bb90a1cfc3dfd448f541bd6b2d82c86a5441611"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/01-tiktok/14.png",
+      "bytes": 132000,
+      "sha256": "e4712afd08b4aa4f4a5a3cb2f56a70fc0e9b4102277b487e9b71b89fe0da28c6"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/01.png",
+      "bytes": 98016,
+      "sha256": "742c1196863f86fb9594a5a9527538ebc2ec33f9c8093851913831d4667b7605"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/02.png",
+      "bytes": 84906,
+      "sha256": "b096333f994bce72e8d5a8edd4cd9166355e9a1c026aef2d9767051a1f92504b"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/03.png",
+      "bytes": 83067,
+      "sha256": "5016d18fa87618dbb53290b5093bf118b162d530ffc1fd0aba2fbc69234b2fce"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/04.png",
+      "bytes": 84421,
+      "sha256": "ebc396c0ba52b87478319ca849e61e1ba7ede1756cb066f071c68498b825f191"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/05.png",
+      "bytes": 83481,
+      "sha256": "15f68d677cbf08b85615d38bfa3be31d0b52e480cd5ee194bab7678af61aa9ce"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/06.png",
+      "bytes": 83362,
+      "sha256": "37630c0b6259c05a61ae8632b9d60482e2087aa14249e63e75810f03f7dcdf84"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/07.png",
+      "bytes": 86753,
+      "sha256": "33babc9a2c217154e49c15376b0e4d6fca48f060608b34b97c62c13e4d12399b"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/08.png",
+      "bytes": 84895,
+      "sha256": "ee0eb1efcd66659099573b1701a775ebdbc6b48f909f4e404a52b3ad74445560"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/09.png",
+      "bytes": 86016,
+      "sha256": "04f7d3f0e5f7ddac605e42033329a518bd3c9bd416ceff072456a0839c36f0e2"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/10.png",
+      "bytes": 88719,
+      "sha256": "174e053334427ee2a80f13586c58c3e028d71406f6b60148cf868e6f7c2d03a4"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/11.png",
+      "bytes": 87895,
+      "sha256": "a28049dc7e33acc7b4a4318a156d43c69c6a9c3f2bab790d02366362e2dda8fa"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/12.png",
+      "bytes": 87171,
+      "sha256": "8114b8c85ae5712b4ef976be05a41f889c11f8602d3f76ac25c3e6a8b458e788"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/13.png",
+      "bytes": 86191,
+      "sha256": "5daa0102a79f860d7996a1caa79c7bbe72c6e891ab64b9c23ad2965637fcfb9b"
+    },
+    {
+      "path": "Instagram/2026-07-31/exports/02-instagram/14.png",
+      "bytes": 105357,
+      "sha256": "2103cec46a6a12549088f28867b6e966360136056f204115176904880fb0e793"
+    },
+    {
+      "path": "Instagram/2026-07-31/manifest.json",
+      "bytes": 575,
+      "sha256": "28b1adae59361eb9dd2e613bbcf9d528e08d566369e294e8a2c4e56a08bf1b92"
+    },
+    {
+      "path": "Instagram/2026-07-31/proof/instagram-carousel-14-slide-contact-sheet.png",
+      "bytes": 477557,
+      "sha256": "e6c255959ce793c64ab25b596a3f0d5fa49660845527d6702e82efc992c5475b"
+    },
+    {
+      "path": "Instagram/2026-07-31/proof/tiktok-carousel-14-slide-contact-sheet.png",
+      "bytes": 430700,
+      "sha256": "97b9a73781dde448885f29a88307e78172725f099d4e28b070ea1ee9ec58581a"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/README.md",
+      "bytes": 598,
+      "sha256": "2140f60cda6f0298433b24dd269c15fcf0e838f38810933e6b9efe2e25523e34"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/brand/fonts/Fraunces-Bold.ttf",
+      "bytes": 73124,
+      "sha256": "d5fb04bc45fceaaca53965b1e945af9e8b04c9643886f5adeda1879bb091a384"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/brand/fonts/Fraunces-Regular.ttf",
+      "bytes": 73052,
+      "sha256": "ccf1e450c7f4881258b0bd8472d1fb1cb4db69834095624fbbca2adf9b166301"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/brand/fonts/Inter-Bold.ttf",
+      "bytes": 343208,
+      "sha256": "301094d29ce8b80e45f8bca27e20a3cafdc2cd62fdcca660d9a2ff1ad807f05d"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/brand/fonts/Inter-Regular.ttf",
+      "bytes": 341492,
+      "sha256": "8acaf6eb3be8a87f733d6ebe870243f3c85f58038408b34ccf3907c61a0ccbd8"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/brand/fonts/Inter-SemiBold.ttf",
+      "bytes": 342796,
+      "sha256": "620912e0a7eba84a91c9e66bf24063e697b14c312cc5c9c05a3397e5948d5627"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/brand/jyotish-logo-transparent.png",
+      "bytes": 423909,
+      "sha256": "0a44ee22f5ec218b06f1796739890370f4dd04b11d182e1ef538e23769e9cf62"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/carousel-copy.json",
+      "bytes": 1026,
+      "sha256": "05dfceb948a4ce3df204945950bb997fa0e2ddac4a4f7178603b485884d2685f"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/instagram/01.svg",
+      "bytes": 568412,
+      "sha256": "bdbb2bc3916c371f3930c9c5e086a9df6ab237f74130f8579074a64f47e7b4c0"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/instagram/02.svg",
+      "bytes": 2686,
+      "sha256": "b51e3125dc3cb564ecb0ea156c96ac5e0bb91b33a009e688851a469dae00ab5e"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/instagram/03.svg",
+      "bytes": 2681,
+      "sha256": "531414447391dddeea78c69b582b7f45c9558b8990d8878177934bc9b7cadaa7"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/instagram/04.svg",
+      "bytes": 2686,
+      "sha256": "74f0844fb584c1ff47f954692500167a23eab96b0cadb5643f3ac9cd7ffddce2"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/instagram/05.svg",
+      "bytes": 2691,
+      "sha256": "537615282f5efb77b138864a396fd150524297a8d62e09e0201c7b723b57b7f2"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/instagram/06.svg",
+      "bytes": 2721,
+      "sha256": "11b0e341da6f37e513c134d86e4f9a1d2cdecaacc0b9fa37edd50a1db8ed7e23"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/instagram/07.svg",
+      "bytes": 2692,
+      "sha256": "5f064d167efab41e3c3606936550ec5ff00e9b6a63b9b0fe16cd9ca1b26d8c4f"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/tiktok/01.svg",
+      "bytes": 568417,
+      "sha256": "5ebc6b6c5c00aeb7bbd7321ee02b9547a7c87211363cfd6fd4737ac80d9da1b6"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/tiktok/02.svg",
+      "bytes": 2690,
+      "sha256": "86a76d116115d91e98fdd261be37fccffbb53d99446e95d5988d8dc9179d426d"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/tiktok/03.svg",
+      "bytes": 2685,
+      "sha256": "f69f1bf289363437705161908b4edf588ec65a2571c7e197da6243fb013fd56c"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/tiktok/04.svg",
+      "bytes": 2690,
+      "sha256": "e0fc0c12fd3c23552af7bb405390207ee65c97903ffc019c197ccf801f75c79e"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/tiktok/05.svg",
+      "bytes": 2695,
+      "sha256": "424fca03fae4d923dcc9f7e66120c59483f99523b551e987cad7cca3e1c03850"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/tiktok/06.svg",
+      "bytes": 2727,
+      "sha256": "87ff1d2facf2783d06443d4a1c7ff8a701072a68102e76f72296c7d298c19661"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/design-source/tiktok/07.svg",
+      "bytes": 2696,
+      "sha256": "aad14efcae61515a524152774e93109fc384f3b8b1c4cc35ac4851e91312ef81"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/01-tiktok/01.png",
+      "bytes": 109262,
+      "sha256": "3ece7a36961b3d36370a1ed9627cb21b11a1f229007d8c9d338f5c09c2063b1c"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/01-tiktok/02.png",
+      "bytes": 77796,
+      "sha256": "21298d91b4c062e9374c87a9236470b68e4996c6c0b098e44cec6d126794e6e1"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/01-tiktok/03.png",
+      "bytes": 76895,
+      "sha256": "388f02a79fdd829a56605990bbd00ac91e04ea3c3ffba7dc70ba27d6ee47aa5b"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/01-tiktok/04.png",
+      "bytes": 81163,
+      "sha256": "1c509b01ed9ebaf41e74a586a4a430a4d9e2fba76488f3e675118afaedb15554"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/01-tiktok/05.png",
+      "bytes": 80514,
+      "sha256": "66f9bb0d57c1b8f0324a587a439a9c373f43f8d6f9dec9a96827ca247a9d0e84"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/01-tiktok/06.png",
+      "bytes": 81835,
+      "sha256": "f93206bee0b6ea0c918b0acdc80c77608ba5a223922b80bce1c4b58158fc8a65"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/01-tiktok/07.png",
+      "bytes": 79654,
+      "sha256": "05566880365d195c0f217f2e3adc77753858f02ccb500ee122b4886e3388da48"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/02-instagram/01.png",
+      "bytes": 88911,
+      "sha256": "300cca6e2ed39b083526ad193838ac99938f9138a089f3bb77940e8d3341a9bb"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/02-instagram/02.png",
+      "bytes": 58425,
+      "sha256": "2dda157a1006b855be72a9bd2632271c56e4c354080fa8e20ee39c58a813bf66"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/02-instagram/03.png",
+      "bytes": 58051,
+      "sha256": "caa374fcc9bca187e0213f44c6b0f1e7685463abc6dfd508e81727ec24c2b60c"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/02-instagram/04.png",
+      "bytes": 61590,
+      "sha256": "5ed1b09358651f97b51a920802be897b7d7663b16d5f202d7630d631f4aaf5d4"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/02-instagram/05.png",
+      "bytes": 60462,
+      "sha256": "a117fa0cfc9e26b32232e463a8d591f6285cc7a9a2de9f2838766ee6642397fc"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/02-instagram/06.png",
+      "bytes": 61357,
+      "sha256": "a3364bc100aaa8b90a4d8c53559b6947c8496f89d6c1d20742014bbe9dc40bfe"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/exports/02-instagram/07.png",
+      "bytes": 59906,
+      "sha256": "7784c629b8b84e096760cf7e2bacb6cbcafb7f6fde0787bf2a7d5c218bb271d6"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/manifest.json",
+      "bytes": 529,
+      "sha256": "c3ea764ae1d3610227bba3359fef8876efe28c18b638e679f9af39d57be2b098"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/proof/instagram-weekly-mantra-contact-sheet.png",
+      "bytes": 214902,
+      "sha256": "2c95c94880dade84265600410010f1dd739fd55d760c9254e362fc8574d1385a"
+    },
+    {
+      "path": "Instagram/2026-08-01/weekly-mantra/proof/tiktok-weekly-mantra-contact-sheet.png",
+      "bytes": 206854,
+      "sha256": "ab806d51d49d32a2f7a74b4974e79c8c3505dccb3e8d9b53b5275769890ad8d6"
+    },
+    {
+      "path": "Instagram/README.md",
+      "bytes": 2102,
+      "sha256": "604fa82cd3856e42fa16a45fd59decf935f270692ee22ec9e9639a838c04c1eb"
+    },
+    {
+      "path": "Instagram/Viber-Archive/COMPLETENESS.md",
+      "bytes": 987,
+      "sha256": "10e9a75a2c354a8337724773ae5a65e0b86690de73dc686e588863f6f919738a"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/.env.example",
+      "bytes": 263,
+      "sha256": "6b7d0cfd77cd63af43a7cb70650c29dbb0d8953797665c00d6bf5be831fdab09"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/.github/workflows/daily-content.yml",
+      "bytes": 4824,
+      "sha256": "0ba9868329960ed06c584b29b24ebb60e8163b7300bf72c49ce20e8c4159555f"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/.github/workflows/inventory-and-handoff.yml",
+      "bytes": 2650,
+      "sha256": "3f0d6a9b857b3760d41510c7f78f941e9302539fa83a204438c9855718cfdb65"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/.github/workflows/weekly-content.yml",
+      "bytes": 4419,
+      "sha256": "c0f8e05a61b981ae32968ddcb31e5c1d29cf0f55564892ed5facf7dbe5168b3b"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/README.md",
+      "bytes": 2874,
+      "sha256": "e7819b21223bacf8c1e5d2473f555354341f5d19086c63e41f8feedd9c1665c4"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/carousel-provenance.schema.json",
+      "bytes": 979,
+      "sha256": "1560fc90af7feaf641482e4e99492a092801ef76a2657bf2ebbece56c315d39c"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/chiefo/tasks/jyotish-baje-2026-07-31-carousel-provenance-gate.json",
+      "bytes": 1825,
+      "sha256": "44347518799587025636dc8cfa2c7f34537d07f523ade05282d0a99ad6031dc2"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/handoff.schema.json",
+      "bytes": 3172,
+      "sha256": "9bcfc7f26ab5a06e3bf5198f187b817750338d6f4d3e1946ddd2e9addbc1f0c5"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/handoffs/daily-2026-07-25-utsav-codex-onboarding.json",
+      "bytes": 890,
+      "sha256": "8b1bd5b1afbe75d2b1dcd2f4277e4fcd503626f3376d1c02164d52a5edaf681e"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/handoffs/daily-2026-07-26-instagram-carousel.json",
+      "bytes": 1301,
+      "sha256": "303f755b8c18c9d5b8a24549738c3cc84fccc89574aadb6445c010bfb0463079"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/handoffs/daily-2026-07-27-utsav-instagram.json",
+      "bytes": 1232,
+      "sha256": "52200d76745407d07408235d35a6b05e6f7c47216eec3b1bbcea4b6f3d91e0f5"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/handoffs/daily-2026-07-29-utsav-instagram.json",
+      "bytes": 1398,
+      "sha256": "db77166b767f26bb6fbe707bf8a103e0fdbdd94a756048ba54cc82ab490d7905"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/handoffs/daily-2026-07-30-utsav-instagram-tiktok.json",
+      "bytes": 1610,
+      "sha256": "d016dfa68ddec63b4cd9dd486d09605947156eae76fbc630270ffef0dc738e83"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/handoffs/daily-2026-07-31-utsav-instagram.json",
+      "bytes": 1521,
+      "sha256": "0ce2a5e4efd6f8d58626c61d70374c23ededa64a6c47b4830b3936fae18ad6a4"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/notifications/2026-07-26/jyotish-baje-daily-posting-2026-07-26.json",
+      "bytes": 922,
+      "sha256": "941abf8362af79a38f2a9878151c3b7f5005d3103cfab020051ee5a8e484f537"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/notifications/2026-07-28/jyotish-baje-daily-posting-2026-07-27-proof.json",
+      "bytes": 1056,
+      "sha256": "3a104fb6997386f7555db9d3adcb8b0fdd96133fde3360925db077d38a6110bb"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/notifications/2026-07-29/jyotish-baje-daily-posting-2026-07-29-proof.json",
+      "bytes": 1021,
+      "sha256": "96efc6cea8306c937fc57a97c1d42f4fcfcf73c243745b7874cb23a6a1b9230d"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/notifications/2026-07-30/jyotish-baje-daily-posting-2026-07-30-proof.json",
+      "bytes": 1040,
+      "sha256": "fd7b20cd53c3eb8879ab1619dde0b5cee16ef1e50dc2af17c5fe6927f4a9c47e"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/notifications/2026-07-31/jyotish-baje-daily-posting-2026-07-31-proof.json",
+      "bytes": 1031,
+      "sha256": "f18f916a99c4d1c6b9cc09f33da18bc604e04aebd3cdc0aef413331bc175d03f"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/coordination/notifications/README.md",
+      "bytes": 1812,
+      "sha256": "98d5b15f7505e168204e05a9c0481325a8ddf66dc6ae0dd5ac82662b97c4c000"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/docs/codex-architecture-and-utsav-onboarding.md",
+      "bytes": 5436,
+      "sha256": "46ab1f0fa44322ff45922d79ce6b89cada059bba15f468cbdd8552c395950a5d"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/docs/utsav-communication-protocol.md",
+      "bytes": 3299,
+      "sha256": "7894869b52cdf321f141b9ff25429937a050de6a69f5a1acf2a0ee02af192df7"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/scripts/generate_report.py",
+      "bytes": 1642,
+      "sha256": "9bc383ce46e819609f21a3106299f8c9896bd7f68990b5c1d70122ddde1db159"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/scripts/validate.py",
+      "bytes": 10162,
+      "sha256": "70722c5827a022aa993ac93d9698b2376de5a28c45084692fd43e2dcc2b12286"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/scripts/validate_handoff.py",
+      "bytes": 10620,
+      "sha256": "26d5f10af7f9f8e51f94fc33c2ad308124d5871bd3ba3a96dc069e1083a0af13"
+    },
+    {
+      "path": "Instagram/Viber-Archive/main/tests/test_carousel_provenance.py",
+      "bytes": 8067,
+      "sha256": "ccdf38d2eb7660453590881a87665490298aba794e54df937cfc770c43891596"
+    },
+    {
+      "path": "assets/temples/2026-07-25/janaki-mandir-2026-07-25.png",
+      "bytes": 2517731,
+      "sha256": "22c41d5401e6578c00d612b1c8e578ec10bfcaa27babd2cb8a8029103ed19887"
+    },
+    {
+      "path": "assets/temples/2026-07-25/muktinath-2026-07-25.png",
+      "bytes": 3092340,
+      "sha256": "ba9a2153f8c574ae66795a13b1d07e3bdcf5324c13822959971df84b496634fb"
+    },
+    {
+      "path": "assets/temples/2026-07-25/pashupatinath-2026-07-25.png",
+      "bytes": 2802482,
+      "sha256": "9e0389a5138d328b46704e90e479fe468213a8e2266f3fd10e1ee7f5370e7426"
+    },
+    {
+      "path": "content/generated/daily-01-2026-07-25.svg",
+      "bytes": 961,
+      "sha256": "9d81870aa63680cfed7a62f76fe3e7d78917a3c916bafebcc03f8621365b6afd"
+    },
+    {
+      "path": "content/generated/daily-01-2026-07-26.svg",
+      "bytes": 961,
+      "sha256": "9d81870aa63680cfed7a62f76fe3e7d78917a3c916bafebcc03f8621365b6afd"
+    },
+    {
+      "path": "content/generated/daily-01-2026-07-27.svg",
+      "bytes": 961,
+      "sha256": "9d81870aa63680cfed7a62f76fe3e7d78917a3c916bafebcc03f8621365b6afd"
+    },
+    {
+      "path": "content/generated/daily-01-2026-07-28.svg",
+      "bytes": 961,
+      "sha256": "9d81870aa63680cfed7a62f76fe3e7d78917a3c916bafebcc03f8621365b6afd"
+    },
+    {
+      "path": "content/generated/daily-01-2026-07-29.svg",
+      "bytes": 961,
+      "sha256": "9d81870aa63680cfed7a62f76fe3e7d78917a3c916bafebcc03f8621365b6afd"
+    },
+    {
+      "path": "content/generated/daily-01-2026-07-30.svg",
+      "bytes": 961,
+      "sha256": "9d81870aa63680cfed7a62f76fe3e7d78917a3c916bafebcc03f8621365b6afd"
+    },
+    {
+      "path": "content/generated/daily-02-2026-07-25.svg",
+      "bytes": 967,
+      "sha256": "a7fe7e94b831291f8e7795aa4b651eeb93968b056a1beb62503b7a80fb535d68"
+    },
+    {
+      "path": "content/generated/daily-02-2026-07-26.svg",
+      "bytes": 967,
+      "sha256": "a7fe7e94b831291f8e7795aa4b651eeb93968b056a1beb62503b7a80fb535d68"
+    },
+    {
+      "path": "content/generated/daily-02-2026-07-27.svg",
+      "bytes": 967,
+      "sha256": "a7fe7e94b831291f8e7795aa4b651eeb93968b056a1beb62503b7a80fb535d68"
+    },
+    {
+      "path": "content/generated/daily-02-2026-07-28.svg",
+      "bytes": 967,
+      "sha256": "a7fe7e94b831291f8e7795aa4b651eeb93968b056a1beb62503b7a80fb535d68"
+    },
+    {
+      "path": "content/generated/daily-02-2026-07-29.svg",
+      "bytes": 967,
+      "sha256": "a7fe7e94b831291f8e7795aa4b651eeb93968b056a1beb62503b7a80fb535d68"
+    },
+    {
+      "path": "content/generated/daily-02-2026-07-30.svg",
+      "bytes": 967,
+      "sha256": "a7fe7e94b831291f8e7795aa4b651eeb93968b056a1beb62503b7a80fb535d68"
+    },
+    {
+      "path": "content/generated/daily-03-2026-07-25.svg",
+      "bytes": 973,
+      "sha256": "7311eae5bb324eb90607222a6f0667d354900b3f4fd86c79e853ee9883a11751"
+    },
+    {
+      "path": "content/generated/daily-03-2026-07-26.svg",
+      "bytes": 973,
+      "sha256": "7311eae5bb324eb90607222a6f0667d354900b3f4fd86c79e853ee9883a11751"
+    },
+    {
+      "path": "content/generated/daily-03-2026-07-27.svg",
+      "bytes": 973,
+      "sha256": "7311eae5bb324eb90607222a6f0667d354900b3f4fd86c79e853ee9883a11751"
+    },
+    {
+      "path": "content/generated/daily-03-2026-07-28.svg",
+      "bytes": 973,
+      "sha256": "7311eae5bb324eb90607222a6f0667d354900b3f4fd86c79e853ee9883a11751"
+    },
+    {
+      "path": "content/generated/daily-03-2026-07-29.svg",
+      "bytes": 973,
+      "sha256": "7311eae5bb324eb90607222a6f0667d354900b3f4fd86c79e853ee9883a11751"
+    },
+    {
+      "path": "content/generated/daily-03-2026-07-30.svg",
+      "bytes": 973,
+      "sha256": "7311eae5bb324eb90607222a6f0667d354900b3f4fd86c79e853ee9883a11751"
+    },
+    {
+      "path": "content/generated/daily-04-2026-07-25.svg",
+      "bytes": 973,
+      "sha256": "cc2af0f90b2de739cbbefedc39ef7f1ff24b9806aaa7d890e5ed5f7193d89b85"
+    },
+    {
+      "path": "content/generated/daily-04-2026-07-26.svg",
+      "bytes": 973,
+      "sha256": "cc2af0f90b2de739cbbefedc39ef7f1ff24b9806aaa7d890e5ed5f7193d89b85"
+    },
+    {
+      "path": "content/generated/daily-04-2026-07-27.svg",
+      "bytes": 973,
+      "sha256": "cc2af0f90b2de739cbbefedc39ef7f1ff24b9806aaa7d890e5ed5f7193d89b85"
+    },
+    {
+      "path": "content/generated/daily-04-2026-07-28.svg",
+      "bytes": 973,
+      "sha256": "cc2af0f90b2de739cbbefedc39ef7f1ff24b9806aaa7d890e5ed5f7193d89b85"
+    },
+    {
+      "path": "content/generated/daily-04-2026-07-29.svg",
+      "bytes": 973,
+      "sha256": "cc2af0f90b2de739cbbefedc39ef7f1ff24b9806aaa7d890e5ed5f7193d89b85"
+    },
+    {
+      "path": "content/generated/daily-04-2026-07-30.svg",
+      "bytes": 973,
+      "sha256": "cc2af0f90b2de739cbbefedc39ef7f1ff24b9806aaa7d890e5ed5f7193d89b85"
+    },
+    {
+      "path": "content/generated/daily-05-2026-07-25.svg",
+      "bytes": 967,
+      "sha256": "0fdf35f2673e5fe1569bcda416a568c6a52a4686447a80e00e66f8d52b1d9508"
+    },
+    {
+      "path": "content/generated/daily-05-2026-07-26.svg",
+      "bytes": 967,
+      "sha256": "0fdf35f2673e5fe1569bcda416a568c6a52a4686447a80e00e66f8d52b1d9508"
+    },
+    {
+      "path": "content/generated/daily-05-2026-07-27.svg",
+      "bytes": 967,
+      "sha256": "0fdf35f2673e5fe1569bcda416a568c6a52a4686447a80e00e66f8d52b1d9508"
+    },
+    {
+      "path": "content/generated/daily-05-2026-07-28.svg",
+      "bytes": 967,
+      "sha256": "0fdf35f2673e5fe1569bcda416a568c6a52a4686447a80e00e66f8d52b1d9508"
+    },
+    {
+      "path": "content/generated/daily-05-2026-07-29.svg",
+      "bytes": 967,
+      "sha256": "0fdf35f2673e5fe1569bcda416a568c6a52a4686447a80e00e66f8d52b1d9508"
+    },
+    {
+      "path": "content/generated/daily-05-2026-07-30.svg",
+      "bytes": 967,
+      "sha256": "0fdf35f2673e5fe1569bcda416a568c6a52a4686447a80e00e66f8d52b1d9508"
+    },
+    {
+      "path": "content/generated/daily-06-2026-07-25.svg",
+      "bytes": 973,
+      "sha256": "c208788e06a7ca30f872a63385c79d0692d2b5af605a38f9a1c30bf7a150e5aa"
+    },
+    {
+      "path": "content/generated/daily-06-2026-07-26.svg",
+      "bytes": 973,
+      "sha256": "c208788e06a7ca30f872a63385c79d0692d2b5af605a38f9a1c30bf7a150e5aa"
+    },
+    {
+      "path": "content/generated/daily-06-2026-07-27.svg",
+      "bytes": 973,
+      "sha256": "c208788e06a7ca30f872a63385c79d0692d2b5af605a38f9a1c30bf7a150e5aa"
+    },
+    {
+      "path": "content/generated/daily-06-2026-07-28.svg",
+      "bytes": 973,
+      "sha256": "c208788e06a7ca30f872a63385c79d0692d2b5af605a38f9a1c30bf7a150e5aa"
+    },
+    {
+      "path": "content/generated/daily-06-2026-07-29.svg",
+      "bytes": 973,
+      "sha256": "c208788e06a7ca30f872a63385c79d0692d2b5af605a38f9a1c30bf7a150e5aa"
+    },
+    {
+      "path": "content/generated/daily-06-2026-07-30.svg",
+      "bytes": 973,
+      "sha256": "c208788e06a7ca30f872a63385c79d0692d2b5af605a38f9a1c30bf7a150e5aa"
+    },
+    {
+      "path": "content/generated/daily-07-2026-07-25.svg",
+      "bytes": 967,
+      "sha256": "0e7bce6cbf37e43dab3168b4252303a759ff9666720425407ef37b86cc569255"
+    },
+    {
+      "path": "content/generated/daily-07-2026-07-26.svg",
+      "bytes": 967,
+      "sha256": "0e7bce6cbf37e43dab3168b4252303a759ff9666720425407ef37b86cc569255"
+    },
+    {
+      "path": "content/generated/daily-07-2026-07-27.svg",
+      "bytes": 967,
+      "sha256": "0e7bce6cbf37e43dab3168b4252303a759ff9666720425407ef37b86cc569255"
+    },
+    {
+      "path": "content/generated/daily-07-2026-07-28.svg",
+      "bytes": 967,
+      "sha256": "0e7bce6cbf37e43dab3168b4252303a759ff9666720425407ef37b86cc569255"
+    },
+    {
+      "path": "content/generated/daily-07-2026-07-29.svg",
+      "bytes": 967,
+      "sha256": "0e7bce6cbf37e43dab3168b4252303a759ff9666720425407ef37b86cc569255"
+    },
+    {
+      "path": "content/generated/daily-07-2026-07-30.svg",
+      "bytes": 967,
+      "sha256": "0e7bce6cbf37e43dab3168b4252303a759ff9666720425407ef37b86cc569255"
+    },
+    {
+      "path": "content/generated/daily-08-2026-07-25.svg",
+      "bytes": 985,
+      "sha256": "2450d7064f393becc2d2b3b41dae1320e07b45cb7be5dc908f5c3453762567ce"
+    },
+    {
+      "path": "content/generated/daily-08-2026-07-26.svg",
+      "bytes": 985,
+      "sha256": "2450d7064f393becc2d2b3b41dae1320e07b45cb7be5dc908f5c3453762567ce"
+    },
+    {
+      "path": "content/generated/daily-08-2026-07-27.svg",
+      "bytes": 985,
+      "sha256": "2450d7064f393becc2d2b3b41dae1320e07b45cb7be5dc908f5c3453762567ce"
+    },
+    {
+      "path": "content/generated/daily-08-2026-07-28.svg",
+      "bytes": 985,
+      "sha256": "2450d7064f393becc2d2b3b41dae1320e07b45cb7be5dc908f5c3453762567ce"
+    },
+    {
+      "path": "content/generated/daily-08-2026-07-29.svg",
+      "bytes": 985,
+      "sha256": "2450d7064f393becc2d2b3b41dae1320e07b45cb7be5dc908f5c3453762567ce"
+    },
+    {
+      "path": "content/generated/daily-08-2026-07-30.svg",
+      "bytes": 985,
+      "sha256": "2450d7064f393becc2d2b3b41dae1320e07b45cb7be5dc908f5c3453762567ce"
+    },
+    {
+      "path": "content/generated/daily-09-2026-07-25.svg",
+      "bytes": 961,
+      "sha256": "e487f8687404434f2fc6d8124c375dcc2d08adeea45d68a9058a6a21239cba42"
+    },
+    {
+      "path": "content/generated/daily-09-2026-07-26.svg",
+      "bytes": 961,
+      "sha256": "e487f8687404434f2fc6d8124c375dcc2d08adeea45d68a9058a6a21239cba42"
+    },
+    {
+      "path": "content/generated/daily-09-2026-07-27.svg",
+      "bytes": 961,
+      "sha256": "e487f8687404434f2fc6d8124c375dcc2d08adeea45d68a9058a6a21239cba42"
+    },
+    {
+      "path": "content/generated/daily-09-2026-07-28.svg",
+      "bytes": 961,
+      "sha256": "e487f8687404434f2fc6d8124c375dcc2d08adeea45d68a9058a6a21239cba42"
+    },
+    {
+      "path": "content/generated/daily-09-2026-07-29.svg",
+      "bytes": 961,
+      "sha256": "e487f8687404434f2fc6d8124c375dcc2d08adeea45d68a9058a6a21239cba42"
+    },
+    {
+      "path": "content/generated/daily-09-2026-07-30.svg",
+      "bytes": 961,
+      "sha256": "e487f8687404434f2fc6d8124c375dcc2d08adeea45d68a9058a6a21239cba42"
+    },
+    {
+      "path": "content/generated/daily-10-2026-07-25.svg",
+      "bytes": 961,
+      "sha256": "f73289d3fbe621ff217a58cf01f517096285bb6a4ca0d9330d4977b061226955"
+    },
+    {
+      "path": "content/generated/daily-10-2026-07-26.svg",
+      "bytes": 961,
+      "sha256": "f73289d3fbe621ff217a58cf01f517096285bb6a4ca0d9330d4977b061226955"
+    },
+    {
+      "path": "content/generated/daily-10-2026-07-27.svg",
+      "bytes": 961,
+      "sha256": "f73289d3fbe621ff217a58cf01f517096285bb6a4ca0d9330d4977b061226955"
+    },
+    {
+      "path": "content/generated/daily-10-2026-07-28.svg",
+      "bytes": 961,
+      "sha256": "f73289d3fbe621ff217a58cf01f517096285bb6a4ca0d9330d4977b061226955"
+    },
+    {
+      "path": "content/generated/daily-10-2026-07-29.svg",
+      "bytes": 961,
+      "sha256": "f73289d3fbe621ff217a58cf01f517096285bb6a4ca0d9330d4977b061226955"
+    },
+    {
+      "path": "content/generated/daily-10-2026-07-30.svg",
+      "bytes": 961,
+      "sha256": "f73289d3fbe621ff217a58cf01f517096285bb6a4ca0d9330d4977b061226955"
+    },
+    {
+      "path": "content/generated/daily-11-2026-07-25.svg",
+      "bytes": 973,
+      "sha256": "45258edb27caddd8303ae053bcdead795896b3140854c1b28e9089acb6371d56"
+    },
+    {
+      "path": "content/generated/daily-11-2026-07-26.svg",
+      "bytes": 973,
+      "sha256": "45258edb27caddd8303ae053bcdead795896b3140854c1b28e9089acb6371d56"
+    },
+    {
+      "path": "content/generated/daily-11-2026-07-27.svg",
+      "bytes": 973,
+      "sha256": "45258edb27caddd8303ae053bcdead795896b3140854c1b28e9089acb6371d56"
+    },
+    {
+      "path": "content/generated/daily-11-2026-07-28.svg",
+      "bytes": 973,
+      "sha256": "45258edb27caddd8303ae053bcdead795896b3140854c1b28e9089acb6371d56"
+    },
+    {
+      "path": "content/generated/daily-11-2026-07-29.svg",
+      "bytes": 973,
+      "sha256": "45258edb27caddd8303ae053bcdead795896b3140854c1b28e9089acb6371d56"
+    },
+    {
+      "path": "content/generated/daily-11-2026-07-30.svg",
+      "bytes": 973,
+      "sha256": "45258edb27caddd8303ae053bcdead795896b3140854c1b28e9089acb6371d56"
+    },
+    {
+      "path": "content/generated/daily-12-2026-07-25.svg",
+      "bytes": 961,
+      "sha256": "4804cf1bd39f850d5be1cdd3b905e4c71ddc5a84d67367a2e934b297970178e8"
+    },
+    {
+      "path": "content/generated/daily-12-2026-07-26.svg",
+      "bytes": 961,
+      "sha256": "4804cf1bd39f850d5be1cdd3b905e4c71ddc5a84d67367a2e934b297970178e8"
+    },
+    {
+      "path": "content/generated/daily-12-2026-07-27.svg",
+      "bytes": 961,
+      "sha256": "4804cf1bd39f850d5be1cdd3b905e4c71ddc5a84d67367a2e934b297970178e8"
+    },
+    {
+      "path": "content/generated/daily-12-2026-07-28.svg",
+      "bytes": 961,
+      "sha256": "4804cf1bd39f850d5be1cdd3b905e4c71ddc5a84d67367a2e934b297970178e8"
+    },
+    {
+      "path": "content/generated/daily-12-2026-07-29.svg",
+      "bytes": 961,
+      "sha256": "4804cf1bd39f850d5be1cdd3b905e4c71ddc5a84d67367a2e934b297970178e8"
+    },
+    {
+      "path": "content/generated/daily-12-2026-07-30.svg",
+      "bytes": 961,
+      "sha256": "4804cf1bd39f850d5be1cdd3b905e4c71ddc5a84d67367a2e934b297970178e8"
+    },
+    {
+      "path": "content/generated/daily-cover-2026-07-26.svg",
+      "bytes": 505,
+      "sha256": "31b1fa4a03085bbcf971edd3fd5a6f168aede8272f4981c34645f70ed582c374"
+    },
+    {
+      "path": "content/generated/daily-cover-2026-07-27.svg",
+      "bytes": 505,
+      "sha256": "78a20b59852dbcacef4aa593df5f4164d2b52d6483b4bb15c340c2887e9f86c5"
+    },
+    {
+      "path": "content/generated/daily-cover-2026-07-28.svg",
+      "bytes": 505,
+      "sha256": "36ebd505d5f56c57ddbe9637afc80f72c7030b9d0301fa539c2bf30662c94a92"
+    },
+    {
+      "path": "content/generated/daily-cover-2026-07-29.svg",
+      "bytes": 505,
+      "sha256": "7d64d80f1730c6bd5485766eb07a9b4719f93d5ef9aa04607473c26bd85d810e"
+    },
+    {
+      "path": "content/generated/daily-cover-2026-07-30.svg",
+      "bytes": 505,
+      "sha256": "f9d307730693ae2fdb9bf55574148ac2ad48338920cab3945d4318a743e50c41"
+    },
+    {
+      "path": "content/generated/daily-rashifal-2026-07-25.json",
+      "bytes": 8754,
+      "sha256": "12f9aa9220aad2ed144dc300b14cdb70efb6f261f071304dc82ad849dbb184e9"
+    },
+    {
+      "path": "content/generated/daily-rashifal-2026-07-26.json",
+      "bytes": 8953,
+      "sha256": "c563541faca1c022ed7f74ec07b1c6e6104c878693470011b4ebe6ec3177af48"
+    },
+    {
+      "path": "content/generated/daily-rashifal-2026-07-27.json",
+      "bytes": 8953,
+      "sha256": "1a6265e35d6243400d8e0eacaabd6a0dda3575824fdb61d952d498028a103ad1"
+    },
+    {
+      "path": "content/generated/daily-rashifal-2026-07-28.json",
+      "bytes": 8953,
+      "sha256": "5bce524e361fcbea2a9e960563a96c114e5071f330d962b9744c3c5086b9b22c"
+    },
+    {
+      "path": "content/generated/daily-rashifal-2026-07-29.json",
+      "bytes": 8953,
+      "sha256": "6a00d999b800a4949f489d9d8a35340b1dbeefa33e69e2fd875cf7558441fa68"
+    },
+    {
+      "path": "content/generated/daily-rashifal-2026-07-30.json",
+      "bytes": 8953,
+      "sha256": "c6e01bc57c478d41adcfb13daf40a66a100532a7113fd750f52d0918f53615e2"
+    },
+    {
+      "path": "content/generated/daily-rashifal-2026-08-01.json",
+      "bytes": 8514,
+      "sha256": "50045e90dbd148c0bdeed2a007172dc85feb956154c0948fbc21c5c3bc1fa22f"
+    },
+    {
+      "path": "content/generated/daily-report.json",
+      "bytes": 2563,
+      "sha256": "3567b0aa7240b58b28446e393fef2ed491b9a024b4c4fbf0a19076142e8bd71e"
+    },
+    {
+      "path": "content/generated/daily-summary-2026-07-25.svg",
+      "bytes": 560,
+      "sha256": "5c58bf647dbc8c5859d19b3681ad8685a453eee56122a3d06997876c5f3272be"
+    },
+    {
+      "path": "content/generated/daily-summary-2026-07-26.svg",
+      "bytes": 560,
+      "sha256": "5c58bf647dbc8c5859d19b3681ad8685a453eee56122a3d06997876c5f3272be"
+    },
+    {
+      "path": "content/generated/daily-summary-2026-07-27.svg",
+      "bytes": 560,
+      "sha256": "5c58bf647dbc8c5859d19b3681ad8685a453eee56122a3d06997876c5f3272be"
+    },
+    {
+      "path": "content/generated/daily-summary-2026-07-28.svg",
+      "bytes": 560,
+      "sha256": "5c58bf647dbc8c5859d19b3681ad8685a453eee56122a3d06997876c5f3272be"
+    },
+    {
+      "path": "content/generated/daily-summary-2026-07-29.svg",
+      "bytes": 560,
+      "sha256": "5c58bf647dbc8c5859d19b3681ad8685a453eee56122a3d06997876c5f3272be"
+    },
+    {
+      "path": "content/generated/daily-summary-2026-07-30.svg",
+      "bytes": 560,
+      "sha256": "5c58bf647dbc8c5859d19b3681ad8685a453eee56122a3d06997876c5f3272be"
+    },
+    {
+      "path": "content/generated/feature-branch-sources/daily-rashifal-2026-07-28.json",
+      "bytes": 14407,
+      "sha256": "c0dfaabe61e9a61f9080bd4183a2a54af947554714b20a9e91163bb03752ec3b"
+    },
+    {
+      "path": "content/generated/feature-branch-sources/daily-rashifal-2026-07-29.json",
+      "bytes": 14282,
+      "sha256": "04fb20f179230811b11c0b4d641a0c44564ac7339ac80b5012c1cc5d34293688"
+    },
+    {
+      "path": "content/generated/feature-branch-sources/daily-rashifal-2026-07-30.json",
+      "bytes": 13926,
+      "sha256": "38d1fbe5d9951a4deee8cf597602edd64e7a4a5feeecdfb3009436c03b519cd9"
+    },
+    {
+      "path": "content/generated/weekly-01-2026-07-25.svg",
+      "bytes": 962,
+      "sha256": "ee0e4cd01acdb30b6f3b3cbbd8966109f057a518781ca0c458a9aff4b6e5152e"
+    },
+    {
+      "path": "content/generated/weekly-01-2026-07-26.svg",
+      "bytes": 962,
+      "sha256": "ee0e4cd01acdb30b6f3b3cbbd8966109f057a518781ca0c458a9aff4b6e5152e"
+    },
+    {
+      "path": "content/generated/weekly-02-2026-07-25.svg",
+      "bytes": 968,
+      "sha256": "b944476de847c21afdfb9bcc6af4bdf6c601f2cb2a5a4ab2a91c3218719d48c9"
+    },
+    {
+      "path": "content/generated/weekly-02-2026-07-26.svg",
+      "bytes": 968,
+      "sha256": "b944476de847c21afdfb9bcc6af4bdf6c601f2cb2a5a4ab2a91c3218719d48c9"
+    },
+    {
+      "path": "content/generated/weekly-03-2026-07-25.svg",
+      "bytes": 974,
+      "sha256": "920e3a661f02c7b6e06c455cc922040a2840b78ae252b75957995439f74722da"
+    },
+    {
+      "path": "content/generated/weekly-03-2026-07-26.svg",
+      "bytes": 974,
+      "sha256": "920e3a661f02c7b6e06c455cc922040a2840b78ae252b75957995439f74722da"
+    },
+    {
+      "path": "content/generated/weekly-04-2026-07-25.svg",
+      "bytes": 974,
+      "sha256": "3ef86b4719fb3eeb2098b93bdbd0a360e2a96ae58fe1fa7c5e042dd6532b356e"
+    },
+    {
+      "path": "content/generated/weekly-04-2026-07-26.svg",
+      "bytes": 974,
+      "sha256": "3ef86b4719fb3eeb2098b93bdbd0a360e2a96ae58fe1fa7c5e042dd6532b356e"
+    },
+    {
+      "path": "content/generated/weekly-05-2026-07-25.svg",
+      "bytes": 968,
+      "sha256": "6f8b9e7dcdd5be86be44250f067cfea9f1c8c657fa3e01a7f6ff2e3a6e97ed56"
+    },
+    {
+      "path": "content/generated/weekly-05-2026-07-26.svg",
+      "bytes": 968,
+      "sha256": "6f8b9e7dcdd5be86be44250f067cfea9f1c8c657fa3e01a7f6ff2e3a6e97ed56"
+    },
+    {
+      "path": "content/generated/weekly-06-2026-07-25.svg",
+      "bytes": 974,
+      "sha256": "c517128174b9cc5010cdfcbecd1ae4329a856b2e063853075e540110d6d80231"
+    },
+    {
+      "path": "content/generated/weekly-06-2026-07-26.svg",
+      "bytes": 974,
+      "sha256": "c517128174b9cc5010cdfcbecd1ae4329a856b2e063853075e540110d6d80231"
+    },
+    {
+      "path": "content/generated/weekly-07-2026-07-25.svg",
+      "bytes": 968,
+      "sha256": "783e23ecee16bb1d8c9d8ccc5177a14fca7ffa2907f6481fcd4d8f18d28e24b7"
+    },
+    {
+      "path": "content/generated/weekly-07-2026-07-26.svg",
+      "bytes": 968,
+      "sha256": "783e23ecee16bb1d8c9d8ccc5177a14fca7ffa2907f6481fcd4d8f18d28e24b7"
+    },
+    {
+      "path": "content/generated/weekly-08-2026-07-25.svg",
+      "bytes": 986,
+      "sha256": "a767448e234554a7f5a427961460aa7186de4acb15b3469a0198a0f31f2e62c5"
+    },
+    {
+      "path": "content/generated/weekly-08-2026-07-26.svg",
+      "bytes": 986,
+      "sha256": "a767448e234554a7f5a427961460aa7186de4acb15b3469a0198a0f31f2e62c5"
+    },
+    {
+      "path": "content/generated/weekly-09-2026-07-25.svg",
+      "bytes": 962,
+      "sha256": "38c2b963637352b6c50d5573a0642a090b406fffabec873d76d90770ff9bc48c"
+    },
+    {
+      "path": "content/generated/weekly-09-2026-07-26.svg",
+      "bytes": 962,
+      "sha256": "38c2b963637352b6c50d5573a0642a090b406fffabec873d76d90770ff9bc48c"
+    },
+    {
+      "path": "content/generated/weekly-10-2026-07-25.svg",
+      "bytes": 962,
+      "sha256": "a31e52a6b0ad7253a009b711b3c511c0fc40c808ee0c4f5fb15b49c85ed9b7d8"
+    },
+    {
+      "path": "content/generated/weekly-10-2026-07-26.svg",
+      "bytes": 962,
+      "sha256": "a31e52a6b0ad7253a009b711b3c511c0fc40c808ee0c4f5fb15b49c85ed9b7d8"
+    },
+    {
+      "path": "content/generated/weekly-11-2026-07-25.svg",
+      "bytes": 974,
+      "sha256": "beaca7c1145e785044399b071b00ec2d7fa98adaaa0bc0e93295b06be02d3860"
+    },
+    {
+      "path": "content/generated/weekly-11-2026-07-26.svg",
+      "bytes": 974,
+      "sha256": "beaca7c1145e785044399b071b00ec2d7fa98adaaa0bc0e93295b06be02d3860"
+    },
+    {
+      "path": "content/generated/weekly-12-2026-07-25.svg",
+      "bytes": 962,
+      "sha256": "032d51f9884d75613f6cf32b68ad736a90b07d3837ceca0b44d832cd9c6a9b00"
+    },
+    {
+      "path": "content/generated/weekly-12-2026-07-26.svg",
+      "bytes": 962,
+      "sha256": "032d51f9884d75613f6cf32b68ad736a90b07d3837ceca0b44d832cd9c6a9b00"
+    },
+    {
+      "path": "content/generated/weekly-rashifal-2026-07-25.json",
+      "bytes": 8768,
+      "sha256": "4f43d6e2b3146f68c3ac24fcc8ac398d4d6aa206e087fa88551ab1c45a4a5ed0"
+    },
+    {
+      "path": "content/generated/weekly-rashifal-2026-07-26.json",
+      "bytes": 8768,
+      "sha256": "c0183628c51ff57e4f79aaabb25a73ebd8895ffd1d9f207256c0a31124b42fbb"
+    },
+    {
+      "path": "content/generated/weekly-report.json",
+      "bytes": 2563,
+      "sha256": "c0ad444eb8e4a688890e1f3efbfaece5d2f13658fb7ca817844fe839a22c6612"
+    },
+    {
+      "path": "content/generated/weekly-summary-2026-07-25.svg",
+      "bytes": 561,
+      "sha256": "5958a390222aaf9f0881b6f023a782f524db35bdae637429fc3dc7d6c9bf99ea"
+    },
+    {
+      "path": "content/generated/weekly-summary-2026-07-26.svg",
+      "bytes": 561,
+      "sha256": "5958a390222aaf9f0881b6f023a782f524db35bdae637429fc3dc7d6c9bf99ea"
+    },
+    {
+      "path": "content/instagram/2026-07-25/README.md",
+      "bytes": 1397,
+      "sha256": "73ee3ce7edd8e5cccee1ae589e7f794f3560a34946d6f06de71c0fa282de3abb"
+    },
+    {
+      "path": "content/instagram/2026-07-25/brand/fonts/Fraunces-Bold.ttf",
+      "bytes": 73124,
+      "sha256": "d5fb04bc45fceaaca53965b1e945af9e8b04c9643886f5adeda1879bb091a384"
+    },
+    {
+      "path": "content/instagram/2026-07-25/brand/fonts/Fraunces-Regular.ttf",
+      "bytes": 73052,
+      "sha256": "ccf1e450c7f4881258b0bd8472d1fb1cb4db69834095624fbbca2adf9b166301"
+    },
+    {
+      "path": "content/instagram/2026-07-25/brand/fonts/Inter-Bold.ttf",
+      "bytes": 343208,
+      "sha256": "301094d29ce8b80e45f8bca27e20a3cafdc2cd62fdcca660d9a2ff1ad807f05d"
+    },
+    {
+      "path": "content/instagram/2026-07-25/brand/fonts/Inter-Regular.ttf",
+      "bytes": 341492,
+      "sha256": "8acaf6eb3be8a87f733d6ebe870243f3c85f58038408b34ccf3907c61a0ccbd8"
+    },
+    {
+      "path": "content/instagram/2026-07-25/brand/fonts/Inter-SemiBold.ttf",
+      "bytes": 342796,
+      "sha256": "620912e0a7eba84a91c9e66bf24063e697b14c312cc5c9c05a3397e5948d5627"
+    },
+    {
+      "path": "content/instagram/2026-07-25/brand/jyotish-logo-transparent.png",
+      "bytes": 423909,
+      "sha256": "0a44ee22f5ec218b06f1796739890370f4dd04b11d182e1ef538e23769e9cf62"
+    },
+    {
+      "path": "content/instagram/2026-07-25/captions.md",
+      "bytes": 1124,
+      "sha256": "de82fb02a7d8c37450c4a423c0581f6f135fab29e436568d47fc169e4e2b15d5"
+    },
+    {
+      "path": "content/instagram/2026-07-25/carousel-copy.json",
+      "bytes": 7485,
+      "sha256": "896d80a2e66ceb14dc7f16ae2600e1735438fe5b4f7a818fd7bed3e5ff1e2be6"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/01.png",
+      "bytes": 95929,
+      "sha256": "6266e14d128bf219d0eebaa7697caf73fa59b11e338893c3ddcfdfa74e7ee932"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/02.png",
+      "bytes": 83326,
+      "sha256": "602f14dc1aa9683a93b25a9a503dca83af1432b0375aad4669381ec3dcb35d10"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/03.png",
+      "bytes": 83908,
+      "sha256": "e87da09ebce9c05e9d486ab1f6025177725bb129425eaeb0ac442de476578359"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/04.png",
+      "bytes": 85724,
+      "sha256": "4ac7d4e485ba6157580db07a83b0a97c0d9a5ca3668970dd2c29ed0a7b8f8b26"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/05.png",
+      "bytes": 84848,
+      "sha256": "e5f733bdcb6da79d6acb8683970855844931ba788db43d6ea825f2adefadc5d8"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/06.png",
+      "bytes": 81380,
+      "sha256": "93d922aded68e12a5e0974c57805f3313009a2fcb45f469570efbcd9ccb007f4"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/07.png",
+      "bytes": 83409,
+      "sha256": "d7235f61712ae4110a82c675d812faa0f92e1f80a7c682fe4101e75859258bc1"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/08.png",
+      "bytes": 82641,
+      "sha256": "4762abd8c7fa87ce562ad2814e43650e31f2381c168f2fdc5f524fc4dcc92046"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/09.png",
+      "bytes": 86122,
+      "sha256": "8717c8d7b940d29f2c77bad7f63ea1f572a5a880b0257a9448f218c44d2b27c8"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/10.png",
+      "bytes": 86972,
+      "sha256": "e336ea045acae70efb16eff86d0aa9ddaf750f081fa81123dd0bb357227bc424"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/11.png",
+      "bytes": 87898,
+      "sha256": "d111ca497871921786dc318838409dae9e819dff83477fa802c251ca3430a2c3"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/12.png",
+      "bytes": 85125,
+      "sha256": "c7ea7d388eb30b94ec6ad4d4130a15a39acf198df9fa041a739d4a37faf9aef5"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/13.png",
+      "bytes": 83740,
+      "sha256": "d61893837f6889496dff6dcfb52c9df8a0650ae9a1dc22a6491630c356f58a09"
+    },
+    {
+      "path": "content/instagram/2026-07-25/daily/14.png",
+      "bytes": 103526,
+      "sha256": "836ae2f65c3bae38da3d0a08e37931f05e148a080e4cde408ce10b03155104f5"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/01.svg",
+      "bytes": 567561,
+      "sha256": "02b656521c12b8a57f468df03964024f2bf486ef6fc092f4409a11ef3d88bc78"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/02.svg",
+      "bytes": 4387,
+      "sha256": "01e3402c22d7cb4d6bac417928fed5787b73e3db8dc291d4d447e2d5b25b3027"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/03.svg",
+      "bytes": 4396,
+      "sha256": "a50bc29e2559ab54eeece3081215b803416bfc6f7752618cfc714f4a1710c438"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/04.svg",
+      "bytes": 4410,
+      "sha256": "dcf1a43ef731e5a152084c40a121db47be7c184d9cd3f5c46fbafa699778ebfd"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/05.svg",
+      "bytes": 4400,
+      "sha256": "90164d511ef0350f0cfd7ac992827b905f7a8a3a75ac8c7eb8eb51957ffa507a"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/06.svg",
+      "bytes": 4386,
+      "sha256": "7600d09850010b492955fa03f0e873a88239aa3c85fc7e25111f0bf13d0db4e1"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/07.svg",
+      "bytes": 4391,
+      "sha256": "fe089632744d94b499041a742078b70a4acb989eaed459d8f1daaf0f31de51ae"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/08.svg",
+      "bytes": 4390,
+      "sha256": "0d940dab37eb43642a97f9823196f3e9a9ee46a9a46e3ae31b5b5ce19d1b983e"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/09.svg",
+      "bytes": 4397,
+      "sha256": "6ea1a0d9db5d019f89f0f1330593e402b06b5954b2f6e7e3ae5fe433518d4d5b"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/10.svg",
+      "bytes": 4392,
+      "sha256": "64b9eb916c38e495aca43d186ea62f96e86f9f244a44a36684bff69624114339"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/11.svg",
+      "bytes": 4406,
+      "sha256": "a5725bcc7f6bec6516bd91a9a70c75ef73d31721caf07961170a6dd9104805a4"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/12.svg",
+      "bytes": 4395,
+      "sha256": "9dcf8e4c07d8f9d46773b173d7838bf2e1b0aa6a0675e040c9aa3d685a43841d"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/13.svg",
+      "bytes": 4396,
+      "sha256": "200e40c7b134a7bdad0291c89c413beaa9b3534ad603fd3fcb4d0c0946149a04"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/daily/14.svg",
+      "bytes": 567657,
+      "sha256": "43eb5eb07b4e39c3bf6295c9bb2f809d6748944c089f115a1f4d2b0475d6971b"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/01.svg",
+      "bytes": 567572,
+      "sha256": "d289016c12f2397f166e9cee5538d513867058cb7c8952a01d33465bdf8f8dd8"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/02.svg",
+      "bytes": 4408,
+      "sha256": "407ac61df3c3779b2316f68bf974622447b34606134880069fde92ef9a96be49"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/03.svg",
+      "bytes": 4405,
+      "sha256": "41bc5af58cd9ffdb0cc99c928e69515452773413594ce98dfafdb8a0cef40908"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/04.svg",
+      "bytes": 4402,
+      "sha256": "714dcc0a3f4490df15a525073421f455d1c779b7289368882927c0f174738f82"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/05.svg",
+      "bytes": 4410,
+      "sha256": "3e87b470d622d786f55d4e34f3e4abdc91d55533832cea173b03ce44a2f5ff29"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/06.svg",
+      "bytes": 4400,
+      "sha256": "0f95dea1a756eb330801e1595325d8595ac68dec862215b3a9f22a6d404789a4"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/07.svg",
+      "bytes": 4402,
+      "sha256": "dcac2b615d751b0fab0ddb115a4188d650e7fa89e39cd16bb36b71514e71c960"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/08.svg",
+      "bytes": 4396,
+      "sha256": "a479e95fae4dae7362de17dd5a3710a5196ebb688d501d623d76328cf26a174f"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/09.svg",
+      "bytes": 4405,
+      "sha256": "0c691b232d09d375828ad268aa0a90972f32d159170ff8b7b196a208fbb8d292"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/10.svg",
+      "bytes": 4411,
+      "sha256": "d0b719a62f0a53de5e9fcb916021ae66f6a7f3a7d1f4d0a89b0bfbbe0a768899"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/11.svg",
+      "bytes": 4397,
+      "sha256": "ebc4bbfec072cb554f4bdcf49e4c556fc9a9a6d7639624630135a542587b96a3"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/12.svg",
+      "bytes": 4410,
+      "sha256": "5826f6458c491c32aeb16e385d2ef92aa28ccdf3afc36c1f16e19ce368ea9780"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/13.svg",
+      "bytes": 4416,
+      "sha256": "435b452b3999896e8a505d2534b05ec0ee0b51f2e0b9e22170848bf1b1e230b9"
+    },
+    {
+      "path": "content/instagram/2026-07-25/design-source/weekly/14.svg",
+      "bytes": 567658,
+      "sha256": "95893d38c83c970b3c19117dab3ec90781c4cb3fef6d54f4503bc9c74068b30e"
+    },
+    {
+      "path": "content/instagram/2026-07-25/manifest.json",
+      "bytes": 1318,
+      "sha256": "abf490bbc136bf6d545bee838a36bcb9af3e30158f7a50ee54e0e0fdc98cac3e"
+    },
+    {
+      "path": "content/instagram/2026-07-25/temples/janaki-mandir.png",
+      "bytes": 2517731,
+      "sha256": "22c41d5401e6578c00d612b1c8e578ec10bfcaa27babd2cb8a8029103ed19887"
+    },
+    {
+      "path": "content/instagram/2026-07-25/temples/muktinath.png",
+      "bytes": 3092340,
+      "sha256": "ba9a2153f8c574ae66795a13b1d07e3bdcf5324c13822959971df84b496634fb"
+    },
+    {
+      "path": "content/instagram/2026-07-25/temples/pashupatinath.png",
+      "bytes": 2802482,
+      "sha256": "9e0389a5138d328b46704e90e479fe468213a8e2266f3fd10e1ee7f5370e7426"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/01.png",
+      "bytes": 98797,
+      "sha256": "94efbdba0f8a77b244fd86d9c1b17e34e2fbe5c454aa9ff45edb6e177016befb"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/02.png",
+      "bytes": 86204,
+      "sha256": "7ab5415b2501da5ce9daa477360db03a7885b5bff66f8ba26492cd3c0c944cf6"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/03.png",
+      "bytes": 86533,
+      "sha256": "1f7bbdcd7ff4dd578052dbc8c385ecdd05670236dbe049ba040f7444f61fde4f"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/04.png",
+      "bytes": 87108,
+      "sha256": "cf9efec3bf87a30fc74f782fc0a4a1f7f7745d22bfd3d165f94b7585911b3722"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/05.png",
+      "bytes": 87031,
+      "sha256": "b5417691a2b5d5509b67bbadc10040dfbed9706336323d3c5c195920b0f83286"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/06.png",
+      "bytes": 82769,
+      "sha256": "a52cf1c2f6d40c291a6e44a6279e0873333441af7c19c5a8627ed8e6127d0665"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/07.png",
+      "bytes": 86756,
+      "sha256": "a91e5a726cc988ffd9d1b274e9e2d059042e951f6adba0478fd178c690a16264"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/08.png",
+      "bytes": 84499,
+      "sha256": "62c4b84123ebd12890a39e979c15353dc540109f370bdd62c99c5d00bf93aaf5"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/09.png",
+      "bytes": 88162,
+      "sha256": "3fde4365e57ef71f6db3b0e946c5df5134e3a086db4c2ff5d491bb192049578c"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/10.png",
+      "bytes": 89487,
+      "sha256": "57246f282b4a8e4eaa709276bba241b87a618b8d4e5ba830dbaabae77d8c38b0"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/11.png",
+      "bytes": 86442,
+      "sha256": "68528813819ef774094cf5cf3cb4210ee011a003ccf939d4a4f2f477fcce3c21"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/12.png",
+      "bytes": 87061,
+      "sha256": "85020bd890c133ac0d68db436666d51ed67895ecfa6aa87ad8711d2bc5ef8dc3"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/13.png",
+      "bytes": 87151,
+      "sha256": "9a0565c0596e2b1a42a0d6e296ebc5fe22583bfbe9f05a4c431f93fcc3461f21"
+    },
+    {
+      "path": "content/instagram/2026-07-25/weekly/14.png",
+      "bytes": 104002,
+      "sha256": "bd5f75cf7aa8567d7cfb4a82d82af286c2138dc6f8a7589436bd9b0f0df29fbd"
+    },
+    {
+      "path": "content/instagram/2026-07-26/README.md",
+      "bytes": 852,
+      "sha256": "9245585a0141bfc7cf8d7906ed940f58bd06741602d8cafc09e2ad52e9dc37d4"
+    },
+    {
+      "path": "content/instagram/2026-07-26/brand/fonts/Fraunces-Bold.ttf",
+      "bytes": 73124,
+      "sha256": "d5fb04bc45fceaaca53965b1e945af9e8b04c9643886f5adeda1879bb091a384"
+    },
+    {
+      "path": "content/instagram/2026-07-26/brand/fonts/Fraunces-Regular.ttf",
+      "bytes": 73052,
+      "sha256": "ccf1e450c7f4881258b0bd8472d1fb1cb4db69834095624fbbca2adf9b166301"
+    },
+    {
+      "path": "content/instagram/2026-07-26/brand/fonts/Inter-Bold.ttf",
+      "bytes": 343208,
+      "sha256": "301094d29ce8b80e45f8bca27e20a3cafdc2cd62fdcca660d9a2ff1ad807f05d"
+    },
+    {
+      "path": "content/instagram/2026-07-26/brand/fonts/Inter-Regular.ttf",
+      "bytes": 341492,
+      "sha256": "8acaf6eb3be8a87f733d6ebe870243f3c85f58038408b34ccf3907c61a0ccbd8"
+    },
+    {
+      "path": "content/instagram/2026-07-26/brand/fonts/Inter-SemiBold.ttf",
+      "bytes": 342796,
+      "sha256": "620912e0a7eba84a91c9e66bf24063e697b14c312cc5c9c05a3397e5948d5627"
+    },
+    {
+      "path": "content/instagram/2026-07-26/brand/jyotish-logo-transparent.png",
+      "bytes": 423909,
+      "sha256": "0a44ee22f5ec218b06f1796739890370f4dd04b11d182e1ef538e23769e9cf62"
+    },
+    {
+      "path": "content/instagram/2026-07-26/captions.md",
+      "bytes": 414,
+      "sha256": "ab4d524cf58e5b2d96f52e10b7737845a7a59cf17a7d7979ba4593c60c16a030"
+    },
+    {
+      "path": "content/instagram/2026-07-26/carousel-copy.json",
+      "bytes": 2760,
+      "sha256": "200f6d78d0b73fbc306950db6883366f41c0dd7a39b33eb04bd47dadaabe90db"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/01.png",
+      "bytes": 96468,
+      "sha256": "7fc72d7664796b3b381cb5b2c1921e8e66e941fd68f95e6b77241c41b60db58a"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/02.png",
+      "bytes": 82532,
+      "sha256": "9add89ef4db35d57f72a23555c93335885df84f3f7feacd3a987eb1caed341b3"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/03.png",
+      "bytes": 83839,
+      "sha256": "a0f69af8511e376817ec367b9150caff39504ab3ed2987bab2a967f69bb5291b"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/04.png",
+      "bytes": 85984,
+      "sha256": "0f760608598e93edd4f8a39288a60202a601aa339d99796bfdded7ce1e13d94d"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/05.png",
+      "bytes": 84640,
+      "sha256": "d6ddf5e5380196817be574672a63d54538e8f85a4e413440a99bbea6efea66d8"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/06.png",
+      "bytes": 81588,
+      "sha256": "ba2334538c76120ae31427cc5daf62e47b33bda8e0a88a4d0f6d77c8f5aeef8b"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/07.png",
+      "bytes": 83205,
+      "sha256": "f4f00f4f580557dfe5ee7e8dcc2a12081b28e7aee945183af0af8fd67f3ac6e0"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/08.png",
+      "bytes": 83093,
+      "sha256": "610391792305d31cd2396f0c3655cd0488b08ac4d883cccbe4bb2c17fc7c4590"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/09.png",
+      "bytes": 85952,
+      "sha256": "bd5d2817c51a545c21a6d6c7a053a231c90d4c3fdeb88d7e3d3f29326325293b"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/10.png",
+      "bytes": 86666,
+      "sha256": "fe94f81af3f29ab0bc58faf6314e2c033c0b8f62e0068372428024b18b6a3651"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/11.png",
+      "bytes": 88193,
+      "sha256": "a799bb341bc14edebee7f95112eab03eb068d50c0c234a71e4575b71b1b1a75a"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/12.png",
+      "bytes": 85125,
+      "sha256": "c7ea7d388eb30b94ec6ad4d4130a15a39acf198df9fa041a739d4a37faf9aef5"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/13.png",
+      "bytes": 83951,
+      "sha256": "90be66a1b7443e83295b0544ec472e0aa67032496f307f6eee671475f34b2083"
+    },
+    {
+      "path": "content/instagram/2026-07-26/daily/14.png",
+      "bytes": 103408,
+      "sha256": "0f38c3b745baf0bb2de64b6bedd7e4766536f783f210d0cc78a7d68f94ed8d88"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/01.svg",
+      "bytes": 567581,
+      "sha256": "c6b114f297e9a216928fe952a84362e0a0f233097a7d59bce3408005d81cd222"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/02.svg",
+      "bytes": 4393,
+      "sha256": "265e62f43ac68777d3e440600f15d83f4f24558b50b80116579320644b0e77f7"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/03.svg",
+      "bytes": 4404,
+      "sha256": "a6c0e7efcaba96c79fcb05cc87cf76f711c5cf671d526c97eedece99f142e25e"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/04.svg",
+      "bytes": 4418,
+      "sha256": "878776d3f7f56c40304b88aee8c9e8b0ee0199eace0724a70f820fc127476dfd"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/05.svg",
+      "bytes": 4408,
+      "sha256": "a984c04468e8af0201893ca49e9cc3ceb61e1904907ad2d1c940d35513fb9d40"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/06.svg",
+      "bytes": 4394,
+      "sha256": "9f8acd1d4ddcaa5ba17aaa76d7983c2bd35572d3780439ad19f6227012ed92ac"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/07.svg",
+      "bytes": 4399,
+      "sha256": "25c4dc1a032856e211d60f847fe513385db26893bae9eac7c78f51c87c32c286"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/08.svg",
+      "bytes": 4398,
+      "sha256": "18aa1bc7ee17a97a18f709c312ae190ed0c40f7f20d045a8d3b7f9c0ec806d4f"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/09.svg",
+      "bytes": 4405,
+      "sha256": "0dd6a958a4999f3bffbf9b282c735c18c65726afd7970e41f33d8783705e7c6a"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/10.svg",
+      "bytes": 4400,
+      "sha256": "3d6822dedaec431023297e080bf7e16dd910459682c6f32e5e1725944ed467d9"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/11.svg",
+      "bytes": 4414,
+      "sha256": "7bc9b9dc6eee7d9903fef34baf5e5e8ceea58725d1fa3956dd524c5a5f5ef823"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/12.svg",
+      "bytes": 4403,
+      "sha256": "3f4f19b7d469117bc2d71c2ab9f2c96b68be37a471f4cc27fd0bae673539a184"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/13.svg",
+      "bytes": 4404,
+      "sha256": "615bc2335b32fa323b5d80684afcd85c170eaca94ca3acd83c5693ef23997d0f"
+    },
+    {
+      "path": "content/instagram/2026-07-26/design-source/daily/14.svg",
+      "bytes": 567673,
+      "sha256": "97ea3984e28117e1d6cce7a1f4bd463fd9670c711a30708fe396a255b176441a"
+    },
+    {
+      "path": "content/instagram/2026-07-26/manifest.json",
+      "bytes": 929,
+      "sha256": "2f8e8985de8743b7b492a244b397d1246c99326c68289cac34730d721512c1ab"
+    },
+    {
+      "path": "content/instagram/2026-07-28/README.md",
+      "bytes": 985,
+      "sha256": "8c4b7ce4488da2821d502b0cf8ac4edd19517cc400752ee74d7063210cce4b36"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/01-cover.png",
+      "bytes": 104537,
+      "sha256": "43fc1197cbe63ca49ca627554a5a96329dbe056798e0f3dbcbc15d8f03aa6628"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/01-cover.svg",
+      "bytes": 3217511,
+      "sha256": "fb3b3e8056abddb4acb5fa447a2492ac3f4fe57937eac574d449c6a4005a7e3e"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/02-mesh.png",
+      "bytes": 141561,
+      "sha256": "336eb9b66e03a63e26bf2bb5f6eda5a03b7a2c1a2a58ea406e10f12127b1a311"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/02-mesh.svg",
+      "bytes": 3218989,
+      "sha256": "888af53afb9a05f6c6ea8b206362105f3716e428064aa9d26bd340a087d882c6"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/03-vrish.png",
+      "bytes": 131791,
+      "sha256": "829d09b081f8dc91532b98f38ed2c8244cfdaf6a01fc62faf72a24249e1f39cc"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/03-vrish.svg",
+      "bytes": 3218595,
+      "sha256": "fcbce1beaa54f6610088abfff67cc0379276cb393d3f5798758ea2b4e8c205cd"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/04-mithun.png",
+      "bytes": 132046,
+      "sha256": "7279e58b6277d6e6192017e2b348d967cd9d7b45d7b59383eea772b844918d0e"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/04-mithun.svg",
+      "bytes": 3218592,
+      "sha256": "45f1c323ae299802d8b020b86a552ce52b9e81eabe772f46d4ef773bdaa159b1"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/05-karkat.png",
+      "bytes": 130079,
+      "sha256": "a6f6aa4f6efbd60de19da85919815e938743ce21124d14be300e92d87c631497"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/05-karkat.svg",
+      "bytes": 3218581,
+      "sha256": "ce719c5f02b36eda5b6b47b9ec4a77438352e94f5a3c639cbcb39582a1be5a64"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/06-simha.png",
+      "bytes": 136465,
+      "sha256": "cc7a69df4c4aa7ec4a168deedb90d33838a6cbae3ecae91a7796c86831d1fc51"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/06-simha.svg",
+      "bytes": 3218611,
+      "sha256": "a96eba0169efadce7d753dfbdf3b4a23f6ae53d1ccdc96485c55c2951452500b"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/07-kanya.png",
+      "bytes": 137677,
+      "sha256": "c240c3c48d46a909317a6c27a3083f96fbc70c501a048b5e0c35a2c362877234"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/07-kanya.svg",
+      "bytes": 3218605,
+      "sha256": "c580d50ca43b577a8e49c88fa485f7ec421a6b856c4cf24af7faf8fe43dca810"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/08-tula.png",
+      "bytes": 138483,
+      "sha256": "d0f1d4b6d59760c413c40a534d8a35a1316f744d4a625d004e8408650e6209d4"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/08-tula.svg",
+      "bytes": 3218674,
+      "sha256": "152f64be3edfffacaa4a41ae151f0fa426c778875c2ed0e9624b00ec32eb5ee0"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/09-vrischik.png",
+      "bytes": 137416,
+      "sha256": "e6a4f2bf159aa82f7ce8f7a03ab512c306f8450a847b81a2e647ba933487c348"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/09-vrischik.svg",
+      "bytes": 3218640,
+      "sha256": "0a4f602cb91b776dd0a736ad5fe44afd910ad0319d29bb47b243966eacffef67"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/10-dhanu.png",
+      "bytes": 131111,
+      "sha256": "2aba0f9b465241abc9b8a8752520439aa9cdb4b666feb6f5c8f2ccedd0b0ad85"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/10-dhanu.svg",
+      "bytes": 3218590,
+      "sha256": "bc03731f4ef1bf49308167ad461daba75051dd6080bc9f259b1eae949bab286e"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/11-makar.png",
+      "bytes": 137753,
+      "sha256": "9598402bee021d3de9409940cb6e153181692074406248a5f2fba47d13b378f8"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/11-makar.svg",
+      "bytes": 3218630,
+      "sha256": "f406d9c50e8d73d76563281aff4f5458b50f3062c3ad9294ad97fd52292a8a9b"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/12-kumbha.png",
+      "bytes": 139047,
+      "sha256": "3060089b5cb754efb1c42232a31d0137431928fd49cc9090eaab96efd4082dad"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/12-kumbha.svg",
+      "bytes": 3218618,
+      "sha256": "f9e4efd00bbd780b398aeb34cb407d1059930236c6001f9fb74d150a26e13433"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/13-meen.png",
+      "bytes": 140150,
+      "sha256": "d2f434a8fcae1dece8685c3f96dfc557fc801f9a591db756c9044817e1968c64"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/13-meen.svg",
+      "bytes": 3218674,
+      "sha256": "75f4c87730ff42eb8133ea88bac92340aee1b08440ea8b6134a23eb66a84df7b"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/14-ending.png",
+      "bytes": 81340,
+      "sha256": "51f94d502aa9ab48d3d4400515b2b0d4a1dca57ed68b7d6614d3981c7e02f035"
+    },
+    {
+      "path": "content/instagram/2026-07-28/daily/14-ending.svg",
+      "bytes": 3216623,
+      "sha256": "b75169de10bd76abdbdbfca08da7deb90114db7bf22737abdffeeddaa044e2de"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/01-cover.png",
+      "bytes": 104145,
+      "sha256": "eb421e129a94cecb73355efbf3d3b6c821f1c6f06633bcf06f44c0f5efddb2a1"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/01-cover.svg",
+      "bytes": 3273272,
+      "sha256": "f442e4945a234a382e26d6bb71d23860281d9fb2d1ea0b3970597d2edf40de77"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/02-mesh.png",
+      "bytes": 136072,
+      "sha256": "775925444d0b961a5d7b446337af1e5250b323b9689a9f5b121a7cf6da5c4e7c"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/02-mesh.svg",
+      "bytes": 3274740,
+      "sha256": "07a586c11d8472fd83b2f9a8662ed928593c4e05b8b8d754b5be60e9e348942b"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/03-vrish.png",
+      "bytes": 136470,
+      "sha256": "d4ea487e1ffb203940d54ff61fef3bc13c3e22b74a102c29a0bbb318989fbef8"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/03-vrish.svg",
+      "bytes": 3274368,
+      "sha256": "0e7bff8e35ba1eb8454cedaa9c02d74070c7067f21e15e1c4d01882683a490ed"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/04-mithun.png",
+      "bytes": 131834,
+      "sha256": "ed8e867c0bfd1d0846c013342527cc2f20cee3c55a2ec7688df0855b49d5212a"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/04-mithun.svg",
+      "bytes": 3274354,
+      "sha256": "fa3c379362cb4f208b1d374919ea0bb7dcd4bf89e3a5c6335f8d7b6275ddc808"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/05-karkat.png",
+      "bytes": 137026,
+      "sha256": "870ea032a0fa33ac22c44f5c28cf6cd7e0c17aae557438b98b2997d423721152"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/05-karkat.svg",
+      "bytes": 3274405,
+      "sha256": "99f954e27f9f137dc67382f1800dc0d8328563118c3ad92cefc004ff944e4e14"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/06-simha.png",
+      "bytes": 132140,
+      "sha256": "b85440f77715eded68b94275157dc19b3f019eae2061fca7f99a43facaaaa670"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/06-simha.svg",
+      "bytes": 3274345,
+      "sha256": "f7b6e421d51e266663bad1aee6a545497f88c877e193df2db68192a42352f2f6"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/07-kanya.png",
+      "bytes": 134949,
+      "sha256": "22c6e58ae3a69128fd6ebf6317f8f1cfb13bdbf1816e21038dbf3f5ee95b8798"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/07-kanya.svg",
+      "bytes": 3274357,
+      "sha256": "b0aff81ab5ba2f40bdb9871fd8a4fee462a67b685eb9f4f3472c832c35266ba2"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/08-tula.png",
+      "bytes": 132104,
+      "sha256": "3300400d643fb8912ed91dc2813ca2dd87a8f5fcc3a648151effb47e74cb23c4"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/08-tula.svg",
+      "bytes": 3274367,
+      "sha256": "a570195c9c9c3291d5ca698231c34814152ba145b044867f34c19354adb6e326"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/09-vrischik.png",
+      "bytes": 134879,
+      "sha256": "8ed6aca4e41ae225334d334b7ae9b31f9d908baaf655b33e812a18c482b30f45"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/09-vrischik.svg",
+      "bytes": 3274366,
+      "sha256": "01f8b2c89eb6281ce8e11e6f33bee7d63d416e09bd0e5c5ac3abe97c0d82a121"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/10-dhanu.png",
+      "bytes": 135803,
+      "sha256": "77b32b214fe76872a8990479315aca0f14083eb78b713d16db21cbe1274e7280"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/10-dhanu.svg",
+      "bytes": 3274391,
+      "sha256": "7ae0fd0f8391c32cb96a9a0748d82877bb629234e572a76999e670cdcc938eb4"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/11-makar.png",
+      "bytes": 134120,
+      "sha256": "e2d415e4d9f248429ea594d795bbbc8d40477d40930945b61f55e04684cfd833"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/11-makar.svg",
+      "bytes": 3274357,
+      "sha256": "c07bfb032b595ab7e2b85a4f46db1920f766ebafbdd146d16e38da2ccf6f9174"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/12-kumbha.png",
+      "bytes": 137523,
+      "sha256": "5827e747ff11c441079744ecbbd6b9945f6a160c265d49f81aea682b837f562a"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/12-kumbha.svg",
+      "bytes": 3274370,
+      "sha256": "ef4b7544c4fc75aab5106efa60220d1d8662272e4db0ad1af3038966219fcc17"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/13-meen.png",
+      "bytes": 133402,
+      "sha256": "4976c39df5f7b1c631b02bb331573bd00bf717f1d841887dc20b9f622709c3fd"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/13-meen.svg",
+      "bytes": 3274354,
+      "sha256": "fe906ce8f83f15f1f6de84f46f668b723f29496ed3c0609df4fa175d8ecd6e42"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/14-ending.png",
+      "bytes": 81340,
+      "sha256": "51f94d502aa9ab48d3d4400515b2b0d4a1dca57ed68b7d6614d3981c7e02f035"
+    },
+    {
+      "path": "content/instagram/2026-07-29/daily/14-ending.svg",
+      "bytes": 3272386,
+      "sha256": "a3d2a80e48eb6239724d6da594f65e01086322c50b99bcdae789f517fe651999"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/01-cover.png",
+      "bytes": 67517,
+      "sha256": "a27e272acf7bc34294acfc0c7442115558fc805c1855118dc0a16df1668625de"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/01-cover.svg",
+      "bytes": 1468162,
+      "sha256": "694eb5d585aa3b371e09fd1fbd088f8c7ed86ed907ce81d7ecd775f0c09a4fff"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/02-mesh.png",
+      "bytes": 93438,
+      "sha256": "de17d817a8758abb9718fab44f0a1579a42a04baa33c7046922bd13ee508ec18"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/02-mesh.svg",
+      "bytes": 1468809,
+      "sha256": "1e4345337a198b727a5acac0b7734fa15d943de1f0654c7e0274c1bd471dbf48"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/03-vrish.png",
+      "bytes": 97615,
+      "sha256": "bba9fa554850acfa18c03334c12ade8d1d7d453bcd24dfe4e7f758ca2c5742e7"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/03-vrish.svg",
+      "bytes": 1468828,
+      "sha256": "ef98a477d597aad4a2c983eda8c11d30a31e0b73647e142b4df1263e196b1564"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/04-mithun.png",
+      "bytes": 94517,
+      "sha256": "4919b976f7b36d828dc56bf9f908c6a3a860511f00e557ffc62ac5f6dc677582"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/04-mithun.svg",
+      "bytes": 1468824,
+      "sha256": "ea71c3bd5f0f76f3bb92bd37d97817b6b95d787afbd4e66be6813877749d3104"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/05-karkat.png",
+      "bytes": 94518,
+      "sha256": "818195cffc327ce278b9fff4340eb96f7506317ed8571522408933bf0a2c3533"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/05-karkat.svg",
+      "bytes": 1468817,
+      "sha256": "c80e02458fdd5493a970691ecd09c02e72fe9cdf249838206002e1aa514333cf"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/06-simha.png",
+      "bytes": 93217,
+      "sha256": "87183bcecdef08481d53f1aa6ab757945c68b250fc8d0cae461bd9e2b5321b9b"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/06-simha.svg",
+      "bytes": 1468805,
+      "sha256": "34562fba8998c2172ec5c9e8eed6b302ba757a5bea5a300cc32e5020e39b7bfc"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/07-kanya.png",
+      "bytes": 101318,
+      "sha256": "4beb15efac01051c81d55348c2019ee51c8202918ae5d36d22f235490a6c660a"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/07-kanya.svg",
+      "bytes": 1468840,
+      "sha256": "421467fafef136037ff88ca7bd841f7c3bb45dc41375502bb25004c569abafea"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/08-tula.png",
+      "bytes": 92132,
+      "sha256": "02aabf76058449226b57246b6dd43a5cc103e2a9d98c2a5c3c2097b910e32749"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/08-tula.svg",
+      "bytes": 1468814,
+      "sha256": "6b6addece406c218cc978bda7b8106fc6052891b665aadb5ef805bb9afe49fe8"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/09-vrischik.png",
+      "bytes": 95041,
+      "sha256": "4a27e8977205d1cf4905b4d1ac2595e8b5fd4482a667d06363e4e17e44262368"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/09-vrischik.svg",
+      "bytes": 1468816,
+      "sha256": "78e60aaa2bdf28a6993582352d7e0daed831c81bb53ad0167d95230caa392e23"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/10-dhanu.png",
+      "bytes": 91177,
+      "sha256": "668c8315f4d885ccaef798658cfce677f8302b26b2b7ba02c82ac2832662ce31"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/10-dhanu.svg",
+      "bytes": 1468811,
+      "sha256": "ff94eaa9ee07bc79813748fc192f49a00a0e65253d83445d6ed4d707ac099aa5"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/11-makar.png",
+      "bytes": 94319,
+      "sha256": "68ace1c275df407f5845aad895e079d9661d35b38d170365fc6eb4781d87dc6b"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/11-makar.svg",
+      "bytes": 1468806,
+      "sha256": "4915433d8611289710842bcf21efbf45678dd791f1065210eac08e3bde9527df"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/12-kumbha.png",
+      "bytes": 104079,
+      "sha256": "56e918688f5e1b4a23592742322ad79aa131d7bad88a1dfdda32901eff0368bf"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/12-kumbha.svg",
+      "bytes": 1468850,
+      "sha256": "ea680df5e4ebe9bf3d65df7a857f19ef5f532be956b03a27b68f3478dd09fbee"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/13-meen.png",
+      "bytes": 94833,
+      "sha256": "3327bfcbea55084459e65d8e3f8d0fff8ae3a1710af2d2bc3da510ef13baeb1c"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/13-meen.svg",
+      "bytes": 1468814,
+      "sha256": "589b2326ae8baa43d7c7f6d73c0a534569bfb5f394bfd13b99dc0c864e20a612"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/14-ending.png",
+      "bytes": 70465,
+      "sha256": "1595b1838e1914ba8c4cd9ad5b957cc0ef63af31abff712011e197a15080ff8a"
+    },
+    {
+      "path": "content/instagram/2026-07-30/daily/14-ending.svg",
+      "bytes": 1467616,
+      "sha256": "5f2d39eefe11ee7796a9bb1075a296d8c5d016fb7786ff3e67c9d9780c379e94"
+    },
+    {
+      "path": "content/instagram/2026-08-01/README.md",
+      "bytes": 460,
+      "sha256": "05716a3650b5a08feb25c6b08c279b9183b8760b546ca6dfe14ce53f1f95a86a"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Fraunces-Bold.ttf",
+      "bytes": 73124,
+      "sha256": "d5fb04bc45fceaaca53965b1e945af9e8b04c9643886f5adeda1879bb091a384"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Fraunces-Regular.ttf",
+      "bytes": 73052,
+      "sha256": "ccf1e450c7f4881258b0bd8472d1fb1cb4db69834095624fbbca2adf9b166301"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Inter-Bold.ttf",
+      "bytes": 343208,
+      "sha256": "301094d29ce8b80e45f8bca27e20a3cafdc2cd62fdcca660d9a2ff1ad807f05d"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Inter-Regular.ttf",
+      "bytes": 341492,
+      "sha256": "8acaf6eb3be8a87f733d6ebe870243f3c85f58038408b34ccf3907c61a0ccbd8"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/fonts/Inter-SemiBold.ttf",
+      "bytes": 342796,
+      "sha256": "620912e0a7eba84a91c9e66bf24063e697b14c312cc5c9c05a3397e5948d5627"
+    },
+    {
+      "path": "content/instagram/2026-08-01/brand/jyotish-logo-transparent.png",
+      "bytes": 423909,
+      "sha256": "0a44ee22f5ec218b06f1796739890370f4dd04b11d182e1ef538e23769e9cf62"
+    },
+    {
+      "path": "content/instagram/2026-08-01/carousel-copy.json",
+      "bytes": 8514,
+      "sha256": "50045e90dbd148c0bdeed2a007172dc85feb956154c0948fbc21c5c3bc1fa22f"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/01-cover.png",
+      "bytes": 93586,
+      "sha256": "3a1bca2f1227bee7f4d431442b1e82992a46951777275dddb2c5d1da09a98a05"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/01-cover.svg",
+      "bytes": 1468163,
+      "sha256": "b544a008f6f3acfd4c5b30644f6a930c613aec80247a0a32812966c47ed20dac"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/01.png",
+      "bytes": 93586,
+      "sha256": "3a1bca2f1227bee7f4d431442b1e82992a46951777275dddb2c5d1da09a98a05"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/02-mesh.png",
+      "bytes": 99044,
+      "sha256": "709b27e4e516334b9ce0068cd1adf534722b964d2ca469710c726ad4d6c4851b"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/02-mesh.svg",
+      "bytes": 1468757,
+      "sha256": "2dbb2f383439734102992d1512d17f523f1c78dd4147ccda0f2a6dad514048ea"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/02.png",
+      "bytes": 99044,
+      "sha256": "709b27e4e516334b9ce0068cd1adf534722b964d2ca469710c726ad4d6c4851b"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/03-vrish.png",
+      "bytes": 100472,
+      "sha256": "a36a956ece7d936f9775f1d12d569345e13882ddab9038f22740a4485de9979b"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/03-vrish.svg",
+      "bytes": 1468754,
+      "sha256": "70c7e18c352d117306ce4932ec42372d20e378ed849884ff07401e2bf213aca2"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/03.png",
+      "bytes": 100472,
+      "sha256": "a36a956ece7d936f9775f1d12d569345e13882ddab9038f22740a4485de9979b"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/04-mithun.png",
+      "bytes": 101940,
+      "sha256": "2b0f0acb7c2fe403f010e696fcb067862c7ea62043e729c56f96b8cdd08d9323"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/04-mithun.svg",
+      "bytes": 1468770,
+      "sha256": "d4d178f57a4b4ce7ce0dc69720219fb10fd039dfa925cc2a0542b7cb5ad5362d"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/04.png",
+      "bytes": 101940,
+      "sha256": "2b0f0acb7c2fe403f010e696fcb067862c7ea62043e729c56f96b8cdd08d9323"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/05-karkat.png",
+      "bytes": 107807,
+      "sha256": "9cd7aedba0fdd4dda1df3b1bc768d438314ffed3c3a1d2a2a0c0ed6a731fa1b8"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/05-karkat.svg",
+      "bytes": 1468792,
+      "sha256": "17fb408e8c267ea5fd1126f07519240aad6419c9a795ca0f264eb8532eb70f0a"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/05.png",
+      "bytes": 107807,
+      "sha256": "9cd7aedba0fdd4dda1df3b1bc768d438314ffed3c3a1d2a2a0c0ed6a731fa1b8"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/06-simha.png",
+      "bytes": 102214,
+      "sha256": "52bcad846fbe25015dcfe03f4a07d11a759be4a5d205ab373fe96d832c7e019a"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/06-simha.svg",
+      "bytes": 1468762,
+      "sha256": "f1c4453f118cdf5211b5ee1615b060bd0132313e1023bfb624d6743a58fc59e3"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/06.png",
+      "bytes": 102214,
+      "sha256": "52bcad846fbe25015dcfe03f4a07d11a759be4a5d205ab373fe96d832c7e019a"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/07-kanya.png",
+      "bytes": 97561,
+      "sha256": "50c99830bd8f64aa5dc19bc5b2633ba4830073edf493f7369243a01ec9c30286"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/07-kanya.svg",
+      "bytes": 1468686,
+      "sha256": "b2f309efec2bd62cd70ce805f39f784b8e68f0046d2f69e706aedc8e4f1f59e3"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/07.png",
+      "bytes": 97561,
+      "sha256": "50c99830bd8f64aa5dc19bc5b2633ba4830073edf493f7369243a01ec9c30286"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/08-tula.png",
+      "bytes": 97379,
+      "sha256": "009815b74c4f9b85d1e9b1fc9c57e0917110c4d37a0052c463c76a9af5e25c5d"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/08-tula.svg",
+      "bytes": 1468711,
+      "sha256": "7f5a144ca8dc7d25c135d3072251c63e6c83cbf119457bb7ac2edbc2c4970571"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/08.png",
+      "bytes": 97379,
+      "sha256": "009815b74c4f9b85d1e9b1fc9c57e0917110c4d37a0052c463c76a9af5e25c5d"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/09-vrischik.png",
+      "bytes": 101383,
+      "sha256": "ae0601a963007bcb41775b8acd1b60b0439436b797fa1512df1e425e59c92af5"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/09-vrischik.svg",
+      "bytes": 1468768,
+      "sha256": "e52e820525dcc854a7e37fad829bcef5b476707fee373d3a6e4124ef1030e9ae"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/09.png",
+      "bytes": 101383,
+      "sha256": "ae0601a963007bcb41775b8acd1b60b0439436b797fa1512df1e425e59c92af5"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/10-dhanu.png",
+      "bytes": 101781,
+      "sha256": "044f0dab4dd33bbbb8dc175ae3ee87f3d37a32223f8bcc3b87bb0c8c3c880ab7"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/10-dhanu.svg",
+      "bytes": 1468748,
+      "sha256": "a396dbbc5e29ed2058d49637321038ac8ab8beb90ad5b5db0a874eec61df1034"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/10.png",
+      "bytes": 101781,
+      "sha256": "044f0dab4dd33bbbb8dc175ae3ee87f3d37a32223f8bcc3b87bb0c8c3c880ab7"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/11-makar.png",
+      "bytes": 98951,
+      "sha256": "899fe61ee8c35d33713abd22978e928517ffda9c5f88b4c6a5beef6cbe925c07"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/11-makar.svg",
+      "bytes": 1468709,
+      "sha256": "d1615f321517780dbf5c870c3301f4f6aa4c673fcc8ec73dd1568b3784db9359"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/11.png",
+      "bytes": 98951,
+      "sha256": "899fe61ee8c35d33713abd22978e928517ffda9c5f88b4c6a5beef6cbe925c07"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/12-kumbha.png",
+      "bytes": 101202,
+      "sha256": "8805ae2d5ee39c0a5d761b0b8486abf2781a68dbe789d64af8482919647b9b3a"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/12-kumbha.svg",
+      "bytes": 1468771,
+      "sha256": "e3b7850a4afe79d8f095866a18d02c0b8d413811e5bfd1665456402805da102c"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/12.png",
+      "bytes": 101202,
+      "sha256": "8805ae2d5ee39c0a5d761b0b8486abf2781a68dbe789d64af8482919647b9b3a"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/13-meen.png",
+      "bytes": 106256,
+      "sha256": "9d46f762bc5600db00969e9dc76c456bf93f9d4da4b98157fa586bcf48192437"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/13-meen.svg",
+      "bytes": 1468825,
+      "sha256": "abeaa766900821f05b91fd51f6fdf29f4c02ceeb08f5289167efab8dcb474e37"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/13.png",
+      "bytes": 106256,
+      "sha256": "9d46f762bc5600db00969e9dc76c456bf93f9d4da4b98157fa586bcf48192437"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/14-ending.png",
+      "bytes": 93658,
+      "sha256": "b053b20361b3a1ecb482717c550c37d8abe6b587711aa5d54271b584872b3f6b"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/14-ending.svg",
+      "bytes": 1467617,
+      "sha256": "fdcbe327b63c377bece75938ed3dade352c690d8a89d46723d900ac7e69a9790"
+    },
+    {
+      "path": "content/instagram/2026-08-01/daily/14.png",
+      "bytes": 93658,
+      "sha256": "b053b20361b3a1ecb482717c550c37d8abe6b587711aa5d54271b584872b3f6b"
+    },
+    {
+      "path": "content/instagram/2026-08-01/provenance-daily.json",
+      "bytes": 5033,
+      "sha256": "2a7d01354aaf97e1e94d98b91d284fe6da3ae8929c1ded3639c368cddde2ed9d"
+    },
+    {
+      "path": "content/schema.json",
+      "bytes": 469,
+      "sha256": "f38e696dabcc96335ebe5c0eba0dc5ca113ce84d6e37e79d586720613f3bf64e"
+    },
+    {
+      "path": "content/template.md",
+      "bytes": 797,
+      "sha256": "c740a972ce9d80f592840c455f05e570cf32e0f6766a53e903e1980d3023b876"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/01-cover.png",
+      "bytes": 74648,
+      "sha256": "b7cfd6592a18fab64da575838c96e3068e2857c62834297192648629fdb58378"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/01-cover.svg",
+      "bytes": 1468166,
+      "sha256": "7ff4e2e6375a4520b1b44769bf8450b63a5d56cd00b7b960e049318ecb959d6e"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/02-mesh.png",
+      "bytes": 103480,
+      "sha256": "0908c37a99edada0b00ee62e2800fc9c9343e85c0b56b3e121291288a9fe7d39"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/02-mesh.svg",
+      "bytes": 1468811,
+      "sha256": "bcb3c897a76225df41587777276ff1bf372c2f786cda324706d5a7d4755cdf75"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/03-vrish.png",
+      "bytes": 108683,
+      "sha256": "b1ceffdc2acda8988560a9c55b4ef52100cb88a65242ebccd1e3672702a0d6c8"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/03-vrish.svg",
+      "bytes": 1468830,
+      "sha256": "d3fa3c1c63f002b31ef5a2c60e68f9f78862c91b9b31a7e81f4dece74ded53da"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/04-mithun.png",
+      "bytes": 105612,
+      "sha256": "00d3ef54acb23256804c62e614edaaafa5e28864a95854ce940bf509b6de1a17"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/04-mithun.svg",
+      "bytes": 1468826,
+      "sha256": "963dfacf27c577ffb74202a1ac6e13683805d6493a0ab14bbdb88245b8d1ed77"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/05-karkat.png",
+      "bytes": 105096,
+      "sha256": "d45a0393cbb5b0e9b4960f097c2e677692d7f4dd092c5a193aac91b01ed4f6f9"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/05-karkat.svg",
+      "bytes": 1468819,
+      "sha256": "66eac694a671eebd112debc696d42da7c2ae9ad331fe8e686e2fdba0f67c7838"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/06-simha.png",
+      "bytes": 104342,
+      "sha256": "b7b419bc8e45e18912505486a200f28f9fe86a2ede979622c01429b880b8c618"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/06-simha.svg",
+      "bytes": 1468807,
+      "sha256": "f93492ff17dda152142755297f31f5b9eff3806b062a8ae8b2e5b07194107ded"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/07-kanya.png",
+      "bytes": 112590,
+      "sha256": "be8a3d1de8dbc8ab76822bc74bb887d6b64540bc97e8dea1bab3722057ebea7c"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/07-kanya.svg",
+      "bytes": 1468842,
+      "sha256": "e8fd30bd3f5d3c8762976309233c3f380eb8e0bb20821df3574c2682f813f37d"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/08-tula.png",
+      "bytes": 103313,
+      "sha256": "cd13633fbdfa58c57a6901a6fa5e07f7cb00415d7fcc708d53ed68046900111e"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/08-tula.svg",
+      "bytes": 1468816,
+      "sha256": "8b68296f385f0f4775130a342ca791def36b27b33d0a31198350b295fcf4baf5"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/09-vrischik.png",
+      "bytes": 105754,
+      "sha256": "ca1d97a87ca0a973947d56c64d806504af60baab9987eb59166a8479d3dc1087"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/09-vrischik.svg",
+      "bytes": 1468818,
+      "sha256": "c7f740587f7efc829640927e3649edf43e26629315c3f4bc7000bdd975d3fd02"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/10-dhanu.png",
+      "bytes": 101983,
+      "sha256": "0e5f6c13ae452d73165fc4cf6766138af8e79570f47522b0646287c635fc68e2"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/10-dhanu.svg",
+      "bytes": 1468813,
+      "sha256": "48bbc136d2109519ffba1677c0154bd672b712ad2366d3da437672b9a67bcacc"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/11-makar.png",
+      "bytes": 105114,
+      "sha256": "5d4e7b9b1c264bfe5df42d5e672cac63c335f9e5deb87147a5ea5cb5b7c8a235"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/11-makar.svg",
+      "bytes": 1468808,
+      "sha256": "861559755e5b056b72305652b452f9e43e5e0075b8dbe59ecfac30077077e549"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/12-kumbha.png",
+      "bytes": 115366,
+      "sha256": "4425ca8e42928f4111265920cdb80ce77e8bceebd2dfd4e8fbdc49192f136365"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/12-kumbha.svg",
+      "bytes": 1468852,
+      "sha256": "55a2ce030a2cdc1a1e60b3391216b21d6f1da684711d8a6df40406e2eb5a8e0e"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/13-meen.png",
+      "bytes": 105781,
+      "sha256": "dec443e8735cffe40ec749fb3eaa1826759af76f94f0425f4a7b9a91b7fb5852"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/13-meen.svg",
+      "bytes": 1468816,
+      "sha256": "20eff0a00d0be4fd2c004618111ea9b981a72b2da7d8d772908bcc23ada8668b"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/14-ending.png",
+      "bytes": 77623,
+      "sha256": "a3e51fef5dbbad5f8c6669bf86f3a85903534b605a6840be699f99ce799fa0a1"
+    },
+    {
+      "path": "content/tiktok/2026-07-30/daily/14-ending.svg",
+      "bytes": 1467618,
+      "sha256": "6ef87502119341e1032fe046ea28f87d80386cf3641e13ee15e8b9f99046dd42"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/01-cover.png",
+      "bytes": 110919,
+      "sha256": "db863dd3fde75a0cbd6e18b737536ae1f29030967f8fb3076c942f05c0dc6e54"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/01-cover.svg",
+      "bytes": 1468167,
+      "sha256": "aac5b33073668a9fc65ee201f5c51db2ceec3aa55e3aafb6fbc12d9049ef6fee"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/02-mesh.png",
+      "bytes": 119286,
+      "sha256": "36745da487edfd3ce103d441a8b3a614409903ed704e098c95f3da23afbb7660"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/02-mesh.svg",
+      "bytes": 1468789,
+      "sha256": "5a7fa9cc198776a0db7916957247664af25feabbfbac9d69d6240a21d75211fb"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/03-vrish.png",
+      "bytes": 119703,
+      "sha256": "c65107b6bea1c4e0cbbd3ca9b1720e706e178ec429effe569dc2052014a13a21"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/03-vrish.svg",
+      "bytes": 1468756,
+      "sha256": "b8d2c7a646ac42cbbd5419041311cbdde5f1da2ec90c8c74a4ad7c4c7cd6a18b"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/04-mithun.png",
+      "bytes": 121815,
+      "sha256": "6ae531db957d805283ad6d5e21ea7e778443494d5789d55c20fd22d8918b78f3"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/04-mithun.svg",
+      "bytes": 1468802,
+      "sha256": "0408626b5ef43d8eed18fe6b529a60de579233c8fdd16ef3435c234fcfde0652"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/05-karkat.png",
+      "bytes": 128507,
+      "sha256": "eba2505cf2db76f6a8ef3120ea1522ad45e0f166a344a6496cc0feb42024c9cd"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/05-karkat.svg",
+      "bytes": 1468824,
+      "sha256": "5850d668f0f2e7cb71ecb6d4866c5d199aca56c9f3459015d1498fdd29cdf684"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/06-simha.png",
+      "bytes": 122718,
+      "sha256": "3f61349aad032761a442c268edfb838d9819d09a454ecf3a4e13bf23076e71b2"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/06-simha.svg",
+      "bytes": 1468794,
+      "sha256": "8387d29c4af2b26c101cf5ca1511cd5bd2efbfffb980c558284006ee811a738a"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/07-kanya.png",
+      "bytes": 119018,
+      "sha256": "bba7eb2b191bc313e4e5996e98fe29bbc9970a9c17570cefaa58407113c3e9ae"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/07-kanya.svg",
+      "bytes": 1468748,
+      "sha256": "a7bbf249301faf296bcf893850e6fc41339d81dbf3f030b7f251591df355e015"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/08-tula.png",
+      "bytes": 118793,
+      "sha256": "f54e1c63bd7a98a7b072872941ca6b063c091fda75f73d6d925a0300cf71b209"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/08-tula.svg",
+      "bytes": 1468743,
+      "sha256": "e0ba8ce19113d7d57f8c2603d97b777e0acb5bf26c1223e56ba7901c033a948f"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/09-vrischik.png",
+      "bytes": 122685,
+      "sha256": "4b964c63915b1c5f4c2c69626cbd8081ad1fe73279adcf0e1a9215a6f293c88f"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/09-vrischik.svg",
+      "bytes": 1468800,
+      "sha256": "500e3d0f5321d629f9c2a862f773a2807f49f75165919005539f692ec9e271c9"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/10-dhanu.png",
+      "bytes": 124423,
+      "sha256": "995533ef1ee7fcc3e5bf9db73a2b7bdfed68c340162fd5074f677ab1a446558a"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/10-dhanu.svg",
+      "bytes": 1468810,
+      "sha256": "8bdadd5519ba83653e7ffdac924a54e7760ed45fd871cf2820c618c9545515f9"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/11-makar.png",
+      "bytes": 118757,
+      "sha256": "3c3177765de3dfc6263f2a1063448145f2840c83af2c9e5a611d2113859898ee"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/11-makar.svg",
+      "bytes": 1468741,
+      "sha256": "081e6e39f81ba0354852aad17ed740b70061f693baf82295fdfc669823fe0aba"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/12-kumbha.png",
+      "bytes": 122438,
+      "sha256": "dd596b1ba9f3a2b45113fb5b4e3da5d07e7d0ac57cb1e6b7642035f407a39d56"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/12-kumbha.svg",
+      "bytes": 1468803,
+      "sha256": "8a6c1cf78fd4d7a3e26929a924a63a9b135ba46b45c5081a447a7bc1f8a8eb6b"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/13-meen.png",
+      "bytes": 126320,
+      "sha256": "78e052a578ae3df2b077aa60ffc463a91696357f50373be0fdcac13dd4ac629c"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/13-meen.svg",
+      "bytes": 1468827,
+      "sha256": "de2306be4697fb01b9a7e7ae989335927bbd99ceac0f288a41adfb6a72a93392"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/14-ending.png",
+      "bytes": 110531,
+      "sha256": "b813d906b9a54ef9ba62f19b07f796f86589f0662b199d5c460464fafc217de8"
+    },
+    {
+      "path": "content/tiktok/2026-08-01/daily/14-ending.svg",
+      "bytes": 1467619,
+      "sha256": "eaf50ed1b8d9331e98c89404dbc6b5c857348ee814eeb606f42d57a1224f244a"
+    },
+    {
+      "path": "docs/21-SOCIAL-CAROUSEL-WORKFLOW.md",
+      "bytes": 2180,
+      "sha256": "041cc6267cc8534e769d54497f82363f3825ecbfb8ed34842d88643840b9745f"
+    },
+    {
+      "path": "inventory/README.md",
+      "bytes": 283,
+      "sha256": "91f81bf717e2a228d95a5ef4e1ac182669d6124893ddd844d0c4564690fbf353"
+    },
+    {
+      "path": "inventory/temple-images.json",
+      "bytes": 1395,
+      "sha256": "d6b8e3624b7309be160a9d1f1fa24e3a6598b537e74f06149dcbc50a3aacb174"
+    },
+    {
+      "path": "proof/2026-07-25/codex-onboarding-readback.md",
+      "bytes": 823,
+      "sha256": "a9e654b3b500a9750297205cb08b2004fbb0134aadc1d582607a4f5af7c2b51c"
+    },
+    {
+      "path": "proof/2026-07-25/content-and-image-readback.md",
+      "bytes": 1000,
+      "sha256": "15d1f946ac2ab40c6ce6985f9b93bda5b9246adb567ddb33edbf40fc333fd1ac"
+    },
+    {
+      "path": "proof/2026-07-25/daily-carousel-14-slide-contact-sheet.png",
+      "bytes": 626386,
+      "sha256": "653fe6e8148164b9e11f28be205de512f0300dd6a2ceeee76aef96b8ba253b33"
+    },
+    {
+      "path": "proof/2026-07-25/instagram-carousel-readback.md",
+      "bytes": 1357,
+      "sha256": "1d8a6e3a709b8e3b7ecf4d3ffd10f266c442fa1268551fe2adb3e8b8214edf47"
+    },
+    {
+      "path": "proof/2026-07-25/weekly-carousel-14-slide-contact-sheet.png",
+      "bytes": 646492,
+      "sha256": "cbce0680f705f63c53002a0656c81be58cf111a5e342ab38dd14c32d89507a7b"
+    },
+    {
+      "path": "proof/2026-07-26/WhatsApp Image 2026-07-26 at 10.12.51 PM.jpeg",
+      "bytes": 66047,
+      "sha256": "55f3b04770d6730851ab0135c2aa3722f41b0b71669a38314dadae9d1432186d"
+    },
+    {
+      "path": "proof/2026-07-26/WhatsApp Image 2026-07-28 at 12.46.36 AM.jpeg",
+      "bytes": 66312,
+      "sha256": "a566412b89ca6d3e07c6e21e603c7e7b895b12e42b462afe4c407fdcf4521b59"
+    },
+    {
+      "path": "proof/2026-07-26/WhatsApp Image 2026-07-28 at 12.46.37 AM.jpeg",
+      "bytes": 67573,
+      "sha256": "1e819ae840b94453e03a28feaead824414530d630c91c63f3317715fac810456"
+    },
+    {
+      "path": "proof/2026-07-26/daily-carousel-14-slide-contact-sheet.png",
+      "bytes": 626692,
+      "sha256": "256ac3218ff0b7d2cffb1e6c74ba52874811778903306463ba495bb1ecfa8b51"
+    },
+    {
+      "path": "proof/2026-07-26/instagram-carousel-readback.md",
+      "bytes": 1202,
+      "sha256": "f00b921b3927d5262efdc921e44ffe350a5bd255f524ff75f525490b8f12033c"
+    },
+    {
+      "path": "proof/2026-07-26/whatsapp-posting-receipt.png",
+      "bytes": 529686,
+      "sha256": "131bc9052dfa6f511a88e880db38869f32a22edd28eb4cbbd625ea5ff07273a5"
+    },
+    {
+      "path": "proof/2026-07-27/README.md",
+      "bytes": 1076,
+      "sha256": "9ecbb62910036294595c174b4d57745086275554ac6f4b67cbdfbd47c2a2a9dd"
+    },
+    {
+      "path": "proof/2026-07-27/WhatsApp Image 2026-07-28 at 12.46.36 AM.jpeg",
+      "bytes": 66312,
+      "sha256": "a566412b89ca6d3e07c6e21e603c7e7b895b12e42b462afe4c407fdcf4521b59"
+    },
+    {
+      "path": "proof/2026-07-27/WhatsApp Image 2026-07-28 at 12.46.37 AM.jpeg",
+      "bytes": 67573,
+      "sha256": "1e819ae840b94453e03a28feaead824414530d630c91c63f3317715fac810456"
+    },
+    {
+      "path": "proof/2026-07-27/instagram-carousel-readback.md",
+      "bytes": 750,
+      "sha256": "df83053fbb217ea848b5c657a497e8fda2d9409cab344b1a05fe8d2cc6913d28"
+    },
+    {
+      "path": "proof/2026-07-29/README.md",
+      "bytes": 1713,
+      "sha256": "00f11b88ba14d8a4eccbf9274e8da6460d74a3bcdb591e4f8cbef2d05b93ef79"
+    },
+    {
+      "path": "proof/2026-07-29/instagram-carousel-readback.md",
+      "bytes": 979,
+      "sha256": "7cf76aa53c93b4303f5fbd5e1f6dd08f3284d39a8e47654674fbc2aa2f4e24e3"
+    },
+    {
+      "path": "proof/2026-07-29/instagram-posted.jpg",
+      "bytes": 61011,
+      "sha256": "bda8cab094f1b2ae07536e2778720666b742d35c8c819087694ec63edafb7099"
+    },
+    {
+      "path": "proof/2026-07-29/tiktok-posted.jpg",
+      "bytes": 56376,
+      "sha256": "b63d8788d5b123d157d970ce129c7686c0ecb975f075278e7293dc41999649a3"
+    },
+    {
+      "path": "proof/2026-07-30/README.md",
+      "bytes": 2223,
+      "sha256": "1c1b969d6bbc503aa91a58a9fd4f830c262415a5eb6ac24f0f6f4e47173b0b18"
+    },
+    {
+      "path": "proof/2026-07-30/instagram-carousel-readback.md",
+      "bytes": 1007,
+      "sha256": "efca6512e8c440279a4f4bbaf9e504f20f925cd2ac111fcda34ca53a36ec361d"
+    },
+    {
+      "path": "proof/2026-07-30/instagram-posted.png",
+      "bytes": 309703,
+      "sha256": "9771b0ec5b121fdf1ad6c23fa1f12d9ed2bc7b9783a9c2f47ba7873835e96667"
+    },
+    {
+      "path": "proof/2026-07-30/tiktok-posted.png",
+      "bytes": 322668,
+      "sha256": "a4c9667cd899d252b124a2bea9754a67794240d5ad9060f802b510b33594f862"
+    },
+    {
+      "path": "proof/2026-07-31/README.md",
+      "bytes": 1888,
+      "sha256": "c31b41c1e814a71815e7c662e3f4b5340cf4440a2fe3167189b459cf0f6b2f68"
+    },
+    {
+      "path": "proof/2026-07-31/instagram-carousel-readback.md",
+      "bytes": 979,
+      "sha256": "613ff19f9a95d42ff7e0e87959632db9ca60be527c1d771f1f2bc6b47dea2bfa"
+    },
+    {
+      "path": "proof/2026-07-31/social-upload-proof-latest.png",
+      "bytes": 142998,
+      "sha256": "ff71d2ce25741c22c02f0b2d151b28650d67e7c9dcad382119afd9ba6d5e387d"
+    },
+    {
+      "path": "proof/2026-07-31/social-upload-proof.png",
+      "bytes": 138901,
+      "sha256": "045d2e8daf8180acdab0a07b8e6134bef0985d1b2357afdb4422592b3c06623f"
+    },
+    {
+      "path": "proof/2026-08-01/daily-carousel-14-slide-contact-sheet.png",
+      "bytes": 348278,
+      "sha256": "c760c38971765a2aec13d80ce6185d3c3aa6e2ab75980a4c6a42350e496a0e38"
+    },
+    {
+      "path": "proof/README.md",
+      "bytes": 234,
+      "sha256": "2c7fc8668d552833f28752c8c8bd5c2a61a38506f79ea2ab4b80d1915033097c"
+    },
+    {
+      "path": "reports/daily/2026-07-25.json",
+      "bytes": 2226,
+      "sha256": "5095a21051edfcbec51cf04d3372fa2c5259cead104fed968109078c7598efec"
+    },
+    {
+      "path": "reports/daily/2026-07-26.json",
+      "bytes": 2563,
+      "sha256": "c0ad444eb8e4a688890e1f3efbfaece5d2f13658fb7ca817844fe839a22c6612"
+    },
+    {
+      "path": "reports/daily/2026-07-27.json",
+      "bytes": 3151,
+      "sha256": "cb67f5fdd717b37c8e892a391eb499b6b173f02b94e73c1d696f3ce9aaa9309e"
+    },
+    {
+      "path": "reports/daily/2026-07-28.json",
+      "bytes": 2563,
+      "sha256": "308a34df4292507781ea4a0bf43ca71bf82b442bfd79d7d2eb901fbbdc60a00c"
+    },
+    {
+      "path": "reports/daily/2026-07-29.json",
+      "bytes": 2563,
+      "sha256": "1cca539a282e18fd06965c9bb0547115bb40e41eab55822f9d0c4a5df8f62b04"
+    },
+    {
+      "path": "reports/daily/2026-07-30.json",
+      "bytes": 2563,
+      "sha256": "3567b0aa7240b58b28446e393fef2ed491b9a024b4c4fbf0a19076142e8bd71e"
+    },
+    {
+      "path": "reports/daily/2026-07-31.json",
+      "bytes": 1983,
+      "sha256": "19dbb560cc3f403995dec60a8b20e0ffd890fccf7d38cc59fee0e7274648b9f6"
+    },
+    {
+      "path": "scripts/generate_content.py",
+      "bytes": 4341,
+      "sha256": "a0c2a4c495e69ef3e0c7265f686b0db91f213679dd8167304f9dafa5f14c610b"
+    },
+    {
+      "path": "scripts/render_daily_carousel_14.cjs",
+      "bytes": 8787,
+      "sha256": "130b6993336ba90f1021712f172d6f4813b10dd56e5b3aa1af64562cbd462796"
+    },
+    {
+      "path": "scripts/render_daily_carousel_14.js",
+      "bytes": 8787,
+      "sha256": "130b6993336ba90f1021712f172d6f4813b10dd56e5b3aa1af64562cbd462796"
+    },
+    {
+      "path": "scripts/render_daily_carousel_platforms.cjs",
+      "bytes": 11890,
+      "sha256": "50dade5ae57e78c254242b37a3b0d9909355929ab5415e812afbf24bf98a470a"
+    },
+    {
+      "path": "scripts/render_instagram_carousel_14.cjs",
+      "bytes": 14123,
+      "sha256": "6c0c0c769619206ee61da6e22040bc4107de805b71c65bffd7921a0641c3c392"
+    },
+    {
+      "path": "scripts/render_instagram_carousel_14.js",
+      "bytes": 14123,
+      "sha256": "6c0c0c769619206ee61da6e22040bc4107de805b71c65bffd7921a0641c3c392"
+    },
+    {
+      "path": "scripts/render_instagram_carousel_14.legacy.cjs",
+      "bytes": 8770,
+      "sha256": "8b83908f45386a7d30285c7e4f47623f73873f247d3195499ef6592ca1b843e4"
+    },
+    {
+      "path": "scripts/render_instagram_carousel_14.legacy.js",
+      "bytes": 8770,
+      "sha256": "8b83908f45386a7d30285c7e4f47623f73873f247d3195499ef6592ca1b843e4"
+    },
+    {
+      "path": "scripts/render_weekly_mantra_carousel.cjs",
+      "bytes": 9448,
+      "sha256": "d172e36655588134623e84537f3dbf7020cfd99135f81c0e8ad13dfe9061dd47"
+    },
+    {
+      "path": "scripts/validate_handoff.py",
+      "bytes": 10620,
+      "sha256": "26d5f10af7f9f8e51f94fc33c2ad308124d5871bd3ba3a96dc069e1083a0af13"
+    },
+    {
+      "path": "scripts/validate_social_carousel.py",
+      "bytes": 4063,
+      "sha256": "ba18c52536d871ba21cb6e2ff464ea47d24004fb2f201b79c8c3bcb7a561dfc1"
+    },
+    {
+      "path": "scripts/verify_carousel_provenance.py",
+      "bytes": 14674,
+      "sha256": "8ad0e18e287ad4587a9e460c4ef7b922dd5da9bd5ae92528cff8e203743eeb1c"
+    },
+    {
+      "path": "scripts/verify_jyotish_migration.py",
+      "bytes": 7439,
+      "sha256": "931c09e3774344a7d224f33721a5d2159b3bbc6e4ce672e1cb792e7d5ba50610"
+    },
+    {
+      "path": "social-media-account-setup/README.md",
+      "bytes": 2972,
+      "sha256": "80395e2a0e54fecfa6382b032406a38e3f4abf9568d738d45808d8172716e919"
+    },
+    {
+      "path": "social-media-account-setup/facebook-page-setup.md",
+      "bytes": 1868,
+      "sha256": "c6d2f13cdab4d062cfa60e8a729c2445e317551e60fc86ae8278a028850503ff"
+    },
+    {
+      "path": "social-media-account-setup/image-requirements.md",
+      "bytes": 1913,
+      "sha256": "1234b5ea5e7543b05e3b6a34a380c3f457449acd6e27767a5814117a2970190f"
+    },
+    {
+      "path": "social-media-account-setup/instagram-account-setup.md",
+      "bytes": 1546,
+      "sha256": "7cb8fe6acdde68c64bdf2d86443d96bcb6f8d621ce10c6e2e66e6e098be16abe"
+    },
+    {
+      "path": "social-media-account-setup/profile-texts.md",
+      "bytes": 1447,
+      "sha256": "064caa3cb466b84fbeeeac2fbc54f1aab3d3a26aa61832e662e2de342162cafd"
+    },
+    {
+      "path": "social-media-account-setup/security-checklist.md",
+      "bytes": 1306,
+      "sha256": "8dee5935f22c6ecb25af5db5384659c24341a4917d57a83990cf9490a676d7bf"
+    },
+    {
+      "path": "social-media-account-setup/tiktok-account-setup.md",
+      "bytes": 1331,
+      "sha256": "321955e81bcf7e51a4b4019262ba3d2c52a97b307d32403738daa1f08d944d94"
+    },
+    {
+      "path": "tests/test_carousel_provenance.py",
+      "bytes": 8683,
+      "sha256": "9fc5425c5ae4af40660b145c93c11c3289f3b3836eb2d9ab5949b24d39bef324"
+    }
+  ]
+}

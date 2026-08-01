@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "threshold_days": 1,
+  "images": [
+    {
+      "media_id": "codex-generated-pashupatinath-2026-07-25",
+      "filename": "assets/temples/2026-07-25/pashupatinath-2026-07-25.png",
+      "sha256": "9E0389A5138D328B46704E90E479FE468213A8E2266F3FD10E1EE7F5370E7426",
+      "created_at": "2026-07-25T20:00:00+05:45",
+      "rights_status": "generated-ai-internal",
+      "source": "OpenAI image generation in Codex",
+      "remaining_uses": 3
+    },
+    {
+      "media_id": "codex-generated-muktinath-2026-07-25",
+      "filename": "assets/temples/2026-07-25/muktinath-2026-07-25.png",
+      "sha256": "BA9A2153F8C574AE66795A13B1D07E3BDCF5324C13822959971DF84B496634FB",
+      "created_at": "2026-07-25T20:00:00+05:45",
+      "rights_status": "generated-ai-internal",
+      "source": "OpenAI image generation in Codex",
+      "remaining_uses": 3
+    },
+    {
+      "media_id": "codex-generated-janaki-mandir-2026-07-25",
+      "filename": "assets/temples/2026-07-25/janaki-mandir-2026-07-25.png",
+      "sha256": "22C41D5401E6578C00D612B1C8E578EC10BFCAA27BABD2CB8A8029103ED19887",
+      "created_at": "2026-07-25T20:00:00+05:45",
+      "rights_status": "generated-ai-internal",
+      "source": "OpenAI image generation in Codex",
+      "remaining_uses": 3
+    }
+  ],
+  "entry_fields": ["media_id", "filename", "sha256", "created_at", "rights_status", "source", "remaining_uses"]
+}

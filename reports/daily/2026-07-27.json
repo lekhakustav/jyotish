@@ -1,0 +1,105 @@
+{
+  "project_id": "jyotish-baje",
+  "date": "2026-07-27",
+  "status": "complete",
+  "content": {
+    "daily": "content/generated/daily-rashifal-2026-07-27.json",
+    "weekly": "content/generated/weekly-rashifal-2026-07-27.json",
+    "proof": "proof/2026-07-27/"
+  },
+  "temple_inventory": {
+    "remaining_uses": 9,
+    "threshold": 1,
+    "action_due": false
+  },
+  "model": {
+    "strategy": "deterministic-first",
+    "provider": "unconfigured",
+    "model": "unconfigured"
+  },
+  "integrations": {
+    "version": 1,
+    "last_verified": "2026-07-26",
+    "integrations": {
+      "google_calendar": {
+        "status": "browser-authenticated",
+        "owner": "sirishjoshi24@gmail.com",
+        "context": "Sirish Codex",
+        "token_persisted": false,
+        "last_verified": "2026-07-25",
+        "last_action": null,
+        "proof_reference": null
+      },
+      "apple_calendar": {
+        "status": "delegated-awaiting-device-readback",
+        "owner": "Utsav Codex",
+        "last_verified": null,
+        "last_action": null,
+        "proof_reference": null
+      },
+      "alarms": {
+        "status": "delegated-awaiting-device-readback",
+        "owner": "Utsav Codex",
+        "last_verified": null,
+        "last_action": null,
+        "proof_reference": null
+      },
+      "social_media": {
+        "status": "posted-proof-verified",
+        "owner": "Utsav",
+        "last_verified": "2026-07-28",
+        "last_action": "Posted the 14-slide Instagram carousel to @jyotishbajeapp; proof was supplied after midnight NPT.",
+        "proof_reference": "proof/2026-07-27/README.md",
+        "platforms": {
+          "tiktok": "user-reported",
+          "instagram": "posted-proof-verified"
+        }
+      }
+    }
+  },
+  "handoff": {
+    "project_id": "jyotish-baje",
+    "owner": "Utsav",
+    "proof_path": "proof/2026-07-27/",
+    "deviations": [
+      "Evidence was captured at 00:46 NPT on 2026-07-28, after the 23:59 NPT target for the 2026-07-27 handoff.",
+      "The direct Instagram post URL was not visible in the supplied screenshots; only the safe profile URL is recorded."
+    ]
+  },
+  "schedule_calendar_actions": {
+    "version": 1,
+    "timezone": "Asia/Kathmandu",
+    "owner": "Sirish",
+    "visibility": "private",
+    "report_focus": [
+      "work priorities",
+      "open handoffs",
+      "blockers",
+      "calendar actions",
+      "proof state"
+    ],
+    "events": [
+      {
+        "name": "Morning Briefing",
+        "frequency": "daily",
+        "start_date": "2026-07-26",
+        "start_time": "07:00",
+        "end_time": "07:30",
+        "event_id": "q4g60chj5blesborvv3jfu2v64"
+      },
+      {
+        "name": "Evening Briefing",
+        "frequency": "daily",
+        "start_date": "2026-07-25",
+        "start_time": "20:30",
+        "end_time": "20:45",
+        "event_id": "1slq0n241d1bc1mdc05gkk95ek"
+      }
+    ]
+  },
+  "blockers": [],
+  "deviations": [
+    "Evidence was captured at 00:46 NPT on 2026-07-28, after the 23:59 NPT target for the 2026-07-27 handoff.",
+    "The direct Instagram post URL was not visible in the supplied screenshots; only the safe profile URL is recorded."
+  ]
+}

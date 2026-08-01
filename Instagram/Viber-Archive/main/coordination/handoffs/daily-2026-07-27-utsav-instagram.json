@@ -1,0 +1,31 @@
+{
+  "handoff_key": "daily:2026-07-27",
+  "project_id": "jyotish-baje",
+  "owner": "Utsav",
+  "status": "complete",
+  "created_at": "2026-07-28T01:01:07+05:45",
+  "completed_at": "2026-07-28T00:46:37+05:45",
+  "artifacts": [
+    "content/generated/daily-rashifal-2026-07-27.json",
+    "reports/daily/2026-07-27.json",
+    "coordination/notifications/2026-07-28/jyotish-baje-daily-posting-2026-07-27-proof.json"
+  ],
+  "proof": [
+    "proof/2026-07-27/README.md",
+    "proof/2026-07-27/WhatsApp Image 2026-07-28 at 12.46.36 AM.jpeg",
+    "proof/2026-07-27/WhatsApp Image 2026-07-28 at 12.46.37 AM.jpeg"
+  ],
+  "notification": {
+    "channel": "github_issue",
+    "handoff_key": "daily:2026-07-27",
+    "issue_reference": "https://github.com/Sirish24/sirish-utsav-collaboration/issues/21",
+    "attempted": true,
+    "assignment_status": "assigned",
+    "notes": "Posting proof and the completion readback are attached to the existing daily GitHub issue."
+  },
+  "blockers": [],
+  "deviations": [
+    "Evidence was captured at 00:46 NPT on 2026-07-28, after the 23:59 NPT target for the 2026-07-27 handoff.",
+    "The direct Instagram post URL was not visible in the supplied screenshots; only the safe profile URL is recorded."
+  ]
+}

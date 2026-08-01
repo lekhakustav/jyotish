@@ -1,0 +1,50 @@
+name: Temple inventory and Utsav handoff
+on:
+  schedule:
+    - cron: '15 3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check inventory threshold
+        env: {THRESHOLD: '1'}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          data = json.load(open('inventory/temple-images.json'))
+          remaining = sum(int(item.get('remaining_uses', 0)) for item in data.get('images', []))
+          threshold = int(os.environ['THRESHOLD'])
+          print(f'remaining={remaining} threshold={threshold} action_due={remaining <= threshold}')
+          if remaining <= threshold: open('ACTION_DUE', 'w').write('Generate temple images and record media IDs/checksums.\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with: {name: inventory-check, path: ACTION_DUE, if-no-files-found: ignore}
+      - name: Create idempotent inventory handoff issue when due
+        env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          DAY="$(date -u +%F)"
+          TITLE="Temple image generation due — ${DAY} [inventory]"
+          HANDOFF_KEY="inventory:${DAY}"
+          ISSUE_NUMBER="$(gh issue list --state open --json number,title --limit 100 | jq -r --arg title "$TITLE" '.[] | select(.title == $title) | .number' | head -n 1)"
+          if [ -f ACTION_DUE ] && [ -z "$ISSUE_NUMBER" ]; then
+            cat > handoff-body.md <<EOF
+          Handoff key: ${HANDOFF_KEY}
+          ## Inventory alert
+          Temple image remaining uses are at or below the configured one-day threshold. Generate approved images, record media IDs and checksums, and complete the handoff before midnight Nepal (23:59 NPT).
+
+          Inventory: inventory/temple-images.json
+          Proof/evidence: proof/${DAY}/
+          Assignment provides normal GitHub notifications only; it is not a guaranteed phone notification.
+          EOF
+            ISSUE_URL="$(gh issue create --title "$TITLE" --body-file handoff-body.md)"
+            ISSUE_NUMBER="$(gh issue view "$ISSUE_URL" --json number --jq .number)"
+            echo "Created inventory handoff issue #${ISSUE_NUMBER} without assignment; invitation may be pending"
+          elif [ -f ACTION_DUE ]; then echo "Open inventory handoff already exists: #${ISSUE_NUMBER}"; else echo "No new inventory issue needed"; fi
+          if [ -n "$ISSUE_NUMBER" ]; then
+            if ! gh issue edit "$ISSUE_NUMBER" --add-assignee lekhakustav; then echo "Assignment pending: lekhakustav is not yet an available collaborator; issue remains usable"; fi
+          fi

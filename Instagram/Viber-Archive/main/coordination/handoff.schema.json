@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Sirish24/sirish-utsav-collaboration/blob/main/coordination/handoff.schema.json",
+  "title": "Sirish-Utsav completion handoff",
+  "description": "Secret-free, repository-relative completion and notification record.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "handoff_key",
+    "project_id",
+    "owner",
+    "status",
+    "completed_at",
+    "artifacts",
+    "proof",
+    "notification",
+    "blockers",
+    "deviations"
+  ],
+  "properties": {
+    "example": {"type": "boolean"},
+    "handoff_key": {
+      "type": "string",
+      "pattern": "^(daily|weekly|inventory):[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "owner": {"type": "string", "minLength": 1},
+    "status": {"enum": ["pending", "complete", "blocked"]},
+    "created_at": {"type": ["string", "null"], "format": "date-time"},
+    "completed_at": {"type": ["string", "null"], "format": "date-time"},
+    "artifacts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/repositoryPath"}
+    },
+    "proof": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/repositoryPath"}
+    },
+    "notification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "channel",
+        "handoff_key",
+        "issue_reference",
+        "attempted",
+        "assignment_status",
+        "notes"
+      ],
+      "properties": {
+        "channel": {"const": "github_issue"},
+        "handoff_key": {"type": "string"},
+        "issue_reference": {"type": "string", "minLength": 1},
+        "attempted": {"type": "boolean"},
+        "assignment_status": {
+          "enum": ["not_attempted", "pending", "assigned", "unavailable", "unknown"]
+        },
+        "notes": {"type": "string"}
+      }
+    },
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "carousel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest", "source_commit_sha", "upload_path", "verifier_command", "receiver_acknowledgement"],
+      "properties": {
+        "manifest": {"$ref": "#/$defs/repositoryPath"},
+        "source_commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "upload_path": {"$ref": "#/$defs/repositoryPath"},
+        "verifier_command": {"type": "string", "minLength": 1},
+        "receiver_acknowledgement": {"$ref": "#/$defs/repositoryPath"}
+      }
+    },
+    "deviations": {"type": "array", "items": {"type": "string"}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "complete"}}},
+      "then": {
+        "required": ["completed_at"],
+        "properties": {
+          "artifacts": {"minItems": 1},
+          "proof": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "blocked"}}},
+      "then": {"properties": {"blockers": {"minItems": 1}}}
+    }
+  ],
+  "$defs": {
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*\\.\\.)[^\\\\\n]+$"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "title": [
+    "DON'T START YOUR DAY",
+    "WITHOUT THIS MANTRA"
+  ],
+  "days": [
+    { "day": "MONDAY", "mantra": "Om Namah Shivaya", "description": "Repeat 11 times after waking for a calm start." },
+    { "day": "TUESDAY", "mantra": "Om Hanumate Namah", "description": "Repeat 11 times before work for courage." },
+    { "day": "WEDNESDAY", "mantra": "Om Bum Budhaya Namah", "description": "Repeat 11 times before study for clarity." },
+    { "day": "THURSDAY", "mantra": "Om Brim Brihaspataye Namah", "description": "Repeat 11 times in the morning for wisdom." },
+    { "day": "FRIDAY", "mantra": "Om Shreem Mahalakshmyai Namah", "description": "Repeat 11 times with gratitude for harmony." },
+    { "day": "SATURDAY", "mantra": "Om Sham Shanicharaya Namah", "description": "Repeat 11 times with patience for discipline." },
+    { "day": "SUNDAY", "mantra": "Om Suryaya Namah", "description": "Repeat 11 times at sunrise for confidence." }
+  ],
+  "source": "codex-clipboard-3d88a894-e255-4019-ba95-68b5d09a7fd1.png"
+}

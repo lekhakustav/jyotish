@@ -1,0 +1,238 @@
+{
+  "daily": {
+    "label": "DAILY ENERGY",
+    "hook": [
+      "What is your sign's",
+      "energy today?"
+    ],
+    "subhook": "Love, work, energy and one lucky cue—made simple.",
+    "signs": [
+      {
+        "name": "Aries",
+        "dates": "MAR 21 – APR 19",
+        "rating": 4.3,
+        "love": "Say what you mean, gently.",
+        "work": "Finish one task before adding another.",
+        "energy": "Strongest in the morning.",
+        "cue": "Red • 9"
+      },
+      {
+        "name": "Taurus",
+        "dates": "APR 20 – MAY 20",
+        "rating": 3.8,
+        "love": "Listening will say more than fixing.",
+        "work": "Pause before an impulse purchase.",
+        "energy": "Calm, steady and grounded.",
+        "cue": "Green • 6"
+      },
+      {
+        "name": "Gemini",
+        "dates": "MAY 21 – JUN 20",
+        "rating": 4.1,
+        "love": "A light conversation closes the distance.",
+        "work": "Write the idea down before it disappears.",
+        "energy": "Curious, quick and bright.",
+        "cue": "Yellow • 5"
+      },
+      {
+        "name": "Cancer",
+        "dates": "JUN 21 – JUL 22",
+        "rating": 3.6,
+        "love": "A clear boundary can still be loving.",
+        "work": "Do not rush the important choice.",
+        "energy": "Soft, inward and restorative.",
+        "cue": "White • 2"
+      },
+      {
+        "name": "Leo",
+        "dates": "JUL 23 – AUG 22",
+        "rating": 4.7,
+        "love": "Your confidence is easy to notice.",
+        "work": "Take the visible opportunity.",
+        "energy": "Magnetic and self-assured.",
+        "cue": "Gold • 1"
+      },
+      {
+        "name": "Virgo",
+        "dates": "AUG 23 – SEP 22",
+        "rating": 4.2,
+        "love": "Stop analysing every small signal.",
+        "work": "One short list creates deep focus.",
+        "energy": "Balanced and practical.",
+        "cue": "Brown • 4"
+      },
+      {
+        "name": "Libra",
+        "dates": "SEP 23 – OCT 22",
+        "rating": 4.4,
+        "love": "A warm connection begins to open.",
+        "work": "The delayed decision can finally move.",
+        "energy": "Social and charming.",
+        "cue": "Pink • 6"
+      },
+      {
+        "name": "Scorpio",
+        "dates": "OCT 23 – NOV 21",
+        "rating": 3.9,
+        "love": "Choose the truth over assumptions.",
+        "work": "Deep focus gives you the edge.",
+        "energy": "Intense, private and powerful.",
+        "cue": "Maroon • 8"
+      },
+      {
+        "name": "Sagittarius",
+        "dates": "NOV 22 – DEC 21",
+        "rating": 4.2,
+        "love": "A spontaneous plan brings joy.",
+        "work": "A fresh direction becomes visible.",
+        "energy": "Open and adventurous.",
+        "cue": "Purple • 3"
+      },
+      {
+        "name": "Capricorn",
+        "dates": "DEC 22 – JAN 19",
+        "rating": 3.7,
+        "love": "Quiet company says enough today.",
+        "work": "Bring the budget and boundaries together.",
+        "energy": "Patient, steady and composed.",
+        "cue": "Navy • 10"
+      },
+      {
+        "name": "Aquarius",
+        "dates": "JAN 20 – FEB 18",
+        "rating": 4.5,
+        "love": "An unexpected message may arrive.",
+        "work": "Trust the idea that feels original.",
+        "energy": "Clear and inventive.",
+        "cue": "Sky blue • 11"
+      },
+      {
+        "name": "Pisces",
+        "dates": "FEB 19 – MAR 20",
+        "rating": 4.1,
+        "love": "Let intuition guide the honest reply.",
+        "work": "Creative work flows more easily.",
+        "energy": "Dreamy yet sensitive.",
+        "cue": "Ocean blue • 7"
+      }
+    ]
+  },
+  "weekly": {
+    "label": "WEEKLY ENERGY",
+    "hook": [
+      "What is your sign's",
+      "plot twist this week?"
+    ],
+    "subhook": "Love, career, energy and one lucky cue—made simple.",
+    "signs": [
+      {
+        "name": "Aries",
+        "dates": "MAR 21 – APR 19",
+        "rating": 4.2,
+        "love": "Honest words make the connection lighter.",
+        "work": "Monday's decision sets a useful direction.",
+        "energy": "Fast and productive.",
+        "cue": "Red • Tuesday"
+      },
+      {
+        "name": "Taurus",
+        "dates": "APR 20 – MAY 20",
+        "rating": 3.9,
+        "love": "A small gesture becomes memorable.",
+        "work": "Review the money plan before committing.",
+        "energy": "Slow, steady and secure.",
+        "cue": "Green • Friday"
+      },
+      {
+        "name": "Gemini",
+        "dates": "MAY 21 – JUN 20",
+        "rating": 4.4,
+        "love": "A new conversation feels exciting.",
+        "work": "Networking opens an unexpected door.",
+        "energy": "Playful and creative.",
+        "cue": "Yellow • Wednesday"
+      },
+      {
+        "name": "Cancer",
+        "dates": "JUN 21 – JUL 22",
+        "rating": 3.8,
+        "love": "An old feeling is ready to be understood.",
+        "work": "Protect the boundary between home and work.",
+        "energy": "Gentle and healing.",
+        "cue": "White • Monday"
+      },
+      {
+        "name": "Leo",
+        "dates": "JUL 23 – AUG 22",
+        "rating": 4.8,
+        "love": "The attention naturally turns toward you.",
+        "work": "This is a strong week to take the lead.",
+        "energy": "Bold and radiant.",
+        "cue": "Gold • Sunday"
+      },
+      {
+        "name": "Virgo",
+        "dates": "AUG 23 – SEP 22",
+        "rating": 4.1,
+        "love": "Choose presence over perfection.",
+        "work": "A cleaner system creates momentum.",
+        "energy": "Focused and grounded.",
+        "cue": "Earth brown • Wednesday"
+      },
+      {
+        "name": "Libra",
+        "dates": "SEP 23 – OCT 22",
+        "rating": 4.3,
+        "love": "A sweet invitation may arrive.",
+        "work": "A partnership begins to look promising.",
+        "energy": "Charming and balanced.",
+        "cue": "Pink • Friday"
+      },
+      {
+        "name": "Scorpio",
+        "dates": "OCT 23 – NOV 21",
+        "rating": 4.1,
+        "love": "A deeper truth finally comes forward.",
+        "work": "Move the quiet plan one step ahead.",
+        "energy": "Intense but controlled.",
+        "cue": "Maroon • Tuesday"
+      },
+      {
+        "name": "Sagittarius",
+        "dates": "NOV 22 – DEC 21",
+        "rating": 4.5,
+        "love": "Travel or a fresh plan brings closeness.",
+        "work": "Break the big idea into clear steps.",
+        "energy": "Optimistic and open.",
+        "cue": "Purple • Thursday"
+      },
+      {
+        "name": "Capricorn",
+        "dates": "DEC 22 – JAN 19",
+        "rating": 3.7,
+        "love": "Giving your time is the real care.",
+        "work": "Slow progress is still progress.",
+        "energy": "Serious and patient.",
+        "cue": "Navy • Saturday"
+      },
+      {
+        "name": "Aquarius",
+        "dates": "JAN 20 – FEB 18",
+        "rating": 4.6,
+        "love": "An unusual connection gains meaning.",
+        "work": "Pitch the concept that feels different.",
+        "energy": "Visionary and bright.",
+        "cue": "Sky blue • Saturday"
+      },
+      {
+        "name": "Pisces",
+        "dates": "FEB 19 – MAR 20",
+        "rating": 4.2,
+        "love": "Listen carefully to what your heart repeats.",
+        "work": "Art and intuition work well together.",
+        "energy": "Soft and imaginative.",
+        "cue": "Ocean blue • Thursday"
+      }
+    ]
+  }
+}

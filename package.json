@@ -15,7 +15,9 @@
     "web:build": "vite build",
     "web:preview": "vite preview --host 127.0.0.1",
     "web:server": "node server/index.js",
-    "marketing:validate": "node marketing/scripts/validate-marketing-data.mjs"
+    "marketing:validate": "node marketing/scripts/validate-marketing-data.mjs",
+    "social:validate": "python scripts/validate_social_carousel.py",
+    "social:migration:verify": "python scripts/verify_jyotish_migration.py verify"
   },
   "dependencies": {
     "@expo/metro-runtime": "^57.0.3",

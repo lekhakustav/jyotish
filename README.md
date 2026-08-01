@@ -48,4 +48,5 @@ For production without a dedicated server, deploy `supabase/functions/jyotish-ag
 - [docs/18-RELATIONSHIPS-FEATURE-HUB-AND-FUTURE-DATES.md](docs/18-RELATIONSHIPS-FEATURE-HUB-AND-FUTURE-DATES.md) — relationship/QR mechanics, feature hub, safety contracts, and the report-only future-date notification language
 - [docs/19-PRODUCT-ANALYTICS.md](docs/19-PRODUCT-ANALYTICS.md) — local-first event capture, privacy rules, Supabase schema, taxonomy, and queries
 - [docs/20-ANDROID-PARITY-FEATURE-REPORTS.md](docs/20-ANDROID-PARITY-FEATURE-REPORTS.md) — Android voice/QR flows, feature-key contract, prepared Dasha reports, and release checks
+- [docs/21-SOCIAL-CAROUSEL-WORKFLOW.md](docs/21-SOCIAL-CAROUSEL-WORKFLOW.md) — complete Instagram and TikTok carousel workflow, archives, proof, and verification
 - [marketing/README.md](marketing/README.md) — research, Veo prompts, creative production, Google Drive media, experiments, and performance analysis

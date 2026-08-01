@@ -1,0 +1,21 @@
+{
+  "project_id": "jyotish-baje",
+  "content_type": "weekly-mantra-carousel",
+  "date": "2026-08-01",
+  "status": "ready_for_phone_upload",
+  "language": "en",
+  "slide_count": 7,
+  "formats": {
+    "tiktok": {
+      "dimensions": "1080x1920",
+      "folder": "exports/01-tiktok"
+    },
+    "instagram": {
+      "dimensions": "1080x1350",
+      "folder": "exports/02-instagram"
+    }
+  },
+  "copy": "carousel-copy.json",
+  "source_image": "codex-clipboard-3d88a894-e255-4019-ba95-68b5d09a7fd1.png",
+  "external_posting": false
+}

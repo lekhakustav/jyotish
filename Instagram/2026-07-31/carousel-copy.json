@@ -1,0 +1,120 @@
+{
+  "daily": {
+    "label": "JULY 31, 2026 - DAILY ENERGY",
+    "hook": [
+      "What is your sign's",
+      "energy today?"
+    ],
+    "subhook": "Love, work, energy and one grounded cue - made simple.",
+    "signs": [
+      {
+        "name": "Aries",
+        "dates": "MAR 21 - APR 19",
+        "rating": 4.4,
+        "love": "Choose warmth before a quick reply.",
+        "work": "Start with the task that moves things.",
+        "energy": "Bold, active and clear.",
+        "cue": "Coral - 3"
+      },
+      {
+        "name": "Taurus",
+        "dates": "APR 20 - MAY 20",
+        "rating": 4.2,
+        "love": "Let steady care be visible.",
+        "work": "Keep the plan simple and useful.",
+        "energy": "Patient, grounded and calm.",
+        "cue": "Sage - 6"
+      },
+      {
+        "name": "Gemini",
+        "dates": "MAY 21 - JUN 20",
+        "rating": 4.5,
+        "love": "Ask one honest question.",
+        "work": "Write the idea before it drifts.",
+        "energy": "Curious, quick and social.",
+        "cue": "Sun yellow - 5"
+      },
+      {
+        "name": "Cancer",
+        "dates": "JUN 21 - JUL 22",
+        "rating": 4.0,
+        "love": "Protect a soft moment together.",
+        "work": "Finish one useful priority.",
+        "energy": "Tender, steady and restorative.",
+        "cue": "Pearl - 2"
+      },
+      {
+        "name": "Leo",
+        "dates": "JUL 23 - AUG 22",
+        "rating": 4.6,
+        "love": "Share the spotlight with care.",
+        "work": "Show the work you believe in.",
+        "energy": "Warm, visible and focused.",
+        "cue": "Marigold - 1"
+      },
+      {
+        "name": "Virgo",
+        "dates": "AUG 23 - SEP 22",
+        "rating": 4.3,
+        "love": "Kind clarity beats perfect timing.",
+        "work": "Complete before you polish again.",
+        "energy": "Practical, composed and sharp.",
+        "cue": "Olive - 4"
+      },
+      {
+        "name": "Libra",
+        "dates": "SEP 23 - OCT 22",
+        "rating": 4.4,
+        "love": "A balanced answer opens space.",
+        "work": "Make the decision you keep circling.",
+        "energy": "Social, measured and bright.",
+        "cue": "Rose - 6"
+      },
+      {
+        "name": "Scorpio",
+        "dates": "OCT 23 - NOV 21",
+        "rating": 4.1,
+        "love": "Say the truth without testing.",
+        "work": "Quiet focus protects momentum.",
+        "energy": "Deep, private and determined.",
+        "cue": "Plum - 8"
+      },
+      {
+        "name": "Sagittarius",
+        "dates": "NOV 22 - DEC 21",
+        "rating": 4.5,
+        "love": "Keep the good plan flexible.",
+        "work": "Follow the new direction carefully.",
+        "energy": "Open, hopeful and mobile.",
+        "cue": "Violet - 3"
+      },
+      {
+        "name": "Capricorn",
+        "dates": "DEC 22 - JAN 19",
+        "rating": 4.0,
+        "love": "Small reassurance matters today.",
+        "work": "Give the budget a clear limit.",
+        "energy": "Patient, steady and purposeful.",
+        "cue": "Navy - 10"
+      },
+      {
+        "name": "Aquarius",
+        "dates": "JAN 20 - FEB 18",
+        "rating": 4.3,
+        "love": "Let the unusual idea stay gentle.",
+        "work": "Make the original approach usable.",
+        "energy": "Inventive, clear and independent.",
+        "cue": "Sky blue - 11"
+      },
+      {
+        "name": "Pisces",
+        "dates": "FEB 19 - MAR 20",
+        "rating": 4.2,
+        "love": "Let intuition meet a clear reply.",
+        "work": "Give creative work a simple shape.",
+        "energy": "Dreamy, soft and observant.",
+        "cue": "Ocean blue - 7"
+      }
+    ]
+  }
+}

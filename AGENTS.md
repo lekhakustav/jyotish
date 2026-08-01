@@ -88,3 +88,13 @@ Available gstack skills include `/office-hours`, `/plan-ceo-review`, `/plan-eng-
 `/plan-design-review`, `/design-consultation`, `/review`, `/ship`, `/browse`, `/qa`,
 `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/retro`, `/investigate`,
 `/document-release`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, and `/gstack-upgrade`.
+
+## Jyotish social carousels
+
+- This repository is the only active home for Jyotish social-carousel work.
+- Use `content/` for dated Instagram and TikTok packages, `Instagram/` for the established
+  Jyotish carousel workspace, and `proof/` for posting evidence.
+- Do not read, sync, or depend on `D:\viber` unless the user explicitly names that repository.
+- Before handoff, run `npm run social:validate` and `npm run social:migration:verify`.
+- Preserve the 14-slide order, current dimensions, warm-cream visual format, provenance records,
+  and dated proof packages unless the user explicitly requests a change.
