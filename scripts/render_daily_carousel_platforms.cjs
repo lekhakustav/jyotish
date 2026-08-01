@@ -9,24 +9,48 @@ const edition = content.daily;
 const sharp = require(process.env.SHARP_MODULE || "sharp");
 const totalSlides = edition.signs.length + 2;
 
+// This is the permanent daily Rashifal format: a warm cream app-style canvas,
+// centered bilingual heading, quiet hairlines, and readable guidance rows.
 const palette = {
-  bg: "#030923",
-  ink: "#F7F4FF",
-  muted: "#D6DDF4",
-  gold: "#F6D483",
-  accent: "#A8D7FF"
+  canvas: "#F4ECDD",
+  card: "#FFFDF7",
+  ink: "#3B1F14",
+  muted: "#7A5C48",
+  accent: "#B9331F",
+  gold: "#B8860B",
+  hairline: "rgba(184,134,11,0.28)",
+  soft: "#F8F1E6"
 };
 
-const constellationMaps = [
-  { points: [[.18,.12],[.32,.28],[.45,.22],[.58,.36],[.72,.28],[.83,.48],[.65,.57],[.49,.50],[.34,.68]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,3],[7,8],[1,7]] },
-  { points: [[.16,.28],[.29,.18],[.43,.31],[.57,.18],[.70,.30],[.82,.22],[.68,.49],[.49,.58],[.31,.48]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,0],[2,7]] },
-  { points: [[.20,.20],[.38,.14],[.55,.26],[.73,.18],[.84,.40],[.63,.47],[.48,.62],[.29,.52]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,5]] },
-  { points: [[.14,.35],[.27,.18],[.44,.24],[.62,.14],[.78,.30],[.70,.52],[.51,.60],[.32,.51]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,6]] },
-  { points: [[.23,.14],[.40,.25],[.59,.16],[.79,.32],[.68,.50],[.49,.44],[.34,.62],[.18,.50]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[1,5]] },
-  { points: [[.17,.19],[.34,.33],[.50,.17],[.68,.28],[.84,.20],[.74,.45],[.55,.54],[.36,.49]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[1,6]] },
-  { points: [[.19,.30],[.31,.16],[.48,.29],[.64,.17],[.81,.34],[.66,.53],[.46,.60],[.27,.51]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,6]] },
-  { points: [[.16,.22],[.33,.13],[.51,.25],[.69,.16],[.85,.32],[.72,.53],[.52,.46],[.35,.64]], lines: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[2,5]] }
-];
+const rashiNames = {
+  Aries: "Mesh",
+  Taurus: "Vrish",
+  Gemini: "Mithun",
+  Cancer: "Karkat",
+  Leo: "Singh",
+  Virgo: "Kanya",
+  Libra: "Tula",
+  Scorpio: "Vrischik",
+  Sagittarius: "Dhanu",
+  Capricorn: "Makar",
+  Aquarius: "Kumbha",
+  Pisces: "Meen"
+};
+
+const rashiNepali = {
+  Aries: "मेष",
+  Taurus: "वृषभ",
+  Gemini: "मिथुन",
+  Cancer: "कर्कट",
+  Leo: "सिंह",
+  Virgo: "कन्या",
+  Libra: "तुला",
+  Scorpio: "वृश्चिक",
+  Sagittarius: "धनु",
+  Capricorn: "मकर",
+  Aquarius: "कुम्भ",
+  Pisces: "मीन"
+};
 
 const fontCss = `
   @font-face{font-family:FrauncesLocal;src:url('../../brand/fonts/Fraunces-Regular.ttf') format('truetype');font-weight:400}
@@ -34,8 +58,9 @@ const fontCss = `
   @font-face{font-family:InterLocal;src:url('../../brand/fonts/Inter-Regular.ttf') format('truetype');font-weight:400}
   @font-face{font-family:InterLocal;src:url('../../brand/fonts/Inter-SemiBold.ttf') format('truetype');font-weight:600}
   @font-face{font-family:InterLocal;src:url('../../brand/fonts/Inter-Bold.ttf') format('truetype');font-weight:700}
-  .serif{font-family:FrauncesLocal,serif}
-  .sans{font-family:InterLocal,sans-serif}
+  .serif{font-family:FrauncesLocal,'Nirmala UI',serif}
+  .sans{font-family:InterLocal,'Nirmala UI',sans-serif}
+  .bilingual{font-family:FrauncesLocal,'Nirmala UI',serif}
 `;
 
 const escapeXml = (value) => String(value)
@@ -47,20 +72,64 @@ const escapeXml = (value) => String(value)
 function dimensions(kind) {
   return kind === "tiktok"
     ? {
-        width: 1080, height: 1920, headerY: 88, pageY: 88, logoY: 52,
-        titleY: 1240, titleSize: 76, titleGap: 104, omY: 1515,
-        signY: 1270, dateY: 1350, rowStart: 1440, rowGap: 92,
-        signSize: 112, dateSize: 21, scoreSize: 64, labelSize: 20,
-        bodySize: 28, progressY: 1840, finalMetaY: 1380,
-        finalActionStart: 1505, finalActionGap: 82
+        width: 1080,
+        height: 1920,
+        cardX: 34,
+        cardY: 42,
+        cardW: 1012,
+        cardH: 1836,
+        logoY: 68,
+        headerY: 86,
+        dateY: 118,
+        pageY: 94,
+        titleY: 390,
+        titleSize: 104,
+        titleSubY: 468,
+        rankOneY: 700,
+        rankTwoY: 1070,
+        swipeY: 1658,
+        signY: 390,
+        signSize: 104,
+        signDateY: 475,
+        introY: 560,
+        rowStart: 700,
+        rowGap: 190,
+        rowLabelSize: 22,
+        bodySize: 31,
+        bodyLineHeight: 40,
+        ctaY: 1515,
+        ctaSize: 25,
+        progressY: 1818
       }
     : {
-        width: 1080, height: 1350, headerY: 72, pageY: 72, logoY: 42,
-        titleY: 875, titleSize: 60, titleGap: 82, omY: 1080,
-        signY: 870, dateY: 948, rowStart: 1008, rowGap: 66,
-        signSize: 92, dateSize: 18, scoreSize: 52, labelSize: 16,
-        bodySize: 22, progressY: 1295, finalMetaY: 1005,
-        finalActionStart: 1110, finalActionGap: 48
+        width: 1080,
+        height: 1350,
+        cardX: 28,
+        cardY: 28,
+        cardW: 1024,
+        cardH: 1294,
+        logoY: 52,
+        headerY: 72,
+        dateY: 102,
+        pageY: 80,
+        titleY: 258,
+        titleSize: 82,
+        titleSubY: 318,
+        rankOneY: 490,
+        rankTwoY: 765,
+        swipeY: 1178,
+        signY: 254,
+        signSize: 82,
+        signDateY: 326,
+        introY: 410,
+        rowStart: 510,
+        rowGap: 138,
+        rowLabelSize: 17,
+        bodySize: 25,
+        bodyLineHeight: 32,
+        ctaY: 1080,
+        ctaSize: 19,
+        progressY: 1268
       };
 }
 
@@ -68,99 +137,117 @@ function logoData() {
   return `data:image/png;base64,${fs.readFileSync(path.join(base, "brand", "jyotish-logo-transparent.png")).toString("base64")}`;
 }
 
-let cachedBackgroundData;
-function backgroundData() {
-  if (!cachedBackgroundData) {
-    cachedBackgroundData = `data:image/png;base64,${fs.readFileSync(path.join(base, "assets", "constellation-background.png")).toString("base64")}`;
+function dateLabel() {
+  return edition.label.split(" - ")[0] || date.toUpperCase();
+}
+
+function wrapText(value, maxChars) {
+  const words = String(value).split(/\s+/);
+  const lines = [];
+  let current = "";
+  for (const word of words) {
+    const next = current ? `${current} ${word}` : word;
+    if (current && next.length > maxChars) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = next;
+    }
   }
-  return cachedBackgroundData;
+  if (current) lines.push(current);
+  return lines.length ? lines : [""];
 }
 
 function shell(inner, page, kind) {
   const d = dimensions(kind);
+  const center = d.width / 2;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${d.width}" height="${d.height}" viewBox="0 0 ${d.width} ${d.height}">
     <defs>
       <style>${fontCss}</style>
-      <linearGradient id="bottomFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020718" stop-opacity="0"/><stop offset=".58" stop-color="#020718" stop-opacity=".08"/><stop offset="1" stop-color="#020718" stop-opacity=".88"/></linearGradient>
-      <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000616" flood-opacity=".8"/></filter>
+      <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="9" stdDeviation="13" flood-color="#7A5C48" flood-opacity=".10"/>
+      </filter>
     </defs>
-    <image href="${backgroundData()}" x="0" y="0" width="${d.width}" height="${d.height}" preserveAspectRatio="xMidYMid slice"/>
-    <rect width="${d.width}" height="${d.height}" fill="#020718" opacity=".18"/>
-    <rect width="${d.width}" height="${d.height}" fill="url(#bottomFade)"/>
-    <image href="${logoData()}" x="52" y="${d.logoY}" width="58" height="58" opacity=".96"/>
-    <text x="1008" y="${d.pageY}" text-anchor="end" class="sans" font-size="20" font-weight="600" fill="${palette.muted}" opacity=".88">${String(page).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}</text>
-    ${constellationSvg(page - 1, kind)}
+    <rect width="${d.width}" height="${d.height}" fill="${palette.canvas}"/>
+    <rect x="${d.cardX}" y="${d.cardY}" width="${d.cardW}" height="${d.cardH}" rx="34" fill="${palette.card}" stroke="${palette.hairline}" stroke-width="2" filter="url(#softShadow)"/>
+    <image href="${logoData()}" x="${d.cardX + 30}" y="${d.logoY}" width="54" height="54" opacity=".92"/>
+    <text x="${center}" y="${d.headerY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 22 : 17}" font-weight="700" letter-spacing="3" fill="${palette.accent}">JYOTISH BAJE</text>
+    <text x="${center}" y="${d.dateY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 18 : 15}" font-weight="600" letter-spacing="2" fill="${palette.muted}">${escapeXml(dateLabel())}</text>
+    <text x="${d.cardX + d.cardW - 30}" y="${d.pageY}" text-anchor="end" class="sans" font-size="${kind === "tiktok" ? 19 : 16}" font-weight="600" fill="${palette.muted}">${String(page).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}</text>
+    <line x1="${d.cardX + 38}" y1="${d.dateY + 26}" x2="${d.cardX + d.cardW - 38}" y2="${d.dateY + 26}" stroke="${palette.hairline}" stroke-width="2"/>
     ${inner}
   </svg>`;
 }
 
 function progress(page, kind) {
-  const y = dimensions(kind).progressY;
+  const d = dimensions(kind);
   const step = 68;
   const width = 50;
+  const start = (d.width - (step * (totalSlides - 1) + width)) / 2;
   return Array.from({ length: totalSlides }, (_, index) => {
-    const x = 72 + index * step;
+    const x = Math.round(start + index * step);
     const active = index < page;
-    return `<line x1="${x}" y1="${y}" x2="${x + width}" y2="${y}" stroke="${active ? palette.gold : palette.muted}" stroke-opacity="${active ? ".88" : ".28"}" stroke-width="4"/>`;
+    return `<line x1="${x}" y1="${d.progressY}" x2="${x + width}" y2="${d.progressY}" stroke="${active ? palette.accent : palette.gold}" stroke-opacity="${active ? ".92" : ".22"}" stroke-width="5" stroke-linecap="round"/>`;
   }).join("");
 }
 
-function constellationSvg(index, kind) {
+function rankBlock(sign, heading, note, y, kind) {
   const d = dimensions(kind);
-  const map = constellationMaps[index % constellationMaps.length];
-  const top = kind === "tiktok" ? 155 : 110;
-  const mapHeight = kind === "tiktok" ? 980 : 700;
-  const xy = ([x, y]) => [Math.round(72 + x * 936), Math.round(top + y * mapHeight)];
-  const lines = map.lines.map(([from, to]) => {
-    const [x1, y1] = xy(map.points[from]);
-    const [x2, y2] = xy(map.points[to]);
-    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${palette.accent}" stroke-opacity=".56" stroke-width="2"/>`;
-  }).join("");
-  const stars = map.points.map((point, starIndex) => {
-    const [cx, cy] = xy(point);
-    return `<circle cx="${cx}" cy="${cy}" r="${starIndex % 3 === 0 ? 6 : 4}" fill="#EAF5FF" opacity=".95"/><circle cx="${cx}" cy="${cy}" r="14" fill="${palette.accent}" opacity=".10"/>`;
-  }).join("");
-  return `<g>${lines}${stars}</g>`;
+  const center = d.width / 2;
+  const signName = rashiNames[sign.name] || sign.name;
+  return `<g>
+    <text x="${center}" y="${y}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 23 : 17}" font-weight="700" letter-spacing="3" fill="${palette.accent}">${heading}</text>
+    <text x="${center}" y="${y + (kind === "tiktok" ? 64 : 54)}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 58 : 46}" font-weight="700" fill="${palette.ink}">${escapeXml(signName)}</text>
+    <text x="${center}" y="${y + (kind === "tiktok" ? 119 : 99)}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 47 : 37}" font-weight="700" fill="${palette.accent}">${Number(sign.rating).toFixed(1)}/5</text>
+    <text x="${center}" y="${y + (kind === "tiktok" ? 158 : 133)}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 22 : 17}" fill="${palette.muted}">${escapeXml(note)}</text>
+  </g>`;
 }
 
 function cover(kind) {
   const d = dimensions(kind);
   const center = d.width / 2;
+  const sorted = [...edition.signs].sort((left, right) => Number(right.rating) - Number(left.rating));
+  const highest = sorted[0];
+  const lowest = sorted[sorted.length - 1];
   return shell(`
-    <text x="${center}" y="${d.titleY - 118}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 22 : 18}" font-weight="700" letter-spacing="4" fill="${palette.gold}" filter="url(#textShadow)">${escapeXml(edition.label)}</text>
-    <text x="${center}" y="${d.titleY}" text-anchor="middle" class="serif" font-size="${d.titleSize}" font-weight="700" fill="${palette.ink}" filter="url(#textShadow)">
-      <tspan x="${center}" dy="0">${escapeXml(edition.hook[0])}</tspan>
-      <tspan x="${center}" dy="${d.titleGap}">${escapeXml(edition.hook[1])}</tspan>
-    </text>
-    <text x="${center}" y="${d.omY}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 92 : 82}" fill="${palette.gold}" filter="url(#textShadow)">&#x0950;</text>
+    <text x="${center}" y="${d.titleY}" text-anchor="middle" class="bilingual" font-size="${d.titleSize}" font-weight="700" fill="${palette.accent}">Rashifal/राशिफल</text>
+    <text x="${center}" y="${d.titleSubY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 20 : 15}" font-weight="600" letter-spacing="2" fill="${palette.muted}">DAILY GUIDANCE</text>
+    ${rankBlock(highest, "HIGHEST RANKED", "Use the momentum.", d.rankOneY, kind)}
+    <line x1="${kind === "tiktok" ? 270 : 340}" y1="${kind === "tiktok" ? 920 : 625}" x2="${kind === "tiktok" ? 810 : 740}" y2="${kind === "tiktok" ? 920 : 625}" stroke="${palette.hairline}" stroke-width="2"/>
+    ${rankBlock(lowest, "LOWEST RANKED", "Protect your energy.", d.rankTwoY, kind)}
+    <text x="${center}" y="${d.swipeY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 22 : 17}" font-weight="600" fill="${palette.accent}">Swipe for your rashi →</text>
     ${progress(1, kind)}
   `, 1, kind);
 }
 
-function bodySize(value, kind) {
-  const base = dimensions(kind).bodySize;
-  return String(value).length > 48 ? base - 3 : base;
-}
-
 function cueRow(label, value, y, kind) {
   const d = dimensions(kind);
-  return `<text x="78" y="${y}" class="sans" font-size="${d.labelSize}" font-weight="700" letter-spacing="2" fill="${palette.gold}" filter="url(#textShadow)">${label}</text>
-    <text x="250" y="${y}" class="sans" font-size="${bodySize(value, kind)}" fill="${palette.muted}" filter="url(#textShadow)">${escapeXml(value)}</text>`;
+  const maxChars = kind === "tiktok" ? 46 : 39;
+  const lines = wrapText(value, maxChars);
+  const bodyX = kind === "tiktok" ? 292 : 280;
+  const lineHeight = d.bodyLineHeight;
+  const rendered = lines.map((line, index) => `<tspan x="${bodyX}" dy="${index === 0 ? 0 : lineHeight}">${escapeXml(line)}</tspan>`).join("");
+  return `<g>
+    <text x="${kind === "tiktok" ? 82 : 78}" y="${y}" class="sans" font-size="${d.rowLabelSize}" font-weight="700" letter-spacing="2" fill="${palette.accent}">${label}</text>
+    <text x="${bodyX}" y="${y}" class="sans" font-size="${d.bodySize}" fill="${palette.ink}">${rendered}</text>
+    <line x1="${kind === "tiktok" ? 78 : 74}" y1="${y + (kind === "tiktok" ? 82 : 61)}" x2="${d.width - (kind === "tiktok" ? 78 : 74)}" y2="${y + (kind === "tiktok" ? 82 : 61)}" stroke="${palette.hairline}" stroke-width="2"/>
+  </g>`;
 }
 
 function signSlide(sign, index, kind) {
   const d = dimensions(kind);
   const page = index + 2;
   const score = Number(sign.rating).toFixed(1);
+  const title = `${rashiNames[sign.name] || sign.name} / ${rashiNepali[sign.name] || ""}`;
   return shell(`
-    <text x="${d.width / 2}" y="${d.signY}" text-anchor="middle" class="serif" font-size="${d.signSize}" font-weight="700" fill="${palette.gold}" filter="url(#textShadow)">${escapeXml(sign.name)}</text>
-    <line x1="270" y1="${d.signY + 62}" x2="810" y2="${d.signY + 62}" stroke="${palette.gold}" stroke-opacity=".55"/>
-    <text x="78" y="${d.dateY}" class="sans" font-size="${d.dateSize}" font-weight="600" letter-spacing="3" fill="${palette.muted}" filter="url(#textShadow)">${escapeXml(sign.dates)}</text>
-    <text x="1002" y="${d.dateY}" text-anchor="end" class="serif" font-size="${d.scoreSize}" font-weight="700" fill="${palette.gold}" filter="url(#textShadow)">${score} &#9733;</text>
+    <text x="${d.width / 2}" y="${d.signY}" text-anchor="middle" class="bilingual" font-size="${d.signSize}" font-weight="700" fill="${palette.accent}">${escapeXml(title)}</text>
+    <text x="${d.width / 2}" y="${d.signDateY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 20 : 15}" font-weight="600" letter-spacing="2" fill="${palette.muted}">${escapeXml(sign.dates)}</text>
+    <text x="${d.width / 2}" y="${d.introY}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 38 : 28}" font-weight="700" fill="${palette.ink}">${score}/5 <tspan font-size="${kind === "tiktok" ? 25 : 19}" fill="${palette.accent}">today</tspan></text>
     ${cueRow("LOVE", sign.love, d.rowStart, kind)}
     ${cueRow("WORK", sign.work, d.rowStart + d.rowGap, kind)}
     ${cueRow("ENERGY", sign.energy, d.rowStart + d.rowGap * 2, kind)}
     ${cueRow("LUCKY CUE", sign.cue, d.rowStart + d.rowGap * 3, kind)}
+    <text x="${d.width / 2}" y="${d.ctaY}" text-anchor="middle" class="sans" font-size="${d.ctaSize}" font-weight="600" fill="${palette.accent}">Save this guidance for today →</text>
     ${progress(page, kind)}
   `, page, kind);
 }
@@ -168,16 +255,19 @@ function signSlide(sign, index, kind) {
 function finalSlide(kind) {
   const d = dimensions(kind);
   const center = d.width / 2;
-  const actionSize = kind === "tiktok" ? 38 : 27;
+  const titleSize = kind === "tiktok" ? 86 : 66;
+  const actionSize = kind === "tiktok" ? 32 : 24;
+  const actionStart = kind === "tiktok" ? 1460 : 1000;
+  const actionGap = kind === "tiktok" ? 78 : 52;
   const actions = ["TRY JYOTISH  →", "COMMENT YOUR SIGN  ↓", "SAVE THIS POST  +", "SHARE WITH A FRIEND  →"];
   return shell(`
-    <text x="${center}" y="${d.titleY}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 88 : 70}" font-weight="700" fill="${palette.ink}" filter="url(#textShadow)">
+    <text x="${center}" y="${kind === "tiktok" ? 590 : 420}" text-anchor="middle" class="bilingual" font-size="${titleSize}" font-weight="700" fill="${palette.accent}">
       <tspan x="${center}" dy="0">Your chart.</tspan>
-      <tspan x="${center}" dy="${d.titleGap}">Explained simply.</tspan>
+      <tspan x="${center}" dy="${kind === "tiktok" ? 105 : 82}">Explained simply.</tspan>
     </text>
-    <text x="${center}" y="${d.finalMetaY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 25 : 20}" font-weight="700" letter-spacing="3" fill="${palette.gold}" filter="url(#textShadow)">JYOTISH BAJE  •  AI-BASED JYOTISH APP</text>
-    ${actions.map((action, index) => `<text x="${center}" y="${d.finalActionStart + index * d.finalActionGap}" text-anchor="middle" class="serif" font-size="${actionSize}" font-weight="700" fill="${palette.gold}" filter="url(#textShadow)">${action}</text>`).join("")}
-    <text x="${center}" y="${kind === "tiktok" ? 1810 : 1270}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 21 : 16}" fill="${palette.muted}" filter="url(#textShadow)">AI guidance for reflection, not certainty.</text>
+    <text x="${center}" y="${d.ctaY - (kind === "tiktok" ? 410 : 290)}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 22 : 17}" font-weight="700" letter-spacing="3" fill="${palette.muted}">JYOTISH BAJE  •  AI-BASED JYOTISH APP</text>
+    ${actions.map((action, index) => `<text x="${center}" y="${actionStart + index * actionGap}" text-anchor="middle" class="serif" font-size="${actionSize}" font-weight="700" fill="${palette.accent}">${action}</text>`).join("")}
+    <text x="${center}" y="${kind === "tiktok" ? 1760 : 1208}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 20 : 15}" fill="${palette.muted}">AI guidance for reflection, not certainty.</text>
     ${progress(totalSlides, kind)}
   `, totalSlides, kind);
 }
@@ -193,10 +283,13 @@ async function renderContactSheet(pngPaths, kind) {
     const input = await sharp(pngPaths[index]).resize(thumbWidth, thumbHeight, { fit: "fill" }).png().toBuffer();
     composites.push({ input, left: (index % columns) * thumbWidth, top: Math.floor(index / columns) * thumbHeight });
   }
-  await sharp({ create: { width: columns * thumbWidth, height: rows * thumbHeight, channels: 4, background: palette.bg } })
+  const output = path.join(base, "proof", `${kind}-daily-rashifal-contact-sheet.png`);
+  await sharp({ create: { width: columns * thumbWidth, height: rows * thumbHeight, channels: 4, background: palette.canvas } })
     .composite(composites)
     .png()
-    .toFile(path.join(base, "proof", `${kind}-daily-rashifal-contact-sheet.png`));
+    .toFile(output);
+  const commonName = `${kind}-carousel-14-slide-contact-sheet.png`;
+  fs.copyFileSync(output, path.join(base, "proof", commonName));
 }
 
 async function renderKind(kind) {
@@ -225,16 +318,14 @@ function copyIfMissing(source, target) {
 async function main() {
   const formatReference = path.join(root, "Instagram", "2026-08-01", "weekly-mantra");
   fs.mkdirSync(path.join(base, "brand", "fonts"), { recursive: true });
-  fs.mkdirSync(path.join(base, "assets"), { recursive: true });
   copyIfMissing(path.join(formatReference, "brand", "jyotish-logo-transparent.png"), path.join(base, "brand", "jyotish-logo-transparent.png"));
-  copyIfMissing(path.join(formatReference, "assets", "constellation-background.png"), path.join(base, "assets", "constellation-background.png"));
   for (const font of fs.readdirSync(path.join(formatReference, "brand", "fonts"))) {
     copyIfMissing(path.join(formatReference, "brand", "fonts", font), path.join(base, "brand", "fonts", font));
   }
   fs.mkdirSync(path.join(base, "proof"), { recursive: true });
   const results = {};
   for (const kind of ["tiktok", "instagram"]) results[kind] = await renderKind(kind);
-  console.log(JSON.stringify({ date, slideCount: totalSlides, format: "aug-01-constellation", results }, null, 2));
+  console.log(JSON.stringify({ date, slideCount: totalSlides, format: "permanent-cream-rashifal", results }, null, 2));
 }
 
 main().catch((error) => {
