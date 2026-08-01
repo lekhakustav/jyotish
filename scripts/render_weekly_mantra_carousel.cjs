@@ -34,8 +34,8 @@ const escapeXml = (value) => String(value)
 
 function dimensions(kind) {
   return kind === "tiktok"
-    ? { width: 1080, height: 1920, headerY: 82, ruleY: 120, pageY: 82, logoY: 155, titleY: 360, titleSize: 72, titleGap: 100, omY: 635, coverCardY: 820, coverCardH: 570, coverDayY: 965, coverMantraY: 1110, cardY: 980, cardH: 480, dayY: 1110, mantraY: 1260, mantraSize: 66, mantraGap: 92 }
-    : { width: 1080, height: 1350, headerY: 75, ruleY: 110, pageY: 75, logoY: 145, titleY: 280, titleSize: 70, titleGap: 90, omY: 465, coverCardY: 590, coverCardH: 500, coverDayY: 710, coverMantraY: 855, cardY: 760, cardH: 360, dayY: 865, mantraY: 1010, mantraSize: 55, mantraGap: 78 };
+    ? { width: 1080, height: 1920, headerY: 82, ruleY: 120, pageY: 82, logoY: 155, titleY: 360, titleSize: 72, titleGap: 100, omY: 635, cardY: 980, cardH: 620, dayY: 1120, mantraY: 1260, mantraSize: 66, mantraGap: 92 }
+    : { width: 1080, height: 1350, headerY: 75, ruleY: 110, pageY: 75, logoY: 145, titleY: 280, titleSize: 70, titleGap: 90, omY: 465, cardY: 700, cardH: 500, dayY: 825, mantraY: 965, mantraSize: 52, mantraGap: 78 };
 }
 
 function shell(inner, page, kind) {
@@ -77,7 +77,7 @@ function cover(kind) {
     </text>
     <text x="${center}" y="${d.omY}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 92 : 82}" fill="${palette.gold}">&#x0950;</text>
     <line x1="250" y1="${d.omY + 55}" x2="830" y2="${d.omY + 55}" stroke="${palette.gold}" stroke-opacity=".36"/>
-    ${dayCard(content.days.at(-1), 6, kind, { cardY: d.coverCardY, cardH: d.coverCardH, dayY: d.coverDayY, mantraY: d.coverMantraY })}
+    ${dayCard(content.days.at(-1), 6, kind)}
     ${progress(1, kind)}
   `, 1, kind);
 }
@@ -105,12 +105,16 @@ function dayCard(day, index, kind, overrides = {}) {
   const mantra = lines.map((line, lineIndex) => `<tspan x="${center}" dy="${lineIndex === 0 ? 0 : lineGap}">${escapeXml(line)}</tspan>`).join("");
   const daySize = overrides.daySize ?? (kind === "tiktok" ? 108 : 94);
   const mantraSize = overrides.mantraSize ?? (kind === "tiktok" ? 70 : d.mantraSize);
+  const descriptionY = lines.length === 1 ? cardY + cardH - 88 : cardY + cardH - 48;
+  const descriptionLabelY = descriptionY - 34;
   return `
     <rect x="72" y="${cardY}" width="936" height="${cardH}" rx="28" fill="${color}" opacity=".10"/>
     <rect x="72" y="${cardY}" width="14" height="${cardH}" rx="7" fill="${color}"/>
     <text x="${center}" y="${dayY}" text-anchor="middle" class="serif" font-size="${daySize}" font-weight="700" fill="${color}">${escapeXml(day.day)}</text>
     <line x1="270" y1="${dayY + 56}" x2="810" y2="${dayY + 56}" stroke="${color}" stroke-opacity=".35"/>
-    <text x="${center}" y="${firstMantraY}" text-anchor="middle" class="serif" font-size="${mantraSize}" fill="${palette.ink}">${mantra}</text>`;
+    <text x="${center}" y="${firstMantraY}" text-anchor="middle" class="serif" font-size="${mantraSize}" fill="${palette.ink}">${mantra}</text>
+    <text x="${center}" y="${descriptionLabelY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 20 : 18}" font-weight="700" letter-spacing="3" fill="${color}">TRY THIS</text>
+    <text x="${center}" y="${descriptionY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 27 : 23}" fill="${palette.muted}">${escapeXml(day.description)}</text>`;
 }
 
 function daySlide(day, index, kind) {
