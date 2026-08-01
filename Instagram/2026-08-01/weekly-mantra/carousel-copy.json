@@ -1,0 +1,16 @@
+{
+  "title": [
+    "DON'T START YOUR DAY",
+    "WITHOUT THIS MANTRA"
+  ],
+  "days": [
+    { "day": "MONDAY", "mantra": "Om Namah Shivaya" },
+    { "day": "TUESDAY", "mantra": "Om Hanumate Namah" },
+    { "day": "WEDNESDAY", "mantra": "Om Bum Budhaya Namah" },
+    { "day": "THURSDAY", "mantra": "Om Brim Brihaspataye Namah" },
+    { "day": "FRIDAY", "mantra": "Om Shreem Mahalakshmyai Namah" },
+    { "day": "SATURDAY", "mantra": "Om Sham Shanicharaya Namah" },
+    { "day": "SUNDAY", "mantra": "Om Suryaya Namah" }
+  ],
+  "source": "codex-clipboard-3d88a894-e255-4019-ba95-68b5d09a7fd1.png"
+}
