@@ -3,6 +3,7 @@
 Three-slide evening aarti package for Instagram and TikTok in the light cream app-style Rashifal layout.
 
 - Slide 1: `Sandhya Aarti / सन्ध्या आरती` intro
+- Slide 1 also shows the bold Nepali tithi `साउन कृष्ण चतुर्थी` at the top
 - Slide 2: short `Om Jai Jagdish Hare` aarti in two paragraph blocks, with an enlarged Devanagari title and English verses
 - Slide 3: short `Jai Ambe Gauri` aarti in two paragraph blocks, with an enlarged Devanagari title and English verses
 - The `JYOTISH BAJE` and date use the slightly larger size preference

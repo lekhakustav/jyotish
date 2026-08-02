@@ -40,16 +40,16 @@ function dimensions(kind) {
     ? {
         width: 1080, height: 1920, cardX: 34, cardY: 42, cardW: 1012, cardH: 1836,
         logoY: 72, headerY: 96, dateY: 136, pageY: 104,
-        introTitleY: 560, introTitleSize: 100, introTitleGap: 116, introSubY: 900, introCueY: 1580,
+        introTitleY: 640, introTitleSize: 128, introTitleGap: 116, introSubY: 965, introCueY: 1580,
         labelY: 600, titleY: 450, titleSize: 106, titleGap: 92, titleRuleY: 690, lineStartY: 820, lineGap: 130, paragraphGap: 340, bodySize: 64,
-        cueY: 1515, progressY: 1818, headerRuleOffset: 32, introRuleOffset: 62, brandSize: 32, dateSize: 26, pageSize: 25, cueSize: 32, subtitleSize: 53, labelSize: 38
+        cueY: 1515, progressY: 1818, headerRuleOffset: 32, tithiY: 184, tithiLineY: 238, tithiSize: 34, introRuleOffset: 62, brandSize: 32, dateSize: 26, pageSize: 25, cueSize: 32, subtitleSize: 53, labelSize: 38
       }
     : {
         width: 1080, height: 1350, cardX: 28, cardY: 28, cardW: 1024, cardH: 1294,
         logoY: 56, headerY: 82, dateY: 116, pageY: 88,
-        introTitleY: 380, introTitleSize: 88, introTitleGap: 98, introSubY: 645, introCueY: 1100,
+        introTitleY: 410, introTitleSize: 110, introTitleGap: 98, introSubY: 665, introCueY: 1100,
         labelY: 455, titleY: 320, titleSize: 88, titleGap: 72, titleRuleY: 520, lineStartY: 595, lineGap: 110, paragraphGap: 260, bodySize: 56,
-        cueY: 1100, progressY: 1268, headerRuleOffset: 30, introRuleOffset: 54, brandSize: 28, dateSize: 23, pageSize: 21, cueSize: 30, subtitleSize: 43, labelSize: 30
+        cueY: 1100, progressY: 1268, headerRuleOffset: 30, tithiY: 158, tithiLineY: 208, tithiSize: 28, introRuleOffset: 54, brandSize: 28, dateSize: 23, pageSize: 21, cueSize: 30, subtitleSize: 43, labelSize: 30
       };
 }
 
@@ -57,9 +57,13 @@ function logoData() {
   return `data:image/png;base64,${fs.readFileSync(path.join(base, "brand", "jyotish-logo-transparent.png")).toString("base64")}`;
 }
 
-function shell(inner, page, kind) {
+function shell(inner, page, kind, options = {}) {
   const d = dimensions(kind);
   const center = d.width / 2;
+  const headerLineY = options.showTithi ? d.tithiLineY : d.dateY + d.headerRuleOffset;
+  const tithiMarkup = options.showTithi
+    ? `    <text x="${center}" y="${d.tithiY}" text-anchor="middle" class="bilingual" font-size="${d.tithiSize}" font-weight="700" fill="${palette.accent}">${escapeXml(content.tithi)}</text>\n`
+    : "";
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${d.width}" height="${d.height}" viewBox="0 0 ${d.width} ${d.height}">
     <defs>
       <style>${fontCss}</style>
@@ -71,7 +75,7 @@ function shell(inner, page, kind) {
     <text x="${center}" y="${d.headerY}" text-anchor="middle" class="sans" font-size="${d.brandSize}" font-weight="700" letter-spacing="3" fill="${palette.accent}">JYOTISH BAJE</text>
     <text x="${center}" y="${d.dateY}" text-anchor="middle" class="sans" font-size="${d.dateSize}" font-weight="600" letter-spacing="2" fill="${palette.muted}">${escapeXml(content.date)}</text>
     <text x="${d.cardX + d.cardW - 30}" y="${d.pageY}" text-anchor="end" class="sans" font-size="${d.pageSize}" font-weight="600" fill="${palette.muted}">${String(page).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}</text>
-    <line x1="${d.cardX + 38}" y1="${d.dateY + d.headerRuleOffset}" x2="${d.cardX + d.cardW - 38}" y2="${d.dateY + d.headerRuleOffset}" stroke="${palette.hairline}" stroke-width="2"/>
+${tithiMarkup}    <line x1="${d.cardX + 38}" y1="${headerLineY}" x2="${d.cardX + d.cardW - 38}" y2="${headerLineY}" stroke="${palette.hairline}" stroke-width="2"/>
     ${sideDecor(kind)}
     ${inner}
   </svg>`;
@@ -157,16 +161,14 @@ function intro(kind) {
   const d = dimensions(kind);
   const center = d.width / 2;
   const titleParts = content.intro.title.split(" / ");
-  const titleMarkup = kind === "tiktok"
-    ? `<text x="${center}" y="${d.introTitleY}" text-anchor="middle" class="bilingual" font-size="${d.introTitleSize}" font-weight="700" fill="${palette.accent}"><tspan x="${center}" dy="0">${escapeXml(titleParts[0])} /</tspan><tspan x="${center}" dy="${d.introTitleGap}">${escapeXml(titleParts[1])}</tspan></text>`
-    : `<text x="${center}" y="${d.introTitleY}" text-anchor="middle" class="bilingual" font-size="${d.introTitleSize}" font-weight="700" fill="${palette.accent}"><tspan x="${center}" dy="0">${escapeXml(titleParts[0])} /</tspan><tspan x="${center}" dy="${d.introTitleGap}">${escapeXml(titleParts[1])}</tspan></text>`;
+  const titleMarkup = `<text x="${center}" y="${d.introTitleY}" text-anchor="middle" class="bilingual" font-size="${d.introTitleSize}" font-weight="700" fill="${palette.accent}">${escapeXml(titleParts[1])}</text>`;
   return shell(`
     ${introDecor(kind)}
     ${titleMarkup}
     <text x="${center}" y="${d.introSubY}" text-anchor="middle" class="serif" font-size="${d.subtitleSize}" fill="${palette.ink}">${escapeXml(content.intro.subtitle)}</text>
     <line x1="${kind === "tiktok" ? 300 : 350}" y1="${d.introSubY + d.introRuleOffset}" x2="${kind === "tiktok" ? 780 : 730}" y2="${d.introSubY + d.introRuleOffset}" stroke="${palette.hairline}" stroke-width="2"/>
     ${progress(1, kind)}
-  `, 1, kind);
+  `, 1, kind, { showTithi: true });
 }
 
 function aartiSlide(aarti, index, kind) {
