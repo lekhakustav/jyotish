@@ -3,7 +3,7 @@
   "content_type": "evening-aarti-carousel",
   "date": "2026-08-02",
   "status": "ready_for_phone_upload",
-  "language": "English transliteration with bilingual titles",
+  "language": "English transliteration with bilingual intro and Devanagari aarti titles",
   "slide_count": 3,
   "formats": {
     "tiktok": {
@@ -20,6 +20,7 @@
   "renderer": "scripts/render_evening_aarti_carousel.cjs",
   "font_adjustment": "Slightly larger JYOTISH BAJE, date, and save/read cue",
   "paragraph_format": "Each aarti stays on one slide with two paragraph blocks",
+  "title_treatment": "Aarti slides use enlarged Devanagari titles; English verses remain",
   "side_decorations": "Gold diyas, darker maroon diyas, flowers, and dotted ornaments on both sides of all three slides",
   "external_posting": false
 }

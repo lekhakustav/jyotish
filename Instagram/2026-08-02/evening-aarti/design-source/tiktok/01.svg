@@ -78,7 +78,7 @@
     <circle cx="540" cy="1440" r="6" fill="#B9331F" fill-opacity=".42"/>
   </g>
     <text x="540" y="560" text-anchor="middle" class="bilingual" font-size="100" font-weight="700" fill="#B9331F"><tspan x="540" dy="0">Sandhya Aarti /</tspan><tspan x="540" dy="116">सन्ध्या आरती</tspan></text>
-    <text x="540" y="900" text-anchor="middle" class="serif" font-size="50" fill="#3B1F14">Two short aartis to close your day</text>
+    <text x="540" y="900" text-anchor="middle" class="serif" font-size="53" fill="#3B1F14">Two short aartis to close your day</text>
     <line x1="300" y1="962" x2="780" y2="962" stroke="rgba(184,134,11,0.28)" stroke-width="2"/>
     <text x="540" y="1580" text-anchor="middle" class="sans" font-size="32" font-weight="600" fill="#B9331F">Swipe for tonight's aarti →</text>
     <line x1="440" y1="1818" x2="504" y2="1818" stroke="#B9331F" stroke-opacity=".92" stroke-width="7" stroke-linecap="round"/><line x1="508" y1="1818" x2="572" y2="1818" stroke="#B8860B" stroke-opacity=".22" stroke-width="7" stroke-linecap="round"/><line x1="576" y1="1818" x2="640" y2="1818" stroke="#B8860B" stroke-opacity=".22" stroke-width="7" stroke-linecap="round"/>

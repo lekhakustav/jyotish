@@ -3,8 +3,8 @@
 Three-slide evening aarti package for Instagram and TikTok in the light cream app-style Rashifal layout.
 
 - Slide 1: `Sandhya Aarti / सन्ध्या आरती` intro
-- Slide 2: short `Om Jai Jagdish Hare` aarti in two paragraph blocks
-- Slide 3: short `Jai Ambe Gauri` aarti in two paragraph blocks
+- Slide 2: short `Om Jai Jagdish Hare` aarti in two paragraph blocks, with an enlarged Devanagari title and English verses
+- Slide 3: short `Jai Ambe Gauri` aarti in two paragraph blocks, with an enlarged Devanagari title and English verses
 - The `JYOTISH BAJE`, date, and read/save cue use the slightly larger size preference
 - Instagram: `exports/02-instagram/01.png` through `03.png`, 1080 x 1350
 - TikTok: `exports/01-tiktok/01.png` through `03.png`, 1080 x 1920
