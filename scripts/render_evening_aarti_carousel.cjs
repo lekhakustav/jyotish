@@ -42,14 +42,14 @@ function dimensions(kind) {
         logoY: 68, headerY: 86, dateY: 118, pageY: 94,
         introTitleY: 540, introTitleSize: 78, introTitleGap: 92, introSubY: 760, introCueY: 1590,
         labelY: 410, titleY: 500, titleSize: 64, titleGap: 82, titleRuleY: 680, lineStartY: 820, lineGap: 82,
-        cueY: 1515, progressY: 1818, brandSize: 22, dateSize: 18, pageSize: 19, cueSize: 23
+        cueY: 1515, progressY: 1818, brandSize: 28, dateSize: 23, pageSize: 23, cueSize: 28
       }
     : {
         width: 1080, height: 1350, cardX: 28, cardY: 28, cardW: 1024, cardH: 1294,
         logoY: 52, headerY: 72, dateY: 102, pageY: 80,
         introTitleY: 350, introTitleSize: 68, introTitleGap: 0, introSubY: 435, introCueY: 1115,
         labelY: 250, titleY: 365, titleSize: 52, titleGap: 0, titleRuleY: 417, lineStartY: 590, lineGap: 73,
-        cueY: 1085, progressY: 1268, brandSize: 18, dateSize: 16, pageSize: 16, cueSize: 18
+        cueY: 1085, progressY: 1268, brandSize: 24, dateSize: 20, pageSize: 19, cueSize: 23
       };
 }
 
@@ -79,12 +79,12 @@ function shell(inner, page, kind) {
 function progress(page, kind) {
   const d = dimensions(kind);
   const step = 68;
-  const width = 50;
+  const width = 64;
   const start = (d.width - (step * (totalSlides - 1) + width)) / 2;
   return Array.from({ length: totalSlides }, (_, index) => {
     const x = Math.round(start + index * step);
     const active = index < page;
-    return `<line x1="${x}" y1="${d.progressY}" x2="${x + width}" y2="${d.progressY}" stroke="${active ? palette.accent : palette.gold}" stroke-opacity="${active ? ".92" : ".22"}" stroke-width="5" stroke-linecap="round"/>`;
+    return `<line x1="${x}" y1="${d.progressY}" x2="${x + width}" y2="${d.progressY}" stroke="${active ? palette.accent : palette.gold}" stroke-opacity="${active ? ".92" : ".22"}" stroke-width="7" stroke-linecap="round"/>`;
   }).join("");
 }
 
