@@ -2,7 +2,7 @@
   "project_id": "jyotish-baje",
   "content_type": "evening-mantra-carousel",
   "date": "2026-08-02",
-  "status": "ready_for_phone_upload",
+  "status": "superseded",
   "language": "en",
   "slide_count": 8,
   "formats": {
@@ -19,6 +19,7 @@
   "background": "assets/constellation-background.png",
   "format_reference": "Instagram/2026-08-01/weekly-mantra",
   "renderer": "scripts/render_evening_mantra_carousel.cjs",
+  "superseded_by": "Instagram/2026-08-02/evening-aarti",
   "font_adjustment": "Slightly larger JYOTISH BAJE, date, support text, and save call-to-action",
   "external_posting": false
 }

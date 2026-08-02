@@ -1,0 +1,33 @@
+{
+  "date": "AUGUST 2, 2026",
+  "intro": {
+    "title": "Sandhya Aarti / सन्ध्या आरती",
+    "subtitle": "Two short aartis to close your day",
+    "cue": "Swipe for tonight's aarti →"
+  },
+  "aartis": [
+    {
+      "label": "AARTI 1",
+      "title": "Om Jai Jagdish Hare / ॐ जय जगदीश हरे",
+      "lines": [
+        "Om Jai Jagdish Hare",
+        "Swami Jai Jagdish Hare",
+        "Bhakt jano ke sankat",
+        "Kshan mein door kare"
+      ],
+      "cue": "Read or sing once with devotion →"
+    },
+    {
+      "label": "AARTI 2",
+      "title": "Jai Ambe Gauri / जय अम्बे गौरी",
+      "lines": [
+        "Jai Ambe Gauri",
+        "Maiya Jai Shyama Gauri",
+        "Tumko nishdin dhyavat",
+        "Hari Brahma Shivji"
+      ],
+      "cue": "Read or sing once with devotion →"
+    }
+  ],
+  "source": "Traditional short aarti opening verses"
+}

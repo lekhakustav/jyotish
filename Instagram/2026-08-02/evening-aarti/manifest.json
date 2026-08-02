@@ -1,0 +1,23 @@
+{
+  "project_id": "jyotish-baje",
+  "content_type": "evening-aarti-carousel",
+  "date": "2026-08-02",
+  "status": "ready_for_phone_upload",
+  "language": "English transliteration with bilingual titles",
+  "slide_count": 3,
+  "formats": {
+    "tiktok": {
+      "dimensions": "1080x1920",
+      "folder": "exports/01-tiktok"
+    },
+    "instagram": {
+      "dimensions": "1080x1350",
+      "folder": "exports/02-instagram"
+    }
+  },
+  "copy": "carousel-copy.json",
+  "format_reference": "Instagram/2026-08-02 daily Rashifal cream app-style layout",
+  "renderer": "scripts/render_evening_aarti_carousel.cjs",
+  "font_adjustment": "Slightly larger JYOTISH BAJE, date, and save/read cue",
+  "external_posting": false
+}

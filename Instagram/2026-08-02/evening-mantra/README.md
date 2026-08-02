@@ -1,5 +1,7 @@
 # Jyotish evening mantra carousel - 2026-08-02
 
+Superseded by `../evening-aarti/` after the latest request for a 3-slide cream Rashifal-style post with two short aartis. This earlier 8-slide mantra version is retained for history.
+
 Ready-to-upload evening mantra package for Instagram and TikTok in the same dark constellation layout as the Aug 1 weekly mantra carousel.
 
 - 8 slides: cover, then Sunday through Saturday
