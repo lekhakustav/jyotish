@@ -21,6 +21,8 @@
   "font_adjustment": "Slightly larger JYOTISH BAJE, date, and save/read cue",
   "paragraph_format": "Each aarti stays on one slide with two paragraph blocks",
   "title_treatment": "Aarti slides use enlarged Devanagari titles; English verses remain",
+  "cue_treatment": "Bottom instruction text removed; progress markers remain",
+  "instagram_adjustment": "Aarti verse font increased and moved upward to tighten title-to-verse spacing",
   "side_decorations": "Gold diyas, darker maroon diyas, flowers, and dotted ornaments on both sides of all three slides",
   "external_posting": false
 }

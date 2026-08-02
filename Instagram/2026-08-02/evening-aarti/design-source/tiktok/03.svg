@@ -63,7 +63,6 @@
     <text x="540" y="450" text-anchor="middle" class="bilingual" font-size="106" font-weight="700" fill="#B9331F">जय अम्बे गौरी</text>
     <line x1="250" y1="650" x2="830" y2="650" stroke="rgba(184,134,11,0.28)" stroke-width="2"/>
     <text x="540" y="820" text-anchor="middle" class="serif" font-size="64" fill="#3B1F14">Jai Ambe Gauri</text><text x="540" y="950" text-anchor="middle" class="serif" font-size="64" fill="#3B1F14">Maiya Jai Shyama Gauri</text><text x="540" y="1160" text-anchor="middle" class="serif" font-size="64" fill="#3B1F14">Tumko nishdin dhyavat</text><text x="540" y="1290" text-anchor="middle" class="serif" font-size="64" fill="#3B1F14">Hari Brahma Shivji</text>
-    <text x="540" y="1515" text-anchor="middle" class="sans" font-size="32" font-weight="600" fill="#B9331F">Read or sing once with devotion →</text>
     <line x1="440" y1="1818" x2="504" y2="1818" stroke="#B9331F" stroke-opacity=".92" stroke-width="7" stroke-linecap="round"/><line x1="508" y1="1818" x2="572" y2="1818" stroke="#B9331F" stroke-opacity=".92" stroke-width="7" stroke-linecap="round"/><line x1="576" y1="1818" x2="640" y2="1818" stroke="#B9331F" stroke-opacity=".92" stroke-width="7" stroke-linecap="round"/>
   
   </svg>

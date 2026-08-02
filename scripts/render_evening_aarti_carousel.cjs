@@ -48,7 +48,7 @@ function dimensions(kind) {
         width: 1080, height: 1350, cardX: 28, cardY: 28, cardW: 1024, cardH: 1294,
         logoY: 56, headerY: 82, dateY: 116, pageY: 88,
         introTitleY: 380, introTitleSize: 88, introTitleGap: 98, introSubY: 645, introCueY: 1100,
-        labelY: 220, titleY: 320, titleSize: 88, titleGap: 72, titleRuleY: 485, lineStartY: 620, lineGap: 105, paragraphGap: 250, bodySize: 48,
+        labelY: 220, titleY: 320, titleSize: 88, titleGap: 72, titleRuleY: 485, lineStartY: 595, lineGap: 110, paragraphGap: 260, bodySize: 56,
         cueY: 1100, progressY: 1268, headerRuleOffset: 30, introRuleOffset: 54, brandSize: 28, dateSize: 23, pageSize: 21, cueSize: 30, subtitleSize: 43
       };
 }
@@ -165,7 +165,6 @@ function intro(kind) {
     ${titleMarkup}
     <text x="${center}" y="${d.introSubY}" text-anchor="middle" class="serif" font-size="${d.subtitleSize}" fill="${palette.ink}">${escapeXml(content.intro.subtitle)}</text>
     <line x1="${kind === "tiktok" ? 300 : 350}" y1="${d.introSubY + d.introRuleOffset}" x2="${kind === "tiktok" ? 780 : 730}" y2="${d.introSubY + d.introRuleOffset}" stroke="${palette.hairline}" stroke-width="2"/>
-    <text x="${center}" y="${d.introCueY}" text-anchor="middle" class="sans" font-size="${d.cueSize}" font-weight="600" fill="${palette.accent}">${escapeXml(content.intro.cue)}</text>
     ${progress(1, kind)}
   `, 1, kind);
 }
@@ -182,7 +181,6 @@ function aartiSlide(aarti, index, kind) {
     ${titleMarkup}
     <line x1="${kind === "tiktok" ? 250 : 330}" y1="${d.titleRuleY}" x2="${kind === "tiktok" ? 830 : 750}" y2="${d.titleRuleY}" stroke="${palette.hairline}" stroke-width="2"/>
     ${paragraphMarkup}
-    <text x="${center}" y="${d.cueY}" text-anchor="middle" class="sans" font-size="${d.cueSize}" font-weight="600" fill="${palette.accent}">${escapeXml(aarti.cue)}</text>
     ${progress(index + 2, kind)}
   `, index + 2, kind);
 }

@@ -5,7 +5,9 @@ Three-slide evening aarti package for Instagram and TikTok in the light cream ap
 - Slide 1: `Sandhya Aarti / सन्ध्या आरती` intro
 - Slide 2: short `Om Jai Jagdish Hare` aarti in two paragraph blocks, with an enlarged Devanagari title and English verses
 - Slide 3: short `Jai Ambe Gauri` aarti in two paragraph blocks, with an enlarged Devanagari title and English verses
-- The `JYOTISH BAJE`, date, and read/save cue use the slightly larger size preference
+- The `JYOTISH BAJE` and date use the slightly larger size preference
+- Bottom instruction text is removed while the progress markers remain
+- Instagram uses larger, slightly higher aarti verses to reduce the title-to-verse gap; TikTok sizing remains unchanged
 - Instagram: `exports/02-instagram/01.png` through `03.png`, 1080 x 1350
 - TikTok: `exports/01-tiktok/01.png` through `03.png`, 1080 x 1920
 - Contact sheets for a quick visual check are in `proof/`

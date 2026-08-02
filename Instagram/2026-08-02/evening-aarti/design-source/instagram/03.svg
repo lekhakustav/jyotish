@@ -62,8 +62,7 @@
     <text x="540" y="220" text-anchor="middle" class="sans" font-size="18" font-weight="700" letter-spacing="3" fill="#B9331F">AARTI 2</text>
     <text x="540" y="320" text-anchor="middle" class="bilingual" font-size="88" font-weight="700" fill="#B9331F">जय अम्बे गौरी</text>
     <line x1="330" y1="485" x2="750" y2="485" stroke="rgba(184,134,11,0.28)" stroke-width="2"/>
-    <text x="540" y="620" text-anchor="middle" class="serif" font-size="48" fill="#3B1F14">Jai Ambe Gauri</text><text x="540" y="725" text-anchor="middle" class="serif" font-size="48" fill="#3B1F14">Maiya Jai Shyama Gauri</text><text x="540" y="870" text-anchor="middle" class="serif" font-size="48" fill="#3B1F14">Tumko nishdin dhyavat</text><text x="540" y="975" text-anchor="middle" class="serif" font-size="48" fill="#3B1F14">Hari Brahma Shivji</text>
-    <text x="540" y="1100" text-anchor="middle" class="sans" font-size="30" font-weight="600" fill="#B9331F">Read or sing once with devotion →</text>
+    <text x="540" y="595" text-anchor="middle" class="serif" font-size="56" fill="#3B1F14">Jai Ambe Gauri</text><text x="540" y="705" text-anchor="middle" class="serif" font-size="56" fill="#3B1F14">Maiya Jai Shyama Gauri</text><text x="540" y="855" text-anchor="middle" class="serif" font-size="56" fill="#3B1F14">Tumko nishdin dhyavat</text><text x="540" y="965" text-anchor="middle" class="serif" font-size="56" fill="#3B1F14">Hari Brahma Shivji</text>
     <line x1="440" y1="1268" x2="504" y2="1268" stroke="#B9331F" stroke-opacity=".92" stroke-width="7" stroke-linecap="round"/><line x1="508" y1="1268" x2="572" y2="1268" stroke="#B9331F" stroke-opacity=".92" stroke-width="7" stroke-linecap="round"/><line x1="576" y1="1268" x2="640" y2="1268" stroke="#B9331F" stroke-opacity=".92" stroke-width="7" stroke-linecap="round"/>
   
   </svg>
