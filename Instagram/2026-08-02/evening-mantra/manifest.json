@@ -1,0 +1,24 @@
+{
+  "project_id": "jyotish-baje",
+  "content_type": "evening-mantra-carousel",
+  "date": "2026-08-02",
+  "status": "ready_for_phone_upload",
+  "language": "en",
+  "slide_count": 8,
+  "formats": {
+    "tiktok": {
+      "dimensions": "1080x1920",
+      "folder": "exports/01-tiktok"
+    },
+    "instagram": {
+      "dimensions": "1080x1350",
+      "folder": "exports/02-instagram"
+    }
+  },
+  "copy": "carousel-copy.json",
+  "background": "assets/constellation-background.png",
+  "format_reference": "Instagram/2026-08-01/weekly-mantra",
+  "renderer": "scripts/render_evening_mantra_carousel.cjs",
+  "font_adjustment": "Slightly larger JYOTISH BAJE, date, support text, and save call-to-action",
+  "external_posting": false
+}
