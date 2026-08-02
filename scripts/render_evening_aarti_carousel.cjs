@@ -40,16 +40,16 @@ function dimensions(kind) {
     ? {
         width: 1080, height: 1920, cardX: 34, cardY: 42, cardW: 1012, cardH: 1836,
         logoY: 68, headerY: 86, dateY: 118, pageY: 94,
-        introTitleY: 540, introTitleSize: 78, introTitleGap: 92, introSubY: 760, introCueY: 1590,
-        labelY: 410, titleY: 500, titleSize: 64, titleGap: 82, titleRuleY: 680, lineStartY: 820, lineGap: 82,
-        cueY: 1515, progressY: 1818, brandSize: 28, dateSize: 23, pageSize: 23, cueSize: 28
+        introTitleY: 450, introTitleSize: 86, introTitleGap: 100, introSubY: 735, introCueY: 1590,
+        labelY: 360, titleY: 450, titleSize: 78, titleGap: 92, titleRuleY: 650, lineStartY: 820, lineGap: 105, bodySize: 52,
+        cueY: 1515, progressY: 1818, brandSize: 28, dateSize: 23, pageSize: 23, cueSize: 30, subtitleSize: 44
       }
     : {
         width: 1080, height: 1350, cardX: 28, cardY: 28, cardW: 1024, cardH: 1294,
         logoY: 52, headerY: 72, dateY: 102, pageY: 80,
-        introTitleY: 350, introTitleSize: 68, introTitleGap: 0, introSubY: 435, introCueY: 1115,
-        labelY: 250, titleY: 365, titleSize: 52, titleGap: 0, titleRuleY: 417, lineStartY: 590, lineGap: 73,
-        cueY: 1085, progressY: 1268, brandSize: 24, dateSize: 20, pageSize: 19, cueSize: 23
+        introTitleY: 300, introTitleSize: 78, introTitleGap: 84, introSubY: 510, introCueY: 1115,
+        labelY: 220, titleY: 320, titleSize: 60, titleGap: 72, titleRuleY: 485, lineStartY: 620, lineGap: 84, bodySize: 40,
+        cueY: 1100, progressY: 1268, brandSize: 24, dateSize: 20, pageSize: 19, cueSize: 26, subtitleSize: 36
       };
 }
 
@@ -94,10 +94,10 @@ function intro(kind) {
   const titleParts = content.intro.title.split(" / ");
   const titleMarkup = kind === "tiktok"
     ? `<text x="${center}" y="${d.introTitleY}" text-anchor="middle" class="bilingual" font-size="${d.introTitleSize}" font-weight="700" fill="${palette.accent}"><tspan x="${center}" dy="0">${escapeXml(titleParts[0])} /</tspan><tspan x="${center}" dy="${d.introTitleGap}">${escapeXml(titleParts[1])}</tspan></text>`
-    : `<text x="${center}" y="${d.introTitleY}" text-anchor="middle" class="bilingual" font-size="${d.introTitleSize}" font-weight="700" fill="${palette.accent}">${escapeXml(content.intro.title)}</text>`;
+    : `<text x="${center}" y="${d.introTitleY}" text-anchor="middle" class="bilingual" font-size="${d.introTitleSize}" font-weight="700" fill="${palette.accent}"><tspan x="${center}" dy="0">${escapeXml(titleParts[0])} /</tspan><tspan x="${center}" dy="${d.introTitleGap}">${escapeXml(titleParts[1])}</tspan></text>`;
   return shell(`
     ${titleMarkup}
-    <text x="${center}" y="${d.introSubY}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 34 : 27}" fill="${palette.ink}">${escapeXml(content.intro.subtitle)}</text>
+    <text x="${center}" y="${d.introSubY}" text-anchor="middle" class="serif" font-size="${d.subtitleSize}" fill="${palette.ink}">${escapeXml(content.intro.subtitle)}</text>
     <line x1="${kind === "tiktok" ? 300 : 350}" y1="${d.introSubY + 46}" x2="${kind === "tiktok" ? 780 : 730}" y2="${d.introSubY + 46}" stroke="${palette.hairline}" stroke-width="2"/>
     <text x="${center}" y="${d.introCueY}" text-anchor="middle" class="sans" font-size="${d.cueSize}" font-weight="600" fill="${palette.accent}">${escapeXml(content.intro.cue)}</text>
     ${progress(1, kind)}
@@ -110,8 +110,8 @@ function aartiSlide(aarti, index, kind) {
   const titleParts = aarti.title.split(" / ");
   const titleMarkup = kind === "tiktok"
     ? `<text x="${center}" y="${d.titleY}" text-anchor="middle" class="bilingual" font-size="${d.titleSize}" font-weight="700" fill="${palette.accent}"><tspan x="${center}" dy="0">${escapeXml(titleParts[0])} /</tspan><tspan x="${center}" dy="${d.titleGap}">${escapeXml(titleParts[1])}</tspan></text>`
-    : `<text x="${center}" y="${d.titleY}" text-anchor="middle" class="bilingual" font-size="${d.titleSize}" font-weight="700" fill="${palette.accent}">${escapeXml(aarti.title)}</text>`;
-  const lineMarkup = aarti.lines.map((line, lineIndex) => `<text x="${center}" y="${d.lineStartY + lineIndex * d.lineGap}" text-anchor="middle" class="serif" font-size="${kind === "tiktok" ? 43 : 34}" fill="${palette.ink}">${escapeXml(line)}</text>`).join("");
+    : `<text x="${center}" y="${d.titleY}" text-anchor="middle" class="bilingual" font-size="${d.titleSize}" font-weight="700" fill="${palette.accent}"><tspan x="${center}" dy="0">${escapeXml(titleParts[0])} /</tspan><tspan x="${center}" dy="${d.titleGap}">${escapeXml(titleParts[1])}</tspan></text>`;
+  const lineMarkup = aarti.lines.map((line, lineIndex) => `<text x="${center}" y="${d.lineStartY + lineIndex * d.lineGap}" text-anchor="middle" class="serif" font-size="${d.bodySize}" fill="${palette.ink}">${escapeXml(line)}</text>`).join("");
   return shell(`
     <text x="${center}" y="${d.labelY}" text-anchor="middle" class="sans" font-size="${kind === "tiktok" ? 23 : 18}" font-weight="700" letter-spacing="3" fill="${palette.accent}">${escapeXml(aarti.label)}</text>
     ${titleMarkup}
