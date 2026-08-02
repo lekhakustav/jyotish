@@ -20,6 +20,6 @@
   "renderer": "scripts/render_evening_aarti_carousel.cjs",
   "font_adjustment": "Slightly larger JYOTISH BAJE, date, and save/read cue",
   "paragraph_format": "Each aarti stays on one slide with two paragraph blocks",
-  "side_decorations": "Light gold diyas and dotted ornaments on both sides of all three slides",
+  "side_decorations": "Gold diyas, darker maroon diyas, flowers, and dotted ornaments on both sides of all three slides",
   "external_posting": false
 }

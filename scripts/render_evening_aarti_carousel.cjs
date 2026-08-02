@@ -97,6 +97,25 @@ function diya(cx, cy, scale) {
   </g>`;
 }
 
+function darkDiya(cx, cy, scale) {
+  return `<g transform="translate(${cx} ${cy}) scale(${scale})" stroke="#4A2118" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".78">
+    <path d="M-54 3 Q0 25 54 3 Q39 47 0 50 Q-39 47-54 3Z" fill="#6A3025"/>
+    <path d="M0-48 C-22-27-18-2 0 11 C18-2 22-27 0-48Z" fill="#C4872D" stroke="#6A3025"/>
+    <path d="M-62 59 Q0 74 62 59" fill="none"/>
+  </g>`;
+}
+
+function flower(cx, cy, scale) {
+  return `<g transform="translate(${cx} ${cy}) scale(${scale})" stroke="#8A3D2B" stroke-width="2" opacity=".68">
+    <ellipse cx="0" cy="-23" rx="10" ry="20" fill="#B9331F" fill-opacity=".22"/>
+    <ellipse cx="23" cy="0" rx="10" ry="20" transform="rotate(90 23 0)" fill="#B9331F" fill-opacity=".22"/>
+    <ellipse cx="0" cy="23" rx="10" ry="20" fill="#B9331F" fill-opacity=".22"/>
+    <ellipse cx="-23" cy="0" rx="10" ry="20" transform="rotate(90 -23 0)" fill="#B9331F" fill-opacity=".22"/>
+    <circle cx="0" cy="0" r="9" fill="${palette.gold}" stroke="#6A3025"/>
+    <path d="M0 11 C0 25 0 32 0 42" fill="none"/>
+  </g>`;
+}
+
 function sideDecor(kind) {
   const d = dimensions(kind);
   const left = d.cardX + 105;
@@ -104,8 +123,9 @@ function sideDecor(kind) {
   const firstY = kind === "tiktok" ? 720 : 500;
   const secondY = kind === "tiktok" ? 1450 : 1010;
   const scale = kind === "tiktok" ? 0.38 : 0.30;
+  const flowerScale = kind === "tiktok" ? 0.72 : 0.58;
   const dotY = (firstY + secondY) / 2;
-  const ornament = (x) => `${diya(x, firstY, scale)}${diya(x, secondY, scale)}
+  const ornament = (x) => `${diya(x, firstY, scale)}${darkDiya(x, secondY, scale * 0.9)}${flower(x, dotY, flowerScale)}
     <line x1="${x}" y1="${firstY + 82}" x2="${x}" y2="${secondY - 82}" stroke="${palette.gold}" stroke-opacity=".13" stroke-width="2" stroke-dasharray="2 18"/>
     <circle cx="${x}" cy="${dotY}" r="5" fill="${palette.gold}" fill-opacity=".28"/>
     <circle cx="${x}" cy="${dotY - 34}" r="2.5" fill="${palette.gold}" fill-opacity=".22"/>
