@@ -42,14 +42,14 @@ function dimensions(kind) {
         logoY: 72, headerY: 96, dateY: 136, pageY: 104,
         introTitleY: 640, introTitleSize: 128, introTitleGap: 116, introSubY: 965, introCueY: 1580,
         labelY: 600, titleY: 450, titleSize: 106, titleGap: 92, titleRuleY: 690, lineStartY: 820, lineGap: 130, paragraphGap: 340, bodySize: 64,
-        cueY: 1515, progressY: 1818, headerRuleOffset: 32, tithiY: 184, tithiLineY: 238, tithiSize: 34, introRuleOffset: 62, brandSize: 32, dateSize: 26, pageSize: 25, cueSize: 32, subtitleSize: 53, labelSize: 38
+        cueY: 1515, progressY: 1818, headerRuleOffset: 32, introDateY: 174, tithiY: 136, tithiLineY: 230, tithiSize: 26, introRuleOffset: 62, brandSize: 32, dateSize: 26, pageSize: 25, cueSize: 32, subtitleSize: 53, labelSize: 38
       }
     : {
         width: 1080, height: 1350, cardX: 28, cardY: 28, cardW: 1024, cardH: 1294,
         logoY: 56, headerY: 82, dateY: 116, pageY: 88,
         introTitleY: 410, introTitleSize: 110, introTitleGap: 98, introSubY: 665, introCueY: 1100,
         labelY: 455, titleY: 320, titleSize: 88, titleGap: 72, titleRuleY: 520, lineStartY: 595, lineGap: 110, paragraphGap: 260, bodySize: 56,
-        cueY: 1100, progressY: 1268, headerRuleOffset: 30, tithiY: 158, tithiLineY: 208, tithiSize: 28, introRuleOffset: 54, brandSize: 28, dateSize: 23, pageSize: 21, cueSize: 30, subtitleSize: 43, labelSize: 30
+        cueY: 1100, progressY: 1268, headerRuleOffset: 30, introDateY: 150, tithiY: 116, tithiLineY: 206, tithiSize: 22, introRuleOffset: 54, brandSize: 28, dateSize: 23, pageSize: 21, cueSize: 30, subtitleSize: 43, labelSize: 30
       };
 }
 
@@ -61,9 +61,11 @@ function shell(inner, page, kind, options = {}) {
   const d = dimensions(kind);
   const center = d.width / 2;
   const headerLineY = options.showTithi ? d.tithiLineY : d.dateY + d.headerRuleOffset;
+  const headerDateY = options.showTithi ? d.introDateY : d.dateY;
   const tithiMarkup = options.showTithi
-    ? `    <text x="${center}" y="${d.tithiY}" text-anchor="middle" class="bilingual" font-size="${d.tithiSize}" font-weight="700" fill="${palette.accent}">${escapeXml(content.tithi)}</text>\n`
+    ? `    <text x="${center}" y="${d.tithiY}" text-anchor="middle" class="bilingual" font-size="${d.tithiSize}" font-weight="600" fill="${palette.muted}">${escapeXml(content.tithi)}</text>\n`
     : "";
+  const dateMarkup = `<text x="${center}" y="${headerDateY}" text-anchor="middle" class="sans" font-size="${d.dateSize}" font-weight="600" letter-spacing="2" fill="${palette.muted}">${escapeXml(content.date)}</text>\n`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${d.width}" height="${d.height}" viewBox="0 0 ${d.width} ${d.height}">
     <defs>
       <style>${fontCss}</style>
@@ -73,9 +75,8 @@ function shell(inner, page, kind, options = {}) {
     <rect x="${d.cardX}" y="${d.cardY}" width="${d.cardW}" height="${d.cardH}" rx="34" fill="${palette.card}" stroke="${palette.hairline}" stroke-width="2" filter="url(#softShadow)"/>
     <image href="${logoData()}" x="${d.cardX + 30}" y="${d.logoY}" width="54" height="54" opacity=".92"/>
     <text x="${center}" y="${d.headerY}" text-anchor="middle" class="sans" font-size="${d.brandSize}" font-weight="700" letter-spacing="3" fill="${palette.accent}">JYOTISH BAJE</text>
-    <text x="${center}" y="${d.dateY}" text-anchor="middle" class="sans" font-size="${d.dateSize}" font-weight="600" letter-spacing="2" fill="${palette.muted}">${escapeXml(content.date)}</text>
-    <text x="${d.cardX + d.cardW - 30}" y="${d.pageY}" text-anchor="end" class="sans" font-size="${d.pageSize}" font-weight="600" fill="${palette.muted}">${String(page).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}</text>
-${tithiMarkup}    <line x1="${d.cardX + 38}" y1="${headerLineY}" x2="${d.cardX + d.cardW - 38}" y2="${headerLineY}" stroke="${palette.hairline}" stroke-width="2"/>
+${tithiMarkup}${dateMarkup}    <text x="${d.cardX + d.cardW - 30}" y="${d.pageY}" text-anchor="end" class="sans" font-size="${d.pageSize}" font-weight="600" fill="${palette.muted}">${String(page).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}</text>
+    <line x1="${d.cardX + 38}" y1="${headerLineY}" x2="${d.cardX + d.cardW - 38}" y2="${headerLineY}" stroke="${palette.hairline}" stroke-width="2"/>
     ${sideDecor(kind)}
     ${inner}
   </svg>`;
