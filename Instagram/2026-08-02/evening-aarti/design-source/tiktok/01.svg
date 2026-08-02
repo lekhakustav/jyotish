@@ -19,7 +19,7 @@
 <text x="540" y="136" text-anchor="middle" class="sans" font-size="26" font-weight="600" letter-spacing="2" fill="#7A5C48">AUGUST 2, 2026</text>
     <text x="1016" y="104" text-anchor="end" class="sans" font-size="25" font-weight="600" fill="#7A5C48">01 / 03</text>
     <line x1="72" y1="168" x2="1008" y2="168" stroke="rgba(184,134,11,0.28)" stroke-width="2"/>
-    <text x="540" y="500" text-anchor="middle" class="bilingual" font-size="38" font-weight="600" fill="#7A5C48">साउन कृष्ण चतुर्थी</text>
+    <text x="540" y="386" text-anchor="middle" class="bilingual" font-size="38" font-weight="600" fill="#7A5C48">साउन कृष्ण चतुर्थी</text>
 
     <g aria-label="left and right devotional side decorations" opacity=".78"><g transform="translate(139 720) scale(0.38)" fill="none" stroke="#B8860B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".52">
     <path d="M-54 3 Q0 25 54 3 Q39 47 0 50 Q-39 47-54 3Z" fill="#B8860B" fill-opacity=".12"/>

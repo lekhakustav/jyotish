@@ -42,14 +42,14 @@ function dimensions(kind) {
         logoY: 72, headerY: 96, dateY: 136, pageY: 104,
         introTitleY: 640, introTitleSize: 128, introTitleGap: 116, introSubY: 965, introCueY: 1580,
         labelY: 790, titleY: 640, titleSize: 106, titleGap: 92, titleRuleY: 880, lineStartY: 1010, lineGap: 130, paragraphGap: 340, bodySize: 64,
-        cueY: 1515, progressY: 1818, headerRuleOffset: 32, introDateY: 136, tithiY: 500, tithiLineY: 168, tithiSize: 38, introRuleOffset: 62, brandSize: 32, dateSize: 26, pageSize: 25, cueSize: 32, subtitleSize: 53, labelSize: 38
+        cueY: 1515, progressY: 1818, headerRuleOffset: 32, introDateY: 136, tithiY: 386, tithiLineY: 168, tithiSize: 38, introRuleOffset: 62, brandSize: 32, dateSize: 26, pageSize: 25, cueSize: 32, subtitleSize: 53, labelSize: 38
       }
     : {
         width: 1080, height: 1350, cardX: 28, cardY: 28, cardW: 1024, cardH: 1294,
         logoY: 56, headerY: 82, dateY: 116, pageY: 88,
         introTitleY: 410, introTitleSize: 110, introTitleGap: 98, introSubY: 665, introCueY: 1100,
         labelY: 545, titleY: 410, titleSize: 88, titleGap: 72, titleRuleY: 610, lineStartY: 685, lineGap: 110, paragraphGap: 260, bodySize: 56,
-        cueY: 1100, progressY: 1268, headerRuleOffset: 30, introDateY: 116, tithiY: 300, tithiLineY: 146, tithiSize: 32, introRuleOffset: 54, brandSize: 28, dateSize: 23, pageSize: 21, cueSize: 30, subtitleSize: 43, labelSize: 30
+        cueY: 1100, progressY: 1268, headerRuleOffset: 30, introDateY: 116, tithiY: 245, tithiLineY: 146, tithiSize: 32, introRuleOffset: 54, brandSize: 28, dateSize: 23, pageSize: 21, cueSize: 30, subtitleSize: 43, labelSize: 30
       };
 }
 
