@@ -19,5 +19,6 @@
   "format_reference": "Instagram/2026-08-02 daily Rashifal cream app-style layout",
   "renderer": "scripts/render_evening_aarti_carousel.cjs",
   "font_adjustment": "Slightly larger JYOTISH BAJE, date, and save/read cue",
+  "paragraph_format": "Each aarti stays on one slide with two paragraph blocks",
   "external_posting": false
 }
