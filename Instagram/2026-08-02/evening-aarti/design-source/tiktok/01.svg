@@ -20,6 +20,24 @@
     <text x="1016" y="104" text-anchor="end" class="sans" font-size="25" font-weight="600" fill="#7A5C48">01 / 03</text>
     <line x1="72" y1="168" x2="1008" y2="168" stroke="rgba(184,134,11,0.28)" stroke-width="2"/>
     
+    <g aria-label="evening decorative motif">
+    <circle cx="540" cy="1230" r="275" fill="#B8860B" fill-opacity=".025"/>
+    <circle cx="540" cy="1230" r="245" fill="none" stroke="#B8860B" stroke-opacity=".16" stroke-width="2"/>
+    <circle cx="540" cy="1230" r="217" fill="none" stroke="#B8860B" stroke-opacity=".12" stroke-width="2" stroke-dasharray="2 16"/>
+    <path d="M253 1230 H285 M795 1230 H827 M540 943 V975 M540 1485 V1517" stroke="#B8860B" stroke-opacity=".18" stroke-width="2"/>
+    <text x="540" y="1308" text-anchor="middle" class="bilingual" font-size="300" fill="#B8860B" fill-opacity=".10">ॐ</text>
+    <g transform="translate(285 1430) scale(0.82)" fill="none" stroke="#B8860B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".52">
+    <path d="M-54 3 Q0 25 54 3 Q39 47 0 50 Q-39 47-54 3Z" fill="#B8860B" fill-opacity=".12"/>
+    <path d="M0-48 C-22-27-18-2 0 11 C18-2 22-27 0-48Z" fill="#B8860B" fill-opacity=".22"/>
+    <path d="M-62 59 Q0 74 62 59"/>
+  </g>
+    <g transform="translate(795 1430) scale(0.82)" fill="none" stroke="#B8860B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".52">
+    <path d="M-54 3 Q0 25 54 3 Q39 47 0 50 Q-39 47-54 3Z" fill="#B8860B" fill-opacity=".12"/>
+    <path d="M0-48 C-22-27-18-2 0 11 C18-2 22-27 0-48Z" fill="#B8860B" fill-opacity=".22"/>
+    <path d="M-62 59 Q0 74 62 59"/>
+  </g>
+    <circle cx="540" cy="1440" r="6" fill="#B9331F" fill-opacity=".42"/>
+  </g>
     <text x="540" y="560" text-anchor="middle" class="bilingual" font-size="100" font-weight="700" fill="#B9331F"><tspan x="540" dy="0">Sandhya Aarti /</tspan><tspan x="540" dy="116">सन्ध्या आरती</tspan></text>
     <text x="540" y="900" text-anchor="middle" class="serif" font-size="50" fill="#3B1F14">Two short aartis to close your day</text>
     <line x1="300" y1="962" x2="780" y2="962" stroke="rgba(184,134,11,0.28)" stroke-width="2"/>

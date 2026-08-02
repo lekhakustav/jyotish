@@ -88,6 +88,34 @@ function progress(page, kind) {
   }).join("");
 }
 
+function diya(cx, cy, scale) {
+  return `<g transform="translate(${cx} ${cy}) scale(${scale})" fill="none" stroke="${palette.gold}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".52">
+    <path d="M-54 3 Q0 25 54 3 Q39 47 0 50 Q-39 47-54 3Z" fill="${palette.gold}" fill-opacity=".12"/>
+    <path d="M0-48 C-22-27-18-2 0 11 C18-2 22-27 0-48Z" fill="${palette.gold}" fill-opacity=".22"/>
+    <path d="M-62 59 Q0 74 62 59"/>
+  </g>`;
+}
+
+function introDecor(kind) {
+  const d = dimensions(kind);
+  const center = d.width / 2;
+  const motifY = kind === "tiktok" ? 1230 : 850;
+  const ring = kind === "tiktok" ? 245 : 165;
+  const omSize = kind === "tiktok" ? 300 : 210;
+  const diyaY = kind === "tiktok" ? 1430 : 1000;
+  const diyaScale = kind === "tiktok" ? 0.82 : 0.62;
+  return `<g aria-label="evening decorative motif">
+    <circle cx="${center}" cy="${motifY}" r="${ring + 30}" fill="${palette.gold}" fill-opacity=".025"/>
+    <circle cx="${center}" cy="${motifY}" r="${ring}" fill="none" stroke="${palette.gold}" stroke-opacity=".16" stroke-width="2"/>
+    <circle cx="${center}" cy="${motifY}" r="${ring - 28}" fill="none" stroke="${palette.gold}" stroke-opacity=".12" stroke-width="2" stroke-dasharray="2 16"/>
+    <path d="M${center - ring - 42} ${motifY} H${center - ring - 10} M${center + ring + 10} ${motifY} H${center + ring + 42} M${center} ${motifY - ring - 42} V${motifY - ring - 10} M${center} ${motifY + ring + 10} V${motifY + ring + 42}" stroke="${palette.gold}" stroke-opacity=".18" stroke-width="2"/>
+    <text x="${center}" y="${motifY + omSize * 0.26}" text-anchor="middle" class="bilingual" font-size="${omSize}" fill="${palette.gold}" fill-opacity=".10">ॐ</text>
+    ${diya(center - (kind === "tiktok" ? 255 : 178), diyaY, diyaScale)}
+    ${diya(center + (kind === "tiktok" ? 255 : 178), diyaY, diyaScale)}
+    <circle cx="${center}" cy="${diyaY + 10}" r="6" fill="${palette.accent}" fill-opacity=".42"/>
+  </g>`;
+}
+
 function intro(kind) {
   const d = dimensions(kind);
   const center = d.width / 2;
@@ -96,6 +124,7 @@ function intro(kind) {
     ? `<text x="${center}" y="${d.introTitleY}" text-anchor="middle" class="bilingual" font-size="${d.introTitleSize}" font-weight="700" fill="${palette.accent}"><tspan x="${center}" dy="0">${escapeXml(titleParts[0])} /</tspan><tspan x="${center}" dy="${d.introTitleGap}">${escapeXml(titleParts[1])}</tspan></text>`
     : `<text x="${center}" y="${d.introTitleY}" text-anchor="middle" class="bilingual" font-size="${d.introTitleSize}" font-weight="700" fill="${palette.accent}"><tspan x="${center}" dy="0">${escapeXml(titleParts[0])} /</tspan><tspan x="${center}" dy="${d.introTitleGap}">${escapeXml(titleParts[1])}</tspan></text>`;
   return shell(`
+    ${introDecor(kind)}
     ${titleMarkup}
     <text x="${center}" y="${d.introSubY}" text-anchor="middle" class="serif" font-size="${d.subtitleSize}" fill="${palette.ink}">${escapeXml(content.intro.subtitle)}</text>
     <line x1="${kind === "tiktok" ? 300 : 350}" y1="${d.introSubY + d.introRuleOffset}" x2="${kind === "tiktok" ? 780 : 730}" y2="${d.introSubY + d.introRuleOffset}" stroke="${palette.hairline}" stroke-width="2"/>
