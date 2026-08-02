@@ -39,17 +39,17 @@ function dimensions(kind) {
   return kind === "tiktok"
     ? {
         width: 1080, height: 1920, cardX: 34, cardY: 42, cardW: 1012, cardH: 1836,
-        logoY: 68, headerY: 86, dateY: 118, pageY: 94,
-        introTitleY: 450, introTitleSize: 86, introTitleGap: 100, introSubY: 735, introCueY: 1590,
+        logoY: 72, headerY: 96, dateY: 136, pageY: 104,
+        introTitleY: 560, introTitleSize: 100, introTitleGap: 116, introSubY: 900, introCueY: 1580,
         labelY: 360, titleY: 450, titleSize: 78, titleGap: 92, titleRuleY: 650, lineStartY: 820, lineGap: 105, bodySize: 52,
-        cueY: 1515, progressY: 1818, brandSize: 28, dateSize: 23, pageSize: 23, cueSize: 30, subtitleSize: 44
+        cueY: 1515, progressY: 1818, headerRuleOffset: 32, introRuleOffset: 62, brandSize: 32, dateSize: 26, pageSize: 25, cueSize: 32, subtitleSize: 50
       }
     : {
         width: 1080, height: 1350, cardX: 28, cardY: 28, cardW: 1024, cardH: 1294,
-        logoY: 52, headerY: 72, dateY: 102, pageY: 80,
-        introTitleY: 300, introTitleSize: 78, introTitleGap: 84, introSubY: 510, introCueY: 1115,
+        logoY: 56, headerY: 82, dateY: 116, pageY: 88,
+        introTitleY: 380, introTitleSize: 88, introTitleGap: 98, introSubY: 645, introCueY: 1100,
         labelY: 220, titleY: 320, titleSize: 60, titleGap: 72, titleRuleY: 485, lineStartY: 620, lineGap: 84, bodySize: 40,
-        cueY: 1100, progressY: 1268, brandSize: 24, dateSize: 20, pageSize: 19, cueSize: 26, subtitleSize: 36
+        cueY: 1100, progressY: 1268, headerRuleOffset: 30, introRuleOffset: 54, brandSize: 28, dateSize: 23, pageSize: 21, cueSize: 30, subtitleSize: 40
       };
 }
 
@@ -71,7 +71,7 @@ function shell(inner, page, kind) {
     <text x="${center}" y="${d.headerY}" text-anchor="middle" class="sans" font-size="${d.brandSize}" font-weight="700" letter-spacing="3" fill="${palette.accent}">JYOTISH BAJE</text>
     <text x="${center}" y="${d.dateY}" text-anchor="middle" class="sans" font-size="${d.dateSize}" font-weight="600" letter-spacing="2" fill="${palette.muted}">${escapeXml(content.date)}</text>
     <text x="${d.cardX + d.cardW - 30}" y="${d.pageY}" text-anchor="end" class="sans" font-size="${d.pageSize}" font-weight="600" fill="${palette.muted}">${String(page).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}</text>
-    <line x1="${d.cardX + 38}" y1="${d.dateY + 26}" x2="${d.cardX + d.cardW - 38}" y2="${d.dateY + 26}" stroke="${palette.hairline}" stroke-width="2"/>
+    <line x1="${d.cardX + 38}" y1="${d.dateY + d.headerRuleOffset}" x2="${d.cardX + d.cardW - 38}" y2="${d.dateY + d.headerRuleOffset}" stroke="${palette.hairline}" stroke-width="2"/>
     ${inner}
   </svg>`;
 }
@@ -98,7 +98,7 @@ function intro(kind) {
   return shell(`
     ${titleMarkup}
     <text x="${center}" y="${d.introSubY}" text-anchor="middle" class="serif" font-size="${d.subtitleSize}" fill="${palette.ink}">${escapeXml(content.intro.subtitle)}</text>
-    <line x1="${kind === "tiktok" ? 300 : 350}" y1="${d.introSubY + 46}" x2="${kind === "tiktok" ? 780 : 730}" y2="${d.introSubY + 46}" stroke="${palette.hairline}" stroke-width="2"/>
+    <line x1="${kind === "tiktok" ? 300 : 350}" y1="${d.introSubY + d.introRuleOffset}" x2="${kind === "tiktok" ? 780 : 730}" y2="${d.introSubY + d.introRuleOffset}" stroke="${palette.hairline}" stroke-width="2"/>
     <text x="${center}" y="${d.introCueY}" text-anchor="middle" class="sans" font-size="${d.cueSize}" font-weight="600" fill="${palette.accent}">${escapeXml(content.intro.cue)}</text>
     ${progress(1, kind)}
   `, 1, kind);
