@@ -72,6 +72,7 @@ function shell(inner, page, kind) {
     <text x="${center}" y="${d.dateY}" text-anchor="middle" class="sans" font-size="${d.dateSize}" font-weight="600" letter-spacing="2" fill="${palette.muted}">${escapeXml(content.date)}</text>
     <text x="${d.cardX + d.cardW - 30}" y="${d.pageY}" text-anchor="end" class="sans" font-size="${d.pageSize}" font-weight="600" fill="${palette.muted}">${String(page).padStart(2, "0")} / ${String(totalSlides).padStart(2, "0")}</text>
     <line x1="${d.cardX + 38}" y1="${d.dateY + d.headerRuleOffset}" x2="${d.cardX + d.cardW - 38}" y2="${d.dateY + d.headerRuleOffset}" stroke="${palette.hairline}" stroke-width="2"/>
+    ${sideDecor(kind)}
     ${inner}
   </svg>`;
 }
@@ -94,6 +95,22 @@ function diya(cx, cy, scale) {
     <path d="M0-48 C-22-27-18-2 0 11 C18-2 22-27 0-48Z" fill="${palette.gold}" fill-opacity=".22"/>
     <path d="M-62 59 Q0 74 62 59"/>
   </g>`;
+}
+
+function sideDecor(kind) {
+  const d = dimensions(kind);
+  const left = d.cardX + 105;
+  const right = d.cardX + d.cardW - 105;
+  const firstY = kind === "tiktok" ? 720 : 500;
+  const secondY = kind === "tiktok" ? 1450 : 1010;
+  const scale = kind === "tiktok" ? 0.38 : 0.30;
+  const dotY = (firstY + secondY) / 2;
+  const ornament = (x) => `${diya(x, firstY, scale)}${diya(x, secondY, scale)}
+    <line x1="${x}" y1="${firstY + 82}" x2="${x}" y2="${secondY - 82}" stroke="${palette.gold}" stroke-opacity=".13" stroke-width="2" stroke-dasharray="2 18"/>
+    <circle cx="${x}" cy="${dotY}" r="5" fill="${palette.gold}" fill-opacity=".28"/>
+    <circle cx="${x}" cy="${dotY - 34}" r="2.5" fill="${palette.gold}" fill-opacity=".22"/>
+    <circle cx="${x}" cy="${dotY + 34}" r="2.5" fill="${palette.gold}" fill-opacity=".22"/>`;
+  return `<g aria-label="left and right devotional side decorations" opacity=".78">${ornament(left)}${ornament(right)}</g>`;
 }
 
 function introDecor(kind) {
